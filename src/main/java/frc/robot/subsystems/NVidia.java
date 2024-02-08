@@ -39,7 +39,7 @@ public class NVidia extends SubsystemBase {
       // for each AprilTag detection in the list
       for (int j=0;j<AprilTagDetectionData.length; j++)
       {
-        RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(AprilTagDetectionData[j].value, i),  AprilTagDetectionData[j].timestamp);
+        RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(AprilTagDetectionData[j].value, i),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
      }
     }
   }

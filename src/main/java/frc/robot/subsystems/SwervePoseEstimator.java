@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import frc.robot.RobotContainer;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -99,8 +100,15 @@ public class SwervePoseEstimator extends SubsystemBase {
                               position);
   }
 
-  public void addVision(Pose2d vision,double timeStamp){
+  /**
+   * Adds vision measurement and confidence values based on data provided by the NVidia subsystem and AprilTagMap utilities
+   * @param vision robot position on field based on apriltags
+   * @param timeStamp timestamp from NVidia
+   * @param distance distance from apriltag
+   */
+  public void addVision(Pose2d vision,double timeStamp, double distance){
     m_estimator.addVisionMeasurement(vision, timeStamp);
+    //m_estimator.setVisionMeasurementStdDevs();
   }
   /** Update current robot dometry - called by scheduler at 50Hz */
    @Override
@@ -116,13 +124,13 @@ public class SwervePoseEstimator extends SubsystemBase {
     updateShuffleboard();
 
     // update field representation
-    Pose2d pose = getPose2d();
+    //Pose2d pose = getPose2d();
     
     
-    if (DriverStation.getAlliance().get() == Alliance.Blue)
-      m_field.setRobotPose(pose.getX(), pose.getY(), pose.getRotation());
-    else
-      m_field.setRobotPose(16.54175-pose.getX(), 8.0137-pose.getY(), Rotation2d.fromDegrees(pose.getRotation().getDegrees()+180.0));  
+    // if (DriverStation.getAlliance().get() == Alliance.Blue)
+    //   m_field.setRobotPose(pose.getX(), pose.getY(), pose.getRotation());
+    // else
+    //   m_field.setRobotPose(16.54175-pose.getX(), 8.0137-pose.getY(), Rotation2d.fromDegrees(pose.getRotation().getDegrees()+180.0));  
 
 
   }
@@ -133,7 +141,6 @@ public class SwervePoseEstimator extends SubsystemBase {
   /** return robot's current position vector Pose2d */
   public Pose2d getPose2d() {
     return m_estimator.getEstimatedPosition();
-    
   }
 
 
