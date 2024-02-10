@@ -4,6 +4,7 @@ package frc.robot;
  * This class cointains definitions for the robot's hardware devices.
  * These include components such as motor controllers and soleniods used by the
  * subsystems.
+ * TODO: Change CanIDS
  */
 public class RobotMap {
 
@@ -37,6 +38,12 @@ public class RobotMap {
         public static final int BR_STEER_ENCODER  = 13;
         /** CAN ID for CTR Pigeon Gyro */
         public static final int PIGEON = 14;
+        /** CAN ID for cassette intake motor */
+        public static final int IN_CASSETTE = 15;
+        /** CAN ID for cassette shoot motor left */
+        public static final int L_OUT_CASSETTE = 16;
+        /** CAN ID for cassette shoot motor left */
+        public static final int R_OUT_CASSETTE = 17;
     }
 
     public static class VISION_TARGETING {} // is this important?
