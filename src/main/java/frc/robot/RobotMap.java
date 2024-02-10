@@ -38,18 +38,20 @@ public class RobotMap {
         public static final int BR_STEER_ENCODER  = 13;
         /** CAN ID for CTR Pigeon Gyro */
         public static final int PIGEON = 14;
-        /** CAN ID for cassette intake motor */
-        public static final int IN_CASSETTE = 15;
+        /** CAN ID for cassette intake motor 1 */
+        public static final int IN1_CASSETTE = 15;
+        /** CAN ID for cassette intake motor 2*/
+        public static final int IN2_CASSETTE = 16;
         /** CAN ID for cassette shoot motor left */
-        public static final int L_OUT_CASSETTE = 16;
+        public static final int L_OUT_CASSETTE = 17;
         /** CAN ID for cassette shoot motor left */
-        public static final int R_OUT_CASSETTE = 17;
+        public static final int R_OUT_CASSETTE = 18;
         /** CAN ID for photosensor */
-        public static final int PHOTOSENSOR = 18;
+        public static final int PHOTOSENSOR = 19;
         /** CAN ID for cassette effector motor left */
-        public static final int EFFECTOR_MOTOR = 19;
+        public static final int EFFECTOR_MOTOR = 20;
         /** CAN ID for effector CANcoder */
-        public static final int EFFECTOR_CAN_CODER = 20;
+        public static final int EFFECTOR_CAN_CODER = 21;
     }
 
     public static class VISION_TARGETING {} // is this important?

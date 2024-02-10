@@ -6,11 +6,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class CassetteMotor extends SubsystemBase {
-  private TalonFX m_IntakeMotor;
+  private Spark m_IntakeMotor1;
+  private Spark m_IntakeMotor2;
   private TalonFX m_LShootMotor;
   private TalonFX m_RShootMotor;
   private DigitalInput m_PhotoSensor;
@@ -19,7 +21,8 @@ public class CassetteMotor extends SubsystemBase {
 
   /** Creates a new CassetteMotor. */
   public CassetteMotor() {
-    m_IntakeMotor = new TalonFX(RobotMap.CANID.IN_CASSETTE);
+    m_IntakeMotor1 = new Spark(RobotMap.CANID.IN1_CASSETTE);
+    m_IntakeMotor2 = new Spark(RobotMap.CANID.IN2_CASSETTE);
     m_LShootMotor = new TalonFX(RobotMap.CANID.L_OUT_CASSETTE);
     m_RShootMotor = new TalonFX(RobotMap.CANID.R_OUT_CASSETTE);
     m_PhotoSensor = new DigitalInput(RobotMap.CANID.PHOTOSENSOR);
@@ -36,9 +39,11 @@ public class CassetteMotor extends SubsystemBase {
    */
   public void intakeRun(boolean on) {
     if (on) {
-      m_IntakeMotor.set(INTAKE_SPEED);
+      m_IntakeMotor1.set(INTAKE_SPEED);
+      m_IntakeMotor2.set(-INTAKE_SPEED);
     } else {
-      m_IntakeMotor.set(0);
+      m_IntakeMotor1.set(0);
+      m_IntakeMotor2.set(0);
     }
   }
 
@@ -46,7 +51,8 @@ public class CassetteMotor extends SubsystemBase {
    * Run intake backwards
    */
   public void intakeRunBack() {
-    m_IntakeMotor.set(-INTAKE_SPEED);
+    m_IntakeMotor1.set(-INTAKE_SPEED);
+    m_IntakeMotor2.set(INTAKE_SPEED);
   }
 
   /**
