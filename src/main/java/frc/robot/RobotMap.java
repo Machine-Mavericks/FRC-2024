@@ -44,6 +44,8 @@ public class RobotMap {
         public static final int L_OUT_CASSETTE = 16;
         /** CAN ID for cassette shoot motor left */
         public static final int R_OUT_CASSETTE = 17;
+        /** CAN ID for photosensor */
+        public static final int PHOTOSENSOR = 18;
     }
 
     public static class VISION_TARGETING {} // is this important?

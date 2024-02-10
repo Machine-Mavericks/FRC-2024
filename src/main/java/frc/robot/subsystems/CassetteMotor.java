@@ -4,12 +4,26 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.fasterxml.jackson.databind.type.PlaceholderForType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class CassetteMotor extends SubsystemBase {
+  private TalonFX m_IntakeMotor;
+  private TalonFX m_LShootMotor;
+  private TalonFX m_RShootMotor;
+  private PlaceholderForType m_PhotoSensor;
+  private double INTAKE_SPEED;
+  private double SHOOTER_SPEED;
 
   /** Creates a new CassetteMotor. */
   public CassetteMotor() {
+    m_IntakeMotor = new TalonFX(RobotMap.CANID.IN_CASSETTE);
+    m_LShootMotor = new TalonFX(RobotMap.CANID.L_OUT_CASSETTE);
+    m_RShootMotor = new TalonFX(RobotMap.CANID.R_OUT_CASSETTE);
+    m_PhotoSensor = new PlaceholderForType(RobotMap.CANID.PHOTOSENSOR);
   }
 
   @Override
@@ -22,6 +36,7 @@ public class CassetteMotor extends SubsystemBase {
    * @param on
    */
   public void intakeRun(boolean on) {
+    m_IntakeMotor.set(INTAKE_SPEED);
   }
 
   /**
@@ -29,6 +44,7 @@ public class CassetteMotor extends SubsystemBase {
    * @param percent
    */
   public void leftShootRun(int percent) {
+    m_LShootMotor.set(SHOOTER_SPEED*percent);
   }
 
   /**
@@ -36,6 +52,7 @@ public class CassetteMotor extends SubsystemBase {
    * @param percent
    */
   public void rightShootRun(int percent) {
+    m_RShootMotor.set(SHOOTER_SPEED*percent);
   }
 
   /**
@@ -44,5 +61,14 @@ public class CassetteMotor extends SubsystemBase {
   public void stopShooter() {
     rightShootRun(0);
     leftShootRun(0);
+  }
+
+  /**
+   * gets photosensor information
+   * @return boolean
+   */
+  public boolean getSwitch() {
+    m_PhotoSensor.actualType();
+    return true; // return if photosensor senses anything
   }
 }
