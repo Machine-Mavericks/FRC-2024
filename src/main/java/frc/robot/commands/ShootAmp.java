@@ -24,15 +24,28 @@ public class ShootAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    int lpercent=60;
+    int rpercent=100;
+    // set to amp shoot angle
+    // TODO: figure out if these (v) need to be swapped
+    RobotContainer.cassettemotor.leftShootRun(lpercent);
+    RobotContainer.cassettemotor.rightShootRun(rpercent);
+    while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
+    RobotContainer.cassettemotor.intakeRun(true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.cassettemotor.intakeRun(false);
+    new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
+    RobotContainer.cassettemotor.stopShooter();
+    // set angle to neutral
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !RobotContainer.cassettemotor.getSwitch();
   }
 }
