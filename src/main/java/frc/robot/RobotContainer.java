@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.AutoDriveToPose;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LEDCommand;
+import frc.robot.subsystems.CassetteMotor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Pigeon;
@@ -42,6 +43,7 @@ public class RobotContainer {
   public static final SwervePoseEstimator swervepose = new SwervePoseEstimator();
   public static final PowerPanel panel = new PowerPanel();
   public static final LEDBlinkin LEDStrip = new LEDBlinkin();
+  public static final CassetteMotor cassettemotor = new CassetteMotor();
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and

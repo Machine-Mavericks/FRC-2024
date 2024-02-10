@@ -36,7 +36,11 @@ public class CassetteMotor extends SubsystemBase {
    * @param on
    */
   public void intakeRun(boolean on) {
-    m_IntakeMotor.set(INTAKE_SPEED);
+    if (on) {
+      m_IntakeMotor.set(INTAKE_SPEED);
+    } else {
+      m_IntakeMotor.set(0);
+    }
   }
 
   /**
@@ -65,7 +69,7 @@ public class CassetteMotor extends SubsystemBase {
 
   /**
    * gets photosensor information
-   * @return boolean
+   * @return true if present, false if nothing
    */
   public boolean getSwitch() {
     m_PhotoSensor.actualType();
