@@ -43,6 +43,13 @@ public class CassetteMotor extends SubsystemBase {
   }
 
   /**
+   * Run intake backwards
+   */
+  public void intakeRunBack() {
+    m_IntakeMotor.set(-INTAKE_SPEED);
+  }
+
+  /**
    * Run the left shooter motor at the provided percent of tested speed
    * @param percent
    */
@@ -64,6 +71,16 @@ public class CassetteMotor extends SubsystemBase {
   public void stopShooter() {
     rightShootRun(0);
     leftShootRun(0);
+  }
+
+  /**
+   * Checks if shooter motors are at speeds they are supposed to be at
+   * @param lpercent percent speed the left motor should be running at
+   * @param rpercent percent speed the right motor should be running at
+   * @return
+   */
+  public boolean shooterAtSpeed(int lpercent, int rpercent) {
+    return m_LShootMotor.getVelocity().getValueAsDouble()==(SHOOTER_SPEED*lpercent) && m_RShootMotor.getVelocity().getValueAsDouble()==(SHOOTER_SPEED*rpercent);
   }
 
   /**

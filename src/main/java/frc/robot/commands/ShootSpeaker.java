@@ -23,16 +23,20 @@ public class ShootSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    int lpercent;
+    int rpercent;
     // set to speaker shoot angle
     // TODO: figure out if these (v) need to be swapped
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      RobotContainer.cassettemotor.leftShootRun(60);
-      RobotContainer.cassettemotor.rightShootRun(100);
+      lpercent=60;
+      rpercent=100;
     } else {
-      RobotContainer.cassettemotor.leftShootRun(100);
-      RobotContainer.cassettemotor.rightShootRun(60);
+      lpercent=100;
+      rpercent=60;
     } 
-    new DelayCommand(1); // TODO: figure out how many seconds until shooter reaches full speed
+    RobotContainer.cassettemotor.leftShootRun(lpercent);
+    RobotContainer.cassettemotor.rightShootRun(rpercent);
+    while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
     RobotContainer.cassettemotor.intakeRun(true);
   }
 

@@ -8,10 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
 public class GroundIntake extends Command {
+  boolean inorout;
+
   /** Creates a new GroundIntake. */
-  public GroundIntake() {
+  public GroundIntake(boolean inorout) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.cassettemotor); // add effector
+    this.inorout=inorout;
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +25,11 @@ public class GroundIntake extends Command {
   @Override
   public void execute() {
     //set angle to ground
-    RobotContainer.cassettemotor.intakeRun(true);
+    if (inorout){
+      RobotContainer.cassettemotor.intakeRun(true);
+    } else {
+      RobotContainer.cassettemotor.intakeRunBack();
+    }
   }
 
   // Called once the command ends or is interrupted.
