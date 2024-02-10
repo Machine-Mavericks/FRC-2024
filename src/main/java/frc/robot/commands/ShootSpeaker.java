@@ -42,6 +42,7 @@ public class ShootSpeaker extends Command {
     RobotContainer.cassettemotor.intakeRun(false);
     new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
     RobotContainer.cassettemotor.stopShooter();
+    // set angle to neutral
   }
 
   // Returns true when the command should end.
