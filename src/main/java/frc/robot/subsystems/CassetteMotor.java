@@ -5,8 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.fasterxml.jackson.databind.type.PlaceholderForType;
-
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
@@ -14,7 +13,7 @@ public class CassetteMotor extends SubsystemBase {
   private TalonFX m_IntakeMotor;
   private TalonFX m_LShootMotor;
   private TalonFX m_RShootMotor;
-  private PlaceholderForType m_PhotoSensor;
+  private DigitalInput m_PhotoSensor;
   private double INTAKE_SPEED;
   private double SHOOTER_SPEED;
 
@@ -23,7 +22,7 @@ public class CassetteMotor extends SubsystemBase {
     m_IntakeMotor = new TalonFX(RobotMap.CANID.IN_CASSETTE);
     m_LShootMotor = new TalonFX(RobotMap.CANID.L_OUT_CASSETTE);
     m_RShootMotor = new TalonFX(RobotMap.CANID.R_OUT_CASSETTE);
-    m_PhotoSensor = new PlaceholderForType(RobotMap.CANID.PHOTOSENSOR);
+    m_PhotoSensor = new DigitalInput(RobotMap.CANID.PHOTOSENSOR);
   }
 
   @Override
@@ -72,7 +71,6 @@ public class CassetteMotor extends SubsystemBase {
    * @return true if present, false if nothing
    */
   public boolean getSwitch() {
-    m_PhotoSensor.actualType();
-    return true; // return if photosensor senses anything
+    return m_PhotoSensor.get();
   }
 }
