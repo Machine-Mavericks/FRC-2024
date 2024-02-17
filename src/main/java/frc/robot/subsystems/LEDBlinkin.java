@@ -28,6 +28,9 @@ public class LEDBlinkin extends SubsystemBase {
 
   public enum LED_PATTERN {
     OFF,
+    REDBALL,
+    BLUEBALL,
+    HUB,
     LOWBATTERY,
     DISCO
     // Add
@@ -39,6 +42,15 @@ public class LEDBlinkin extends SubsystemBase {
     switch (pattern) {
       case OFF:
         led.setSpeed(0.99);    // black
+      break;
+      case REDBALL:
+        led.setSpeed(-0.11);
+      break;
+      case BLUEBALL;
+        led.setSpeed(-0.09);
+      break;
+      case HUB:
+        led.setSpeed(-0.07);
       break;
       case LOWBATTERY:
         led.setSpeed(0.91);    // solid purple
