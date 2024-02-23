@@ -26,16 +26,16 @@ public class GroundIntake extends Command {
   public void execute() {
     //set angle to ground
     if (inorout){
-      RobotContainer.cassettemotor.intakeRun(true);
+      RobotContainer.cassettemotor.intakeRun(1);
     } else {
-      RobotContainer.cassettemotor.intakeRunBack();
+      RobotContainer.cassettemotor.intakeRun(-1);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.cassettemotor.intakeRun(false);
+    RobotContainer.cassettemotor.intakeRun(0);
     //set angle to neutral
   }
 

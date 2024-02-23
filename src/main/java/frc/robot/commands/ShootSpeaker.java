@@ -10,6 +10,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
 public class ShootSpeaker extends Command {
+
+  int lpercent;
+  int rpercent;
+
+  boolean shooterHitSpeed = false;
+
   /** Creates a new ShootSpeaker. */
   public ShootSpeaker() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -18,13 +24,8 @@ public class ShootSpeaker extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    int lpercent;
-    int rpercent;
+  public void initialize() {
+    
     // set to speaker shoot angle
     // TODO: figure out if these (v) need to be swapped
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
@@ -36,14 +37,24 @@ public class ShootSpeaker extends Command {
     } 
     RobotContainer.cassettemotor.leftShootRun(lpercent);
     RobotContainer.cassettemotor.rightShootRun(rpercent);
-    while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
-    RobotContainer.cassettemotor.intakeRun(true);
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if (!shooterHitSpeed){
+      if (RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)) {
+        shooterHitSpeed = true;
+      }
+    }
+    
+    RobotContainer.cassettemotor.intakeRun(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.cassettemotor.intakeRun(false);
+    RobotContainer.cassettemotor.intakeRun(0);
     new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
     RobotContainer.cassettemotor.stopShooter();
     // set angle to neutral
