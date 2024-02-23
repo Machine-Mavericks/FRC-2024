@@ -89,7 +89,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
 
-    public static final String CAN_BUS_NAME = "rio"; // If the drivetrain runs CANivore, change to name of desired CAN loop
+    public static final String CAN_BUS_NAME = "Drivebase"; // If the drivetrain runs CANivore, change to name of desired CAN loop
     public static final int MODULE_COUNT = 4;
     /**
      * The left-to-right distance between the drivetrain wheels
@@ -443,10 +443,10 @@ public class Drivetrain extends SubsystemBase {
         var futureRobotPose = new Pose2d(
             speeds.vxMetersPerSecond * dt, 
             speeds.vyMetersPerSecond * dt, 
-            new Rotation2d(speeds.omegaRadiansPerSecond * dt * rotationCompFactor) // No I do not know why it's negative
+            new Rotation2d(speeds.omegaRadiansPerSecond * dt * rotationCompFactor)
         );
         var twist = Utils.log(futureRobotPose);
-        // FLIPPED COORDINATE SYSTEM??
+        
         return new ChassisSpeeds((twist.dx / dt), (twist.dy / dt), (speeds.omegaRadiansPerSecond));
     }
 
