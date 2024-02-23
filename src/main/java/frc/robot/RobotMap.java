@@ -52,6 +52,9 @@ public class RobotMap {
         public static final int EFFECTOR_MOTOR = 20;
         /** CAN ID for effector CANcoder */
         public static final int EFFECTOR_CAN_CODER = 21;
+
+        /** CAN ID for limit switch testing motor */
+        public static final int TEST_MOTOR = 35;
     }
 
     public static class VISION_TARGETING {} // is this important?

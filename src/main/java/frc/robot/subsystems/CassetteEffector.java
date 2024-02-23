@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class CassetteEffector extends SubsystemBase {
   //TODO: figure out angle values
@@ -23,11 +24,19 @@ public class CassetteEffector extends SubsystemBase {
   private CANcoder m_CANcoder;
 
   /** Creates a new CassetteEffector. */
-  public CassetteEffector() {}
+  public CassetteEffector() {
+    //m_EffectorMotor = new TalonFX(RobotMap.CANID.TEST_MOTOR);
+    //Limits normally closed
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  // FOR TESTING (limit switches specifically)
+  public void setMotor(double value){
+    //m_EffectorMotor.set(value);
   }
 
   /**
