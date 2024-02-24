@@ -1,3 +1,3 @@
-# Base Code
+# FRC 2024 Crescendo 
 
-A template project (base code) to be updated then forked each year as a starting point for competition and preseason repos.
+Team 7480's code for 2024
