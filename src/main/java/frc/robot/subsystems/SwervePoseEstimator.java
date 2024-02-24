@@ -105,7 +105,8 @@ public class SwervePoseEstimator extends SubsystemBase {
    */
   public void addVision(Pose2d vision,double timeStamp, double distance){
     m_estimator.addVisionMeasurement(vision, timeStamp);
-    //m_estimator.setVisionMeasurementStdDevs();
+    double stdDevs = 0.1*distance;
+    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
   }
   /** Update current robot dometry - called by scheduler at 50Hz */
    @Override

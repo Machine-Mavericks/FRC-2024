@@ -37,7 +37,7 @@ public class AprilTagMap {
         new Pose2d(intom(441.74),intom(161.62),new Rotation2d(Math.toRadians(180.0))), //13
         new Pose2d(intom(209.48),intom(161.62),new Rotation2d(Math.toRadians(0.0))), //14
         new Pose2d(intom(182.73),intom(177.1),new Rotation2d(Math.toRadians(120.0))), //15
-        new Pose2d(intom(182.73),intom(156.19),new Rotation2d(Math.toRadians(240.0))), //16
+        new Pose2d(intom(182.73),intom(146.19),new Rotation2d(Math.toRadians(240.0))), //16
     };
     /**
      * Map of cameras relative to robot
