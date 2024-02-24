@@ -443,10 +443,10 @@ public class Drivetrain extends SubsystemBase {
         var futureRobotPose = new Pose2d(
             speeds.vxMetersPerSecond * dt, 
             speeds.vyMetersPerSecond * dt, 
-            new Rotation2d(speeds.omegaRadiansPerSecond * dt * rotationCompFactor) // No I do not know why it's negative
+            new Rotation2d(speeds.omegaRadiansPerSecond * dt * rotationCompFactor)
         );
         var twist = Utils.log(futureRobotPose);
-        // FLIPPED COORDINATE SYSTEM??
+        
         return new ChassisSpeeds((twist.dx / dt), (twist.dy / dt), (speeds.omegaRadiansPerSecond));
     }
 

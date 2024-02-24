@@ -11,11 +11,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.AutoDriveToPose;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LEDCommand;
+import frc.robot.commands.MechanismTest;
+import frc.robot.subsystems.CassetteEffector;
+import frc.robot.subsystems.CassetteIntake;
+import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PowerPanel;
 import frc.robot.subsystems.SwerveOdometry;
+import frc.robot.subsystems.SwervePoseEstimator;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -38,8 +43,12 @@ public class RobotContainer {
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
   public static final SwerveOdometry odometry = new SwerveOdometry();
+  public static final SwervePoseEstimator swervepose = new SwervePoseEstimator();
   public static final PowerPanel panel = new PowerPanel();
   public static final LEDBlinkin LEDStrip = new LEDBlinkin();
+  public static final CassetteShooter cassettemotor = new CassetteShooter();
+  public static final CassetteIntake cassetteintake = new CassetteIntake();
+  public static final CassetteEffector cassetteangle = new CassetteEffector();
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and
@@ -66,6 +75,9 @@ public class RobotContainer {
    */
   private static void configureButtonBindings() {
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
+
+    // OI.testForwardButton.whileTrue(new MechanismTest(0.1));
+    // OI.testBackButton.whileTrue(new MechanismTest(-0.1));
   }
 
   /**
