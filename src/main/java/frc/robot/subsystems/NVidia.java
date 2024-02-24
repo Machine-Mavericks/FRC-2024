@@ -59,10 +59,10 @@ public class NVidia extends SubsystemBase {
   /** Initialize subsystem shuffleboard page and controls */
   private void initializeShuffleboard() {
     // Create odometry page in shuffleboard
-    ShuffleboardTab Tab = Shuffleboard.getTab("Swerve Estimator");
+    ShuffleboardTab Tab = Shuffleboard.getTab("NVidia");
 
     // create controls to display robot position, angle, and gyro angle
-    ShuffleboardLayout l1 = Tab.getLayout("Estimates", BuiltInLayouts.kList);
+    ShuffleboardLayout l1 = Tab.getLayout("AprilTags", BuiltInLayouts.kList);
     l1.withPosition(0, 0);
     l1.withSize(1, 3);
     m_x = l1.add("X (m)", 0.0).getEntry();
