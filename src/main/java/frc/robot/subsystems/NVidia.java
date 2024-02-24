@@ -33,7 +33,7 @@ public class NVidia extends SubsystemBase {
     m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
     // subscribe to Nvidia camera topics
     for (int i=0;i<numCams;i++){
-      m_CameraSub[i]=m_table.getDoubleArrayTopic("camera"+Integer.toString(i)).subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      m_CameraSub[i]=m_table.getDoubleArrayTopic("camera "+Integer.toString(i)).subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     }
     initializeShuffleboard();
   }
@@ -51,7 +51,7 @@ public class NVidia extends SubsystemBase {
       {
         data = AprilTagDetectionData[j].value;
         RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(AprilTagDetectionData[j].value, i),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
-     }
+      }
     }
     updateShuffleboard();
   }
