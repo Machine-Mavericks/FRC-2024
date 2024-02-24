@@ -29,7 +29,7 @@ public class Pigeon extends SubsystemBase {
     initializeShuffleboard();
     
     // make pigeon object
-    gyro = new Pigeon2(RobotMap.CANID.PIGEON,"Drivebase");
+    gyro = new Pigeon2(RobotMap.CANID.PIGEON, Drivetrain.CAN_BUS_NAME);
   }
 
   private int updateCounter=4;
