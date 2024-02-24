@@ -45,7 +45,7 @@ public class NVidia extends SubsystemBase {
     TimestampedDoubleArray AprilTagDetectionData[];
     // get AprilTag detections from Netowrk Table for each camera
     for (int i=0;i<numCams;i++){
-      AprilTagDetectionData= m_CameraSub[0].readQueue();
+      AprilTagDetectionData= m_CameraSub[i].readQueue();
       // for each AprilTag detection in the list
       for (int j=0;j<AprilTagDetectionData.length; j++)
       {
