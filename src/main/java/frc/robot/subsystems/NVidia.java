@@ -5,18 +5,27 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.DoubleArraySubscriber;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
 import edu.wpi.first.networktables.TimestampedDoubleArray;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.util.AprilTagMap;
 
 public class NVidia extends SubsystemBase {
-  private int numCams = 4;
+  private int numCams = 2;
   private NetworkTable m_table;
   private DoubleArraySubscriber m_CameraSub[] = new DoubleArraySubscriber[4];
+  private GenericEntry m_x;
+  private GenericEntry m_y;
+  private GenericEntry m_angle;
+  private double[] data;
 
   /** Creates a new NVidia. */
   public NVidia() {
@@ -26,6 +35,7 @@ public class NVidia extends SubsystemBase {
     for (int i=0;i<numCams;i++){
       m_CameraSub[i]=m_table.getDoubleArrayTopic("camera"+Integer.toString(i)).subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     }
+    initializeShuffleboard();
   }
 
   @Override
@@ -39,8 +49,32 @@ public class NVidia extends SubsystemBase {
       // for each AprilTag detection in the list
       for (int j=0;j<AprilTagDetectionData.length; j++)
       {
+        data = AprilTagDetectionData[j].value;
         RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(AprilTagDetectionData[j].value, i),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
      }
     }
+    updateShuffleboard();
   }
+
+  /** Initialize subsystem shuffleboard page and controls */
+  private void initializeShuffleboard() {
+    // Create odometry page in shuffleboard
+    ShuffleboardTab Tab = Shuffleboard.getTab("Swerve Estimator");
+
+    // create controls to display robot position, angle, and gyro angle
+    ShuffleboardLayout l1 = Tab.getLayout("Estimates", BuiltInLayouts.kList);
+    l1.withPosition(0, 0);
+    l1.withSize(1, 3);
+    m_x = l1.add("X (m)", 0.0).getEntry();
+    m_y = l1.add("Y (m)", 0.0).getEntry();
+    m_angle = l1.add("Angle(deg)", 0.0).getEntry();
+  }   
+
+  /** Update subsystem shuffle board page with current odometry values */
+  private void updateShuffleboard() {
+    m_x.setDouble(data[2]);
+    m_y.setDouble(data[3]);
+    m_angle.setDouble(data[5]);
+  }
+
 }
