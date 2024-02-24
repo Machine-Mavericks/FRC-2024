@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.AutoDriveToPose;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.GroundIntake;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.MechanismTest;
 import frc.robot.subsystems.CassetteEffector;
@@ -78,6 +79,7 @@ public class RobotContainer {
 
     // OI.testForwardButton.whileTrue(new MechanismTest(0.1));
     // OI.testBackButton.whileTrue(new MechanismTest(-0.1));
+    OI.testIntakeButton.whileTrue(new GroundIntake(true));
   }
 
   /**

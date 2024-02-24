@@ -90,5 +90,8 @@ public class OI {
     public static final JoystickButton testForwardButton = new JoystickButton(operatorController, XboxController.Button.kA.value);
     /** Button to test move mechanism */
     public static final JoystickButton testBackButton = new JoystickButton(operatorController, XboxController.Button.kB.value);
+
+    /**Button to trigger intake */
+    public static final JoystickButton testIntakeButton = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
 }
  

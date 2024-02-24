@@ -42,10 +42,10 @@ public class ShootSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!shooterHitSpeed){
-      if (RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)) {
-        shooterHitSpeed = true;
-      }
+    // if (!shooterHitSpeed){
+    //   if (RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)) {
+    //     shooterHitSpeed = true;
+    //   }
     }
     
     RobotContainer.cassetteintake.intakeRun(1);
