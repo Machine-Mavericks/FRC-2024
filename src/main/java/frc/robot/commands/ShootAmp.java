@@ -31,13 +31,13 @@ public class ShootAmp extends Command {
     RobotContainer.cassettemotor.leftShootRun(lpercent);
     RobotContainer.cassettemotor.rightShootRun(rpercent);
     while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
-    RobotContainer.cassettemotor.intakeRun(1);
+    RobotContainer.cassetteintake.intakeRun(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.cassettemotor.intakeRun(0);
+    RobotContainer.cassetteintake.intakeRun(0);
     new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
     RobotContainer.cassettemotor.stopShooter();
     // set angle to neutral

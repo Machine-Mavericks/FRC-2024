@@ -29,7 +29,7 @@ public class ShootSpeaker extends Command {
     // set to speaker shoot angle
     // TODO: figure out if these (v) need to be swapped
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      lpercent=60;
+      lpercent=60; // TODO: switch to velocites as opposed to %output
       rpercent=100;
     } else {
       lpercent=100;
@@ -48,13 +48,13 @@ public class ShootSpeaker extends Command {
       }
     }
     
-    RobotContainer.cassettemotor.intakeRun(1);
+    RobotContainer.cassetteintake.intakeRun(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.cassettemotor.intakeRun(0);
+    RobotContainer.cassetteintake.intakeRun(0);
     new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
     RobotContainer.cassettemotor.stopShooter();
     // set angle to neutral

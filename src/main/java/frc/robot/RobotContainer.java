@@ -13,7 +13,8 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.MechanismTest;
 import frc.robot.subsystems.CassetteEffector;
-import frc.robot.subsystems.CassetteMotor;
+import frc.robot.subsystems.CassetteIntake;
+import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Pigeon;
@@ -45,7 +46,8 @@ public class RobotContainer {
   public static final SwervePoseEstimator swervepose = new SwervePoseEstimator();
   public static final PowerPanel panel = new PowerPanel();
   public static final LEDBlinkin LEDStrip = new LEDBlinkin();
-  public static final CassetteMotor cassettemotor = new CassetteMotor();
+  public static final CassetteShooter cassettemotor = new CassetteShooter();
+  public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
 
   /**
