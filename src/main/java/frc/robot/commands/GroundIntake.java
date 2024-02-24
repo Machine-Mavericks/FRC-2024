@@ -13,7 +13,7 @@ public class GroundIntake extends Command {
   /** Creates a new GroundIntake. */
   public GroundIntake(boolean inorout) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassettemotor); // add effector
+    addRequirements(RobotContainer.cassetteintake); // add effector
     this.inorout=inorout;
   }
 

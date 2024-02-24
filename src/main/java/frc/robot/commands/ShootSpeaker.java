@@ -37,8 +37,8 @@ public class ShootSpeaker extends Command {
     // } 
     // RobotContainer.cassettemotor.leftShootRun(lpercent);
     // RobotContainer.cassettemotor.rightShootRun(rpercent);
-    RobotContainer.cassettemotor.leftShootRun(0.1);
-    RobotContainer.cassettemotor.rightShootRun(0.1);
+    RobotContainer.cassettemotor.leftShootRun(0.6);
+    RobotContainer.cassettemotor.rightShootRun(0.6);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
