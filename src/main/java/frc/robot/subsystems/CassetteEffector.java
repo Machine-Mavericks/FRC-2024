@@ -4,16 +4,27 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.util.datalog.BooleanLogEntry;
+import edu.wpi.first.util.datalog.StringLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -24,17 +35,22 @@ import frc.robot.util.SubsystemShuffleboardManager;
 
 
 // TODO LIST:
-// [-] Figure out what the actual gear reduction is
+// [X] Figure out what the actual gear reduction is
 // [-] 
 public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   // Shuffleboard
   private GenericEntry EffectorAngle;
   private GenericEntry CANCoderRotations;
   private GenericEntry EffectorSetpoint;
+  private GenericEntry EffectorTarget;
+  private GenericEntry MotorVoltage;
+  private GenericEntry MotorAmps;
+
+  StringLogEntry myStringLog;
 
   //TODO: figure out angle values
-  private static final double MAX_TOP_ANGLE = 20;
-  private static final double MIN_BOTTOM_ANGLE = 50;
+  private static final double MAX_TOP_ANGLE = 0.26;
+  private static final double MIN_BOTTOM_ANGLE = 0.023;
   private static final double NEUTRAL_ANGLE = 0;
   private static final double GROUND_ANGLE = 0;
   private static final double SOURCE_ANGLE = 0;
@@ -42,8 +58,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   private static final double SPEAKER_ANGLE = 0; //from flush against
 
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
-  .withKP(20).withKI(0).withKD(0.05)
-  .withKS(0).withKV(1).withKA(0);
+  .withKP(4).withKI(0).withKD(0)
+  .withKS(0).withKV(0).withKA(0);
 
   /* Multiplying mechanism rotations by this value produces motor rotations */
   private static final double CASETTE_EFFECTOR_REDUCTION = 80; // Let's guess 80:1
@@ -67,6 +83,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     m_EffectorMotor = new TalonFX(RobotMap.CANID.EFFECTOR_MOTOR);
     m_CANcoder = new CANcoder(RobotMap.CANID.EFFECTOR_CAN_CODER);
 
+    // -------------------- Motor Configuration --------------------
     TalonFXConfiguration effectorConfig = new TalonFXConfiguration();
 
     // Enable limit switches
@@ -74,36 +91,55 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     effectorConfig.HardwareLimitSwitch.ReverseLimitEnable = true;
 
     effectorConfig.HardwareLimitSwitch.ForwardLimitType = ForwardLimitTypeValue.NormallyClosed;
-    effectorConfig.HardwareLimitSwitch.ForwardLimitType = ForwardLimitTypeValue.NormallyClosed;
+    effectorConfig.HardwareLimitSwitch.ReverseLimitType = ReverseLimitTypeValue.NormallyClosed;
+
+    effectorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     // Set built in mechanism ratio (hopefully correctly)
-    effectorConfig.Feedback.SensorToMechanismRatio = 1 / CASETTE_EFFECTOR_REDUCTION;
+    //effectorConfig.Feedback.SensorToMechanismRatio = CASETTE_EFFECTOR_REDUCTION;
+
+    // Setup remote CANCoder
+    effectorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    effectorConfig.Feedback.FeedbackRemoteSensorID = m_CANcoder.getDeviceID();
 
     // Set oboard PID values
     effectorConfig.Slot0 = EFFECTOR_GAINS;
 
     m_EffectorMotor.getConfigurator().apply(effectorConfig);
 
+    // -------------------- CANCoder Configuration --------------------
+    CANcoderConfiguration config = new CANcoderConfiguration();
+    config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    m_CANcoder.getConfigurator().apply(config);
+
     SubsystemShuffleboardManager.RegisterShuffleUser(this);
 
     resetInternalEncoder();
+
+    // Logging
+    DataLogManager.start();
+    var Log = DataLogManager.getLog();
+    myStringLog = new StringLogEntry(Log, "/effector/feedforward");
   }
 
   /**
    * Resets the internal encoder in the cassette motor to the value of the absolute encoder
    */
   private void resetInternalEncoder(){
-    currentAngle = (m_CANcoder.getAbsolutePosition().getValueAsDouble() * 360) + CASETTE_EFFECTOR_OFFSET;
+    currentAngle = m_CANcoder.getAbsolutePosition().getValueAsDouble() + (CASETTE_EFFECTOR_OFFSET / 360);
     currentAngleSetpoint = currentAngle;
 
-    m_EffectorMotor.setPosition(currentAngle);
+    //m_EffectorMotor.setPosition(currentAngle);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
     updateEffectorState();
+
+    //myStringLog.append(currentAngle + " " + m_EffectorMotor.getMotorVoltage());
+    //TESTING
+    setAngle(EffectorTarget.getDouble(0.05));
   }
 
   public void updateEffectorState(){
@@ -117,7 +153,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   public void setAngle(double angle){
     // Clamp to allowable range
     currentAngleSetpoint = Math.max(MIN_BOTTOM_ANGLE, Math.min(MAX_TOP_ANGLE, angle));
-    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint * CASETTE_EFFECTOR_REDUCTION));
+    //System.out.println("Setting Motor to " + currentAngleSetpoint);
+    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint).withFeedForward(0));
   }
 
   @Override
@@ -125,10 +162,21 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     // Create page in shuffleboard
     ShuffleboardTab Tab = Shuffleboard.getTab("Cassette Effector");
 
-    ShuffleboardLayout layout = Tab.getLayout("State", BuiltInLayouts.kList).withPosition(0, 0).withSize(1, 3);
+    ShuffleboardLayout layout = Tab.getLayout("State", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 5);
     CANCoderRotations = layout.add("Startup CANCoder Rotations", 0).getEntry();
     EffectorAngle = layout.add("Effector Angle", 0).getEntry();
-    EffectorSetpoint = layout.add("Effector Setpoint", 0).getEntry();
+    MotorVoltage = layout.add("Voltage", 0).getEntry();
+    MotorAmps = layout.add("Amps", 0).getEntry();
+
+
+    EffectorTarget = Tab.addPersistent("setpoint", 0.05)
+        .withPosition(8, 0)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min", MIN_BOTTOM_ANGLE, "max", MAX_TOP_ANGLE))
+        .getEntry();
+    //EffectorSetpoint = layout.add("Effector Setpoint", 0).getEntry();
+
+    EffectorSetpoint = layout.add("Output Setpoint", 0).getEntry();
   }
 
   @Override
@@ -136,5 +184,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     EffectorAngle.setDouble(currentAngle);
     EffectorSetpoint.setDouble(currentAngleSetpoint);
     CANCoderRotations.setDouble(m_CANcoder.getAbsolutePosition().getValueAsDouble());
+    MotorVoltage.setDouble(m_EffectorMotor.getMotorVoltage().getValueAsDouble());
+    MotorAmps.setDouble(m_EffectorMotor.getTorqueCurrent().getValueAsDouble());
   }
 }
