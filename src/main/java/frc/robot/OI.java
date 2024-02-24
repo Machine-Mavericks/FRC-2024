@@ -93,5 +93,7 @@ public class OI {
 
     /**Button to trigger intake */
     public static final JoystickButton testIntakeButton = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
+    /**Button to trigger shooter */
+    public static final JoystickButton testShooterButton = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
 }
  

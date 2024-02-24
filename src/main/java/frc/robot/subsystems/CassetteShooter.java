@@ -15,7 +15,7 @@ public class CassetteShooter extends SubsystemBase {
   // Physical components
   private TalonFX m_LShootMotor;
   private TalonFX m_RShootMotor;
-  private DigitalInput m_PhotoSensor;
+  // private DigitalInput m_PhotoSensor;
 
   /* Percent shooter speed can be off by before being considered either too slow or fast */
   private static double allowedSpeedError = 0.05;
@@ -42,7 +42,8 @@ public class CassetteShooter extends SubsystemBase {
    * @param percent
    */
   public void leftShootRun(double speed) {
-    m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
+    m_LShootMotor.set(speed);
+    // m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
   }
 
   /**
@@ -50,7 +51,8 @@ public class CassetteShooter extends SubsystemBase {
    * @param percent
    */
   public void rightShootRun(double speed) {
-    m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
+    m_RShootMotor.set(speed);
+    // m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
   }
 
   /**
@@ -89,6 +91,7 @@ public class CassetteShooter extends SubsystemBase {
    * @return true if present, false if nothing
    */
   public boolean getSwitch() {
-    return m_PhotoSensor.get();
+    // return m_PhotoSensor.get();
+    return true;
   }
 }

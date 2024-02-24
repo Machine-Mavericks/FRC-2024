@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,21 +14,22 @@ import frc.robot.RobotMap;
 
 public class CassetteIntake extends SubsystemBase {
   // Physical components
-  private Spark m_IntakeMotor1;
-  private Spark m_IntakeMotor2;
+  private CANSparkMax m_IntakeMotor1;
+  private CANSparkMax m_IntakeMotor2;
 
   /* Intake speed in rps (Doesn't account for mechanism gearing on it's own) */
   private static double INTAKE_SPEED = 1; // TODO: tune
-
+                                                                                                                  
   /** Creates a new CassetteIntake. */
   public CassetteIntake() {
-    m_IntakeMotor1 = new Spark(RobotMap.CANID.IN1_CASSETTE);
-    m_IntakeMotor2 = new Spark(RobotMap.CANID.IN2_CASSETTE);
+    m_IntakeMotor1 = new CANSparkMax (RobotMap.CANID.IN1_CASSETTE,MotorType.kBrushless);
+    m_IntakeMotor2 = new CANSparkMax(RobotMap.CANID.IN2_CASSETTE,MotorType.kBrushless);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
 
   /**
@@ -35,6 +38,6 @@ public class CassetteIntake extends SubsystemBase {
   */
   public void intakeRun(int state) {
     m_IntakeMotor1.set(INTAKE_SPEED * state); // Todo, this uses percent output, not velocity control as it should
-    m_IntakeMotor2.set(-INTAKE_SPEED * state);
+    m_IntakeMotor2.set(INTAKE_SPEED * state);
   }
 }
