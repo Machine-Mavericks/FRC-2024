@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -63,8 +64,6 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
 
   /** Creates a new CassetteEffector. */
   public CassetteEffector() {
-    SubsystemShuffleboardManager.RegisterShuffleUser(this);
-
     m_EffectorMotor = new TalonFX(RobotMap.CANID.EFFECTOR_MOTOR);
     m_CANcoder = new CANcoder(RobotMap.CANID.EFFECTOR_CAN_CODER);
 
@@ -84,6 +83,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     effectorConfig.Slot0 = EFFECTOR_GAINS;
 
     m_EffectorMotor.getConfigurator().apply(effectorConfig);
+
+    SubsystemShuffleboardManager.RegisterShuffleUser(this);
 
     resetInternalEncoder();
   }
@@ -124,7 +125,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     // Create page in shuffleboard
     ShuffleboardTab Tab = Shuffleboard.getTab("Cassette Effector");
 
-    ShuffleboardLayout layout = Tab.getLayout("State").withPosition(0, 0).withSize(1, 3);
+    ShuffleboardLayout layout = Tab.getLayout("State", BuiltInLayouts.kList).withPosition(0, 0).withSize(1, 3);
     CANCoderRotations = layout.add("Startup CANCoder Rotations", 0).getEntry();
     EffectorAngle = layout.add("Effector Angle", 0).getEntry();
     EffectorSetpoint = layout.add("Effector Setpoint", 0).getEntry();

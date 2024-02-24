@@ -12,7 +12,7 @@ import frc.robot.RobotMap;
 
 public class CassetteIntake extends SubsystemBase {
   // Physical components
-  private Spark m_IntakeMotor1;
+  private Spark m_IntakeMotor1; // NOTE, the Spark class only seems to provide PWM control, need to figure out how to control with CAN
   private Spark m_IntakeMotor2;
 
   /* Intake speed in rps (Doesn't account for mechanism gearing on it's own) */
@@ -20,8 +20,8 @@ public class CassetteIntake extends SubsystemBase {
 
   /** Creates a new CassetteIntake. */
   public CassetteIntake() {
-    m_IntakeMotor1 = new Spark(RobotMap.CANID.IN1_CASSETTE);
-    m_IntakeMotor2 = new Spark(RobotMap.CANID.IN2_CASSETTE);
+    // m_IntakeMotor1 = new Spark(RobotMap.CANID.IN1_CASSETTE); // If these lines are uncommented, robot crashes on startup since no sparks are plugged into PWM ports
+    // m_IntakeMotor2 = new Spark(RobotMap.CANID.IN2_CASSETTE);
   }
 
   @Override
@@ -34,7 +34,7 @@ public class CassetteIntake extends SubsystemBase {
    * @param state Use -1 to invert, 0 to stop, and 1 to run forward
   */
   public void intakeRun(int state) {
-    m_IntakeMotor1.set(INTAKE_SPEED * state); // Todo, this uses percent output, not velocity control as it should
-    m_IntakeMotor2.set(-INTAKE_SPEED * state);
+    // m_IntakeMotor1.set(INTAKE_SPEED * state); // Todo, this uses percent output, not velocity control as it should
+    // m_IntakeMotor2.set(-INTAKE_SPEED * state);
   }
 }
