@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix6.controls.VelocityVoltage;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,8 +39,13 @@ public class ShootSpeaker extends Command {
     // } 
     // RobotContainer.cassettemotor.leftShootRun(lpercent);
     // RobotContainer.cassettemotor.rightShootRun(rpercent);
-    RobotContainer.cassettemotor.leftShootRun(0.6);
-    RobotContainer.cassettemotor.rightShootRun(0.6);
+    // RobotContainer.cassettemotor.leftShootRun(0.6);
+    // RobotContainer.cassettemotor.rightShootRun(0.6);
+
+
+    //set velocity to 8 rps, add 0.5 V to overcome gravity 
+    RobotContainer.cassettemotor.leftShootRun(100);
+    RobotContainer.cassettemotor.rightShootRun(100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
