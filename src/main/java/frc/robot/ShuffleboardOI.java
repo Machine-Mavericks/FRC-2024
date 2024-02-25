@@ -74,9 +74,9 @@ public class ShuffleboardOI extends SubsystemBase {
 
         // add autonomous commands to page -
         m_autonomousPath.addOption("Anywhere Two-ball",0);
-        m_autonomousPath.addOption("Five-ball",1);
-        m_autonomousPath.addOption("Emerg 4-ball", 2);
-        m_autonomousPath.setDefaultOption("Anywhere Two-ball", 0);
+        // m_autonomousPath.addOption("Five-ball",1);
+        // m_autonomousPath.addOption("Emerg 4-ball", 2);
+        // m_autonomousPath.setDefaultOption("Anywhere Two-ball", 0);
         //m_autonomousPath.addOption("Two-ball auto",0);
         //m_autonomousPath.addOption("Three-ball auto",1);
         //m_autonomousPath.addOption("Anywhere Two-ball",2);
