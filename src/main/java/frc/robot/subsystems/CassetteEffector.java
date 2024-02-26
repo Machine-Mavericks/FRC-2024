@@ -52,6 +52,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   private GenericEntry MotorAmps;
   private GenericEntry ClosedLoopError;
 
+  private GenericEntry ManualFeedforward;
+
   StringLogEntry myStringLog;
 
   //TODO: figure out angle values
@@ -83,6 +85,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   private CANcoder m_CANcoder;
 
   private MotionMagicVoltage m_motorPositionController = new MotionMagicVoltage(0).withSlot(0);
+  private PositionVoltage m_fakeController = new PositionVoltage(0).withSlot(0);
 
   /** Creates a new CassetteEffector. */
   public CassetteEffector() {
@@ -163,7 +166,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     currentAngleSetpoint = Math.max(MIN_BOTTOM_ANGLE, Math.min(MAX_TOP_ANGLE, angle));
 
     double feedForwardValue = (currentAngle < 0.19) ? 0.4 : 0.5; // TODO: Compute with splines
-    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint).withFeedForward(feedForwardValue));
+    m_EffectorMotor.setControl(m_fakeController.withPosition(currentAngleSetpoint).withFeedForward(ManualFeedforward.getDouble(0)));
+    
   }
 
   @Override
@@ -171,7 +175,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     // Create page in shuffleboard
     ShuffleboardTab Tab = Shuffleboard.getTab("Cassette Effector");
 
-    ShuffleboardLayout layout = Tab.getLayout("State", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 6);
+    ShuffleboardLayout layout = Tab.getLayout("Stae", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 6);
     CANCoderRotations = layout.add("CANCoder Rotations", 0).getEntry();
     EffectorAngle = layout.add("Effector Angle", 0).getEntry();
     MotorVoltage = layout.add("Voltage", 0).getEntry();
@@ -182,6 +186,12 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
         .withPosition(8, 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min", CassetteEffector.MIN_BOTTOM_ANGLE, "max", CassetteEffector.MAX_TOP_ANGLE))
+        .getEntry();
+
+    ManualFeedforward = Tab.add("Janky feedforward", 0)
+        .withPosition(8, 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min", 0, "max", 2))
         .getEntry();
 
     EffectorSetpoint = layout.add("Output Setpoint", 0).getEntry();
