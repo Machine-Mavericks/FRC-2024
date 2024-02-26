@@ -224,6 +224,7 @@ public class Drivetrain extends SubsystemBase {
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min", 0, "max", 0.5))
         .getEntry();
+        System.out.println("Init DriveSpeed");
         speedLimitFactor = tab.addPersistent("SpeedLimitFactor", 0.75)
         .withPosition(8, 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
