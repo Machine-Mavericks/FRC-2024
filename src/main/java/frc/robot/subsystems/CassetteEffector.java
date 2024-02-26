@@ -47,6 +47,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   private GenericEntry EffectorAngle;
   private GenericEntry CANCoderRotations;
   private GenericEntry EffectorSetpoint;
+  private GenericEntry EffectorTarget;
   private GenericEntry MotorVoltage;
   private GenericEntry MotorAmps;
   private GenericEntry ClosedLoopError;
@@ -110,6 +111,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     // Set oboard PID values
     effectorConfig.Slot0 = EFFECTOR_GAINS;
 
+    // Motion magic cruise values
     effectorConfig.MotionMagic.MotionMagicAcceleration = 0.4;
     effectorConfig.MotionMagic.MotionMagicCruiseVelocity = 0.4;
     effectorConfig.MotionMagic.MotionMagicJerk = 3;
@@ -143,22 +145,13 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    updateEffectorState();
+    // Update effector state
+    currentAngle = m_EffectorMotor.getPosition().getValueAsDouble();
    
     if (DriverStation.isEnabled()) {
-      if (m_EffectorMotor.getClosedLoopError().getValueAsDouble() < 0.005) {
-        //myStringLog.append(currentAngle + " " + m_EffectorMotor.getMotorVoltage());
-        //System.out.println("Logging at setpoint");
-      }
-      
       //Run nonstop to adjust feedforward
-      setAngle(RobotContainer.shuffleboard.EffectorTarget.getDouble(0.05));
+      setAngle(EffectorTarget.getDouble(0.05));
     }
-  }
-
-  public void updateEffectorState(){
-    currentAngle = m_EffectorMotor.getPosition().getValueAsDouble();
   }
 
   /**
@@ -168,8 +161,9 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   public void setAngle(double angle){
     // Clamp to allowable range
     currentAngleSetpoint = Math.max(MIN_BOTTOM_ANGLE, Math.min(MAX_TOP_ANGLE, angle));
-    //System.out.println("Setting Motor to " + currentAngleSetpoint); //(currentAngleSetpoint < 0.15) ? 0.6 : 0.1)
-    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint).withFeedForward((currentAngle < 0.19) ? 0.4 : 0.5));
+
+    double feedForwardValue = (currentAngle < 0.19) ? 0.4 : 0.5; // TODO: Compute with splines
+    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint).withFeedForward(feedForwardValue));
   }
 
   @Override
@@ -184,14 +178,11 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     MotorAmps = layout.add("Amps", 0).getEntry();
     ClosedLoopError = layout.add("ClosedLoopError", 0).getEntry();
 
-    // System.out.println("Init Setpoin");
-    // EffectorTargetTEST = Tab.add("setpointTEST", 0.05)
-    // .withPosition(8, 0)
-    // .withWidget(BuiltInWidgets.kNumberSlider)
-    // .withProperties(Map.of("min", CassetteEffector.MIN_BOTTOM_ANGLE, "max", CassetteEffector.MAX_TOP_ANGLE))
-    // .getEntry();
-
-    //EffectorSetpoint = layout.add("Effector Setpoint", 0).getEntry();
+    EffectorTarget = Tab.add("setpoint", 0.05)
+        .withPosition(8, 0)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min", CassetteEffector.MIN_BOTTOM_ANGLE, "max", CassetteEffector.MAX_TOP_ANGLE))
+        .getEntry();
 
     EffectorSetpoint = layout.add("Output Setpoint", 0).getEntry();
   }

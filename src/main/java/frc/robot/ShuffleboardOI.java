@@ -30,7 +30,6 @@ public class ShuffleboardOI extends SubsystemBase {
     // true if selected, false if not
     // <add any other controls here that go on main shufflebard page
     private GenericEntry m_delayTime;
-    public GenericEntry EffectorTarget;
     private SendableChooser<Integer> m_autonomousPath;
 
     // other controls on main page
@@ -74,11 +73,7 @@ public class ShuffleboardOI extends SubsystemBase {
         ShuffleboardTab tab = Shuffleboard.getTab("Drive Setup");
         m_autonomousPath = new SendableChooser<Integer>();
 
-        EffectorTarget = tab.add("setpoint", 0.05)
-        .withPosition(8, 0)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", CassetteEffector.MIN_BOTTOM_ANGLE, "max", CassetteEffector.MAX_TOP_ANGLE))
-        .getEntry();
+        
 
         // add autonomous commands to page -
         m_autonomousPath.addOption("Anywhere Two-ball",0);
