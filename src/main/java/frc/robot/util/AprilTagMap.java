@@ -69,8 +69,29 @@ public class AprilTagMap {
         // create internal AprilTag Pose2d object
         Pose2d tagPose = AprilTags[(int)(detection[0]+0.1)-1];
 
+        // IDs 12, 11, 15 and 16 may need work
+        double xChange=0; // the change in the xdirection of the field
+        double yChange=0; // the change in the ydirection of the field
+        int direction=1; // defines +ive or -ive rotation of yaw
+        // looking towards bottom of field
+        if (detection[0]==1||detection[0]==2||detection[0]==9||detection[0]==10||detection[0]==15||detection[0]==12) {
+            xChange = -detection[2]; // the inverse sign of the x that the camera feeds you
+            yChange = detection[3]; // the y that the camera feeds you
+        } else if (detection[0]==7||detection[0]==8||detection[0]==14) { // looking towards left of field
+            xChange = detection[3]; // the y that the camera feeds you
+            yChange = detection[2]; // the x that the camera feeds you
+        } else if (detection[0]==6||detection[0]==5||detection[0]==16||detection[0]==11) { // looking towards top of field
+            xChange = detection[2]; // the x that the camera feeds you
+            yChange = -detection[3]; // the inverse sign of the y that the camera feeds you
+        } else if (detection[0]==4||detection[0]==3||detection[0]==13) { // looking towards right of field
+            xChange = -detection[3]; // the inverse sign of the y that the camera feeds you
+            yChange = -detection[2]; // the inverse sign of the x that the camera feeds you
+        } if (yChange<0) { // if the angle is clockwise from facing the right side of the field, make rotation negative
+            direction = -1; 
+        }
+
         // alter tagPose by the x,y and yaw provided by the camera to get the camera's position on the field
-        Pose2d cameraPose = new Pose2d(tagPose.getX()-detection[2],tagPose.getY()-detection[3],tagPose.getRotation()).rotateBy(new Rotation2d(detection[5]));
+        Pose2d cameraPose = new Pose2d(tagPose.getX()+xChange,tagPose.getY()+yChange,tagPose.getRotation()).rotateBy(new Rotation2d(direction*detection[5]));
 
         // alter cameraPose by the x,y and rotation of the camera on the robot to get the robot's position on the field
         Pose2d robotPose = new Pose2d(cameraPose.getX()-CameraPos[camera].getX(), cameraPose.getY()-CameraPos[camera].getY(), cameraPose.getRotation()).rotateBy(CameraPos[camera].getRotation());
