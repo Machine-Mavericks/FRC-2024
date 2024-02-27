@@ -185,13 +185,13 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     EffectorTarget = Tab.add("setpoint", 0.05)
         .withPosition(8, 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", CassetteEffector.MIN_BOTTOM_ANGLE, "max", CassetteEffector.MAX_TOP_ANGLE))
+        .withProperties(Map.of("min_value", CassetteEffector.MIN_BOTTOM_ANGLE, "max_value", CassetteEffector.MAX_TOP_ANGLE))
         .getEntry();
 
     ManualFeedforward = Tab.add("Janky feedforward", 0)
         .withPosition(8, 1)
         .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", 0, "max", 2))
+        .withProperties(Map.of("min_value", 0, "max_value", 2))
         .getEntry();
 
     EffectorSetpoint = layout.add("Output Setpoint", 0).getEntry();

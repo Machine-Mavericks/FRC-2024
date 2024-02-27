@@ -222,13 +222,12 @@ public class Drivetrain extends SubsystemBase {
         maxAccel = tab.addPersistent("Max Acceleration", 0.05)
         .withPosition(8, 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", 0, "max", 0.5))
+        .withProperties(Map.of("min_value", 0, "max_value", 0.5))
         .getEntry();
-        System.out.println("Init DriveSpeed");
         speedLimitFactor = tab.addPersistent("SpeedLimitFactor", 0.75)
         .withPosition(8, 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", 0, "max", 0.75))
+        .withProperties(Map.of("min_value", 0, "max_value", 0.75))
         .getEntry();
         tab.add("Reset Drivetrain", new InstantCommand(()->{resetModules(NEUTRAL_MODE);}))
         .withPosition(0,0)

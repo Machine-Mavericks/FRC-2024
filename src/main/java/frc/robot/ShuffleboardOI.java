@@ -86,7 +86,7 @@ public class ShuffleboardOI extends SubsystemBase {
         //m_autonomousPath.addOption("Five-ball",3);
         //m_autonomousPath.setDefaultOption("One-ball auto", 3);
         tab.add("Preround Paths", m_autonomousPath).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2,1);
-        m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min", 0, "max", 10)).getEntry();
+        m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min_value", 0, "max_value", 10)).getEntry();
 
         // Uses auto generated constants to put git info on dashboard
         // Only updated once at the beginning
