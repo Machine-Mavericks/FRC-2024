@@ -85,8 +85,6 @@ public class AprilTagMap {
         } else if (detection[0]==4||detection[0]==3||detection[0]==13) { // camera looking towards right of field
             xChange = -detection[3]; // the inverse sign of the y that the camera feeds you
             yChange = -detection[2]; // the inverse sign of the x that the camera feeds you
-        } else if (detection[0]==16){
-
         }
         
         if (yChange<0) { // if the angle is clockwise from facing the right side of the field, make rotation negative
