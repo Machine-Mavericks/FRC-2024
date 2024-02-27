@@ -6,16 +6,15 @@ package frc.robot.subsystems;
 
 import java.util.Map;
 
+import org.opencv.core.Point;
+
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.ClosedLoopGeneralConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -23,9 +22,7 @@ import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.util.datalog.BooleanLogEntry;
 import edu.wpi.first.util.datalog.StringLogEntry;
-import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -33,15 +30,16 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.util.ShuffleUser;
+import frc.robot.util.Spline1D;
 import frc.robot.util.SubsystemShuffleboardManager;
 
 
 // TODO LIST:
 // [X] Figure out what the actual gear reduction is
-// [-] 
+// [X] Spline feedforward curve
+// [X] Switch to Elastic because nobody likes Shuffleboard
 public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   // Shuffleboard
   private GenericEntry EffectorAngle;
@@ -68,6 +66,18 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
   .withKP(30).withKI(0).withKD(0.1)
   .withKS(0).withKV(0).withKA(0);
+
+  private static final Slot0Configs FAKE_GAINS = new Slot0Configs()
+  .withKP(0).withKI(0).withKD(0)
+  .withKS(0).withKV(0).withKA(0);
+
+  private static final Spline1D FEEDFORWARD_CURVE = new Spline1D(new Point[]{
+    new Point(0.023,0.4),
+    new Point(0.17, 0.4),
+    // new Point(0.19, 0),
+    new Point(0.22, 0.5),
+    new Point(0.26, 0.5)
+  });
 
   /* Multiplying mechanism rotations by this value produces motor rotations */
   private static final double CASETTE_EFFECTOR_REDUCTION = 80; // Let's guess 80:1
@@ -112,7 +122,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     effectorConfig.Feedback.FeedbackRemoteSensorID = m_CANcoder.getDeviceID();
 
     // Set oboard PID values
-    effectorConfig.Slot0 = EFFECTOR_GAINS;
+    effectorConfig.Slot0 = FAKE_GAINS; // TODO: RESET
 
     // Motion magic cruise values
     effectorConfig.MotionMagic.MotionMagicAcceleration = 0.4;
@@ -128,11 +138,6 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
 
     resetInternalEncoder();
     
-    // Logging
-    // DataLogManager.start();
-    // var Log = DataLogManager.getLog();
-    // myStringLog = new StringLogEntry(Log, "/effector/feedforward");
-
     SubsystemShuffleboardManager.RegisterShuffleUser(this);
   }
 
@@ -159,15 +164,15 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
 
   /**
    * sets the cassette to the angle provided
-   * @param angle degrees
+   * @param targetAngle degrees
    */
-  public void setAngle(double angle){
+  public void setAngle(double targetAngle){
     // Clamp to allowable range
-    currentAngleSetpoint = Math.max(MIN_BOTTOM_ANGLE, Math.min(MAX_TOP_ANGLE, angle));
+    currentAngleSetpoint = Math.max(MIN_BOTTOM_ANGLE, Math.min(MAX_TOP_ANGLE, targetAngle));
 
-    double feedForwardValue = (currentAngle < 0.19) ? 0.4 : 0.5; // TODO: Compute with splines
+    // double feedForwardValue = (currentAngle < 0.19) ? 0.4 : 0.5; 
+    double feedForwardValue = FEEDFORWARD_CURVE.interpolate(currentAngle, true);
     m_EffectorMotor.setControl(m_fakeController.withPosition(currentAngleSetpoint).withFeedForward(ManualFeedforward.getDouble(0)));
-    
   }
 
   @Override

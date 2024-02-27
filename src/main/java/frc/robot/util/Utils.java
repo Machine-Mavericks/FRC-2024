@@ -21,6 +21,20 @@ public class Utils {
         return diff < -180 ? diff + 360 : diff;
     }
 
+    /**
+     * Clamps a number between two others. I have no idea why this doesn't exist
+     * by default in Java. 
+     */
+    public static double Clamp(double val, double min, double max){
+        if (val > max) {
+            return max;
+        }
+        if (val < min) {
+            return min;
+        }
+        return val;
+    }
+
 
     /**
      * Generates a twist between two points
