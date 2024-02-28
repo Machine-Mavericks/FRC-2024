@@ -72,7 +72,7 @@ public class AprilTagMap {
         // IDs 12, 11, 15 and 16 may need work
         double xChange=0; // the change in the xdirection of the field
         double yChange=0; // the change in the ydirection of the field
-        double rotation=-detection[5]; // This isn't right, but a placeholder.
+        double rotation=-Math.toDegrees(detection[5]); 
         if (detection[0]==1||detection[0]==2||detection[0]==9||detection[0]==10||(detection[0]==15&&rotation<0)||(detection[0]==12&&rotation>0)) { // camera looking towards bottom of field
             xChange = -detection[2]; // the inverse sign of the x that the camera feeds you
             yChange = detection[3]; // the y that the camera feeds you
