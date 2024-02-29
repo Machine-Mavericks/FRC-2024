@@ -1,0 +1,27 @@
+[
+  {
+    "name": "/Shuffleboard/Cassette Effector/setpoint",
+    "type": "double",
+    "value": 0.05837313432835822,
+    "properties": {
+      "persistent": true,
+      "retained": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Drivetrain/Max Acceleration",
+    "type": "double",
+    "value": 0.05,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Drivetrain/SpeedLimitFactor",
+    "type": "double",
+    "value": 0.75,
+    "properties": {
+      "persistent": true
+    }
+  }
+]

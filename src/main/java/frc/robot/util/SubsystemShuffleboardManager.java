@@ -27,7 +27,7 @@ public class SubsystemShuffleboardManager {
 
     // Equal to the default periodic update rate
     private static final double DefaultUpdatesPerSecond = 20;
-    private static final double DefaultUpdateOffsetSeconds = 0.01;
+    private static final double DefaultUpdateOffsetSeconds = 0.1;
 
     private static class ShuffleboardUpdateRunnable implements Runnable{
         ArrayList<ShuffleUser> updateList = new ArrayList<>();
