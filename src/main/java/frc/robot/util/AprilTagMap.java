@@ -88,7 +88,7 @@ public class AprilTagMap {
         }
 
         // alter tagPose by the x,y and yaw provided by the camera to get the camera's position on the field
-        Pose2d cameraPose = new Pose2d(tagPose.getX()+xChange,tagPose.getY()+yChange,tagPose.getRotation()).rotateBy(new Rotation2d(rotation));
+        Pose2d cameraPose = new Pose2d(tagPose.getX()+xChange,tagPose.getY()+yChange,tagPose.getRotation()).rotateBy(new Rotation2d(rotation+180));
 
         // alter cameraPose by the x,y and rotation of the camera on the robot to get the robot's position on the field
         Pose2d robotPose = new Pose2d(cameraPose.getX()-CameraPos[camera].getX(), cameraPose.getY()-CameraPos[camera].getY(), cameraPose.getRotation()).rotateBy(CameraPos[camera].getRotation());
