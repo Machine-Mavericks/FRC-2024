@@ -28,10 +28,11 @@ public class ShootAmp extends Command {
     int rpercent=100;
     // set to amp shoot angle
     // TODO: figure out if these (v) need to be swapped
-    RobotContainer.cassettemotor.leftShootRun(lpercent);
-    RobotContainer.cassettemotor.rightShootRun(rpercent);
-    //while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
-    RobotContainer.cassetteintake.intakeRun(1);
+  //   RobotContainer.cassettemotor.leftShootRun(lpercent);
+  //   RobotContainer.cassettemotor.rightShootRun(rpercent);
+  //   while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
+  //   RobotContainer.cassetteintake.intakeRun(1);
+
   }
 
   // Called once the command ends or is interrupted.

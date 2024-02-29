@@ -8,9 +8,18 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
 import frc.robot.commands.AutoDriveToPose;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.GroundIntake;
+import frc.robot.commands.IntakeInPutInPosition;
+import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.LEDCommand;
+import frc.robot.commands.MechanismTest;
+import frc.robot.commands.RevUpShoot;
+import frc.robot.commands.ShootSpeaker;
+import frc.robot.commands.SourceIntake;
+
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -77,6 +86,9 @@ public class RobotContainer {
 
     // OI.testForwardButton.whileTrue(new MechanismTest(0.1));
     // OI.testBackButton.whileTrue(new MechanismTest(-0.1));
+    OI.testIntakeButton.whileTrue(new SourceIntake());
+    OI.testIntakeButton.onFalse(new IntakeMoveToHoldingPosition());
+    OI.testShooterButton.onTrue(new RevUpShoot());
   }
 
   /**

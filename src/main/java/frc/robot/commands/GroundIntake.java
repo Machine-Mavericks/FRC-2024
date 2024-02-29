@@ -13,7 +13,7 @@ public class GroundIntake extends Command {
   /** Creates a new GroundIntake. */
   public GroundIntake(boolean inorout) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassettemotor); // add effector
+    addRequirements(RobotContainer.cassetteintake); // add effector
     this.inorout=inorout;
   }
 
@@ -42,6 +42,6 @@ public class GroundIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.cassettemotor.getSwitch();
+    return false; // RobotContainer.cassettemotor.getSwitch();
   }
 }

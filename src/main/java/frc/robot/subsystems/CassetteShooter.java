@@ -4,28 +4,45 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class CassetteShooter extends SubsystemBase {
   // Physical components
   private TalonFX m_LShootMotor;
   private TalonFX m_RShootMotor;
-  private DigitalInput m_PhotoSensor;
+  // private DigitalInput m_PhotoSensor;
+
 
   /* Percent shooter speed can be off by before being considered either too slow or fast */
   private static double allowedSpeedError = 0.05;
 
   private VelocityDutyCycle m_motorVelocityControl = new VelocityDutyCycle(0);
 
+
   /** Creates a new CassetteShooter. */
   public CassetteShooter() {
     m_LShootMotor = new TalonFX(RobotMap.CANID.L_OUT_CASSETTE);
     m_RShootMotor = new TalonFX(RobotMap.CANID.R_OUT_CASSETTE);
+   
+   var slot0Configs = new Slot0Configs();
+    // slot0Configs.kS = 0.06;
+    // slot0Configs.kV = 0.12;
+    slot0Configs.kP = 0.04;
+    slot0Configs.kI = 0.01;
+    slot0Configs.kD = 0;
+
+    m_LShootMotor.getConfigurator().apply(slot0Configs);
+    m_RShootMotor.getConfigurator().apply(slot0Configs);
     //m_PhotoSensor = new DigitalInput(RobotMap.CANID.PHOTOSENSOR);
   }
 
@@ -42,15 +59,18 @@ public class CassetteShooter extends SubsystemBase {
    * @param percent
    */
   public void leftShootRun(double speed) {
+       
     m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
+    // m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
   }
-
   /**
    * Run the right shooter motor at the provided percent of tested speed
    * @param percent
    */
   public void rightShootRun(double speed) {
+    
     m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
+    // m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
   }
 
   /**
@@ -89,6 +109,7 @@ public class CassetteShooter extends SubsystemBase {
    * @return true if present, false if nothing
    */
   public boolean getSwitch() {
-    return m_PhotoSensor.get();
+    // return m_PhotoSensor.get();
+    return true;
   }
 }
