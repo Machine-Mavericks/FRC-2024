@@ -56,7 +56,6 @@ public class ShootSpeaker extends Command {
     //     shooterHitSpeed = true;
     //   }
     
-    
   //   RobotContainer.cassetteintake.intakeRun(1);
   }
 

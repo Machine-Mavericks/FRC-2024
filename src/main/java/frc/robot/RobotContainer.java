@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
 import frc.robot.commands.AutoDriveToPose;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
@@ -18,6 +19,7 @@ import frc.robot.commands.MechanismTest;
 import frc.robot.commands.RevUpShoot;
 import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.SourceIntake;
+
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -50,7 +52,7 @@ public class RobotContainer {
   public static final Drivetrain drivetrain = new Drivetrain();
   public static final SwerveOdometry odometry = new SwerveOdometry();
   public static final SwervePoseEstimator swervepose = new SwervePoseEstimator();
-  public static final PowerPanel panel = new PowerPanel();
+  //public static final PowerPanel panel = new PowerPanel();
   public static final LEDBlinkin LEDStrip = new LEDBlinkin();
   public static final CassetteShooter cassettemotor = new CassetteShooter();
   public static final CassetteIntake cassetteintake = new CassetteIntake();

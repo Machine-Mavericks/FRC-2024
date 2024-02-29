@@ -32,6 +32,7 @@ public class ShootAmp extends Command {
   //   RobotContainer.cassettemotor.rightShootRun(rpercent);
   //   while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
   //   RobotContainer.cassetteintake.intakeRun(1);
+
   }
 
   // Called once the command ends or is interrupted.
