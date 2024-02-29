@@ -4,10 +4,6 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix6.controls.VelocityVoltage;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 

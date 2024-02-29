@@ -8,15 +8,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-
 import frc.robot.commands.AutoDriveToPose;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.GroundIntake;
-import frc.robot.commands.IntakeInPutInPosition;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.RevUpShoot;
-import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.SourceIntake;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
@@ -24,7 +20,6 @@ import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Pigeon;
-import frc.robot.subsystems.PowerPanel;
 import frc.robot.subsystems.SwerveOdometry;
 import frc.robot.subsystems.SwervePoseEstimator;
 

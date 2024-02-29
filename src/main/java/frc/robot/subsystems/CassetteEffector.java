@@ -12,7 +12,6 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -23,8 +22,6 @@ import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.util.datalog.StringLogEntry;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -50,14 +47,16 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   private GenericEntry MotorAmps;
   private GenericEntry ClosedLoopError;
 
+  private boolean ENABLE_DEBUG = false;
+
   //TODO: figure out angle values
   public static final double MAX_TOP_ANGLE = 0.26;
   public static final double MIN_BOTTOM_ANGLE = 0.023;
-  private static final double NEUTRAL_ANGLE = 0;
-  private static final double GROUND_ANGLE = 0;
-  private static final double SOURCE_ANGLE = 0;
-  private static final double AMP_ANGLE = 0; //from flush against
-  private static final double SPEAKER_ANGLE = 0; //from flush against
+  public static final double NEUTRAL_ANGLE = 0.05;
+  public static final double GROUND_ANGLE = 0.05;
+  public static final double SOURCE_ANGLE = 0.05;
+  public static final double AMP_ANGLE = 0.05; //from flush against
+  public static final double SPEAKER_ANGLE = 0.05; //from flush against
 
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
   .withKP(40).withKI(0).withKD(0.1)
@@ -132,6 +131,9 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     resetInternalEncoder();
     
     SubsystemShuffleboardManager.RegisterShuffleUser(this);
+
+    // Go to default angle
+    setAngle(NEUTRAL_ANGLE);
   }
 
   /**
@@ -147,8 +149,10 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     // Update effector state
     currentAngle = m_EffectorMotor.getPosition().getValueAsDouble();
     
-    // Update based on shuffleboard
-    setAngle(EffectorTarget.getDouble(0.05));
+    if (ENABLE_DEBUG) {
+      // Update based on shuffleboard
+      setAngle(EffectorTarget.getDouble(0.05));
+    }
 
     // if (Math.abs(m_EffectorMotor.getClosedLoopError().getValueAsDouble()) < 0.01) {
     // }
