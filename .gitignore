@@ -7,6 +7,7 @@
 
 # Auto generated data
 src/main/java/frc/robot/data/BuildConstants.java
+networktables.json.bck
 
 # Compiled Object files
 *.slo
