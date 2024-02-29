@@ -27,7 +27,6 @@ public class RevUpShoot extends SequentialCommandGroup {
       new InstantCommand(()-> RobotContainer.cassettemotor.rightShootRun(0)),
       new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0)),
       new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0))
- 
     );
   }
 }
