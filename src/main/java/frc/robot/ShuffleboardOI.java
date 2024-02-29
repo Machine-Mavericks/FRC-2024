@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.data.BuildConstants;
+import frc.robot.subsystems.CassetteEffector;
 
 
 /** Contains shuffleboard setup for generic main page not belonging to any subsubsystem
@@ -72,18 +73,20 @@ public class ShuffleboardOI extends SubsystemBase {
         ShuffleboardTab tab = Shuffleboard.getTab("Drive Setup");
         m_autonomousPath = new SendableChooser<Integer>();
 
+        
+
         // add autonomous commands to page -
         m_autonomousPath.addOption("Anywhere Two-ball",0);
-        m_autonomousPath.addOption("Five-ball",1);
-        m_autonomousPath.addOption("Emerg 4-ball", 2);
-        m_autonomousPath.setDefaultOption("Anywhere Two-ball", 0);
+        // m_autonomousPath.addOption("Five-ball",1);
+        // m_autonomousPath.addOption("Emerg 4-ball", 2);
+        // m_autonomousPath.setDefaultOption("Anywhere Two-ball", 0);
         //m_autonomousPath.addOption("Two-ball auto",0);
         //m_autonomousPath.addOption("Three-ball auto",1);
         //m_autonomousPath.addOption("Anywhere Two-ball",2);
         //m_autonomousPath.addOption("Five-ball",3);
         //m_autonomousPath.setDefaultOption("One-ball auto", 3);
         tab.add("Preround Paths", m_autonomousPath).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2,1);
-        m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min", 0, "max", 10)).getEntry();
+        m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min_value", 0, "max_value", 10)).getEntry();
 
         // Uses auto generated constants to put git info on dashboard
         // Only updated once at the beginning
