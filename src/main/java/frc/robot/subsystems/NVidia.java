@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.DoubleArraySubscriber;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
@@ -24,6 +25,8 @@ public class NVidia extends SubsystemBase {
   private NetworkTable m_table;
   private DoubleArraySubscriber m_CameraSub3;
   private DoubleArraySubscriber m_CameraSub4;
+  private DoubleArraySubscriber m_RobotPoseSub3;
+  private DoubleArraySubscriber m_RobotPoseSub4;
   private GenericEntry m_x;
   private GenericEntry m_y;
   private GenericEntry m_angle;
@@ -35,9 +38,11 @@ public class NVidia extends SubsystemBase {
     m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
     // subscribe to Nvidia camera topics
     //for (int i=0;i<(numCams-1);i++){
-      m_CameraSub3=m_table.getDoubleArrayTopic("camera3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-      m_CameraSub4=m_table.getDoubleArrayTopic("camera4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    //}
+      //m_CameraSub3=m_table.getDoubleArrayTopic("camera3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      //m_CameraSub4=m_table.getDoubleArrayTopic("camera4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      m_RobotPoseSub3=m_table.getDoubleArrayTopic("robot_pose_in_field3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      m_RobotPoseSub4=m_table.getDoubleArrayTopic("robot_pose_in_field4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      //}
     initializeShuffleboard();
   }
 
@@ -48,22 +53,23 @@ public class NVidia extends SubsystemBase {
     TimestampedDoubleArray AprilTagDetectionData[];
     // get AprilTag detections from Netowrk Table for each camera
     //for (int i=0;i<(numCams-1);i++){
-      AprilTagDetectionData= m_CameraSub3.readQueue();
+      //AprilTagDetectionData= m_CameraSub3.readQueue();
+      AprilTagDetectionData= m_RobotPoseSub3.readQueue();
       // for each AprilTag detection in the list
       for (int j=0;j<AprilTagDetectionData.length; j++)
       {
         data = AprilTagDetectionData[j].value;
         //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
-        RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 0),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
+        RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[3]);
       }
-
-      AprilTagDetectionData= m_CameraSub4.readQueue();
+      //AprilTagDetectionData= m_CameraSub4.readQueue();
+      AprilTagDetectionData= m_RobotPoseSub4.readQueue();
       // for each AprilTag detection in the list
       for (int j=0;j<AprilTagDetectionData.length; j++)
       {
         data = AprilTagDetectionData[j].value;
         //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
-        RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
+        RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[3]);
       }
     //}
     updateShuffleboard();
