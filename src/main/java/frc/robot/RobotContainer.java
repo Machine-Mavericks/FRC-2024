@@ -37,7 +37,7 @@ public class RobotContainer {
   public static final double updateDt = 0.02;
 
   // Create robot's shuffboard operator interface
-  public static final ShuffleboardOI shuffleboard = new ShuffleboardOI();
+  public static final ShuffleboardOI operatorInterface = new ShuffleboardOI();
 
   // The robot's subsystems are defined here...
   //public static final Gyro gyro = new Gyro();
@@ -47,7 +47,7 @@ public class RobotContainer {
   public static final SwervePoseEstimator swervepose = new SwervePoseEstimator();
   //public static final PowerPanel panel = new PowerPanel();
   public static final LEDBlinkin LEDStrip = new LEDBlinkin();
-  public static final CassetteShooter cassettemotor = new CassetteShooter();
+  public static final CassetteShooter cassetteshooter = new CassetteShooter();
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
 
@@ -77,11 +77,10 @@ public class RobotContainer {
   private static void configureButtonBindings() {
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
 
-    // OI.testForwardButton.whileTrue(new MechanismTest(0.1));
-    // OI.testBackButton.whileTrue(new MechanismTest(-0.1));
-    OI.testIntakeButton.whileTrue(new SourceIntake());
-    OI.testIntakeButton.onFalse(new IntakeMoveToHoldingPosition());
-    OI.testShooterButton.onTrue(new RevUpShoot());
+    OI.intakeButton.whileTrue(new SourceIntake());
+    OI.intakeButton.onFalse(new IntakeMoveToHoldingPosition());
+
+    OI.shooterButton.onTrue(new RevUpShoot());
   }
 
   /**

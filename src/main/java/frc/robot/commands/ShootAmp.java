@@ -14,7 +14,7 @@ public class ShootAmp extends Command {
   /** Creates a new ShootAmp. */
   public ShootAmp() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassettemotor); // add effector
+    addRequirements(RobotContainer.cassetteshooter); // add effector
   }
 
   // Called when the command is initially scheduled.
@@ -40,13 +40,14 @@ public class ShootAmp extends Command {
   public void end(boolean interrupted) {
     RobotContainer.cassetteintake.intakeRun(0);
     new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
-    RobotContainer.cassettemotor.stopShooter();
+    RobotContainer.cassetteshooter.stopShooter();
     // set angle to neutral
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !RobotContainer.cassettemotor.getSwitch();
+    return false;
+    //TODO: No sensor implemented to detect when shot is complete, we need a solution
   }
 }

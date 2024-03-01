@@ -17,15 +17,13 @@ public class RevUpShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(()-> RobotContainer.cassettemotor.leftShootRun(110)),
-      new InstantCommand(()-> RobotContainer.cassettemotor.rightShootRun(90)),
-      new DelayCommand(0.5),
+      new InstantCommand(()-> RobotContainer.cassetteshooter.leftShootRun(RobotContainer.operatorInterface.LShooterSpeed.getDouble(0) / 60)),
+      new InstantCommand(()-> RobotContainer.cassetteshooter.rightShootRun(RobotContainer.operatorInterface.RShooterSpeed.getDouble(0) / 60)),
+      new WaitForShooterSpinup(),
       new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1)),
       new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1)),
       new DelayCommand(0.5),
-      new InstantCommand(()-> RobotContainer.cassettemotor.leftShootRun(0)),
-      new InstantCommand(()-> RobotContainer.cassettemotor.rightShootRun(0)),
-      new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0)),
+      new InstantCommand(()-> RobotContainer.cassetteshooter.stopShooter()),
       new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0))
     );
   }

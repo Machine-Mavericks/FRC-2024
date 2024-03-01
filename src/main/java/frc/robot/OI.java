@@ -64,8 +64,6 @@ public class OI {
         static final Button ZERO_GYRO = XboxController.Button.kBack;
         /** Button to drive at reduced speed */
         static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kRightBumper;
-
-        
     }
 
     /** Port for controller used by driver */
@@ -85,15 +83,9 @@ public class OI {
     /** Drive reduced speed button. Mapped to {@link Bindings#SLOW_DRIVE_BUTTON} */
     public static final JoystickButton slowDriveButton = new JoystickButton(driverController, Bindings.SLOW_DRIVE_BUTTON.value);
 
-
-    /** Button to test move mechanism */
-    public static final JoystickButton testForwardButton = new JoystickButton(operatorController, XboxController.Button.kA.value);
-    /** Button to test move mechanism */
-    public static final JoystickButton testBackButton = new JoystickButton(operatorController, XboxController.Button.kB.value);
-
     /**Button to trigger intake */
-    public static final JoystickButton testIntakeButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+    public static final JoystickButton intakeButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
     /**Button to trigger shooter */
-    public static final JoystickButton testShooterButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+    public static final JoystickButton shooterButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
 }
  

@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.util.ShuffleUser;
 import frc.robot.util.Spline1D;
@@ -42,7 +43,7 @@ import frc.robot.util.SubsystemShuffleboardManager;
 public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   // Shuffleboard
   private GenericEntry EffectorAngle;
-  private GenericEntry EffectorTarget;
+  //private GenericEntry EffectorTarget;
   private GenericEntry MotorVoltage;
   private GenericEntry MotorAmps;
   private GenericEntry ClosedLoopError;
@@ -151,7 +152,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     
     if (ENABLE_DEBUG) {
       // Update based on shuffleboard
-      setAngle(EffectorTarget.getDouble(0.05));
+      setAngle(RobotContainer.operatorInterface.EffectorTarget.getDouble(0.05));
     }
 
     // if (Math.abs(m_EffectorMotor.getClosedLoopError().getValueAsDouble()) < 0.01) {
@@ -185,12 +186,6 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     MotorVoltage = layout.add("Voltage", 0).getEntry();
     MotorAmps = layout.add("Amps", 0).getEntry();
     ClosedLoopError = layout.add("ClosedLoopError", 0).getEntry();
-
-    EffectorTarget = Tab.add("setpoint", 0.05)
-        .withPosition(8, 0)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min_value", CassetteEffector.MIN_BOTTOM_ANGLE, "max_value", CassetteEffector.MAX_TOP_ANGLE))
-        .getEntry();
   }
 
   @Override

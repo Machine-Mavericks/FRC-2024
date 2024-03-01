@@ -32,6 +32,10 @@ public class ShuffleboardOI extends SubsystemBase {
     private GenericEntry m_delayTime;
     private SendableChooser<Integer> m_autonomousPath;
 
+    public GenericEntry EffectorTarget;
+    public GenericEntry LShooterSpeed;
+    public GenericEntry RShooterSpeed;
+
     // other controls on main page
     private GenericEntry m_timeLeft;
     public Integer m_selectedPath;
@@ -95,7 +99,26 @@ public class ShuffleboardOI extends SubsystemBase {
         BuildInfoLayout.withSize(1, 3);
         BuildInfoLayout.add("Deployed Branch", BuildConstants.GIT_BRANCH);
         BuildInfoLayout.add("Build Timestamp", BuildConstants.BUILD_DATE);
-        BuildInfoLayout.add("Repository", BuildConstants.MAVEN_NAME);      
+        BuildInfoLayout.add("Repository", BuildConstants.MAVEN_NAME);    
+        
+        EffectorTarget = tab.add("Effector Setpoint", 0.05)
+        .withPosition(4, 0)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", CassetteEffector.MIN_BOTTOM_ANGLE, "max_value", CassetteEffector.MAX_TOP_ANGLE))
+        .getEntry();
+
+        LShooterSpeed = tab.add("LShooterspeed", 0)
+        .withPosition(4, 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 6000))
+        .getEntry();
+
+        RShooterSpeed = tab.add("RShooterspeed", 0)
+        .withPosition(4, 2)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 6000))
+        .getEntry();
+
 
         // add match time remaining in autonomous/teleop part of match (seconds)
         ShuffleboardLayout l1 = tab.getLayout("Timer", BuiltInLayouts.kList);

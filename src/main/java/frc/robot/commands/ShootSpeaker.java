@@ -17,31 +17,14 @@ public class ShootSpeaker extends Command {
   /** Creates a new ShootSpeaker. */
   public ShootSpeaker() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassettemotor); // add effector
+    addRequirements(RobotContainer.cassetteshooter); // add effector
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    // // set to speaker shoot angle
-    // // TODO: figure out if these (v) need to be swapped
-    // if (DriverStation.getAlliance().get() == Alliance.Blue) {
-    //   lpercent=60; // TODO: switch to velocites as opposed to %output
-    //   rpercent=100;
-    // } else {
-    //   lpercent=100;
-    //   rpercent=60;
-    // } 
-    // RobotContainer.cassettemotor.leftShootRun(lpercent);
-    // RobotContainer.cassettemotor.rightShootRun(rpercent);
-    // RobotContainer.cassettemotor.leftShootRun(0.6);
-    // RobotContainer.cassettemotor.rightShootRun(0.6);
-
-
-    //set velocity to 8 rps, add 0.5 V to overcome gravity 
-    RobotContainer.cassettemotor.leftShootRun(100);
-    RobotContainer.cassettemotor.rightShootRun(100);
+    RobotContainer.cassetteshooter.leftShootRun(100);
+    RobotContainer.cassetteshooter.rightShootRun(100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,8 +45,8 @@ public class ShootSpeaker extends Command {
     // new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
     // RobotContainer.cassettemotor.stopShooter();
     // set angle to neutral
-    RobotContainer.cassettemotor.leftShootRun(0);
-    RobotContainer.cassettemotor.rightShootRun(0);
+    RobotContainer.cassetteshooter.leftShootRun(0);
+    RobotContainer.cassetteshooter.rightShootRun(0);
   }
 
   // Returns true when the command should end.

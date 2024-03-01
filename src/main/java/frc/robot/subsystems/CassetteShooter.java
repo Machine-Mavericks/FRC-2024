@@ -6,25 +6,23 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.units.Velocity;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class CassetteShooter extends SubsystemBase {
   // Physical components
   private TalonFX m_LShootMotor;
   private TalonFX m_RShootMotor;
-  // private DigitalInput m_PhotoSensor;
 
+  /** The current speed the left motor is trying to reach (rotations per second) */
+  private double m_currentSetpointL = 0;
+  /** The current speed the right motor is trying to reach (rotations per second) */
+  private double m_currentSetpointR = 0;
 
-  /* Percent shooter speed can be off by before being considered either too slow or fast */
-  private static double allowedSpeedError = 0.05;
+  /* Rotations per second shooter speed can be off by before being considered either too slow or fast */
+  private static double allowedSpeedError = 5;
 
   private VelocityDutyCycle m_motorVelocityControl = new VelocityDutyCycle(0);
 
@@ -59,18 +57,16 @@ public class CassetteShooter extends SubsystemBase {
    * @param percent
    */
   public void leftShootRun(double speed) {
-       
     m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
-    // m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
+    m_currentSetpointL = speed;
   }
   /**
    * Run the right shooter motor at the provided percent of tested speed
    * @param percent
    */
   public void rightShootRun(double speed) {
-    
     m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
-    // m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
+    m_currentSetpointR = speed;
   }
 
   /**
@@ -81,35 +77,36 @@ public class CassetteShooter extends SubsystemBase {
     leftShootRun(0);
   }
 
-  /**
-   * Checks if shooter motors are at speeds they are supposed to be at (Overload offers checking both speeds independantly)
-   * @param targetSpeed speed in rotations per second
-   * @return
-   */
-  public boolean isShooterAtSpeed(double targetSpeed) {
-    return 
-      Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - targetSpeed) < allowedSpeedError && 
-      Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - targetSpeed) < allowedSpeedError;   
-  }
+  // /**
+  //  * Checks if shooter motors are at speeds they are supposed to be at (Overload offers checking both speeds independantly)
+  //  * @param targetSpeed speed in rotations per second
+  //  * @return
+  //  */
+  // public boolean isShooterAtSpeed(double targetSpeed) {
+  //   return 
+  //     Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - targetSpeed) < allowedSpeedError && 
+  //     Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - targetSpeed) < allowedSpeedError;   
+  // }
+
+  // /**
+  //  * Checks if shooter motors are at speeds they are supposed to be at (Overload offers checking both speeds independantly)
+  //  * @param leftSpeed target speed of left motor in rotations per second
+  //  * @param leftSpeed target speed of left motor in rotations per second
+  //  * @return
+  //  */
+  // public boolean isShooterAtSpeed(double leftSpeed, double rightSpeed) {
+  //   return 
+  //     Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - leftSpeed) < allowedSpeedError && 
+  //     Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - rightSpeed) < allowedSpeedError;   
+  // }
 
   /**
-   * Checks if shooter motors are at speeds they are supposed to be at (Overload offers checking both speeds independantly)
-   * @param leftSpeed target speed of left motor in rotations per second
-   * @param leftSpeed target speed of left motor in rotations per second
+   * Checks if shooter motors are at speeds specified by the current setpoint
    * @return
    */
-  public boolean isShooterAtSpeed(double leftSpeed, double rightSpeed) {
+  public boolean isShooterAtSpeedSetpoint() {
     return 
-      Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - leftSpeed) < allowedSpeedError && 
-      Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - rightSpeed) < allowedSpeedError;   
-  }
-
-  /**
-   * gets photosensor information
-   * @return true if present, false if nothing
-   */
-  public boolean getSwitch() {
-    // return m_PhotoSensor.get();
-    return true;
+      Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - m_currentSetpointL) < allowedSpeedError && 
+      Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - m_currentSetpointR) < allowedSpeedError;   
   }
 }
