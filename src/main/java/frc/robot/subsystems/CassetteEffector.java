@@ -48,7 +48,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   private GenericEntry MotorAmps;
   private GenericEntry ClosedLoopError;
 
-  private boolean ENABLE_DEBUG = false;
+  private boolean ENABLE_DEBUG = true;
 
   //TODO: figure out angle values
   public static final double MAX_TOP_ANGLE = 0.26;
