@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.PhoenixUnsafeAccess;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
@@ -41,8 +42,6 @@ import frc.robot.util.Utils;
  * Subsystem representing the swerve drivetrain
  */
 public class Drivetrain extends SubsystemBase {
-    
-    
     //Useful reference: https://pro.docs.ctr-electronics.com/en/latest/docs/api-reference/mechanisms/swerve/swerve-builder-api.html
     
     // Helper class to ensure all constants are formatted correctly for Pheonix 6 swerve library
@@ -69,8 +68,8 @@ public class Drivetrain extends SubsystemBase {
         .withKS(0).withKV(1).withKA(0);
         /** The drive motor gains */
         public static final Slot0Configs DriveMotorGains = new Slot0Configs()
-        .withKP(0.1).withKI(0).withKD(0) // TODO: Tune this value
-        .withKV(0.11);
+        .withKP(0.04).withKI(0.02).withKD(0) // TODO: Tune this value
+        .withKV(0);
 
 
         /** Only option is Voltage without pro liscence */ 
@@ -232,6 +231,12 @@ public class Drivetrain extends SubsystemBase {
         tab.add("Reset Drivetrain", new InstantCommand(()->{resetModules(NEUTRAL_MODE);}))
         .withPosition(0,0)
         .withSize(2, 1);
+
+        // fudgeFactor = tab.addPersistent("FudgeFactor", 0)
+        // .withPosition(8, 3)
+        // .withWidget(BuiltInWidgets.kNumberSlider)
+        // .withProperties(Map.of("min_value", -20, "max_value", 20))
+        // .getEntry();
     }
 
     // Note: WPI's coordinate system is X forward, Y to the left so make sure all locations are with
@@ -306,6 +311,13 @@ public class Drivetrain extends SubsystemBase {
             m_positions[i] = m_swerveModules[i].getPosition(true); // Appears to refresh internal position used for optimization
             m_states[i] = new SwerveModuleState(); // Initialize to blank states at the beginning, will be overwritten in first periodic loop
             m_targetStates[i] = new SwerveModuleState();
+
+            MotorOutputConfigs configs = new MotorOutputConfigs();
+            module.getDriveMotor().getConfigurator().refresh(configs);
+
+            configs.DutyCycleNeutralDeadband = 0.001;
+
+            module.getDriveMotor().getConfigurator().apply(configs);
         }
 
 
@@ -395,7 +407,7 @@ public class Drivetrain extends SubsystemBase {
         // Look ahead in time one control loop and adjust
         
         // 4738's implementation. With fudge factor to account for latency
-        ChassisSpeeds discretizedChassisSpeeds = DiscretizeChassisSpeeds(m_chassisSpeeds, RobotContainer.updateDt, 4);
+        ChassisSpeeds discretizedChassisSpeeds = DiscretizeChassisSpeeds(m_chassisSpeeds, RobotContainer.updateDt, 9);
         // WPILib's implementation
         //ChassisSpeeds discretizedChassisSpeeds = ChassisSpeeds.discretize(m_chassisSpeeds, updateDt);
 
@@ -414,12 +426,13 @@ public class Drivetrain extends SubsystemBase {
 
         SwerveModuleState[] targetStates = m_kinematics.toSwerveModuleStates(discretizedChassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
-        SmartDashboard.putString("Unprocessed Speeds", m_chassisSpeeds.toString());
-        SmartDashboard.putString("Processed Speeds", discretizedChassisSpeeds.toString());
+        // SmartDashboard.putString("Unprocessed Speeds", m_chassisSpeeds.toString());
+        // SmartDashboard.putString("Processed Speeds", discretizedChassisSpeeds.toString());
 
         // Prepared debugging for closed loop drive motor
-        SmartDashboard.putString("FrontRightPos", m_swerveModules[1].getDriveMotor().getPosition().getValue().toString());
-        //SmartDashboard.putString("FrontLeftDriveError", String.valueOf(m_swerveModules[0].getDriveMotor().getClosedLoopError().getValue()));
+        // SmartDashboard.putString("FrontRightVel", m_swerveModules[1].getDriveMotor().getVelocity().getValue().toString());
+        // SmartDashboard.putString("FrontRightTargetVel", m_swerveModules[1].getDriveMotor().getClosedLoopReference().getValue().toString());
+        // SmartDashboard.putString("FrontLeftDriveError", String.valueOf(m_swerveModules[0].getDriveMotor().getClosedLoopError().getValue()));
         // SmartDashboard.putString("FrontLeftDriveTarget", String.valueOf(m_swerveModules[0].getDriveMotor().getClosedLoopReference().getValue()));
         // SmartDashboard.putString("FrontLeftDriveCurrent", String.valueOf(m_swerveModules[0].getDriveMotor().getVelocity().getValue()));
         // SmartDashboard.putString("FrontLeftTargetState", m_swerveModules[0].getTargetState().toString());
