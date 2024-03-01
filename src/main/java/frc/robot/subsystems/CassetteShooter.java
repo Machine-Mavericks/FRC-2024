@@ -22,7 +22,7 @@ public class CassetteShooter extends SubsystemBase {
   private double m_currentSetpointR = 0;
 
   /* Rotations per second shooter speed can be off by before being considered either too slow or fast */
-  private static double allowedSpeedError = 5;
+  private static double allowedSpeedError = 1;
 
   private VelocityDutyCycle m_motorVelocityControl = new VelocityDutyCycle(0);
 
