@@ -22,7 +22,8 @@ import frc.robot.util.AprilTagMap;
 public class NVidia extends SubsystemBase {
   private int numCams = 1;
   private NetworkTable m_table;
-  private DoubleArraySubscriber m_CameraSub;
+  private DoubleArraySubscriber m_CameraSub3;
+  private DoubleArraySubscriber m_CameraSub4;
   private GenericEntry m_x;
   private GenericEntry m_y;
   private GenericEntry m_angle;
@@ -34,7 +35,8 @@ public class NVidia extends SubsystemBase {
     m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
     // subscribe to Nvidia camera topics
     //for (int i=0;i<(numCams-1);i++){
-      m_CameraSub=m_table.getDoubleArrayTopic("camera4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      m_CameraSub3=m_table.getDoubleArrayTopic("camera3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      m_CameraSub4=m_table.getDoubleArrayTopic("camera4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     //}
     initializeShuffleboard();
   }
@@ -46,7 +48,16 @@ public class NVidia extends SubsystemBase {
     TimestampedDoubleArray AprilTagDetectionData[];
     // get AprilTag detections from Netowrk Table for each camera
     //for (int i=0;i<(numCams-1);i++){
-      AprilTagDetectionData= m_CameraSub.readQueue();
+      AprilTagDetectionData= m_CameraSub3.readQueue();
+      // for each AprilTag detection in the list
+      for (int j=0;j<AprilTagDetectionData.length; j++)
+      {
+        data = AprilTagDetectionData[j].value;
+        //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
+        RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 0),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
+      }
+
+      AprilTagDetectionData= m_CameraSub4.readQueue();
       // for each AprilTag detection in the list
       for (int j=0;j<AprilTagDetectionData.length; j++)
       {
