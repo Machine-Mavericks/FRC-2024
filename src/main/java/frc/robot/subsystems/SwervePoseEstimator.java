@@ -178,9 +178,9 @@ public class SwervePoseEstimator extends SubsystemBase {
     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
     l2.withPosition(1, 0);
     l2.withSize(1, 3);
-    m_initialX = l2.add("X (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
-    m_initialY = l2.add("Y (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
-    m_initialAngle = l2.add("Angle(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
+    m_initialX = l2.add("X2 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
+    m_initialY = l2.add("Y2 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
+    m_initialAngle = l2.add("Angle2(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
   
     Tab.add("Field", m_field)
     .withPosition(2, 0)
@@ -194,6 +194,7 @@ public class SwervePoseEstimator extends SubsystemBase {
     m_robotX.setDouble(vector.getX());
     m_robotY.setDouble(vector.getY());
     m_robotAngle.setDouble(vector.getRotation().getDegrees());
+    m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
   }
   
 }

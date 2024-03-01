@@ -4,8 +4,11 @@
 
 package frc.robot.util;
 
+import javax.swing.text.html.HTML.Tag;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /** Add your docs here. */
 public class AprilTagMap {
@@ -22,6 +25,7 @@ public class AprilTagMap {
      * Map of april tags relatie to field, remember, values for ATs 1-16 are 0-15
      */
     static Pose2d AprilTags[] = {
+        new Pose2d(0,0,new Rotation2d()),
         new Pose2d(intom(593.68),intom(9.68),new Rotation2d(Math.toRadians(120.0))), //1
         new Pose2d(intom(637.21),intom(34.79),new Rotation2d(Math.toRadians(120.0))), //2
         new Pose2d(intom(652.73),intom(196.17),new Rotation2d(Math.toRadians(180.0))), //3
@@ -44,7 +48,7 @@ public class AprilTagMap {
      */
     static Pose2d CameraPos[] = {
         new Pose2d(7.5, -1.25, new Rotation2d(Math.toRadians(0.0))),        // #1
-        new Pose2d(0.0, -2.0, new Rotation2d(Math.toRadians(90.0))),      // #2
+        new Pose2d(0.0, -2.0, new Rotation2d(Math.toRadians(0.0))),      // #2
     };
 
     /**
@@ -65,34 +69,34 @@ public class AprilTagMap {
         // double[7] = roll in radians
         // double[8] = range in metres
         // double[9] = bearing in radians
-
-        // create internal AprilTag Pose2d object
-        Pose2d tagPose = AprilTags[(int)(detection[0]+0.1)-1];
-
-        // IDs 12, 11, 15 and 16 may need work
-        double xChange=0; // the change in the xdirection of the field
-        double yChange=0; // the change in the ydirection of the field
-        double rotation=-Math.toDegrees(detection[5]); 
-        if (detection[0]==1||detection[0]==2||detection[0]==9||detection[0]==10||(detection[0]==15&&rotation<0)||(detection[0]==12&&rotation>0)) { // camera looking towards bottom of field
-            xChange = -detection[2]; // the inverse sign of the x that the camera feeds you
-            yChange = detection[3]; // the y that the camera feeds you
-        } else if (detection[0]==7||detection[0]==8||detection[0]==14||(detection[0]==11&&rotation>0)||(detection[0]==12&&rotation<0)) { // camera looking towards left of field
-            xChange = detection[3]; // the y that the camera feeds you
-            yChange = detection[2]; // the x that the camera feeds you
-        } else if (detection[0]==6||detection[0]==5||(detection[0]==16&&rotation>0)||(detection[0]==11&&rotation<0)) { // camera looking towards top of field
-            xChange = detection[2]; // the x that the camera feeds you
-            yChange = -detection[3]; // the inverse sign of the y that the camera feeds you
-        } else if (detection[0]==4||detection[0]==3||detection[0]==13||(detection[0]==16&&rotation<0)||(detection[0]==15&&rotation>0)) { // camera looking towards right of field
-            xChange = -detection[3]; // the inverse sign of the y that the camera feeds you
-            yChange = -detection[2]; // the inverse sign of the x that the camera feeds you
+        int TagId = (int)(detection[0]+0.1);
+        if (TagId<1){
+            TagId=1;
         }
+        System.out.print(TagId);
 
-        // alter tagPose by the x,y and yaw provided by the camera to get the camera's position on the field
-        Pose2d cameraPose = new Pose2d(tagPose.getX()+xChange,tagPose.getY()+yChange,tagPose.getRotation()).rotateBy(new Rotation2d(rotation+180));
+        // calculate and return current robot field Pose given AprilTag detection data
+        // AprilTag number - id of tag detected
+        // AprilTagX, AprilTagY, AprilTagYaw - x, y and yaw(deg) to apriltag in camera coordinates
+        // AprilTagBearing, AprilTagRange - bearing(deg) and range to apriltag
+        // Step #1: Determine robot position and rotation in Camera [coordinate] Frame (CF)
+        Translation2d RobotPosCF = new Translation2d(-CameraPos[camera].getX(),
+                                            -CameraPos[camera].getY());
+        Rotation2d RobotAngleCF = new Rotation2d (-CameraPos[camera].getRotation().getRadians());
+        // AprilTag to robot camera in CF
+        Translation2d ATtoRobotCameraCF = new Translation2d(-detection[8],0.0).rotateBy(new Rotation2d (Math.toRadians(detection[9])));
+        // AprilTag to robot center in CF
+        Translation2d ATtoRobotCenterCF = ATtoRobotCameraCF.plus(RobotPosCF);
+        // Step #2: Robot position in AprilTag [coordinate] Frame (AF)
+        Translation2d ATtoRobotCenterAF = ATtoRobotCenterCF.rotateBy(new Rotation2d(Math.toRadians(-detection[5])));
+        Rotation2d RobotAngleAF =RobotAngleCF.rotateBy(new Rotation2d (Math.toRadians(-detection[5])));
+        // Step #3: robot position in Field [coordinate] Frame (FF)
+        Translation2d ATtoRobotCenterFF = (ATtoRobotCenterAF.rotateBy(new Rotation2d (Math.toRadians(180.0-AprilTags[TagId].getRotation().getDegrees()))))
+                        .plus(AprilTags[TagId].getTranslation());
+        Rotation2d RobotAngleFF = RobotAngleAF.rotateBy(new Rotation2d (Math.toRadians(180.0-AprilTags[TagId].getRotation().getDegrees())));
+        // return robot pose2d (in field frame)
+        return new Pose2d(ATtoRobotCenterFF, RobotAngleFF);
+        //return new Pose2d();
 
-        // alter cameraPose by the x,y and rotation of the camera on the robot to get the robot's position on the field
-        Pose2d robotPose = new Pose2d(cameraPose.getX()-CameraPos[camera].getX(), cameraPose.getY()-CameraPos[camera].getY(), cameraPose.getRotation()).rotateBy(CameraPos[camera].getRotation());
-
-        return robotPose;
     }
 }
