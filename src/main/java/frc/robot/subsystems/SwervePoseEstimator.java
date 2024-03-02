@@ -9,6 +9,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -98,17 +99,24 @@ public class SwervePoseEstimator extends SubsystemBase {
    * Adds vision measurement and confidence values based on data provided by the NVidia subsystem and AprilTagMap utilities
    * @param vision robot position on field based on apriltags
    * @param timeStamp timestamp from NVidia
-   * @param distance distance from apriltag
+   * @param area area of apriltag in frame
    */
-  public void addVision(Pose2d vision,double timeStamp, double distance){
-    m_estimator.addVisionMeasurement(vision, timeStamp);
-    double stdDevs = 0.1*distance;
+  public void addVision(Pose2d vision, double area){
+    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
+    double stdDevs = 0.1*area;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
   }
 
   /** Update current robot dometry - called by scheduler at 50Hz */
    @Override
   public void periodic() {
+
+    if (RobotContainer.limelight1.isTargetPresent()){
+      RobotContainer.limelight1.addDetection();
+    }
+    if (RobotContainer.limelight2.isTargetPresent()){
+      RobotContainer.limelight2.addDetection();
+    }
 
     // get gyro angle (in degrees) and make rotation vector
     Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);

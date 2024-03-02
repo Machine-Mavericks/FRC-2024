@@ -57,7 +57,7 @@ public class NVidia extends SubsystemBase {
         for (int j=0;j<AprilTagDetectionData.length; j++) {
           data = AprilTagDetectionData[j].value;
           //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
-          RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[3]);
+          RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
         }
       }
       if (m_table.containsSubTable("robot_pose_in_field3")){
@@ -68,7 +68,7 @@ public class NVidia extends SubsystemBase {
         {
           data = AprilTagDetectionData[j].value;
           //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
-          RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[3]);
+          RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
         }
       }
       updateShuffleboard(data);
