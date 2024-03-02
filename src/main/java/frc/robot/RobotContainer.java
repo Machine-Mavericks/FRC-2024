@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.AutoDriveToPose;
 import frc.robot.commands.CleanupShot;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.GroundIntake;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.ShootAmp;
@@ -81,7 +82,7 @@ public class RobotContainer {
   private static void configureButtonBindings() {
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
 
-    OI.intakeButton.whileTrue(new SourceIntake());
+    OI.intakeButton.whileTrue(new GroundIntake(true));
     OI.intakeButton.onFalse(new IntakeMoveToHoldingPosition());
 
     OI.shooterButton.onTrue(new ShootSpeaker());
