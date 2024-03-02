@@ -19,9 +19,6 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 
-// Swerve Position Estimator - New WPI Function for 2023
-// Experimental subsystem for evaluation purposes - Jan 30/2023
-
 public class SwervePoseEstimator extends SubsystemBase {
   // constant to convert degrees to radians
   final float DEGtoRAD = (float) (3.1415926 / 180.0);
@@ -108,6 +105,7 @@ public class SwervePoseEstimator extends SubsystemBase {
     double stdDevs = 0.1*distance;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
   }
+
   /** Update current robot dometry - called by scheduler at 50Hz */
    @Override
   public void periodic() {
@@ -120,17 +118,6 @@ public class SwervePoseEstimator extends SubsystemBase {
      
     // update odemetry shuffleboard page
     updateShuffleboard();
-
-    // update field representation
-    //Pose2d pose = getPose2d();
-    
-    
-    // if (DriverStation.getAlliance().get() == Alliance.Blue)
-    //   m_field.setRobotPose(pose.getX(), pose.getY(), pose.getRotation());
-    // else
-    //   m_field.setRobotPose(16.54175-pose.getX(), 8.0137-pose.getY(), Rotation2d.fromDegrees(pose.getRotation().getDegrees()+180.0));  
-
-
   }
 
   

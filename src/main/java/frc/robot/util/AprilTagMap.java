@@ -91,7 +91,6 @@ public class AprilTagMap {
         Rotation2d RobotAngleFF = RobotAngleAF.rotateBy(new Rotation2d (Math.toRadians(180.0-AprilTags[TagId].getRotation().getDegrees())));
         // return robot pose2d (in field frame)
         return new Pose2d(ATtoRobotCenterFF, RobotAngleFF);
-        //return new Pose2d();
 
     }
 }
