@@ -9,6 +9,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -18,9 +19,6 @@ import edu.wpi.first.math.VecBuilder;
 import frc.robot.RobotContainer;
 import edu.wpi.first.math.trajectory.Trajectory;
 
-
-// Swerve Position Estimator - New WPI Function for 2023
-// Experimental subsystem for evaluation purposes - Jan 30/2023
 
 public class SwervePoseEstimator extends SubsystemBase {
   // constant to convert degrees to radians
@@ -101,15 +99,21 @@ public class SwervePoseEstimator extends SubsystemBase {
    * Adds vision measurement and confidence values based on data provided by the NVidia subsystem and AprilTagMap utilities
    * @param vision robot position on field based on apriltags
    * @param timeStamp timestamp from NVidia
-   * @param distance distance from apriltag
+   * @param area area of apriltag in frame
    */
-  public void addVision(Pose2d vision,double timeStamp, double distance){
-    m_estimator.addVisionMeasurement(vision, timeStamp);
-    //m_estimator.setVisionMeasurementStdDevs();
+  public void addVision(Pose2d vision, double area){
+    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
+    double stdDevs = 0.1*area;
+    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
   }
+
   /** Update current robot dometry - called by scheduler at 50Hz */
    @Override
   public void periodic() {
+
+    if (RobotContainer.limelight1.isTargetPresent()){
+      RobotContainer.limelight1.addDetection();
+    }
 
     // get gyro angle (in degrees) and make rotation vector
     Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
@@ -119,17 +123,6 @@ public class SwervePoseEstimator extends SubsystemBase {
      
     // update odemetry shuffleboard page
     updateShuffleboard();
-
-    // update field representation
-    //Pose2d pose = getPose2d();
-    
-    
-    // if (DriverStation.getAlliance().get() == Alliance.Blue)
-    //   m_field.setRobotPose(pose.getX(), pose.getY(), pose.getRotation());
-    // else
-    //   m_field.setRobotPose(16.54175-pose.getX(), 8.0137-pose.getY(), Rotation2d.fromDegrees(pose.getRotation().getDegrees()+180.0));  
-
-
   }
 
   
@@ -177,9 +170,9 @@ public class SwervePoseEstimator extends SubsystemBase {
     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
     l2.withPosition(1, 0);
     l2.withSize(1, 3);
-    m_initialX = l2.add("X (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
-    m_initialY = l2.add("Y (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
-    m_initialAngle = l2.add("Angle(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
+    m_initialX = l2.add("X2 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
+    m_initialY = l2.add("Y2 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
+    m_initialAngle = l2.add("Angle2(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
   
     Tab.add("Field", m_field)
     .withPosition(2, 0)
@@ -193,6 +186,7 @@ public class SwervePoseEstimator extends SubsystemBase {
     m_robotX.setDouble(vector.getX());
     m_robotY.setDouble(vector.getY());
     m_robotAngle.setDouble(vector.getRotation().getDegrees());
+    m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
   }
   
 }
