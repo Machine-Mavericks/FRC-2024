@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.CassetteEffector;
 
 /**
  * TODO: figure out if amp shot will be forward or backward through cassette
@@ -26,7 +27,7 @@ public class ShootAmp extends Command {
   public void execute() {
     int lpercent=60;
     int rpercent=100;
-    // set to amp shoot angle
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.AMP_ANGLE);
     // TODO: figure out if these (v) need to be swapped
   //   RobotContainer.cassettemotor.leftShootRun(lpercent);
   //   RobotContainer.cassettemotor.rightShootRun(rpercent);
@@ -41,7 +42,7 @@ public class ShootAmp extends Command {
     RobotContainer.cassetteintake.intakeRun(0);
     new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
     RobotContainer.cassetteshooter.stopShooter();
-    // set angle to neutral
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
   }
 
   // Returns true when the command should end.

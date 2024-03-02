@@ -28,14 +28,13 @@ public class SourceIntake extends Command {
   public void initialize() {
     intakeTimer.reset();
     intakeTimer.start();
-
-    RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //set angle to source
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.SOURCE_ANGLE);
+    new DelayCommand(1);
     RobotContainer.cassetteintake.intakeRun(1);
     RobotContainer.cassetteintake.intakeRun(1);
   }

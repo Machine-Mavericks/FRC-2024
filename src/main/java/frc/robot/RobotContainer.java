@@ -14,6 +14,7 @@ import frc.robot.commands.CleanupShot;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.LEDCommand;
+import frc.robot.commands.ShootAmp;
 import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.SourceIntake;
 import frc.robot.commands.UnstuckShot;
@@ -84,6 +85,8 @@ public class RobotContainer {
     OI.intakeButton.onFalse(new IntakeMoveToHoldingPosition());
 
     OI.shooterButton.onTrue(new ShootSpeaker());
+    
+    OI.ampButton.onTrue(new ShootAmp());
 
     OI.unstuckButton.whileTrue(new UnstuckShot());
   }
