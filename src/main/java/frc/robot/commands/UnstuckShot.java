@@ -27,8 +27,8 @@ public class UnstuckShot extends Command {
     intakeTimer.start();
 
     RobotContainer.cassetteintake.intakeRun(-1);
-    RobotContainer.cassetteshooter.leftShootRun(-30);
-    RobotContainer.cassetteshooter.rightShootRun(-30);
+    RobotContainer.cassetteshooter.leftShootRun(-800);
+    RobotContainer.cassetteshooter.rightShootRun(-800);
     RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
   }
 

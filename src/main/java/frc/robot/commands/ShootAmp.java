@@ -4,34 +4,43 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.CassetteEffector;
 
 /**
  * TODO: figure out if amp shot will be forward or backward through cassette
  */
 public class ShootAmp extends Command {
+
+  private Timer Timer;
+
   /** Creates a new ShootAmp. */
   public ShootAmp() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassetteshooter); // add effector
+    addRequirements(RobotContainer.cassetteshooter, RobotContainer.cassetteangle); // add effector
+    Timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Timer.reset();
+    Timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     int lpercent=60;
     int rpercent=100;
-    // set to amp shoot angle
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.AMP_ANGLE);
     // TODO: figure out if these (v) need to be swapped
-  //   RobotContainer.cassettemotor.leftShootRun(lpercent);
-  //   RobotContainer.cassettemotor.rightShootRun(rpercent);
-  //   while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
-  //   RobotContainer.cassetteintake.intakeRun(1);
+    RobotContainer.cassetteshooter.leftShootRun(500);
+    RobotContainer.cassetteshooter.rightShootRun(500);
+    //while (!RobotContainer.cassetteshooter.isShooterAtSpeedSetpoint()){};
+    RobotContainer.cassetteintake.intakeRun(1);
 
   }
 
@@ -41,13 +50,13 @@ public class ShootAmp extends Command {
     RobotContainer.cassetteintake.intakeRun(0);
     new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
     RobotContainer.cassetteshooter.stopShooter();
-    // set angle to neutral
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Timer.hasElapsed(1);
     //TODO: No sensor implemented to detect when shot is complete, we need a solution
   }
 }

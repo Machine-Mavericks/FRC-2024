@@ -68,6 +68,8 @@ public class OI {
         static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
         /** Button to shoot note */
         static final Button SHOOT_BUTTON = XboxController.Button.kRightBumper;
+        /** Button for amp shot */
+        static final Button AMP_BUTTON = XboxController.Button.kX;
     }
 
     private static class OperatorBindings{
@@ -99,5 +101,7 @@ public class OI {
     public static final JoystickButton intakeButton = new JoystickButton(driverController, DriverBindings.INTAKE_BUTTON.value);
     /**Button to trigger shooter */
     public static final JoystickButton shooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
+    /**Button to trigger amp shoot */
+    public static final JoystickButton ampButton = new JoystickButton(driverController, DriverBindings.AMP_BUTTON.value);
 }
  
