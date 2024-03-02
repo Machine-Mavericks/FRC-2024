@@ -37,7 +37,7 @@ public class WaitForShooterSpinup extends Command {
   public void end(boolean interrupted) {
     if (!interrupted && validShot) {
       System.out.println("Shooting at: " + RobotContainer.cassetteshooter.getSpeedL());
-      RobotContainer.operatorInterface.ShooterAtSpeed.setBoolean(true);
+      RobotContainer.operatorinterface.ShooterAtSpeed.setBoolean(true);
     }
   }
 
