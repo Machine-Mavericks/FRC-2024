@@ -32,11 +32,13 @@ public class ShuffleboardOI extends SubsystemBase {
     private GenericEntry m_delayTime;
     private SendableChooser<Integer> m_autonomousPath;
 
+    // Shot info
     public GenericEntry EffectorTarget;
     public GenericEntry LShooterSpeed;
     public GenericEntry RShooterSpeed;
 
-    public GenericEntry OutputLSpeed;
+    public GenericEntry ShooterAtSpeed;
+    public GenericEntry ShooterAtAngle;
 
     // other controls on main page
     private GenericEntry m_timeLeft;
@@ -104,24 +106,33 @@ public class ShuffleboardOI extends SubsystemBase {
         BuildInfoLayout.add("Repository", BuildConstants.MAVEN_NAME);    
         
         EffectorTarget = tab.add("Effector Setpoint", 0.05)
-        .withPosition(4, 0)
+        .withPosition(3, 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", CassetteEffector.MIN_BOTTOM_ANGLE, "max_value", CassetteEffector.MAX_TOP_ANGLE))
         .getEntry();
 
         LShooterSpeed = tab.add("LShooterspeed", 0)
-        .withPosition(4, 1)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min_value", 0, "max_value", 6000))
+        .withPosition(3, 1)
+        .withWidget(BuiltInWidgets.kTextView)
+        .withProperties(Map.of("show_submit_button ", true))
         .getEntry();
 
         RShooterSpeed = tab.add("RShooterspeed", 0)
-        .withPosition(4, 2)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min_value", 0, "max_value", 6000))
+        .withPosition(3, 2)
+        .withWidget(BuiltInWidgets.kTextView)
+        .withProperties(Map.of("show_submit_button ", true))
         .getEntry();
 
-        OutputLSpeed = tab.add("ShooterOutput", 0).getEntry();
+        ShuffleboardLayout ShotInfoLayout = tab.getLayout("Shot Info", BuiltInLayouts.kList)
+        .withPosition(5, 0)
+        .withSize(1, 3);
+        ShooterAtSpeed = ShotInfoLayout.add("Shooter Speed", false)
+        .withWidget(BuiltInWidgets.kBooleanBox)
+        .getEntry();
+
+        ShooterAtAngle = ShotInfoLayout.add("Shooter Angle", false)
+        .withWidget(BuiltInWidgets.kBooleanBox)
+        .getEntry();
 
         // add match time remaining in autonomous/teleop part of match (seconds)
         ShuffleboardLayout l1 = tab.getLayout("Timer", BuiltInLayouts.kList);

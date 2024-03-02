@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CassetteEffector;
@@ -21,13 +22,19 @@ public class ShootSpeaker extends SequentialCommandGroup {
       new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(RobotContainer.operatorInterface.EffectorTarget.getDouble(0.05))),
       new InstantCommand(()-> RobotContainer.cassetteshooter.leftShootRun(RobotContainer.operatorInterface.LShooterSpeed.getDouble(0) / 60)),
       new InstantCommand(()-> RobotContainer.cassetteshooter.rightShootRun(RobotContainer.operatorInterface.RShooterSpeed.getDouble(0) / 60)),
+      // Commands.parallel(new WaitForEffectorAngle(), new WaitForShooterSpinup()),
+      new ParallelCommandGroup(
+        new WaitForEffectorAngle(), 
+        new WaitForShooterSpinup()
+      ),
       new WaitForShooterSpinup(),
       new WaitForEffectorAngle(),
       new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1)),
       new DelayCommand(0.5),
       new InstantCommand(()-> RobotContainer.cassetteshooter.stopShooter()),
       new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
-      new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0))
+      new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0)),
+      new CleanupShot()
     );
   }
 }

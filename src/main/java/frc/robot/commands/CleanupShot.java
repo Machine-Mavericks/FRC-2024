@@ -17,6 +17,8 @@ public class CleanupShot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() -> RobotContainer.operatorInterface.ShooterAtAngle.setBoolean(false)),
+      new InstantCommand(() -> RobotContainer.operatorInterface.ShooterAtSpeed.setBoolean(false)),
       new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
       new IntakeMoveToHoldingPosition()
     );

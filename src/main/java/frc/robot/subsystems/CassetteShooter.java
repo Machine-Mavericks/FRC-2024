@@ -50,7 +50,6 @@ public class CassetteShooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    RobotContainer.operatorInterface.OutputLSpeed.setDouble(m_LShootMotor.getVelocity().getValue());
   }
 
 
@@ -81,29 +80,6 @@ public class CassetteShooter extends SubsystemBase {
     leftShootRun(0);
   }
 
-  // /**
-  //  * Checks if shooter motors are at speeds they are supposed to be at (Overload offers checking both speeds independantly)
-  //  * @param targetSpeed speed in rotations per second
-  //  * @return
-  //  */
-  // public boolean isShooterAtSpeed(double targetSpeed) {
-  //   return 
-  //     Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - targetSpeed) < allowedSpeedError && 
-  //     Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - targetSpeed) < allowedSpeedError;   
-  // }
-
-  // /**
-  //  * Checks if shooter motors are at speeds they are supposed to be at (Overload offers checking both speeds independantly)
-  //  * @param leftSpeed target speed of left motor in rotations per second
-  //  * @param leftSpeed target speed of left motor in rotations per second
-  //  * @return
-  //  */
-  // public boolean isShooterAtSpeed(double leftSpeed, double rightSpeed) {
-  //   return 
-  //     Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - leftSpeed) < allowedSpeedError && 
-  //     Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - rightSpeed) < allowedSpeedError;   
-  // }
-
   public double getSpeedL(){
     return m_LShootMotor.getVelocity().getValueAsDouble();
   }
@@ -118,7 +94,7 @@ public class CassetteShooter extends SubsystemBase {
    */
   public boolean isShooterAtSpeedSetpoint() {
     return 
-      Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - m_currentSetpointL) < allowedSpeedError && 
-      Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - m_currentSetpointR) < allowedSpeedError;   
+      Math.abs(getSpeedL() - m_currentSetpointL) < allowedSpeedError && 
+      Math.abs(getSpeedR() - m_currentSetpointR) < allowedSpeedError;   
   }
 }

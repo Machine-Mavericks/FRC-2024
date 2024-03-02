@@ -84,7 +84,6 @@ public class RobotContainer {
     OI.intakeButton.onFalse(new IntakeMoveToHoldingPosition());
 
     OI.shooterButton.onTrue(new ShootSpeaker());
-    OI.shooterButton.onFalse(new CleanupShot());
 
     OI.unstuckButton.whileTrue(new UnstuckShot());
   }
