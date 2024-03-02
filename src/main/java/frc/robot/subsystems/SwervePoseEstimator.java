@@ -103,7 +103,7 @@ public class SwervePoseEstimator extends SubsystemBase {
    */
   public void addVision(Pose2d vision, double area){
     m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
-    double stdDevs = 0.1*area;
+    double stdDevs = area;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
   }
 
