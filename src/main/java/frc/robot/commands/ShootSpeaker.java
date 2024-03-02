@@ -19,9 +19,9 @@ public class ShootSpeaker extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(RobotContainer.operatorInterface.EffectorTarget.getDouble(0.05))),
-      new InstantCommand(()-> RobotContainer.cassetteshooter.leftShootRun(RobotContainer.operatorInterface.LShooterSpeed.getDouble(0) / 60)),
-      new InstantCommand(()-> RobotContainer.cassetteshooter.rightShootRun(RobotContainer.operatorInterface.RShooterSpeed.getDouble(0) / 60)),
+      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(RobotContainer.operatorinterface.EffectorTarget.getDouble(0.05))),
+      new InstantCommand(()-> RobotContainer.cassetteshooter.leftShootRun(RobotContainer.operatorinterface.LShooterSpeed.getDouble(0) / 60)),
+      new InstantCommand(()-> RobotContainer.cassetteshooter.rightShootRun(RobotContainer.operatorinterface.RShooterSpeed.getDouble(0) / 60)),
       // Commands.parallel(new WaitForEffectorAngle(), new WaitForShooterSpinup()),
       new ParallelCommandGroup(
         new WaitForEffectorAngle(), 

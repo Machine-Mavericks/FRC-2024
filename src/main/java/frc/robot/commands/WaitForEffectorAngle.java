@@ -37,7 +37,7 @@ public class WaitForEffectorAngle extends Command {
   public void end(boolean interrupted) {
     if (!interrupted && validShot) {
       System.out.println("Hit effector angle");
-      RobotContainer.operatorInterface.ShooterAtAngle.setBoolean(true);
+      RobotContainer.operatorinterface.ShooterAtAngle.setBoolean(true);
     } 
   }
 

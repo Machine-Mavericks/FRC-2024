@@ -23,6 +23,7 @@ import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Pigeon;
+import frc.robot.subsystems.SpeakerTargeting;
 import frc.robot.subsystems.SwerveOdometry;
 import frc.robot.subsystems.SwervePoseEstimator;
 
@@ -40,7 +41,7 @@ public class RobotContainer {
   public static final double updateDt = 0.02;
 
   // Create robot's shuffboard operator interface
-  public static final ShuffleboardOI operatorInterface = new ShuffleboardOI();
+  public static final ShuffleboardOI operatorinterface = new ShuffleboardOI();
 
   // The robot's subsystems are defined here...
   //public static final Gyro gyro = new Gyro();
@@ -53,6 +54,7 @@ public class RobotContainer {
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
+  public static final SpeakerTargeting speakertargeting = new SpeakerTargeting();
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and
