@@ -25,7 +25,6 @@ public class AprilTagMap {
      * Map of april tags relatie to field, remember, values for ATs 1-16 are 0-15
      */
     static Pose2d AprilTags[] = {
-        new Pose2d(0,0,new Rotation2d()),
         new Pose2d(intom(593.68),intom(9.68),new Rotation2d(Math.toRadians(120.0))), //1
         new Pose2d(intom(637.21),intom(34.79),new Rotation2d(Math.toRadians(120.0))), //2
         new Pose2d(intom(652.73),intom(196.17),new Rotation2d(Math.toRadians(180.0))), //3
@@ -69,11 +68,7 @@ public class AprilTagMap {
         // double[7] = roll in radians
         // double[8] = range in metres
         // double[9] = bearing in radians
-        int TagId = (int)(detection[0]+0.1);
-        if (TagId<1){
-            TagId=1;
-        }
-        System.out.print(TagId);
+        int TagId = (int)(detection[0]+0.1)-1;
 
         // calculate and return current robot field Pose given AprilTag detection data
         // AprilTag number - id of tag detected
