@@ -273,14 +273,12 @@ public class Limelight extends SubsystemBase {
     }
 
     public void addDetection() {
-      if (getPipeline()==0){
-        // get vector from camera. If valid length, convert to Pose3d
-        double[] vector = m_table.getEntry("botpose").getDoubleArray(new double[]{});  
-      
-        // if vector is valid (has 6 numbers in it) go ahead and record data in structure
-        if (vector.length>=6){
+      // get vector from camera. If valid length, convert to Pose3d
+      double[] vector = m_table.getEntry("botpose").getDoubleArray(new double[]{});  
+    
+      // if vector is valid (has 6 numbers in it) go ahead and record data in structure
+      if (vector.length>=6){
         RobotContainer.swervepose.addVision(new Pose2d(vector[0]+8.24,vector[1]+4.05,new Rotation2d(vector[3])), getTargetArea());
-      }
       }
     }
     
