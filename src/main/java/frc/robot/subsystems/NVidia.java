@@ -29,42 +29,58 @@ public class NVidia extends SubsystemBase {
   private GenericEntry m_y;
   private GenericEntry m_angle;
   private double[] data;
+  private boolean on;
 
   /** Creates a new NVidia. */
-  public NVidia() {
-    // set pointer to limelight network table
-    m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
-    // subscribe to Nvidia camera topics
-    m_CameraSub3=m_table.getDoubleArrayTopic("camera3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_CameraSub4=m_table.getDoubleArrayTopic("camera4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_RobotPoseSub3=m_table.getDoubleArrayTopic("robot_pose_in_field3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_RobotPoseSub4=m_table.getDoubleArrayTopic("robot_pose_in_field4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    initializeShuffleboard();
-  }
+  public NVidia() {}
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    // array to hold apriltag detection data
-    TimestampedDoubleArray AprilTagDetectionData[];
-    // get AprilTag detections from Netowrk Table for each camera
-    AprilTagDetectionData= m_RobotPoseSub3.readQueue();
-    // for each AprilTag detection in the list
-    for (int j=0;j<AprilTagDetectionData.length; j++)
-    {
-      data = AprilTagDetectionData[j].value;
-      //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
-      RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[3]);
+    if (NetworkTableInstance.getDefault().getTable("Nvidia")!=null){
+      this.on = true;
+    } else {
+      this.on = false;
     }
-    AprilTagDetectionData= m_RobotPoseSub4.readQueue();
-    // for each AprilTag detection in the list
-    for (int j=0;j<AprilTagDetectionData.length; j++)
-    {
-      data = AprilTagDetectionData[j].value;
-      //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
-      RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[3]);
+    if (this.on) {
+      // set pointer to limelight network table
+      m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
+      // subscribe to Nvidia camera topics
+      m_CameraSub3=m_table.getDoubleArrayTopic("camera3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      m_CameraSub4=m_table.getDoubleArrayTopic("camera4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      m_RobotPoseSub3=m_table.getDoubleArrayTopic("robot_pose_in_field3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      m_RobotPoseSub4=m_table.getDoubleArrayTopic("robot_pose_in_field4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+      initializeShuffleboard();
+      // This method will be called once per scheduler run
+      // array to hold apriltag detection data
+      TimestampedDoubleArray AprilTagDetectionData[];
+      // get AprilTag detections from Netowrk Table for each camera
+      AprilTagDetectionData= m_RobotPoseSub3.readQueue();
+      // for each AprilTag detection in the list
+      for (int j=0;j<AprilTagDetectionData.length; j++)
+      {
+        data = AprilTagDetectionData[j].value;
+        //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
+        RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[3]);
+      }
+      AprilTagDetectionData= m_RobotPoseSub4.readQueue();
+      // for each AprilTag detection in the list
+      for (int j=0;j<AprilTagDetectionData.length; j++)
+      {
+        data = AprilTagDetectionData[j].value;
+        //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
+        RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[3]);
+      }
+      updateShuffleboard();
     }
-    updateShuffleboard();
+    
+  }
+
+  /**
+   * turn on/off Nvidia
+   * @param on
+   */
+  public void Set(boolean on){
+    this.on = on;
   }
 
   /** Initialize subsystem shuffleboard page and controls */
