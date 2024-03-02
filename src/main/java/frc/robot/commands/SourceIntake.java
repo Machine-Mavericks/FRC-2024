@@ -12,9 +12,9 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.CassetteEffector;
 
 public class SourceIntake extends Command {
-  
   private Timer intakeTimer;
-
+  private static final double SOURCE_INTAKE_TIMEOUT = 3;
+  private static final double SOURCE_INTAKE_FLYWHEEL_RPM = -300;
   
   /** Creates a new SourceIntake. */
   public SourceIntake() {
@@ -28,16 +28,15 @@ public class SourceIntake extends Command {
   public void initialize() {
     intakeTimer.reset();
     intakeTimer.start();
+
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.SOURCE_ANGLE);
+    RobotContainer.cassetteshooter.leftShootRun(SOURCE_INTAKE_FLYWHEEL_RPM);
+    RobotContainer.cassetteshooter.rightShootRun(SOURCE_INTAKE_FLYWHEEL_RPM);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    RobotContainer.cassetteangle.setAngle(CassetteEffector.SOURCE_ANGLE);
-    new DelayCommand(1);
-    RobotContainer.cassetteintake.intakeRun(1);
-    RobotContainer.cassetteintake.intakeRun(1);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -51,6 +50,6 @@ public class SourceIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intakeTimer.hasElapsed(3);
+    return intakeTimer.hasElapsed(SOURCE_INTAKE_TIMEOUT);
   }
 }

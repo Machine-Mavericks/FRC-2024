@@ -57,19 +57,19 @@ public class CassetteShooter extends SubsystemBase {
 
   /**
    * Run the left shooter motor at the provided percent of tested speed
-   * @param percent
+   * @param speed Flywheel speed in rpm
    */
   public void leftShootRun(double speed) {
-    m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
-    m_currentSetpointL = speed;
+    m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed / 60));
+    m_currentSetpointL = speed / 60;
   }
   /**
    * Run the right shooter motor at the provided percent of tested speed
-   * @param percent
+   * @param speed Flywheel speed in rpm
    */
   public void rightShootRun(double speed) {
-    m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed));
-    m_currentSetpointR = speed;
+    m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed / 60));
+    m_currentSetpointR = speed / 60;
   }
 
   /**

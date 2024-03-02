@@ -37,7 +37,6 @@ public class IntakeMoveToHoldingPosition extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.cassetteintake.intakeRun(0);
-    RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
   }
 
   // Returns true when the command should end.
