@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.CassetteEffector;
 
 public class IntakeMoveToHoldingPosition extends Command {
  private Timer intakeTimer;
@@ -36,6 +37,7 @@ public class IntakeMoveToHoldingPosition extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.cassetteintake.intakeRun(0);
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
   }
 
   // Returns true when the command should end.

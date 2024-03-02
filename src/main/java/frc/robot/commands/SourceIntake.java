@@ -19,7 +19,7 @@ public class SourceIntake extends Command {
   /** Creates a new SourceIntake. */
   public SourceIntake() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassetteintake); // add effector
+    addRequirements(RobotContainer.cassetteintake, RobotContainer.cassetteangle); // add effector
     intakeTimer = new Timer();
   }
 
@@ -51,9 +51,6 @@ public class SourceIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(intakeTimer.hasElapsed(3)==true)
-    return true;
-    else 
-    return false;
+    return intakeTimer.hasElapsed(3);
   }
 }

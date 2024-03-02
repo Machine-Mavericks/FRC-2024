@@ -14,7 +14,7 @@ public class GroundIntake extends Command {
   /** Creates a new GroundIntake. */
   public GroundIntake(boolean inorout) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassetteintake); // add effector
+    addRequirements(RobotContainer.cassetteintake, RobotContainer.cassetteangle); // add effector
     this.inorout=inorout;
   }
 
@@ -36,10 +36,7 @@ public class GroundIntake extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    RobotContainer.cassetteintake.intakeRun(0);
-    RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

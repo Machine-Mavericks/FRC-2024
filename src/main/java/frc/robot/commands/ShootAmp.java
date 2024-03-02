@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CassetteEffector;
@@ -12,15 +13,22 @@ import frc.robot.subsystems.CassetteEffector;
  * TODO: figure out if amp shot will be forward or backward through cassette
  */
 public class ShootAmp extends Command {
+
+  private Timer Timer;
+
   /** Creates a new ShootAmp. */
   public ShootAmp() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassetteshooter); // add effector
+    addRequirements(RobotContainer.cassetteshooter, RobotContainer.cassetteangle); // add effector
+    Timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Timer.reset();
+    Timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -29,10 +37,10 @@ public class ShootAmp extends Command {
     int rpercent=100;
     RobotContainer.cassetteangle.setAngle(CassetteEffector.AMP_ANGLE);
     // TODO: figure out if these (v) need to be swapped
-  //   RobotContainer.cassettemotor.leftShootRun(lpercent);
-  //   RobotContainer.cassettemotor.rightShootRun(rpercent);
-  //   while (!RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)){};
-  //   RobotContainer.cassetteintake.intakeRun(1);
+    RobotContainer.cassetteshooter.leftShootRun(500);
+    RobotContainer.cassetteshooter.rightShootRun(500);
+    //while (!RobotContainer.cassetteshooter.isShooterAtSpeedSetpoint()){};
+    RobotContainer.cassetteintake.intakeRun(1);
 
   }
 
@@ -48,7 +56,7 @@ public class ShootAmp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Timer.hasElapsed(1);
     //TODO: No sensor implemented to detect when shot is complete, we need a solution
   }
 }
