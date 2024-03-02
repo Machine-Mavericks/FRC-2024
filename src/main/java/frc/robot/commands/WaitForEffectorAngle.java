@@ -7,9 +7,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
-public class WaitForShooterSpinup extends Command {
-  /** Creates a new WaitForShooterSpinup. */
-  public WaitForShooterSpinup() {
+public class WaitForEffectorAngle extends Command {
+  /** Creates a new WaitForEffectorAngle. */
+  public WaitForEffectorAngle() {
   }
 
   // Called when the command is initially scheduled.
@@ -24,13 +24,13 @@ public class WaitForShooterSpinup extends Command {
   @Override
   public void end(boolean interrupted) {
     if (!interrupted) {
-      System.out.println("Shooting at: " + RobotContainer.cassetteshooter.getSpeedL());
+      System.out.println("Hit effector angle");
     }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.cassetteshooter.isShooterAtSpeedSetpoint();
+    return RobotContainer.cassetteangle.isEffectorAtTarget();
   }
 }

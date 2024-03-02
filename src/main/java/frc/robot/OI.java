@@ -59,11 +59,20 @@ public class OI {
     /**
      * Inner class containing controller bindings
      */
-    private static class Bindings {
+    private static class DriverBindings {
         /** Button to re-zero gyro */
         static final Button ZERO_GYRO = XboxController.Button.kBack;
         /** Button to drive at reduced speed */
         static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kRightBumper;
+        /** Button to intake note */
+        static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        /** Button to shoot note */
+        static final Button SHOOT_BUTTON = XboxController.Button.kRightBumper;
+    }
+
+    private static class OperatorBindings{
+        /** Button to spit out note */
+        static final Button UNSTUCK_BUTTON = XboxController.Button.kA;
     }
 
     /** Port for controller used by driver */
@@ -79,13 +88,16 @@ public class OI {
 
 
     /** Zero gyro button. Mapped to {@link Bindings#ZERO_GYRO} */
-    public static final JoystickButton zeroButton = new JoystickButton(driverController, Bindings.ZERO_GYRO.value);
+    public static final JoystickButton zeroButton = new JoystickButton(driverController, DriverBindings.ZERO_GYRO.value);
     /** Drive reduced speed button. Mapped to {@link Bindings#SLOW_DRIVE_BUTTON} */
-    public static final JoystickButton slowDriveButton = new JoystickButton(driverController, Bindings.SLOW_DRIVE_BUTTON.value);
+    public static final JoystickButton slowDriveButton = new JoystickButton(driverController, DriverBindings.SLOW_DRIVE_BUTTON.value);
+
+    /**Button to unstuck note */
+    public static final JoystickButton unstuckButton = new JoystickButton(operatorController, OperatorBindings.UNSTUCK_BUTTON.value);
 
     /**Button to trigger intake */
-    public static final JoystickButton intakeButton = new JoystickButton(driverController, XboxController.Button.kLeftBumper.value);
+    public static final JoystickButton intakeButton = new JoystickButton(driverController, DriverBindings.INTAKE_BUTTON.value);
     /**Button to trigger shooter */
-    public static final JoystickButton shooterButton = new JoystickButton(driverController, XboxController.Button.kRightBumper.value);
+    public static final JoystickButton shooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
 }
  

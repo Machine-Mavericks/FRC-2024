@@ -36,6 +36,8 @@ public class ShuffleboardOI extends SubsystemBase {
     public GenericEntry LShooterSpeed;
     public GenericEntry RShooterSpeed;
 
+    public GenericEntry OutputLSpeed;
+
     // other controls on main page
     private GenericEntry m_timeLeft;
     public Integer m_selectedPath;
@@ -119,6 +121,7 @@ public class ShuffleboardOI extends SubsystemBase {
         .withProperties(Map.of("min_value", 0, "max_value", 6000))
         .getEntry();
 
+        OutputLSpeed = tab.add("ShooterOutput", 0).getEntry();
 
         // add match time remaining in autonomous/teleop part of match (seconds)
         ShuffleboardLayout l1 = tab.getLayout("Timer", BuiltInLayouts.kList);

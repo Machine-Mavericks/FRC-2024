@@ -7,13 +7,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.AutoDriveToPose;
+import frc.robot.commands.CleanupShot;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.LEDCommand;
-import frc.robot.commands.RevUpShoot;
+import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.SourceIntake;
+import frc.robot.commands.UnstuckShot;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -80,7 +83,10 @@ public class RobotContainer {
     OI.intakeButton.whileTrue(new SourceIntake());
     OI.intakeButton.onFalse(new IntakeMoveToHoldingPosition());
 
-    OI.shooterButton.onTrue(new RevUpShoot());
+    OI.shooterButton.onTrue(new ShootSpeaker());
+    OI.shooterButton.onFalse(new CleanupShot());
+
+    OI.unstuckButton.whileTrue(new UnstuckShot());
   }
 
   /**

@@ -6,9 +6,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class CassetteShooter extends SubsystemBase {
@@ -22,9 +25,9 @@ public class CassetteShooter extends SubsystemBase {
   private double m_currentSetpointR = 0;
 
   /* Rotations per second shooter speed can be off by before being considered either too slow or fast */
-  private static double allowedSpeedError = 1;
+  private static double allowedSpeedError = 5;
 
-  private VelocityDutyCycle m_motorVelocityControl = new VelocityDutyCycle(0);
+  private VelocityVoltage m_motorVelocityControl = new VelocityVoltage(0);
 
 
   /** Creates a new CassetteShooter. */
@@ -34,9 +37,9 @@ public class CassetteShooter extends SubsystemBase {
    
    var slot0Configs = new Slot0Configs();
     // slot0Configs.kS = 0.06;
-    // slot0Configs.kV = 0.12;
-    slot0Configs.kP = 0.04;
-    slot0Configs.kI = 0.01;
+    slot0Configs.kV = 0.11;
+    slot0Configs.kP = 0.05;
+    slot0Configs.kI = 0;
     slot0Configs.kD = 0;
 
     m_LShootMotor.getConfigurator().apply(slot0Configs);
@@ -47,6 +50,7 @@ public class CassetteShooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    RobotContainer.operatorInterface.OutputLSpeed.setDouble(m_LShootMotor.getVelocity().getValue());
   }
 
 
@@ -99,6 +103,14 @@ public class CassetteShooter extends SubsystemBase {
   //     Math.abs(m_LShootMotor.getVelocity().getValueAsDouble() - leftSpeed) < allowedSpeedError && 
   //     Math.abs(m_RShootMotor.getVelocity().getValueAsDouble() - rightSpeed) < allowedSpeedError;   
   // }
+
+  public double getSpeedL(){
+    return m_LShootMotor.getVelocity().getValueAsDouble();
+  }
+
+    public double getSpeedR(){
+    return m_RShootMotor.getVelocity().getValueAsDouble();
+  }
 
   /**
    * Checks if shooter motors are at speeds specified by the current setpoint

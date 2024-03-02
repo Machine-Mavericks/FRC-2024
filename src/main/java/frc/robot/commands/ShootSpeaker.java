@@ -4,55 +4,30 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.CassetteEffector;
 
-public class ShootSpeaker extends Command {
-
-  int lpercent;
-  int rpercent;
-
-  boolean shooterHitSpeed = false;
-
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class ShootSpeaker extends SequentialCommandGroup {
   /** Creates a new ShootSpeaker. */
   public ShootSpeaker() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassetteshooter); // add effector
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    RobotContainer.cassetteshooter.leftShootRun(100);
-    RobotContainer.cassetteshooter.rightShootRun(100);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    // if (!shooterHitSpeed){
-    //   if (RobotContainer.cassettemotor.shooterAtSpeed(lpercent, rpercent)) {
-    //     shooterHitSpeed = true;
-    //   }
-    
-  //   RobotContainer.cassetteintake.intakeRun(1);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    // RobotContainer.cassetteintake.intakeRun(0);
-    // new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
-    // RobotContainer.cassettemotor.stopShooter();
-    // set angle to neutral
-    RobotContainer.cassetteshooter.leftShootRun(0);
-    RobotContainer.cassetteshooter.rightShootRun(0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    // return !RobotContainer.cassettemotor.getSwitch();
-    return false;
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    addCommands(
+      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(RobotContainer.operatorInterface.EffectorTarget.getDouble(0.05))),
+      new InstantCommand(()-> RobotContainer.cassetteshooter.leftShootRun(RobotContainer.operatorInterface.LShooterSpeed.getDouble(0) / 60)),
+      new InstantCommand(()-> RobotContainer.cassetteshooter.rightShootRun(RobotContainer.operatorInterface.RShooterSpeed.getDouble(0) / 60)),
+      new WaitForShooterSpinup(),
+      new WaitForEffectorAngle(),
+      new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1)),
+      new DelayCommand(0.5),
+      new InstantCommand(()-> RobotContainer.cassetteshooter.stopShooter()),
+      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
+      new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0))
+    );
   }
 }
