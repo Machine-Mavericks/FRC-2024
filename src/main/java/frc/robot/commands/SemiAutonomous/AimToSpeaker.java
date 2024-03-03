@@ -73,7 +73,7 @@ public class AimToSpeaker extends Command {
 
     // turn robot towards target
     RobotContainer.drivetrain.drive(
-      new Translation2d(0,0), controlleroutput * RobotContainer.drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.7, false);
+      new Translation2d(0,0), controlleroutput * RobotContainer.drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
   
     // add time if we are on target within 1deg. Otherwise, reset timer
     if (RobotContainer.speakertargeting.IsTarget() && Math.abs(TargetAngle)<2.0)
