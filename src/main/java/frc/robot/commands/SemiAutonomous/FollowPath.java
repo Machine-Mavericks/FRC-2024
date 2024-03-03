@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.SwerveOdometry;
+import frc.robot.subsystems.SwervePoseEstimator;
 
 
 /** Command to Follow Path */
@@ -32,7 +32,7 @@ public class FollowPath extends Command {
     private Trajectory trajectory;
 
     private Timer timer;
-    private final SwerveOdometry m_odometry = RobotContainer.odometry;
+    private final SwervePoseEstimator m_odometry = RobotContainer.swervepose;
 
     // PIDs gains for X and Y position controllers
     private double p = 5;

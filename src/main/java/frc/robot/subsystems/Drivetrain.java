@@ -476,7 +476,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         // Update pose estimator with odometry data
-        RobotContainer.odometry.updateOdometry();
+        RobotContainer.swervepose.updateOdometry();
     }
 
     // -------------------- Kinematics and Swerve Module Status Public Access Methods --------------------

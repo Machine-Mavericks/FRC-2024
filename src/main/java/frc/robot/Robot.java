@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
    
     // initialize robot subsystems    
     // RobotContainer.gyro.resetGyro(); // Todo: Removed as auto may start at variying angles
-    RobotContainer.odometry.InitializefromShuffleboard();
+    RobotContainer.swervepose.InitializefromShuffleboard();
 
     // robot is now initialized
     robotIsInitialized = true;
