@@ -123,24 +123,6 @@ public class SwervePoseEstimator extends SubsystemBase {
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 10*stdDevs));
   }
 
-  /** Update current robot dometry - called by scheduler at 50Hz */
-   @Override
-  public void periodic() {
-
-    if (RobotContainer.shotlimelight.isTargetPresent()){
-      RobotContainer.shotlimelight.addDetection();
-    }
-
-    // get gyro angle (in degrees) and make rotation vector
-    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
-
-    // update odometry with wheel drive and gyro
-    m_estimator.update(gyroangle, RobotContainer.drivetrain.getSwervePositions());
-     
-    // update odemetry shuffleboard page
-    updateShuffleboard();
-  }
-
   
   // -------------------- Robot Current Odometry Access Methods --------------------
 
