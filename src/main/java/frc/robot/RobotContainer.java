@@ -27,6 +27,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NVidia;
+import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
 import frc.robot.subsystems.SwerveOdometry;
@@ -63,6 +64,7 @@ public class RobotContainer {
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
   public static final SpeakerTargeting speakertargeting = new SpeakerTargeting(shotlimelight);
+  public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and
