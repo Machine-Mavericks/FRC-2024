@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import frc.robot.RobotMap;
+import frc.robot.util.ShuffleUser;
+import frc.robot.util.SubsystemShuffleboardManager;
 
 
-public class Pigeon extends SubsystemBase {
+public class Pigeon extends SubsystemBase implements ShuffleUser {
   // subsystem shuffleboard controls
   private GenericEntry m_gyroPitch;
   private GenericEntry m_gyroYaw;
@@ -26,21 +28,14 @@ public class Pigeon extends SubsystemBase {
   /** Creates a new Gyro. */
   public Pigeon() {
     // initialize shuffleboard
-    initializeShuffleboard();
+    SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 5);
     
     // make pigeon object
     gyro = new Pigeon2(RobotMap.CANID.PIGEON, Drivetrain.CAN_BUS_NAME);
   }
 
-  private int updateCounter=4;
   @Override
   public void periodic() {
-    // update shuffle board values - update at reduced 5Hz rate to save CPU cycles
-    updateCounter+=1;
-    if (updateCounter>=20)
-    { updateCounter=0; updateShuffleboard(); }
-    else if (updateCounter<0)
-      updateCounter=0;
   }
 
   /** Gets the yaw of the robot
@@ -96,7 +91,7 @@ public class Pigeon extends SubsystemBase {
   // -------------------- Subsystem Shuffleboard Methods --------------------
 
   /** Initialize subsystem shuffleboard page and controls */
-  private void initializeShuffleboard() {
+  public void initializeShuffleboard() {
     // Create odometry page in shuffleboard
     ShuffleboardTab Tab = Shuffleboard.getTab("Pigeon");
 
@@ -111,7 +106,7 @@ public class Pigeon extends SubsystemBase {
   }
 
   /** Update subsystem shuffle board page with current Gyro values */
-  private void updateShuffleboard() {
+  public void updateShuffleboard() {
     // write current robot Gyro
     m_gyroPitch.setDouble(getPitch());
     m_gyroYaw.setDouble(getYaw());
