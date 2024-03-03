@@ -2,9 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.AutoFunctions;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -12,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class SampleAutoCommand extends SequentialCommandGroup {
   /** Creates a new SampleAutoCommand2. */
   public SampleAutoCommand() {
+    addCommands(
+      new AutoDriveToPose(AutoFunctions.NotesAtStart[4], 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 5)
+    );
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // addCommands(

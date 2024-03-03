@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -80,6 +81,27 @@ public class SwervePoseEstimator extends SubsystemBase {
     setPosition(0.0, 0.0, 0.0, 0.0);
   }
 
+  /* Called by the drivetrain synchronously with swerve module data updates to reduce latency */
+  public void updateOdometry(){
+    // get gyro angle (in degrees) and make rotation vector
+    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
+
+    // get positions of all swerve modules from subsystem
+    SwerveModulePosition[] positions = RobotContainer.drivetrain.getSwervePositions();
+    
+    // ensure we have proper length array of positions before accessing elements of array
+    if (positions.length >=4) {
+      // update the robot's odometry
+      m_estimator.update(gyroangle, positions);
+    }
+
+    if (RobotContainer.shotlimelight.isTargetPresent()){
+      RobotContainer.shotlimelight.addDetection();
+    }
+
+    updateShuffleboard();
+  }
+
   /**
    * Used to set or reset odometry to fixed position
    * x, y displacement in m, robot angle in deg, gyro in deg
@@ -103,26 +125,8 @@ public class SwervePoseEstimator extends SubsystemBase {
    */
   public void addVision(Pose2d vision, double area){
     m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
-    double stdDevs = 1/area;
-    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
-  }
-
-  /** Update current robot dometry - called by scheduler at 50Hz */
-   @Override
-  public void periodic() {
-
-    if (RobotContainer.limelight1.isTargetPresent()){
-      RobotContainer.limelight1.addDetection();
-    }
-
-    // get gyro angle (in degrees) and make rotation vector
-    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
-
-    // update odometry with wheel drive and gyro
-    m_estimator.update(gyroangle, RobotContainer.drivetrain.getSwervePositions());
-     
-    // update odemetry shuffleboard page
-    updateShuffleboard();
+    double stdDevs = 0.1*area;
+    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 10*stdDevs));
   }
 
   
@@ -131,6 +135,29 @@ public class SwervePoseEstimator extends SubsystemBase {
   /** return robot's current position vector Pose2d */
   public Pose2d getPose2d() {
     return m_estimator.getEstimatedPosition();
+  }
+
+  Pose2d m_MemPoints[] = {new Pose2d(0,0,new Rotation2d(0.0)),
+    new Pose2d(0,0,new Rotation2d(0.0)),
+    new Pose2d(0,0,new Rotation2d(0.0)) };
+
+  /** saves Pose2D coordinate for later recall
+  * num = 0 to 2 (three memories available) */
+  public void RecordPose2d(Pose2d point, int num)
+  {
+  if (num<m_MemPoints.length)
+  m_MemPoints[num] = point;
+  }
+
+  /** recalls Pose2D coordinate previously saved 
+  * num = 0 to 2 (three memories available) */
+  public Pose2d RecallPoint(int num)
+  {
+  // return saved point.  If not in range, simply return 0,0,0 point
+  if (num<m_MemPoints.length)
+  return m_MemPoints[num];
+  else
+  return new Pose2d(0,0,new Rotation2d(0.0));
   }
 
 

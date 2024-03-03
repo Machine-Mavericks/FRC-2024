@@ -14,7 +14,7 @@ public class LED extends SubsystemBase {
   private AddressableLEDBuffer m_ledBuffer;
 
 
-  /** Creates a new LED. */
+  /** Creates a new Addressable LED. */
   public LED(int PWMPort) {
     // Set PWM port for AddressableLED
     m_led = new AddressableLED(PWMPort);

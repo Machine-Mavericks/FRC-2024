@@ -36,7 +36,8 @@ import frc.robot.util.Utils;
 // [X] Tune coupling ratio as described here https://pro.docs.ctr-electronics.com/en/stable/docs/api-reference/mechanisms/swerve/swerve-builder-api.html
 // [X] Investigate CAN signal latency, as well as possible erroneous lack of compensation in the gyro
 // [X] Get a constants folder
-// [-] Un break / tune closed loop driving
+// [X] Un break / tune closed loop driving
+// [-] Get rid of old odometry class
 
 /**
  * Subsystem representing the swerve drivetrain
@@ -475,7 +476,7 @@ public class Drivetrain extends SubsystemBase {
         }
 
         // Update pose estimator with odometry data
-        RobotContainer.odometry.updateOdometry();
+        RobotContainer.swervepose.updateOdometry();
     }
 
     // -------------------- Kinematics and Swerve Module Status Public Access Methods --------------------

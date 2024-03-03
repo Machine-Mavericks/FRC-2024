@@ -2,11 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.SemiAutonomous;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
@@ -21,6 +27,16 @@ public class AutoDriveToPose extends Command {
 
   private double m_time;
 
+    // subsystem shuffleboard controls
+  private GenericEntry m_targetX;
+  private GenericEntry m_targetY;
+  private GenericEntry m_targetAngle;
+  private GenericEntry m_xSpeed;
+  private GenericEntry m_ySpeed;
+  
+  // field visualization object to display on shuffleboard
+  private Field2d m_field;
+
   // final position tolerance (m) / angle tolerance (deg) to consider we have arrived at destination
   private final double m_positiontolerance = 0.12;
   private final double m_angletolerance = 2.0;
@@ -29,6 +45,9 @@ public class AutoDriveToPose extends Command {
   private PIDController m_xController = new PIDController(0.50, 0, 0.035);
   private PIDController m_yController = new PIDController(0.50, 0, 0.035);
   private PIDController m_rotController = new PIDController(0.01, 0, 0.001);
+
+  private double xSpeed;
+  private double ySpeed;
 
   public static double AngleDifference( double angle1, double angle2 )
   {
@@ -62,20 +81,21 @@ public class AutoDriveToPose extends Command {
 
     // recall previously saved point and use it as our destination
     if (m_recallPoint)
-      m_target = RobotContainer.odometry.RecallPoint(0);
+      m_target = RobotContainer.swervepose.RecallPoint(0);
+    initializeShuffleboard();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d curr = RobotContainer.odometry.getPose2d();
+    Pose2d curr = RobotContainer.swervepose.getPose2d();
     
     // increment time
     m_time += 0.02;
 
     // execute PIDs
-    double xSpeed = m_xController.calculate(curr.getX()- m_target.getX() );
-    double ySpeed = -m_yController.calculate(curr.getY() - m_target.getY() );
+    xSpeed = m_xController.calculate(curr.getX()- m_target.getX() );
+    ySpeed = -m_yController.calculate(curr.getY() - m_target.getY() );
     
     double rotSpeed = m_rotController.calculate(-AngleDifference(curr.getRotation().getDegrees(),m_target.getRotation().getDegrees()));
     //double rotSpeed = m_rotController.calculate(curr.getRotation().getDegrees() - m_target.getRotation().getDegrees());
@@ -95,10 +115,12 @@ public class AutoDriveToPose extends Command {
       rotSpeed = -m_rotspeed;
 
     // drive robot according to x,y,rot PID controller speeds
-    RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
-                                                      ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
-                                    rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                                    true);
+    // RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
+    //                                                   ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
+    //                                 rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+    //                                 true);
+
+    updateShuffleboard();
   }
 
   // Called once the command ends or is interrupted.
@@ -111,7 +133,7 @@ public class AutoDriveToPose extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    Pose2d curr = RobotContainer.odometry.getPose2d();
+    Pose2d curr = RobotContainer.swervepose.getPose2d();
 
     // we are finished if we are within erorr of target or command had timeed out
     return (((Math.abs(m_target.getX() - curr.getX()) <  m_positiontolerance) &&
@@ -120,7 +142,36 @@ public class AutoDriveToPose extends Command {
           (m_time >= m_timeout));
   }
 
+  /** Initialize subsystem shuffleboard page and controls */
+  private void initializeShuffleboard() {
+    // Create odometry page in shuffleboard
+    ShuffleboardTab Tab = Shuffleboard.getTab("Auto drive");
+
+ // Controls to set initial robot position and angle
+    ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
+    l2.withPosition(1, 0);
+    l2.withSize(1, 3);
+    m_targetX = l2.add("X2 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
+    m_targetY = l2.add("Y2 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
+    m_targetAngle = l2.add("Angle2(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
+    m_xSpeed = l2.add("xspeed",0.0).getEntry();
+    m_ySpeed = l2.add("xspeed",0.0).getEntry();
   
+    Tab.add("Field", m_field)
+    .withPosition(2, 0)
+    .withSize(5, 3);
+  
+  }
 
-
+  /** Update subsystem shuffle board page with current odometry values */
+  private void updateShuffleboard() {
+    Pose2d vector = m_target;
+    m_targetX.setDouble(vector.getX());
+    m_targetY.setDouble(vector.getY());
+    m_targetAngle.setDouble(vector.getRotation().getDegrees());
+    m_xSpeed.setDouble(xSpeed);
+    m_ySpeed.setDouble(ySpeed);
+    m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
+  }
+  
 }

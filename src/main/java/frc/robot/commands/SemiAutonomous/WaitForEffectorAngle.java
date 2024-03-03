@@ -2,29 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.SemiAutonomous;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc.robot.RobotContainer;
-import frc.robot.commands.SemiAutonomous.CleanupShot;
 
-public class ShootSpeaker extends Command {
+public class WaitForEffectorAngle extends Command {
+  /** Maximum time shooter will try to hit target speed */
+  private static final double ANGLE_TIMEOUT = 2;
   private Timer timer;
-  /** Creates a new ShootSpeaker. */
-  public ShootSpeaker() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassetteintake);
-    addRequirements(RobotContainer.cassetteshooter);
+
+  /** True if shot hasn't timed out */
+  private boolean validShot = true;
+
+  /** Creates a new WaitForEffectorAngle. */
+  public WaitForEffectorAngle() {
     timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.cassetteintake.intakeRun(1);
     timer.reset();
     timer.start();
   }
@@ -36,12 +35,20 @@ public class ShootSpeaker extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    CommandScheduler.getInstance().schedule(new CleanupShot());
+    if (!interrupted && validShot) {
+      System.out.println("Hit effector angle");
+      RobotContainer.operatorinterface.ShooterAtAngle.setBoolean(true);
+    } 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(0.5);
+    if (timer.hasElapsed(ANGLE_TIMEOUT)) {
+      System.out.println("Error: Shooter failed to hit target angle");
+      validShot = false;
+      return true;
+    }
+    return RobotContainer.cassetteangle.isEffectorAtTarget();
   }
 }

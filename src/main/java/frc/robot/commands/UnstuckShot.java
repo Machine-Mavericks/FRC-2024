@@ -9,42 +9,37 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CassetteEffector;
 
-/**
- * TODO: figure out if amp shot will be forward or backward through cassette
- */
-public class ShootAmp extends Command {
+public class UnstuckShot extends Command {
+  private Timer intakeTimer;
 
-  private Timer Timer;
-
-  /** Creates a new ShootAmp. */
-  public ShootAmp() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.cassetteshooter, RobotContainer.cassetteangle); // add effector
-    Timer = new Timer();
+  /** Creates a new UnstuckShot. */
+  public UnstuckShot() {
+    addRequirements(RobotContainer.cassetteintake);
+    addRequirements(RobotContainer.cassetteshooter);
+    addRequirements(RobotContainer.cassetteangle);
+    intakeTimer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.cassetteangle.setAngle(CassetteEffector.AMP_ANGLE);
-    Timer.reset();
-    Timer.start();
+    intakeTimer.reset();
+    intakeTimer.start();
+
+    RobotContainer.cassetteintake.intakeRun(-1);
+    RobotContainer.cassetteshooter.leftShootRun(-800);
+    RobotContainer.cassetteshooter.rightShootRun(-800);
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    RobotContainer.cassetteshooter.leftShootRun(500);
-    RobotContainer.cassetteshooter.rightShootRun(500);
-    new DelayCommand(0.5);
-    RobotContainer.cassetteintake.intakeRun(1);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotContainer.cassetteintake.intakeRun(0);
-    new DelayCommand(1); // TODO: figure out how long it takes the note to be shot after photosensor does not see it
     RobotContainer.cassetteshooter.stopShooter();
     RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
   }
@@ -52,7 +47,6 @@ public class ShootAmp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Timer.hasElapsed(1);
-    //TODO: No sensor implemented to detect when shot is complete, we need a solution
+    return false;
   }
 }

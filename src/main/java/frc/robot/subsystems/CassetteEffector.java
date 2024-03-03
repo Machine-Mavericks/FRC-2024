@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.util.ShuffleUser;
 import frc.robot.util.Spline1D;
@@ -42,20 +43,21 @@ import frc.robot.util.SubsystemShuffleboardManager;
 public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   // Shuffleboard
   private GenericEntry EffectorAngle;
-  private GenericEntry EffectorTarget;
+  //private GenericEntry EffectorTarget;
   private GenericEntry MotorVoltage;
   private GenericEntry MotorAmps;
   private GenericEntry ClosedLoopError;
 
-  private boolean ENABLE_DEBUG = false;
+ // private boolean ENABLE_DEBUG = true;
 
   //TODO: figure out angle values
   public static final double MAX_TOP_ANGLE = 0.26;
   public static final double MIN_BOTTOM_ANGLE = 0.023;
+  public static final double DROP_PROP_ANGLE = 0.1;
   public static final double NEUTRAL_ANGLE = 0.05;
-  public static final double GROUND_ANGLE = 0.05;
+  public static final double GROUND_ANGLE = 0.022;
   public static final double SOURCE_ANGLE = 0.05;
-  public static final double AMP_ANGLE = 0.05; //from flush against
+  public static final double AMP_ANGLE = 0.1; //from flush against
   public static final double SPEAKER_ANGLE = 0.05; //from flush against
 
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
@@ -81,12 +83,14 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   /* Mechanism angle setpoint in degrees */
   private double currentAngleSetpoint;
 
+  // In rotations
+  private static final double MAX_ALLOWED_ERROR = 0.005;
+
   // Hardware
   private TalonFX m_EffectorMotor;
   private CANcoder m_CANcoder;
 
   private MotionMagicVoltage m_motorPositionController = new MotionMagicVoltage(0).withSlot(0);
-  //private PositionVoltage m_fakeController = new PositionVoltage(0).withSlot(0);
 
   /** Creates a new CassetteEffector. */
   public CassetteEffector() {
@@ -133,7 +137,10 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     SubsystemShuffleboardManager.RegisterShuffleUser(this);
 
     // Go to default angle
-    setAngle(NEUTRAL_ANGLE);
+    //setAngle(NEUTRAL_ANGLE);
+
+    // Go up to drop prop
+    setAngle(DROP_PROP_ANGLE);
   }
 
   /**
@@ -149,10 +156,10 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     // Update effector state
     currentAngle = m_EffectorMotor.getPosition().getValueAsDouble();
     
-    if (ENABLE_DEBUG) {
-      // Update based on shuffleboard
-      setAngle(EffectorTarget.getDouble(0.05));
-    }
+    // if (ENABLE_DEBUG) {
+    //   // Update based on shuffleboard
+    //   setAngle(RobotContainer.operatorInterface.EffectorTarget.getDouble(0.05));
+    // }
 
     // if (Math.abs(m_EffectorMotor.getClosedLoopError().getValueAsDouble()) < 0.01) {
     // }
@@ -175,6 +182,14 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     currentAngleSetpoint = Math.max(MIN_BOTTOM_ANGLE, Math.min(MAX_TOP_ANGLE, targetAngle));
   }
 
+  /**
+   * Check if effector is with a certain amount of error
+   * @return a boolean
+   */
+  public boolean isEffectorAtTarget(){
+    return (Math.abs(currentAngle - currentAngleSetpoint) < MAX_ALLOWED_ERROR);
+  }
+
   @Override
   public void initializeShuffleboard() {
     // Create page in shuffleboard
@@ -185,12 +200,6 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     MotorVoltage = layout.add("Voltage", 0).getEntry();
     MotorAmps = layout.add("Amps", 0).getEntry();
     ClosedLoopError = layout.add("ClosedLoopError", 0).getEntry();
-
-    EffectorTarget = Tab.add("setpoint", 0.05)
-        .withPosition(8, 0)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min_value", CassetteEffector.MIN_BOTTOM_ANGLE, "max_value", CassetteEffector.MAX_TOP_ANGLE))
-        .getEntry();
   }
 
   @Override

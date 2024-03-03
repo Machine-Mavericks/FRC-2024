@@ -4,13 +4,12 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.controls.VelocityDutyCycle;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.commands.IntakeMoveToHoldingPosition;
 
 public class CassetteIntake extends SubsystemBase {
   // Physical components
@@ -40,5 +39,8 @@ public class CassetteIntake extends SubsystemBase {
   public void intakeRun(double state) {
     m_IntakeMotor1.set(INTAKE_SPEED * state); // Todo, this uses percent output, not velocity control as it should
     m_IntakeMotor2.set(INTAKE_SPEED * state);
+    if (state == 0){
+      new IntakeMoveToHoldingPosition();
+    }
   }
 }
