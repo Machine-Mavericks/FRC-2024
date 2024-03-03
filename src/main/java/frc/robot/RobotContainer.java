@@ -50,8 +50,8 @@ public class RobotContainer {
 
   // The robot's subsystems are defined here...
   //public static final Gyro gyro = new Gyro();
-  public static final Limelight limelight1 = new Limelight("shoot"); // Rename later
-  public static final Limelight limelight2 = new Limelight("intake");
+  public static final Limelight shotlimelight = new Limelight("shoot");
+  public static final Limelight intakelimelight = new Limelight("intake");
   //public static final NVidia nvidia = new NVidia();
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
@@ -62,7 +62,7 @@ public class RobotContainer {
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
-  public static final SpeakerTargeting speakertargeting = new SpeakerTargeting(limelight1);
+  public static final SpeakerTargeting speakertargeting = new SpeakerTargeting(shotlimelight);
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and

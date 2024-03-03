@@ -17,7 +17,6 @@ public class SpinupSpeaker extends Command {
   @Override
   public void initialize() {
     RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
-    System.out.println("AAAAAAAAA: " + RobotContainer.speakertargeting.getDistance() + " " + RobotContainer.speakertargeting.IsTarget());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -27,6 +26,8 @@ public class SpinupSpeaker extends Command {
     RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
     RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
     RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
+
+    
   }
 
   // Called once the command ends or is interrupted.

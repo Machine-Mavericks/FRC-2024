@@ -87,6 +87,7 @@ public class AimToSpeaker extends Command {
   public void end(boolean interrupted) {
     // switch off drive motors
     RobotContainer.drivetrain.drive(new Translation2d(0,0), 0.0, false);
+    RobotContainer.operatorinterface.RobotAtAngle.setBoolean(true);
   }
 
   // Returns true when the command should end.

@@ -182,6 +182,10 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     currentAngleSetpoint = Math.max(MIN_BOTTOM_ANGLE, Math.min(MAX_TOP_ANGLE, targetAngle));
   }
 
+  /**
+   * Check if effector is with a certain amount of error
+   * @return a boolean
+   */
   public boolean isEffectorAtTarget(){
     return (Math.abs(currentAngle - currentAngleSetpoint) < MAX_ALLOWED_ERROR);
   }

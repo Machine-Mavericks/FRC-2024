@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import org.opencv.core.Point;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.util.Spline1D;
 
 public class SpeakerTargeting extends SubsystemBase {
@@ -66,7 +67,8 @@ public class SpeakerTargeting extends SubsystemBase {
     double Dist;
     if (shotCamera.isTargetPresent()) {
       Dist = Math.pow(shotCamera.getTargetArea(), -0.562) * 1.5454;
-      System.out.println("Area: " + shotCamera.getTargetArea());
+      // Update shuffleboard
+      RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
       return Dist;
     }
     return 0;

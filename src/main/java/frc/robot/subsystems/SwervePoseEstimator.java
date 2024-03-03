@@ -111,8 +111,8 @@ public class SwervePoseEstimator extends SubsystemBase {
    @Override
   public void periodic() {
 
-    if (RobotContainer.limelight1.isTargetPresent()){
-      RobotContainer.limelight1.addDetection();
+    if (RobotContainer.shotlimelight.isTargetPresent()){
+      RobotContainer.shotlimelight.addDetection();
     }
 
     // get gyro angle (in degrees) and make rotation vector

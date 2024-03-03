@@ -24,7 +24,7 @@ public class AimThenShootSpeaker extends SequentialCommandGroup {
     }
 
     addCommands(
-      new InstantCommand(() -> RobotContainer.limelight1.setPipeline(1)),
+      new InstantCommand(() -> RobotContainer.shotlimelight.setPipeline(1)),
       new ParallelRaceGroup(
         new AimToSpeaker(),
         new SpinupSpeaker()

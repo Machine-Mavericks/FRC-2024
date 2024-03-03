@@ -39,6 +39,8 @@ public class ShuffleboardOI extends SubsystemBase {
 
     public GenericEntry ShooterAtSpeed;
     public GenericEntry ShooterAtAngle;
+    public GenericEntry RobotAtAngle;
+    public GenericEntry TargetDistance;
 
     // other controls on main page
     private GenericEntry m_timeLeft;
@@ -133,6 +135,12 @@ public class ShuffleboardOI extends SubsystemBase {
         ShooterAtAngle = ShotInfoLayout.add("Shooter Angle", false)
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
+
+        RobotAtAngle = ShotInfoLayout.add("Robot Angle", false)
+        .withWidget(BuiltInWidgets.kBooleanBox)
+        .getEntry();
+
+        TargetDistance = ShotInfoLayout.add("Target Distance", 0).getEntry();
 
         // add match time remaining in autonomous/teleop part of match (seconds)
         ShuffleboardLayout l1 = tab.getLayout("Timer", BuiltInLayouts.kList);
