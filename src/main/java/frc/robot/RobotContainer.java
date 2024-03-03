@@ -19,6 +19,8 @@ import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.NVidia;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SwerveOdometry;
 import frc.robot.subsystems.SwervePoseEstimator;
@@ -41,6 +43,9 @@ public class RobotContainer {
 
   // The robot's subsystems are defined here...
   //public static final Gyro gyro = new Gyro();
+  public static final Limelight limelight1 = new Limelight("shoot");
+  public static final Limelight limelight2 = new Limelight("intake");
+  //public static final NVidia nvidia = new NVidia();
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
   public static final SwerveOdometry odometry = new SwerveOdometry();
