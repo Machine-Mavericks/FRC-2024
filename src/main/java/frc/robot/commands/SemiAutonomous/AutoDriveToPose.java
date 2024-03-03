@@ -6,6 +6,7 @@ package frc.robot.commands.SemiAutonomous;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -33,6 +34,7 @@ public class AutoDriveToPose extends Command {
   private GenericEntry m_targetAngle;
   private GenericEntry m_xSpeed;
   private GenericEntry m_ySpeed;
+  private GenericEntry m_rotSpeed;
   
   // field visualization object to display on shuffleboard
   private Field2d m_field;
@@ -48,6 +50,7 @@ public class AutoDriveToPose extends Command {
 
   private double xSpeed;
   private double ySpeed;
+  private double rotSpeed;
 
   public static double AngleDifference( double angle1, double angle2 )
   {
@@ -58,6 +61,9 @@ public class AutoDriveToPose extends Command {
   /** Creates a new AutoDriveToPoseCommand. 
    * Use this to have command to drive back to coordinate provided to it */
   public AutoDriveToPose(Pose2d target, double speed, double rotationalspeed, double timeout) {
+    // create 2d field object
+    m_field = new Field2d();
+
     addRequirements(RobotContainer.drivetrain);
     m_target = target;
     m_speed = speed;
@@ -79,6 +85,8 @@ public class AutoDriveToPose extends Command {
   public void initialize() {
     m_time = 0.0;
 
+    // Pose2d curr = RobotContainer.swervepose.getPose2d();
+    // m_target = new Pose2d(curr.getX(),curr.getY(), curr.getRotation().rotateBy(new Rotation2d(Math.toRadians(180))));
     // recall previously saved point and use it as our destination
     if (m_recallPoint)
       m_target = RobotContainer.swervepose.RecallPoint(0);
@@ -94,10 +102,10 @@ public class AutoDriveToPose extends Command {
     m_time += 0.02;
 
     // execute PIDs
-    xSpeed = m_xController.calculate(curr.getX()- m_target.getX() );
+    xSpeed = -m_xController.calculate(curr.getX()- m_target.getX() );
     ySpeed = -m_yController.calculate(curr.getY() - m_target.getY() );
     
-    double rotSpeed = m_rotController.calculate(-AngleDifference(curr.getRotation().getDegrees(),m_target.getRotation().getDegrees()));
+    rotSpeed = m_rotController.calculate(-AngleDifference(curr.getRotation().getDegrees(),m_target.getRotation().getDegrees()));
     //double rotSpeed = m_rotController.calculate(curr.getRotation().getDegrees() - m_target.getRotation().getDegrees());
 
     // limit speeds to allowable
@@ -114,11 +122,11 @@ public class AutoDriveToPose extends Command {
     if (rotSpeed < -m_rotspeed)
       rotSpeed = -m_rotspeed;
 
-    // drive robot according to x,y,rot PID controller speeds
-    // RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
-    //                                                   ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
-    //                                 rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-    //                                 true);
+    //drive robot according to x,y,rot PID controller speeds
+    RobotContainer.drivetrain.drive(new Translation2d(xSpeed*0.2*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
+                                                      ySpeed*0.2*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
+                                    rotSpeed*0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                                    true);
 
     updateShuffleboard();
   }
@@ -151,13 +159,14 @@ public class AutoDriveToPose extends Command {
     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
     l2.withPosition(1, 0);
     l2.withSize(1, 3);
-    m_targetX = l2.add("X2 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
-    m_targetY = l2.add("Y2 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
-    m_targetAngle = l2.add("Angle2(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
+    m_targetX = l2.add("X3 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
+    m_targetY = l2.add("Y3 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
+    m_targetAngle = l2.add("Angle3(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
     m_xSpeed = l2.add("xspeed",0.0).getEntry();
-    m_ySpeed = l2.add("xspeed",0.0).getEntry();
+    m_ySpeed = l2.add("yspeed",0.0).getEntry();
+    m_rotSpeed = l2.add("rotSpeed",0).getEntry();
   
-    Tab.add("Field", m_field)
+    Tab.add("Fieldz", m_field)
     .withPosition(2, 0)
     .withSize(5, 3);
   
@@ -171,6 +180,7 @@ public class AutoDriveToPose extends Command {
     m_targetAngle.setDouble(vector.getRotation().getDegrees());
     m_xSpeed.setDouble(xSpeed);
     m_ySpeed.setDouble(ySpeed);
+    m_rotSpeed.setDouble(rotSpeed);
     m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
   }
   
