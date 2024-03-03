@@ -17,7 +17,8 @@ public class SpeakerTargeting extends SubsystemBase {
     new Point(2,0.18),
     new Point(2.7,0.138),
     new Point(3.1, 0.11),
-    new Point(3.57, 0.085),
+    new Point(3.57, 0.087),
+    new Point(4, 0.08),
     new Point(5.74, 0.063),
   });
 
