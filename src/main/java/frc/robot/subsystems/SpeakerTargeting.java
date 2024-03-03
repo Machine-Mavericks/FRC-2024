@@ -4,15 +4,47 @@
 
 package frc.robot.subsystems;
 
+import org.opencv.core.Point;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.Spline1D;
 
 public class SpeakerTargeting extends SubsystemBase {
+  private Limelight shotCamera;
+
+  private static final Spline1D ANGLE_CURVE = new Spline1D(new Point[]{
+    new Point(2,0.18),
+    new Point(2.7,0.138),
+    new Point(3.1, 0.11),
+    new Point(3.57, 0.085),
+    new Point(5.74, 0.063),
+  });
+
+  // private static final Spline1D LSPEED_CURVE = new Spline1D(new Point[]{
+  //   new Point(30, 3000),
+  //   new Point(4.5,)
+  // });
+
   /** Creates a new SpeakerTargeting. */
-  public SpeakerTargeting() {}
+  public SpeakerTargeting(Limelight shotCamera) {
+    this.shotCamera = shotCamera;
+  }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    
+  }
+
+  public double getDesiredAngle(){
+    return ANGLE_CURVE.interpolate(getDistance(), true);
+  }
+  
+  public double getDesiredLSpeed(){
+    return 3000;
+  }
+
+  public double getDesiredRSpeed(){
+    return 6000;
   }
 
   /**
@@ -22,12 +54,22 @@ public class SpeakerTargeting extends SubsystemBase {
    * @return boolean (true if target, false if not)
    */
   public boolean IsTarget() {
-    // boolean target = m_hubCamera.isTargetPresent();
+    boolean target = shotCamera.isTargetPresent();
     // double distance = EstimateDistance();
 
     // // we have valid target if distance is >2.9m
     // return (target == true && distance >= 2.90);
-    return false;
+    return target;
+  }
+
+  public double getDistance(){
+    double Dist;
+    if (shotCamera.isTargetPresent()) {
+      Dist = Math.pow(shotCamera.getTargetArea(), -0.562) * 1.5454;
+      System.out.println("Area: " + shotCamera.getTargetArea());
+      return Dist;
+    }
+    return 0;
   }
 
 
@@ -37,8 +79,7 @@ public class SpeakerTargeting extends SubsystemBase {
    * @return rotation angle
    */
   public double getSpeakerAngle() {
-    // double tx = m_hubCamera.getHorizontalTargetOffsetAngle();
-    // return tx;
-    return 0;
+    double tx = shotCamera.getHorizontalTargetOffsetAngle();
+    return tx;
   }
 }

@@ -5,24 +5,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.CassetteEffector;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CleanupShot extends SequentialCommandGroup {
-  /** Creates a new CleanupShot. */
-  public CleanupShot() {
+public class AimThenShootSpeaker extends SequentialCommandGroup {
+  /** Creates a new AimThenShootSpeaker. */
+  public AimThenShootSpeaker() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    if (!RobotContainer.speakertargeting.IsTarget()) {
+      System.out.println("Nope.");
+      return;
+    }
+
     addCommands(
-      new InstantCommand(() -> RobotContainer.operatorinterface.ShooterAtAngle.setBoolean(false)),
-      new InstantCommand(() -> RobotContainer.operatorinterface.ShooterAtSpeed.setBoolean(false)),
-      new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
-      new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
-      new IntakeMoveToHoldingPosition()
+      new InstantCommand(() -> RobotContainer.limelight1.setPipeline(1)),
+      new ParallelRaceGroup(
+        new AimToSpeaker(),
+        new SpinupSpeaker()
+      ),
+      new ParallelCommandGroup(
+        new WaitForEffectorAngle(), 
+        new WaitForShooterSpinup()
+      ),
+      new ShootSpeaker()
     );
   }
 }

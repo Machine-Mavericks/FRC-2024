@@ -11,9 +11,9 @@ import frc.robot.RobotContainer;
 
 public class AimToSpeaker extends Command {
 // PID gains for rotating robot towards ball target
-  double kp = 0.0125;
-  double ki = 0.001;
-  double kd = 0.0004;
+  double kp = 0.01;
+  double ki = 0.0;
+  double kd = 0.0001;
   PIDController pidController = new PIDController(kp, ki, kd);
   
   // timer counts how long robot is lined up to target for
@@ -37,35 +37,32 @@ public class AimToSpeaker extends Command {
     TargetAngle=0.0;
   }
 
-// angle to target
-double TargetAngle;
-int missedSamples;
+  // angle to target
+  double TargetAngle;
+  int missedSamples;
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    
-    
     // if we have target, then get angle. If no target, assume 180deg
     if ((RobotContainer.speakertargeting.IsTarget()))
     {
       TargetAngle = RobotContainer.speakertargeting.getSpeakerAngle();
       missedSamples = 0;
     }
-      else{
-        missedSamples +=1;
-        if (missedSamples >=3)
-          TargetAngle = 180;
-      }
+    else{
+      missedSamples +=1;
+      if (missedSamples >=3)
+        TargetAngle = 0;
+    }
       
 
     // calculate PID controller
     double controlleroutput = 0.0;
-    if (Math.abs(TargetAngle)>2.0 && Math.abs(TargetAngle)<3.0)
-      pidController.setI(0.05);
-    else
-      pidController.setI(0.001);
+    // if (Math.abs(TargetAngle)>2.0 && Math.abs(TargetAngle)<3.0)
+    //   pidController.setI(0.05);
+    // else
+    //   pidController.setI(0.001);
     controlleroutput = pidController.calculate(TargetAngle);
 
     // limit rotation speed of robot
@@ -76,14 +73,13 @@ int missedSamples;
 
     // turn robot towards target
     RobotContainer.drivetrain.drive(
-      new Translation2d(0,0), controlleroutput * RobotContainer.drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
+      new Translation2d(0,0), controlleroutput * RobotContainer.drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * 0.7, false);
   
     // add time if we are on target within 1deg. Otherwise, reset timer
     if (RobotContainer.speakertargeting.IsTarget() && Math.abs(TargetAngle)<2.0)
       OnTargetTime += 0.02;
     else
       OnTargetTime = 0.0;
-  
     }
 
   // Called once the command ends or is interrupted.

@@ -4,37 +4,43 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.CassetteEffector;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShootSpeaker extends SequentialCommandGroup {
+public class ShootSpeaker extends Command {
+  private Timer timer;
   /** Creates a new ShootSpeaker. */
   public ShootSpeaker() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(RobotContainer.operatorInterface.EffectorTarget.getDouble(0.05))),
-      new InstantCommand(()-> RobotContainer.cassetteshooter.leftShootRun(RobotContainer.operatorInterface.LShooterSpeed.getDouble(0))),
-      new InstantCommand(()-> RobotContainer.cassetteshooter.rightShootRun(RobotContainer.operatorInterface.RShooterSpeed.getDouble(0))),
-      // Commands.parallel(new WaitForEffectorAngle(), new WaitForShooterSpinup()),
-      new ParallelCommandGroup(
-        new WaitForEffectorAngle(), 
-        new WaitForShooterSpinup()
-      ),
-      new WaitForShooterSpinup(),
-      new WaitForEffectorAngle(),
-      new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1)),
-      new DelayCommand(0.5),
-      new InstantCommand(()-> RobotContainer.cassetteshooter.stopShooter()),
-      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
-      new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0)),
-      new CleanupShot()
-    );
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.cassetteintake);
+    addRequirements(RobotContainer.cassetteshooter);
+    timer = new Timer();
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    RobotContainer.cassetteintake.intakeRun(1);
+    timer.reset();
+    timer.start();
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {}
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    CommandScheduler.getInstance().schedule(new CleanupShot());
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return timer.hasElapsed(0.5);
   }
 }
