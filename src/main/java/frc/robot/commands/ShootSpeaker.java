@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc.robot.RobotContainer;
+import frc.robot.commands.SemiAutonomous.CleanupShot;
 
 public class ShootSpeaker extends Command {
   private Timer timer;

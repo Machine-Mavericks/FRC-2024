@@ -2,22 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.SemiAutonomous;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
-public class WaitForShooterSpinup extends Command {
+public class WaitForEffectorAngle extends Command {
   /** Maximum time shooter will try to hit target speed */
-  private static final double SPINUP_TIMEOUT = 2;
+  private static final double ANGLE_TIMEOUT = 2;
   private Timer timer;
 
   /** True if shot hasn't timed out */
   private boolean validShot = true;
 
-  /** Creates a new WaitForShooterSpinup. */
-  public WaitForShooterSpinup() {
+  /** Creates a new WaitForEffectorAngle. */
+  public WaitForEffectorAngle() {
     timer = new Timer();
   }
 
@@ -36,19 +36,19 @@ public class WaitForShooterSpinup extends Command {
   @Override
   public void end(boolean interrupted) {
     if (!interrupted && validShot) {
-      System.out.println("Shooting at: " + RobotContainer.cassetteshooter.getSpeedL());
-      RobotContainer.operatorinterface.ShooterAtSpeed.setBoolean(true);
-    }
+      System.out.println("Hit effector angle");
+      RobotContainer.operatorinterface.ShooterAtAngle.setBoolean(true);
+    } 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (timer.hasElapsed(SPINUP_TIMEOUT)) {
-      System.out.println("Error: Shooter failed to hit speed");
+    if (timer.hasElapsed(ANGLE_TIMEOUT)) {
+      System.out.println("Error: Shooter failed to hit target angle");
       validShot = false;
       return true;
     }
-    return RobotContainer.cassetteshooter.isShooterAtSpeedSetpoint();
+    return RobotContainer.cassetteangle.isEffectorAtTarget();
   }
 }
