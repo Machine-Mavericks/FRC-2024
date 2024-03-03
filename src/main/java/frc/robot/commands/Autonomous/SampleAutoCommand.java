@@ -16,7 +16,7 @@ public class SampleAutoCommand extends SequentialCommandGroup {
   /** Creates a new SampleAutoCommand2. */
   public SampleAutoCommand() {
     addCommands(
-      new AutoDriveToPose(AutoFunctions.NotesAtStart[4], 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 5)
+      new AutoDriveToPose(AutoFunctions.NotesAtStart[3], Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 5)
     );
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
