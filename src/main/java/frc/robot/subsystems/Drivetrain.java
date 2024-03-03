@@ -156,7 +156,7 @@ public class Drivetrain extends SubsystemBase {
 
 
     // Whether motors should try to brake
-    public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Coast;
+    public static final NeutralModeValue NEUTRAL_MODE = NeutralModeValue.Brake;
 
     // -------------------- Swerve Module Data Arrays --------------------
     
