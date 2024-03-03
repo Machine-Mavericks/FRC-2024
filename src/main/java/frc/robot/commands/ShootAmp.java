@@ -26,6 +26,7 @@ public class ShootAmp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.AMP_ANGLE);
     Timer.reset();
     Timer.start();
   }
@@ -33,15 +34,10 @@ public class ShootAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int lpercent=60;
-    int rpercent=100;
-    RobotContainer.cassetteangle.setAngle(CassetteEffector.AMP_ANGLE);
-    // TODO: figure out if these (v) need to be swapped
     RobotContainer.cassetteshooter.leftShootRun(500);
     RobotContainer.cassetteshooter.rightShootRun(500);
-    //while (!RobotContainer.cassetteshooter.isShooterAtSpeedSetpoint()){};
+    new DelayCommand(0.5);
     RobotContainer.cassetteintake.intakeRun(1);
-
   }
 
   // Called once the command ends or is interrupted.
