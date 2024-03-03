@@ -29,13 +29,13 @@ public class Auto1 extends SequentialCommandGroup {
     addCommands(
       new TurnRobot(180,false,1),
       new AimThenShootSpeaker(),
-      new AutoDriveToPose(AutoFunctions.NotesAtStart[0], 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[0]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
       new SteerToNote(true, 2),
       new AimThenShootSpeaker(),
-      new AutoDriveToPose(AutoFunctions.NotesAtStart[1], 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[1]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
       new SteerToNote(true,4),
       new AimThenShootSpeaker(),
-      new AutoDriveToPose(AutoFunctions.NotesAtStart[2], 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[2]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
       new SteerToNote(true, 4),
       new AimThenShootSpeaker()
     );

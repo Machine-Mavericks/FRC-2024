@@ -47,4 +47,15 @@ public class AutoFunctions {
         }
         return new Pose2d(x,y,new Rotation2d(angle));
     }
+
+
+    public static Pose2d redVsBlue(Pose2d pose) {
+        if (DriverStation.getAlliance().equals(DriverStation.Alliance.Red)){
+            double x = 16.4846 - pose.getX();
+            double y = pose.getY();
+            Rotation2d angle = new Rotation2d(Math.toRadians(180)).rotateBy(pose.getRotation());
+            return new Pose2d(x,y,angle);
+        }
+        return pose;
+    }
 }
