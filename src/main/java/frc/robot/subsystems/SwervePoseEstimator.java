@@ -124,9 +124,10 @@ public class SwervePoseEstimator extends SubsystemBase {
    * @param area area of apriltag in frame
    */
   public void addVision(Pose2d vision, double area){
-    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
+    Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYaw()*DEGtoRAD));
+    m_estimator.addVisionMeasurement(vision1, Timer.getFPGATimestamp());
     double stdDevs = 0.1*area;
-    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 10*stdDevs));
+    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
   }
 
   
