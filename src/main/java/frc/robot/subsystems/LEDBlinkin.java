@@ -29,7 +29,11 @@ public class LEDBlinkin extends SubsystemBase {
   public enum LED_PATTERN {
     OFF,
     LOWBATTERY,
-    DISCO
+    DISCO,
+    REDALLIANCE,
+    BLUEALLIANCE,
+    SEESNOTES,
+    APRILTAGS
     // Add
   };
 
@@ -45,7 +49,19 @@ public class LEDBlinkin extends SubsystemBase {
       break;
       case DISCO:
         led.setSpeed(-0.45);   // color wave - rainbow
+      case REDALLIANCE:
+        led.setSpeed(0.360); // red 
       break;
+      case BLUEALLIANCE:
+        led.setSpeed(0.240); // blue 
+      break; 
+      case SEESNOTES:
+        led.setSpeed(-0.120); // pink
+      break;
+      case APRILTAGS:
+        led.setSpeed(0.120); //green
+      break;
+     
 
     }
     

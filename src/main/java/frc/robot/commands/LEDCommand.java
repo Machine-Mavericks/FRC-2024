@@ -4,8 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.apriltag.AprilTagDetection;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.LED;
+import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.LEDBlinkin.LED_PATTERN;
 
 /** Command controls LEDs to display required information to driver */
@@ -18,6 +21,8 @@ public class LEDCommand extends Command {
   public LEDCommand() {
     //addRequirements(RobotContainer.LEDStrip);
     addRequirements(RobotContainer.LEDStrip);
+   
+  
   }
 
   
@@ -33,9 +38,11 @@ public class LEDCommand extends Command {
     counter +=1;
     if (counter>25)
       counter=0;
-
+     
     // insert if statements to change LED patterns
-
+    
+      
+    
   }
 
   // Called once the command ends or is interrupted.
