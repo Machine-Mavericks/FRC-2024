@@ -21,6 +21,7 @@ import frc.robot.commands.Autonomous.SampleAutoCommand;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -98,10 +99,12 @@ public class RobotContainer {
     OI.intakeButton.onFalse(new IntakeMoveToHoldingPosition());
 
     OI.shooterButton.whileTrue(new AimThenShootSpeaker());
+    OI.shooterButton.onFalse(new CleanupShot());
     
     OI.ampButton.onTrue(new ShootAmp());
 
     OI.unstuckButton.whileTrue(new UnstuckShot());
+    OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
   }
 
   /**

@@ -30,7 +30,6 @@ public class IntakeMoveToHoldingPosition extends Command {
   @Override
   public void execute() {
     RobotContainer.cassetteintake.intakeRun(-0.4);
-    RobotContainer.cassetteintake.intakeRun(-0.4);
   }
 
   // Called once the command ends or is interrupted.
