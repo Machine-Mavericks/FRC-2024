@@ -15,6 +15,7 @@ import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.OldShootSpeaker;
+import frc.robot.commands.OperatorSpinup;
 import frc.robot.commands.SourceIntake;
 import frc.robot.commands.UnstuckShot;
 import frc.robot.commands.Autonomous.SampleAutoCommand;
@@ -93,18 +94,26 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private static void configureButtonBindings() {
+    // Zero gyro for driving
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
 
+    // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(true));
     OI.intakeButton.onFalse(new IntakeMoveToHoldingPosition());
 
-    OI.shooterButton.whileTrue(new AimThenShootSpeaker());
-    OI.shooterButton.onFalse(new CleanupShot());
+    // Speaker shot
+    OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
+    OI.speakerShooterButton.onFalse(new CleanupShot());
     
+    // Amp shot
     OI.ampButton.onTrue(new ShootAmp());
 
+    // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
+
+    // Preemtively spin up shooter on command
+    OI.spinupShooterButton.whileTrue(new OperatorSpinup());
   }
 
   /**

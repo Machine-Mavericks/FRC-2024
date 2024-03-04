@@ -32,8 +32,8 @@ public class CassetteShooter extends SubsystemBase {
     m_LShootMotor = new TalonFX(RobotMap.CANID.L_OUT_CASSETTE);
     m_RShootMotor = new TalonFX(RobotMap.CANID.R_OUT_CASSETTE);
    
-   var slot0Configs = new Slot0Configs();
-    // slot0Configs.kS = 0.06;
+    var slot0Configs = new Slot0Configs();
+    
     slot0Configs.kV = 0.11;
     slot0Configs.kP = 0.05;
     slot0Configs.kI = 0;
