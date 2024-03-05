@@ -22,6 +22,9 @@ import edu.wpi.first.math.util.Units;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+
+import java.io.IOException;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Limelight extends SubsystemBase {
@@ -72,6 +75,8 @@ public class Limelight extends SubsystemBase {
     private GenericEntry m_BotPoseRed[] = new GenericEntry[6];
     private GenericEntry m_BotPoseBlue[] = new GenericEntry[6];
 
+    private LimelightResults cached_json_results = new LimelightResults();
+    private boolean requested_json_dump = false;
   
     /**
      * Creates a new Limelight.
@@ -119,6 +124,12 @@ public class Limelight extends SubsystemBase {
       {
         updateShuffleboard();
         m_UpdateTimer=0;
+      }
+
+      // Update only once per periodic, in case multiple subsystems ask for data
+      if (m_FiducialEnable && requested_json_dump) {
+        // *might* add like one periodic loop of delay to data, but whatever
+        UpdateJSONResults();
       }
     }
   
@@ -440,20 +451,31 @@ public class Limelight extends SubsystemBase {
 
 // gets JSON fiducial target into from camera
 private static ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);;
-public LimelightResults GetJSONResults ()
+
+/**
+ * Calling once will make limelight start parsing data each update loop
+ */
+public LimelightResults getLatestJSONDump(){
+  if (!requested_json_dump) {
+    requested_json_dump = true;
+    UpdateJSONResults();
+  }
+  return cached_json_results;
+}
+
+private void UpdateJSONResults()
 {
-  LimelightResults results = new LimelightResults();
-  
+  cached_json_results = new LimelightResults();
   // get json from camera
-  String string = m_table.getEntry("json").getString("");
+  byte[] rawData = m_table.getEntry("json").getRaw(new byte[0]);
   
   try {
-    results = mapper.readValue(string, LimelightResults.class);
+    cached_json_results = mapper.readValue(rawData, LimelightResults.class);
   } catch (JsonProcessingException e) {
     System.err.println("lljson error: " + e.getMessage());
+  } catch (IOException e){
+    System.err.println("lljson error: " + e.getMessage());
   }
-
-  return results;
 }
 
 // structure containing JSON results

@@ -8,10 +8,16 @@ import org.opencv.core.Point;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Limelight.LimelightTarget_Fiducial;
 import frc.robot.util.Spline1D;
 
 public class SpeakerTargeting extends SubsystemBase {
   private Limelight shotCamera;
+
+  private static final int RED_SPEAKER_TAG_ID = 6;
+  private static final int BLUE_SPEAKER_TAG_ID = 7;
+
+  private double currentAngle = 0;
 
   private static final Spline1D ANGLE_CURVE = new Spline1D(new Point[]{
     new Point(2,0.18),
@@ -34,7 +40,17 @@ public class SpeakerTargeting extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+    if (shotCamera.isTargetPresent()) {
+      // When using a pipeline that tracks all targets need to filter out which ones to use
+      for (var tag : shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials){
+        //System.out.println(tag.fiducialID);
+        if (tag.fiducialID == RED_SPEAKER_TAG_ID || tag.fiducialID == BLUE_SPEAKER_TAG_ID) {
+          currentAngle = tag.tx;
+        }
+      }
+    }else{
+      currentAngle = 0;
+    }
   }
 
   public double getDesiredAngle(){
@@ -82,7 +98,9 @@ public class SpeakerTargeting extends SubsystemBase {
    * @return rotation angle
    */
   public double getSpeakerAngle() {
-    double tx = shotCamera.getHorizontalTargetOffsetAngle();
-    return tx;
+    //double tx = shotCamera.getHorizontalTargetOffsetAngle();
+    // return tx;
+
+    return currentAngle;
   }
 }

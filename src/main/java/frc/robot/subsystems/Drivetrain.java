@@ -28,8 +28,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
+import frc.robot.util.ShuffleUser;
+import frc.robot.util.SubsystemShuffleboardManager;
 import frc.robot.util.Utils;
 
 // TODO LIST:
@@ -37,12 +40,13 @@ import frc.robot.util.Utils;
 // [X] Investigate CAN signal latency, as well as possible erroneous lack of compensation in the gyro
 // [X] Get a constants folder
 // [X] Un break / tune closed loop driving
-// [-] Get rid of old odometry class
+// [X] Get rid of old odometry class
+// [-] Write test for SubsystemShuffleboardManager
 
 /**
  * Subsystem representing the swerve drivetrain
  */
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends SubsystemBase implements ShuffleUser {
     //Useful reference: https://pro.docs.ctr-electronics.com/en/latest/docs/api-reference/mechanisms/swerve/swerve-builder-api.html
     
     // Helper class to ensure all constants are formatted correctly for Pheonix 6 swerve library
@@ -196,6 +200,8 @@ public class Drivetrain extends SubsystemBase {
 
     // Shuffleboard classes
     private ShuffleboardTab tab;
+    private GenericEntry XInput;
+    private GenericEntry YInput;
     // value controlled on shuffleboard to stop the jerkiness of the robot by limiting its acceleration
     public GenericEntry maxAccel;
     public GenericEntry speedLimitFactor;
@@ -232,7 +238,8 @@ public class Drivetrain extends SubsystemBase {
         tab.add("Reset Drivetrain", new InstantCommand(()->{resetModules(NEUTRAL_MODE);}))
         .withPosition(0,0)
         .withSize(2, 1);
-
+        
+        SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 5);
         // fudgeFactor = tab.addPersistent("FudgeFactor", 0)
         // .withPosition(8, 3)
         // .withWidget(BuiltInWidgets.kNumberSlider)
@@ -313,6 +320,7 @@ public class Drivetrain extends SubsystemBase {
             m_states[i] = new SwerveModuleState(); // Initialize to blank states at the beginning, will be overwritten in first periodic loop
             m_targetStates[i] = new SwerveModuleState();
 
+            // Apply deadband to drive motors
             MotorOutputConfigs configs = new MotorOutputConfigs();
             module.getDriveMotor().getConfigurator().refresh(configs);
 
@@ -510,5 +518,20 @@ public class Drivetrain extends SubsystemBase {
         return m_positions;
     }
 
-    
+    // -------------------- Shuffleboard --------------------
+
+    @Override
+    public void initializeShuffleboard() {
+        XInput = tab.add("X Input", 0)
+        .withPosition(3, 1).getEntry();
+        YInput = tab.add("Y Input", 0)
+        .withPosition(3, 1).getEntry();
+    }
+
+    @Override
+    public void updateShuffleboard(){
+        XInput.setDouble(OI.driverController.getLeftX());
+        YInput.setDouble(OI.driverController.getLeftY());
+    }
+
 } // end class Drivetrain
