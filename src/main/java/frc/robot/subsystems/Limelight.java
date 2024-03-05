@@ -76,7 +76,7 @@ public class Limelight extends SubsystemBase {
     private GenericEntry m_BotPoseBlue[] = new GenericEntry[6];
 
     private LimelightResults cached_json_results = new LimelightResults();
-    private boolean requested_json_dump = false;
+    private boolean cached_data_valid = false;
   
     /**
      * Creates a new Limelight.
@@ -126,11 +126,8 @@ public class Limelight extends SubsystemBase {
         m_UpdateTimer=0;
       }
 
-      // Update only once per periodic, in case multiple subsystems ask for data
-      if (m_FiducialEnable && requested_json_dump) {
-        // *might* add like one periodic loop of delay to data, but whatever
-        UpdateJSONResults();
-      }
+      // Invalidate cached data for next command loop
+      cached_data_valid = false;
     }
   
     // ---------- Camera Control Functions ----------
@@ -453,12 +450,12 @@ public class Limelight extends SubsystemBase {
 private static ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);;
 
 /**
- * Calling once will make limelight start parsing data each update loop
+ * Gets latest JSON dump from limelight, calling more than once per loop is fine since results are cached
  */
 public LimelightResults getLatestJSONDump(){
-  if (!requested_json_dump) {
-    requested_json_dump = true;
+  if (!cached_data_valid) {
     UpdateJSONResults();
+    cached_data_valid = true;
   }
   return cached_json_results;
 }
