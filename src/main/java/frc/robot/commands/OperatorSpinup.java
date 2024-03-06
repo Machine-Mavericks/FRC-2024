@@ -19,17 +19,22 @@ public class OperatorSpinup extends Command {
   @Override
   public void initialize() {
     // Set speed once
-    RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
-    RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
-    RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
+    if (RobotContainer.speakertargeting.IsTarget()) {
+      RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
+      RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
+      RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
-    RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
-    RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
+    if (RobotContainer.speakertargeting.IsTarget()) {
+      // Continuously update
+      RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
+      RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
+      RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
+    }
   }
 
   // Called once the command ends or is interrupted.
