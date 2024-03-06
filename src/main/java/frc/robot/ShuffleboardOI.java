@@ -37,6 +37,7 @@ public class ShuffleboardOI extends SubsystemBase {
     public GenericEntry LShooterSpeed;
     public GenericEntry RShooterSpeed;
 
+    public GenericEntry SeesTarget;
     public GenericEntry ShooterAtSpeed;
     public GenericEntry ShooterAtAngle;
     public GenericEntry RobotAtAngle;
@@ -137,6 +138,10 @@ public class ShuffleboardOI extends SubsystemBase {
         .getEntry();
 
         RobotAtAngle = ShotInfoLayout.add("Robot Angle", false)
+        .withWidget(BuiltInWidgets.kBooleanBox)
+        .getEntry();
+
+        SeesTarget = ShotInfoLayout.add("Target Aquired", false)
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
 

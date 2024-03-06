@@ -8,6 +8,7 @@ import org.opencv.core.Point;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.ShuffleboardOI;
 import frc.robot.subsystems.Limelight.LimelightTarget_Fiducial;
 import frc.robot.util.Spline1D;
 
@@ -74,7 +75,8 @@ public class SpeakerTargeting extends SubsystemBase {
    * @return boolean (true if target, false if not)
    */
   public boolean IsTarget() {
-    boolean target = shotCamera.isTargetPresent();
+    boolean target = speakerTargetPresent;
+    RobotContainer.operatorinterface.SeesTarget.setBoolean(target);
     // double distance = EstimateDistance();
 
     // // we have valid target if distance is >2.9m
@@ -84,7 +86,7 @@ public class SpeakerTargeting extends SubsystemBase {
 
   public double getDistance(){
     double Dist;
-    if (shotCamera.isTargetPresent()) {
+    if (IsTarget()) {
       Dist = Math.pow(shotCamera.getTargetArea(), -0.562) * 1.5454;
       // Update shuffleboard
       RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
