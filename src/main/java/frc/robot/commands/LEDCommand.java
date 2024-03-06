@@ -4,7 +4,10 @@
 
 package frc.robot.commands;
 
+import com.revrobotics.ColorSensorV3.LEDPulseFrequency;
+
 import edu.wpi.first.apriltag.AprilTagDetection;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.LED;
@@ -34,16 +37,11 @@ public class LEDCommand extends Command {
   int counter = 0;
   @Override
   public void execute() {
-    
-    counter +=1;
-    if (counter>25)
-      counter=0;
+   
+  }
      
     // insert if statements to change LED patterns
-    
-      
-    
-  }
+
 
   // Called once the command ends or is interrupted.
   @Override
