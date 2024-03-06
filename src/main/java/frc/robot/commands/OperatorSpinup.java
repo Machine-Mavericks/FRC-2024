@@ -32,10 +32,8 @@ public class OperatorSpinup extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // If interrupted by shoot command, don't stop shooter. Otherwise, do stop shooter
-    if (!interrupted) {
-      RobotContainer.cassetteshooter.stopShooter();
-    }
+    // Probably fine
+    RobotContainer.cassetteshooter.stopShooter();
   }
 
   // This is the default, so this code could be deleted wihout problems, but serves as a good reminder that interruption behaviours exist

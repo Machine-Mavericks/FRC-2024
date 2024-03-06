@@ -61,7 +61,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   public static final double SPEAKER_ANGLE = 0.05; //from flush against
 
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
-  .withKP(40).withKI(0).withKD(0.1)
+  .withKP(50).withKI(0).withKD(0.1)
   .withKS(0).withKV(0).withKA(0);
 
   private static final Spline1D FEEDFORWARD_CURVE = new Spline1D(new Point[]{
@@ -120,9 +120,9 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     effectorConfig.Slot0 = EFFECTOR_GAINS;
 
     // Motion magic cruise values
-    effectorConfig.MotionMagic.MotionMagicAcceleration = 0.8;
-    effectorConfig.MotionMagic.MotionMagicCruiseVelocity = 0.8;
-    effectorConfig.MotionMagic.MotionMagicJerk = 5;
+    effectorConfig.MotionMagic.MotionMagicAcceleration = 1.6;
+    effectorConfig.MotionMagic.MotionMagicCruiseVelocity = 1.6;
+    effectorConfig.MotionMagic.MotionMagicJerk = 16;
 
     m_EffectorMotor.getConfigurator().apply(effectorConfig);
     m_EffectorMotor.setNeutralMode(NeutralModeValue.Brake);

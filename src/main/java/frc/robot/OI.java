@@ -64,19 +64,19 @@ public class OI {
         static final Button ZERO_GYRO = XboxController.Button.kBack;
         /** Button to drive at reduced speed */
         static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kRightBumper;
-        /** Button to intake note */
-        static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
         /** Button to shoot note */
         static final Button SHOOT_BUTTON = XboxController.Button.kRightBumper;
         /** Button for amp shot */
         static final Button AMP_BUTTON = XboxController.Button.kX;
+        /** Button for auto intake */
+        static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
     }
 
     private static class OperatorBindings{
         /** Button to spit out note */
         static final Button UNSTUCK_BUTTON = XboxController.Button.kA;
-        /** Button for auto intake */
-        static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        /** Button to manually intake note */
+        static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
         /** Button for auto intake */
         static final Button SPINUP_SHOOTER_BUTTON = XboxController.Button.kRightBumper;
     }
@@ -102,9 +102,9 @@ public class OI {
     public static final JoystickButton unstuckButton = new JoystickButton(operatorController, OperatorBindings.UNSTUCK_BUTTON.value);
 
     /**Button to trigger intake */
-    public static final JoystickButton intakeButton = new JoystickButton(driverController, DriverBindings.INTAKE_BUTTON.value);
+    public static final JoystickButton intakeButton = new JoystickButton(operatorController, OperatorBindings.INTAKE_BUTTON.value);
     /**Button to run auto intake */
-    public static final JoystickButton autoIntakeButton = new JoystickButton(operatorController, OperatorBindings.AUTO_INTAKE_BUTTON.value);
+    public static final JoystickButton autoIntakeButton = new JoystickButton(driverController, DriverBindings.AUTO_INTAKE_BUTTON.value);
     /**Button to trigger shooter */
     public static final JoystickButton speakerShooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
     /**Button to trigger amp shoot */

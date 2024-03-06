@@ -464,13 +464,11 @@ private void UpdateJSONResults()
 {
   cached_json_results = new LimelightResults();
   // get json from camera
-  byte[] rawData = m_table.getEntry("json").getRaw(new byte[0]);
+  String rawData = m_table.getEntry("json").getString("");
   
   try {
     cached_json_results = mapper.readValue(rawData, LimelightResults.class);
   } catch (JsonProcessingException e) {
-    System.err.println("lljson error: " + e.getMessage());
-  } catch (IOException e){
     System.err.println("lljson error: " + e.getMessage());
   }
 }
