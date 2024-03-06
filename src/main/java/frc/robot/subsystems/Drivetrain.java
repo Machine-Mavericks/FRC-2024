@@ -205,6 +205,8 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
     // value controlled on shuffleboard to stop the jerkiness of the robot by limiting its acceleration
     public GenericEntry maxAccel;
     public GenericEntry speedLimitFactor;
+    public GenericEntry defaultSpeedFactor;
+    public GenericEntry rotationSpeedMultiplier;
 
     
     /**
@@ -232,8 +234,21 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         .getEntry();
         speedLimitFactor = tab.addPersistent("SpeedLimitFactor", 0.75)
         .withPosition(8, 0)
+        .withSize(2, 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 1))
+        .getEntry();
+        defaultSpeedFactor = tab.addPersistent("DefaultSpeedLimit", 0.5)
+        .withPosition(8, 1)
+        .withSize(2, 1)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", 0, "max_value", 0.75))
+        .getEntry();
+        rotationSpeedMultiplier = tab.addPersistent("RotationPower", 0.5)
+        .withPosition(8, 2)
+        .withSize(2, 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 1))
         .getEntry();
         tab.add("Reset Drivetrain", new InstantCommand(()->{resetModules(NEUTRAL_MODE);}))
         .withPosition(0,0)

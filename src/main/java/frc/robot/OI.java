@@ -1,8 +1,13 @@
 package frc.robot;
 
+import javax.script.Bindings;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.util.Utils;
 
 /**
  * This class cointains definitions for the robot's hardware devices.
@@ -16,8 +21,6 @@ public class OI {
     static double prevYInput = 0.0;
 
     public static double getXDriveInput(){
-        
-        double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
         // grab old input from controller
         prevXInput = newXInput;
         // read new input from controller
@@ -29,12 +32,10 @@ public class OI {
         // limit the acceleration
         newXInput = (newXInput - prevXInput) > maxAccel ? prevXInput + maxAccel : newXInput;
         newXInput = (newXInput - prevXInput) < -1 * maxAccel ? prevXInput - maxAccel : newXInput;
-        return ((driverController.getRightTriggerAxis() >= 0.75) ? newXInput * 0.20 : newXInput)*speedLimitFactor;
+        return ((driverController.getRightTriggerAxis() >= 0.75) ? newXInput * 0.20 : newXInput)*getSpeedMultiplier();
     }
 
     public static double getYDriveInput(){
-        
-        double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
         // grab old input from controller
         prevYInput = newYInput;
         // read new input from controller
@@ -46,15 +47,25 @@ public class OI {
         // limit the acceleration
         newYInput = (newYInput - prevYInput) > maxAccel ? prevYInput + maxAccel : newYInput;
         newYInput = (newYInput - prevYInput) < -1 * maxAccel ? prevYInput - maxAccel : newYInput;
-        return ((driverController.getRightTriggerAxis() >= 0.75) ? newYInput * 0.20 : newYInput)*speedLimitFactor;
+        return ((driverController.getRightTriggerAxis() >= 0.75) ? newYInput * 0.20 : newYInput)*getSpeedMultiplier();
     }
 
     public static double getRotDriveInput(){
+        double speedLimitFactor = getSpeedMultiplier() * RobotContainer.drivetrain.rotationSpeedMultiplier.getDouble(1);
         
-        double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
         double rotInput = driverController.getRightX()*speedLimitFactor;
         rotInput = Math.abs(rotInput) > 0.1 ? rotInput*0.5 : 0;
         return rotInput;
+    }
+
+    public static double getSpeedMultiplier(){
+        double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
+        double defaultSpeed = RobotContainer.drivetrain.defaultSpeedFactor.getDouble(0.5);
+        return Utils.Lerp(defaultSpeed, speedLimitFactor, getRightTriggerInput());
+    }
+
+    public static double getRightTriggerInput(){
+        return driverController.getRightTriggerAxis();
     }
     /**
      * Inner class containing controller bindings
