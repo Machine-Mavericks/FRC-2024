@@ -18,6 +18,7 @@ public class SpeakerTargeting extends SubsystemBase {
   private static final int BLUE_SPEAKER_TAG_ID = 7;
 
   private double currentAngle = 0;
+  private boolean speakerTargetPresent = false;
 
   private static final Spline1D ANGLE_CURVE = new Spline1D(new Point[]{
     new Point(2,0.18),
@@ -40,16 +41,17 @@ public class SpeakerTargeting extends SubsystemBase {
 
   @Override
   public void periodic() {
+    speakerTargetPresent = false;
+    currentAngle = 0;
     if (shotCamera.isTargetPresent()) {
       // When using a pipeline that tracks all targets need to filter out which ones to use
       for (var tag : shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials){
         //System.out.println(tag.fiducialID);
         if (tag.fiducialID == RED_SPEAKER_TAG_ID || tag.fiducialID == BLUE_SPEAKER_TAG_ID) {
           currentAngle = tag.tx;
+          speakerTargetPresent = true;
         }
       }
-    }else{
-      currentAngle = 0;
     }
   }
 

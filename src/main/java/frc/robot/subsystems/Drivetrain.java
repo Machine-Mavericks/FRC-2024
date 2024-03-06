@@ -73,7 +73,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         .withKS(0).withKV(1).withKA(0);
         /** The drive motor gains */
         public static final Slot0Configs DriveMotorGains = new Slot0Configs()
-        .withKP(0.04).withKI(0.02).withKD(0) // TODO: Tune this value
+        .withKP(0.04).withKI(0).withKD(0) // TODO: Tune this value
         .withKV(0);
 
 

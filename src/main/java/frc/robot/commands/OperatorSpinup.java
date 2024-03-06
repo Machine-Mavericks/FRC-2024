@@ -5,12 +5,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.OI;
 import frc.robot.RobotContainer;
 
 public class OperatorSpinup extends Command {
-  private static final double LEFT_RPM = 3000;
-  private static final double RIGHT_RPM = 3000;
-
   /** Creates a new OperatorSpinup. */
   public OperatorSpinup() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -21,19 +19,26 @@ public class OperatorSpinup extends Command {
   @Override
   public void initialize() {
     // Set speed once
-    RobotContainer.cassetteshooter.leftShootRun(LEFT_RPM);
-    RobotContainer.cassetteshooter.rightShootRun(RIGHT_RPM);
+    RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
+    RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
+    RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
+    RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
+    RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     // Probably fine
-    RobotContainer.cassetteshooter.stopShooter();
+    if (!OI.speakerShooterButton.getAsBoolean()) {
+      RobotContainer.cassetteshooter.stopShooter();
+    }
   }
 
   // This is the default, so this code could be deleted wihout problems, but serves as a good reminder that interruption behaviours exist

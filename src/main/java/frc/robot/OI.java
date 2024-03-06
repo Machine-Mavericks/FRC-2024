@@ -63,7 +63,7 @@ public class OI {
         /** Button to re-zero gyro */
         static final Button ZERO_GYRO = XboxController.Button.kBack;
         /** Button to drive at reduced speed */
-        static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kRightBumper;
+        //static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kRightBumper;
         /** Button to shoot note */
         static final Button SHOOT_BUTTON = XboxController.Button.kRightBumper;
         /** Button for amp shot */
@@ -96,7 +96,7 @@ public class OI {
     /** Zero gyro button. Mapped to {@link Bindings#ZERO_GYRO} */
     public static final JoystickButton zeroButton = new JoystickButton(driverController, DriverBindings.ZERO_GYRO.value);
     /** Drive reduced speed button. Mapped to {@link Bindings#SLOW_DRIVE_BUTTON} */
-    public static final JoystickButton slowDriveButton = new JoystickButton(driverController, DriverBindings.SLOW_DRIVE_BUTTON.value);
+    //public static final JoystickButton slowDriveButton = new JoystickButton(driverController, DriverBindings.SLOW_DRIVE_BUTTON.value);
 
     /**Button to unstuck note */
     public static final JoystickButton unstuckButton = new JoystickButton(operatorController, OperatorBindings.UNSTUCK_BUTTON.value);

@@ -126,8 +126,8 @@ public class ShuffleboardOI extends SubsystemBase {
         .getEntry();
 
         ShuffleboardLayout ShotInfoLayout = tab.getLayout("Shot Info", BuiltInLayouts.kList)
-        .withPosition(5, 0)
-        .withSize(1, 3);
+        .withPosition(4, 0)
+        .withSize(2, 4);
         ShooterAtSpeed = ShotInfoLayout.add("Shooter Speed", false)
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
