@@ -8,8 +8,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
+import frc.robot.commands.IntakeMoveToHoldingPosition;
+import frc.robot.subsystems.CassetteEffector;
+import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.Drivetrain;
 
 public class SteerToNote extends Command {
@@ -44,7 +48,7 @@ public class SteerToNote extends Command {
     m_automated = automated;
     m_timeoutlimit = timeout;
 
-    m_speedLimitAuto= 0.65;
+    m_speedLimitAuto = 0.4;
     timer = new Timer();
   }
   
@@ -57,7 +61,7 @@ public class SteerToNote extends Command {
 
     m_automated = automated;
     m_timeoutlimit = timeout;
-    m_speedLimitAuto= speedlimit;
+    m_speedLimitAuto=  speedlimit;
 
     timer = new Timer();
   }
@@ -66,6 +70,7 @@ public class SteerToNote extends Command {
   @Override
   public void initialize() {
     RobotContainer.cassetteintake.intakeRun(1);
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
 
     // reset pid controller
     pidController.reset();
@@ -78,15 +83,17 @@ public class SteerToNote extends Command {
   public void execute() {
 
     // if automated, assume 50% speed, in manual get speed from joystick
-    double xInput;
+    double xInput = 0;
+
     if (m_automated) {
-      xInput = m_speedLimitAuto * 0.5;
+      xInput = m_speedLimitAuto;
     }else{
       xInput = OI.getYDriveInput();
       if (xInput < 0) {
         xInput = 0;
       }
     }
+
     // assume sideway speed of 0% unless determined otherwise
     double yInput = 0.0;
     
@@ -95,7 +102,6 @@ public class SteerToNote extends Command {
 
     // do we have a valid target?
     if ((RobotContainer.notetargeting.IsTarget())){
-
       TargetAngle = RobotContainer.notetargeting.getNoteAngle();
     
       // determine angle correction - uses PI controller
@@ -106,13 +112,15 @@ public class SteerToNote extends Command {
       if (rotate < -1.0)
         rotate = -1.0;
 
+      // System.out.println("Output: " + rotate);
+
       // if not fully automatic, get joystick inputs
       if (m_automated)
       {
         // slow down forward speed if large angle to allow robot to turn
         // at 25deg,  speed = 0.5 - 0.004(25)) = 0.5 - 0.1) = 0.4
         // xInput = xInput; //- 0.004*m_speedLimitAuto* Math.min(25.0, Math.abs(TargetAngle));
-        xInput = xInput * Math.abs(Math.cos(Math.toRadians(TargetAngle) * 3));
+        xInput = xInput * Math.abs(Math.cos(Math.toRadians(TargetAngle) * 1.5));
         //xInput = OI.driverController.getLeftY();
         //if (xInput<0.0)
         //  xInput=0.0;
@@ -132,11 +140,14 @@ public class SteerToNote extends Command {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.cassetteintake.intakeRun(0);
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
+
+    CommandScheduler.getInstance().schedule(new IntakeMoveToHoldingPosition());
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(m_timeoutlimit);
+    return timer.hasElapsed(m_timeoutlimit) ;
   }
 }

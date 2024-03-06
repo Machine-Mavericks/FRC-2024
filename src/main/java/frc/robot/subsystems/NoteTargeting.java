@@ -26,8 +26,8 @@ public class NoteTargeting extends SubsystemBase {
    */
   public boolean IsTarget() {
     boolean target = intakeCamera.isTargetPresent();
-    boolean inRange = intakeCamera.getTargetArea()<=0.2;
-    return (target&&inRange);
+    //boolean inRange = intakeCamera.getTargetArea()<=0.2;
+    return (target);
   }
 
   /**

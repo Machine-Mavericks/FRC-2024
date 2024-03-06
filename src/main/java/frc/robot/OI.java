@@ -75,6 +75,10 @@ public class OI {
     private static class OperatorBindings{
         /** Button to spit out note */
         static final Button UNSTUCK_BUTTON = XboxController.Button.kA;
+        /** Button for auto intake */
+        static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        /** Button for auto intake */
+        static final Button SPINUP_SHOOTER_BUTTON = XboxController.Button.kRightBumper;
     }
 
     /** Port for controller used by driver */
@@ -99,9 +103,14 @@ public class OI {
 
     /**Button to trigger intake */
     public static final JoystickButton intakeButton = new JoystickButton(driverController, DriverBindings.INTAKE_BUTTON.value);
+    /**Button to run auto intake */
+    public static final JoystickButton autoIntakeButton = new JoystickButton(operatorController, OperatorBindings.AUTO_INTAKE_BUTTON.value);
     /**Button to trigger shooter */
-    public static final JoystickButton shooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
+    public static final JoystickButton speakerShooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
     /**Button to trigger amp shoot */
     public static final JoystickButton ampButton = new JoystickButton(driverController, DriverBindings.AMP_BUTTON.value);
+
+    /**Button to spinup shooter preemptively for shot */
+    public static final JoystickButton spinupShooterButton = new JoystickButton(operatorController, OperatorBindings.SPINUP_SHOOTER_BUTTON.value);
 }
  
