@@ -21,7 +21,6 @@ public class SpeakerTargeting extends SubsystemBase {
 
   private double currentAngle = 0;
   private boolean speakerTargetPresent = false;
-  private double currentArea = 0;
   private double currentHeightAngle = 0;
 
   private static final Spline1D ANGLE_CURVE = new Spline1D(new Point[]{
@@ -54,7 +53,6 @@ public class SpeakerTargeting extends SubsystemBase {
   private void UpdateShotData(){
     speakerTargetPresent = false;
     currentAngle = 0;
-    currentArea = 0;
     currentHeightAngle = 0;
     if (shotCamera.isTargetPresent()) {
       // When using a pipeline that tracks all targets need to filter out which ones to use
@@ -64,7 +62,6 @@ public class SpeakerTargeting extends SubsystemBase {
         if (tag.fiducialID == RED_SPEAKER_TAG_ID || tag.fiducialID == BLUE_SPEAKER_TAG_ID) {
           currentAngle = tag.tx;
           speakerTargetPresent = true;
-          currentArea = tag.ta;
           currentHeightAngle = tag.ty;
           return;
         }
