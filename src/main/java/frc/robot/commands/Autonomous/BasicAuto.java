@@ -4,7 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DriveToRelativePose;
+import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,6 +22,9 @@ public class BasicAuto extends SequentialCommandGroup {
     // Move forward a meter
     //AimThenShootSpeaker 
     //End 
-    addCommands();
+    addCommands(
+      new DriveToRelativePose(new Pose2d(-1,0,new Rotation2d(0))),
+      new AimThenShootSpeaker()
+    );
   }
 }

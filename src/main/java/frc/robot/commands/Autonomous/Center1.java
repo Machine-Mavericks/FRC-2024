@@ -4,9 +4,13 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.commands.DriveToRelativePose;
+import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 
@@ -26,15 +30,11 @@ public class Center1 extends SequentialCommandGroup {
     //End
     addCommands(
       // set our robot starting position in field coordinates
-      new InstantCommand(()-> RobotContainer.swervepose.setPosition(5.0, 2.0, 0.0, 0.0)),
-
-      // move robot to x,y,angle
-      // todo >
-
-      // shoot into speaker
+      new DriveToRelativePose(new Pose2d(1,0,new Rotation2d(3.14))),
       new AimThenShootSpeaker(),
-      //new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[0]), Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 5)
-      new SteerToNote(true,2)
+      new SteerToNote(true,2),
+      new IntakeMoveToHoldingPosition(),
+      new AimThenShootSpeaker()
 
 
 

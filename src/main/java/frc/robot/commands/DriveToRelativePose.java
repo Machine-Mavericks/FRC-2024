@@ -27,7 +27,10 @@ public class DriveToRelativePose extends Command {
 
  SwerveDriveOdometry m_Odometry;
 
-  /** Creates a new DriveToRelativePose. */
+  /**
+   * Create new drive to relative pose
+   * @param target Pose2d x, y, rotation IN RADIANS
+   */
   public DriveToRelativePose(Pose2d target){
     
     // set up the PID 
