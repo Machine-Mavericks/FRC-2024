@@ -30,7 +30,7 @@ public class ShuffleboardOI extends SubsystemBase {
     // true if selected, false if not
     // <add any other controls here that go on main shufflebard page
     private GenericEntry m_delayTime;
-    private SendableChooser<Integer> m_autonomousPath;
+    public SendableChooser<Integer> m_autonomousPath;
 
     // Shot info
     public GenericEntry EffectorTarget;
@@ -88,12 +88,10 @@ public class ShuffleboardOI extends SubsystemBase {
         
 
         // add autonomous commands to page -
-        m_autonomousPath.addOption("Anywhere Two-ball",0);
-        // m_autonomousPath.addOption("Five-ball",1);
-        // m_autonomousPath.addOption("Emerg 4-ball", 2);
-        // m_autonomousPath.setDefaultOption("Anywhere Two-ball", 0);
-        //m_autonomousPath.addOption("Two-ball auto",0);
-        //m_autonomousPath.addOption("Three-ball auto",1);
+        m_autonomousPath.addOption("Anywhere One Note",0);
+        m_autonomousPath.addOption("Two Note",1);
+
+        //m_autonomousPath.addOption("Anywhere Two-ball",0);
         //m_autonomousPath.addOption("Anywhere Two-ball",2);
         //m_autonomousPath.addOption("Five-ball",3);
         //m_autonomousPath.setDefaultOption("One-ball auto", 3);

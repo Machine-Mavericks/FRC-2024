@@ -22,6 +22,9 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   private GenericEntry m_gyroYaw;
   private GenericEntry m_gyroRoll;
 
+  //gyro offset adjust
+  private double OffsetAdjust;
+
   // make our gyro object
   private static Pigeon2 gyro;
 
@@ -32,6 +35,9 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
     
     // make pigeon object
     gyro = new Pigeon2(RobotMap.CANID.PIGEON, Drivetrain.CAN_BUS_NAME);
+
+    // offset adjust
+    OffsetAdjust = 0.0;
   }
 
   @Override
@@ -43,7 +49,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   public double getYaw() {
     
     // scaling factor for CTR Pigeon determine by test - Feb 5 2023
-    double value = gyro.getYaw().getValue()*0.99895833;
+    double value = gyro.getYaw().getValue()*0.99895833 + OffsetAdjust;
     
     // convert continous number to -180 to +180deg to match NavX function call
     if (value > 0)
@@ -61,9 +67,20 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
 
   /** Resets yaw to zero */
   public void resetGyro() {
+    
     // reset our Gyro
+    OffsetAdjust = 0.0;
     gyro.reset();
   }
+
+/** Resets yaw to a value */
+  public void setGyro(double deg) {
+    
+    // reset our Gyro
+    OffsetAdjust = 0.0;
+    OffsetAdjust = -getYaw()+deg;
+  }
+
 
     /**
    * Gets signal latency for the gyro's yaw

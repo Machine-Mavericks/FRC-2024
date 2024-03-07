@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveCommand;
 import frc.robot.util.SubsystemShuffleboardManager;
 
 
@@ -123,6 +124,9 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+
+    // set default swerve drive command to manual drive mode
+    RobotContainer.drivetrain.setDefaultCommand(new DriveCommand(RobotContainer.drivetrain));
 
   }
 

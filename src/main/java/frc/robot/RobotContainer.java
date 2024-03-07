@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveToRelativePose;
 import frc.robot.commands.GroundIntake;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.LEDCommand;
@@ -18,7 +19,9 @@ import frc.robot.commands.OldShootSpeaker;
 import frc.robot.commands.OperatorSpinup;
 import frc.robot.commands.SourceIntake;
 import frc.robot.commands.UnstuckShot;
+import frc.robot.commands.Autonomous.OneDonutAuto;
 import frc.robot.commands.Autonomous.SampleAutoCommand;
+import frc.robot.commands.Autonomous.TwoDonutAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
@@ -122,6 +125,18 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public static Command getAutonomousCommand() {
-   return new SampleAutoCommand(); //filler, replace with autonomous path
+  
+ // get autonomous path to run
+ int index = (Integer)RobotContainer.operatorinterface.m_autonomousPath.getSelected();
+    
+ // return autonomous command to be run
+ if (index == 0)
+   return new OneDonutAuto();
+ else if (index == 1)
+  return new TwoDonutAuto();
+ else
+   return null;// get autonomous path to run
+   
+
   }
 }
