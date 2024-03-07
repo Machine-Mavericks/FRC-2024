@@ -39,8 +39,5 @@ public class CassetteIntake extends SubsystemBase {
   public void intakeRun(double state) {
     m_IntakeMotor1.set(INTAKE_SPEED * state); // Todo, this uses percent output, not velocity control as it should
     m_IntakeMotor2.set(INTAKE_SPEED * state);
-    if (state == 0){
-      new IntakeMoveToHoldingPosition();
-    }
   }
 }

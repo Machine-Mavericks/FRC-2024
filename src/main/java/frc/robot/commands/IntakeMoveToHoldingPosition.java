@@ -41,9 +41,9 @@ public class IntakeMoveToHoldingPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(intakeTimer.hasElapsed(0.125)==true)
-    return true;
+    if(intakeTimer.hasElapsed(0.1)==true)
+      return true;
     else 
-    return false;
+      return false;
   }
 }
