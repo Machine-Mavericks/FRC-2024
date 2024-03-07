@@ -65,8 +65,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   .withKS(0).withKV(0).withKA(0);
 
   private static final Spline1D FEEDFORWARD_CURVE = new Spline1D(new Point[]{
-    new Point(0.023,0.27),
-    new Point(0.08, 0.4),
+    new Point(0.023,0.2),
+    new Point(0.08, 0.35),
     new Point(0.12, 0.42),
     new Point(0.15, 0.7),
     new Point(0.28, 0.45)

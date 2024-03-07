@@ -39,7 +39,7 @@ public class Utils {
      * Again, for some reason there's no lerp in Java
      */
     public static double Lerp(double num1, double num2, double t){
-        return num1 + (num2 * t);
+        return num1 + ((num2 - num1) * t);
     }
 
 

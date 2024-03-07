@@ -98,7 +98,9 @@ public class SpeakerTargeting extends SubsystemBase {
   public double getDistance(){
     if (IsTarget()) {
       //double Dist = Math.pow(shotCamera.getTargetArea(), -0.562) * 1.5454;
-      double Dist = Math.pow(currentArea, -0.562) * 1.5454;
+
+      // Todo figure out where the fudge came from
+      double Dist = Math.pow(currentArea, -0.562) * 1.5454 * 0.0782+0.10;
       // Update shuffleboard
       RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
       return Dist;

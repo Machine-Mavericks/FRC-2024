@@ -32,7 +32,7 @@ public class OI {
         // limit the acceleration
         newXInput = (newXInput - prevXInput) > maxAccel ? prevXInput + maxAccel : newXInput;
         newXInput = (newXInput - prevXInput) < -1 * maxAccel ? prevXInput - maxAccel : newXInput;
-        return ((driverController.getRightTriggerAxis() >= 0.75) ? newXInput * 0.20 : newXInput)*getSpeedMultiplier();
+        return (newXInput)*getSpeedMultiplier();
     }
 
     public static double getYDriveInput(){
@@ -47,12 +47,12 @@ public class OI {
         // limit the acceleration
         newYInput = (newYInput - prevYInput) > maxAccel ? prevYInput + maxAccel : newYInput;
         newYInput = (newYInput - prevYInput) < -1 * maxAccel ? prevYInput - maxAccel : newYInput;
-        return ((driverController.getRightTriggerAxis() >= 0.75) ? newYInput * 0.20 : newYInput)*getSpeedMultiplier();
+        return (newYInput)*getSpeedMultiplier();
     }
 
     public static double getRotDriveInput(){
         double speedLimitFactor = getSpeedMultiplier() * RobotContainer.drivetrain.rotationSpeedMultiplier.getDouble(1);
-        
+
         double rotInput = driverController.getRightX()*speedLimitFactor;
         rotInput = Math.abs(rotInput) > 0.1 ? rotInput*0.5 : 0;
         return rotInput;
