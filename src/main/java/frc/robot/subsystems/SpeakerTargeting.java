@@ -16,14 +16,16 @@ import frc.robot.util.Spline1D;
 public class SpeakerTargeting extends SubsystemBase {
   private Limelight shotCamera;
 
-  private static final int RED_SPEAKER_TAG_ID = 6;
+  private static final int RED_SPEAKER_TAG_ID = 4;
   private static final int BLUE_SPEAKER_TAG_ID = 7;
 
   private double currentAngle = 0;
   private boolean speakerTargetPresent = false;
   private double currentArea = 0;
+  private double currentHeightAngle = 0;
 
   private static final Spline1D ANGLE_CURVE = new Spline1D(new Point[]{
+    new Point(1.8,0.22),
     new Point(2,0.18),
     new Point(2.7,0.138),
     new Point(3.1, 0.11),
@@ -52,15 +54,18 @@ public class SpeakerTargeting extends SubsystemBase {
   private void UpdateShotData(){
     speakerTargetPresent = false;
     currentAngle = 0;
+    currentArea = 0;
+    currentHeightAngle = 0;
     if (shotCamera.isTargetPresent()) {
       // When using a pipeline that tracks all targets need to filter out which ones to use
       for (var tag : shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials){
         
-        System.out.println(shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials.length);
+        //System.out.println(shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials.length);
         if (tag.fiducialID == RED_SPEAKER_TAG_ID || tag.fiducialID == BLUE_SPEAKER_TAG_ID) {
           currentAngle = tag.tx;
           speakerTargetPresent = true;
           currentArea = tag.ta;
+          currentHeightAngle = tag.ty;
           return;
         }
       }
@@ -98,11 +103,10 @@ public class SpeakerTargeting extends SubsystemBase {
   public double getDistance(){
     if (IsTarget()) {
       //double Dist = Math.pow(shotCamera.getTargetArea(), -0.562) * 1.5454;
-
-      // Todo figure out where the fudge came from
-      double Dist = Math.pow(currentArea, -0.562) * 1.5454 * 0.0782+0.10;
+      double Dist =  0.0103 * currentHeightAngle * currentHeightAngle - 0.0601 * currentHeightAngle + 2.0262;
       // Update shuffleboard
       RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
+      //RobotContainer.operatorinterface.tY.setDouble(currentHeightAngle);
       return Dist;
     }
     return 0;

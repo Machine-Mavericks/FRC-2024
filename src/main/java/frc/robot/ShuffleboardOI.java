@@ -42,6 +42,7 @@ public class ShuffleboardOI extends SubsystemBase {
     public GenericEntry ShooterAtAngle;
     public GenericEntry RobotAtAngle;
     public GenericEntry TargetDistance;
+    public GenericEntry tY;
 
     // other controls on main page
     private GenericEntry m_timeLeft;
@@ -144,6 +145,8 @@ public class ShuffleboardOI extends SubsystemBase {
         SeesTarget = ShotInfoLayout.add("Target Aquired", false)
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
+
+        tY = ShotInfoLayout.add("tY", 0).getEntry();
 
         TargetDistance = ShotInfoLayout.add("Target Distance", 0).getEntry();
 

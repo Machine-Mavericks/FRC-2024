@@ -228,7 +228,8 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
 
         /**Acceleration Limiting Slider*/
         maxAccel = tab.addPersistent("Max Acceleration", 0.05)
-        .withPosition(8, 0)
+        .withPosition(8, 3)
+        .withSize(2, 1)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", 0, "max_value", 0.5))
         .getEntry();
