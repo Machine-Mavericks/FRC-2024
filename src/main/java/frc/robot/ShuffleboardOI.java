@@ -37,10 +37,12 @@ public class ShuffleboardOI extends SubsystemBase {
     public GenericEntry LShooterSpeed;
     public GenericEntry RShooterSpeed;
 
+    public GenericEntry SeesTarget;
     public GenericEntry ShooterAtSpeed;
     public GenericEntry ShooterAtAngle;
     public GenericEntry RobotAtAngle;
     public GenericEntry TargetDistance;
+    public GenericEntry tY;
 
     // other controls on main page
     private GenericEntry m_timeLeft;
@@ -126,8 +128,8 @@ public class ShuffleboardOI extends SubsystemBase {
         .getEntry();
 
         ShuffleboardLayout ShotInfoLayout = tab.getLayout("Shot Info", BuiltInLayouts.kList)
-        .withPosition(5, 0)
-        .withSize(1, 3);
+        .withPosition(4, 0)
+        .withSize(2, 4);
         ShooterAtSpeed = ShotInfoLayout.add("Shooter Speed", false)
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
@@ -139,6 +141,12 @@ public class ShuffleboardOI extends SubsystemBase {
         RobotAtAngle = ShotInfoLayout.add("Robot Angle", false)
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
+
+        SeesTarget = ShotInfoLayout.add("Target Aquired", false)
+        .withWidget(BuiltInWidgets.kBooleanBox)
+        .getEntry();
+
+        tY = ShotInfoLayout.add("tY", 0).getEntry();
 
         TargetDistance = ShotInfoLayout.add("Target Distance", 0).getEntry();
 

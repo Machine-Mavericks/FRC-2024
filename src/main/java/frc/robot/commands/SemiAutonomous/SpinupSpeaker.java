@@ -26,8 +26,6 @@ public class SpinupSpeaker extends Command {
     RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
     RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
     RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
-
-    
   }
 
   // Called once the command ends or is interrupted.

@@ -99,7 +99,6 @@ public class RobotContainer {
 
     // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(true));
-    OI.intakeButton.onFalse(new IntakeMoveToHoldingPosition());
 
     // Speaker shot
     OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
@@ -111,6 +110,7 @@ public class RobotContainer {
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
+    OI.autoIntakeButton.onFalse(new GroundIntake(true, 1)); 
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());

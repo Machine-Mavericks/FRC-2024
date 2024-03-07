@@ -23,8 +23,10 @@ public class CleanupShot extends SequentialCommandGroup {
       new InstantCommand(() -> RobotContainer.operatorinterface.ShooterAtSpeed.setBoolean(false)),
       new InstantCommand(() -> RobotContainer.operatorinterface.RobotAtAngle.setBoolean(false)),
       new InstantCommand(() -> RobotContainer.operatorinterface.TargetDistance.setDouble(0)),
+      new InstantCommand(() -> RobotContainer.operatorinterface.SeesTarget.setBoolean(false)),
       new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
       new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
+      //new InstantCommand(() -> RobotContainer.shotlimelight.setPipeline(0)),
       new IntakeMoveToHoldingPosition()
     );
   }

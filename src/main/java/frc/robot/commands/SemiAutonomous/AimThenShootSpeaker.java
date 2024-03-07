@@ -19,13 +19,7 @@ public class AimThenShootSpeaker extends SequentialCommandGroup {
   public AimThenShootSpeaker() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    if (!RobotContainer.speakertargeting.IsTarget()) {
-      System.out.println("Nope.");
-      return;
-    }
-
     addCommands(
-      new InstantCommand(() -> RobotContainer.shotlimelight.setPipeline(1)),
       new ParallelRaceGroup(
         new AimToSpeaker(),
         new SpinupSpeaker()

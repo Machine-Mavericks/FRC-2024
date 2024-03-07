@@ -8,6 +8,8 @@
 # Auto generated data
 src/main/java/frc/robot/data/BuildConstants.java
 networktables.json.bck
+simgui.json
+simgui-ds.json
 
 # Compiled Object files
 *.slo
