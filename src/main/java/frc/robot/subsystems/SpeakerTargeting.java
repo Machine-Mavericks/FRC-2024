@@ -100,7 +100,7 @@ public class SpeakerTargeting extends SubsystemBase {
   public double getDistance(){
     if (IsTarget()) {
       //double Dist = Math.pow(shotCamera.getTargetArea(), -0.562) * 1.5454;
-      double Dist =  0.0103 * currentHeightAngle * currentHeightAngle - 0.0601 * currentHeightAngle + 2.0262;
+      double Dist = (0.0 + 0.0103 * currentHeightAngle * currentHeightAngle - 0.0601 * currentHeightAngle + 2.0262);
       // Update shuffleboard
       RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
       //RobotContainer.operatorinterface.tY.setDouble(currentHeightAngle);

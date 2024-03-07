@@ -35,8 +35,8 @@ public class CassetteShooter extends SubsystemBase {
     var slot0Configs = new Slot0Configs();
     
     slot0Configs.kV = 0.11;
-    slot0Configs.kP = 0.05;
-    slot0Configs.kI = 0;
+    slot0Configs.kP = 0.09;   // was 0.05
+    slot0Configs.kI = .001;  // was 0.0 // was 0.005
     slot0Configs.kD = 0;
 
     m_LShootMotor.getConfigurator().apply(slot0Configs);
