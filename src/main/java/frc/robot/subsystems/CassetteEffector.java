@@ -53,7 +53,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   //TODO: figure out angle values
   public static final double MAX_TOP_ANGLE = 0.26;
   public static final double MIN_BOTTOM_ANGLE = 0.023;
-  public static final double DROP_PROP_ANGLE = 0.1;
+  public static final double DROP_PROP_ANGLE = 0.14;
   public static final double NEUTRAL_ANGLE = 0.05;
   public static final double GROUND_ANGLE = 0.022;
   public static final double SOURCE_ANGLE = 0.05;

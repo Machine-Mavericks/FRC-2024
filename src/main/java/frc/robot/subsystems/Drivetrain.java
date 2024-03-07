@@ -349,6 +349,12 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         BaseStatusSignal.setUpdateFrequencyForAll(ODOMETRY_HZ, m_allSignals);
     }
 
+    public void configDrivetrainNeutralMode(NeutralModeValue nm){
+        for (int i = 0; i < m_swerveModules.length; i++){
+            m_swerveModules[i].configNeutralMode(nm);
+        }
+    }
+
     private void AddModuleSignals(SwerveModule module, int index){
         var signals = PhoenixUnsafeAccess.getSwerveSignals(module); // Dirty hack
         m_allSignals[(index * 4) + 0] = signals[0];
@@ -402,7 +408,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
     public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
 
         // correct axes of drive - determined from field testing
-        // 2024 - Elmo
+        // 2024 - Sonic
         // flip sign of rotation speed
         // Allows easy flipping of drive axes if needed
         Translation2d newtranslation = new Translation2d(-translation.getX(),
