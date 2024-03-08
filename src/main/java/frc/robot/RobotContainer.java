@@ -13,7 +13,6 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveToRelativePose;
 import frc.robot.commands.GroundIntake;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
-import frc.robot.commands.LEDCommand;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.OldShootSpeaker;
 import frc.robot.commands.OperatorSpinup;
@@ -79,7 +78,7 @@ public class RobotContainer {
    */
   public static void init() {
     drivetrain.setDefaultCommand(new DriveCommand(drivetrain));
-    LEDStrip.setDefaultCommand(new LEDCommand());
+   // LEDStrip.setDefaultCommand(new LEDCommand());
 
     // Camera Servers:
     //CameraServer.	startAutomaticCapture(0);
