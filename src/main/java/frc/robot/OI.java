@@ -79,6 +79,8 @@ public class OI {
         static final Button AMP_BUTTON = XboxController.Button.kX;
         /** Button for auto intake */
         static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        /** Button for fixed position shot */
+        static final Button FIXED_POSITION_SHOT_BUTTON = XboxController.Button.kA;
     }
 
     private static class OperatorBindings{
@@ -116,6 +118,8 @@ public class OI {
     public static final JoystickButton autoIntakeButton = new JoystickButton(driverController, DriverBindings.AUTO_INTAKE_BUTTON.value);
     /**Button to trigger shooter */
     public static final JoystickButton speakerShooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
+    /**Button to trigger a shot from a fixed position */
+    public static final JoystickButton speakerFixedPositionShotButton = new JoystickButton(driverController, DriverBindings.FIXED_POSITION_SHOT_BUTTON.value);
     /**Button to trigger amp shoot */
     public static final JoystickButton ampButton = new JoystickButton(driverController, DriverBindings.AMP_BUTTON.value);
 
