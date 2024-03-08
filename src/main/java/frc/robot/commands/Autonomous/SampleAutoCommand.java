@@ -5,9 +5,6 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.util.AutoFunctions;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

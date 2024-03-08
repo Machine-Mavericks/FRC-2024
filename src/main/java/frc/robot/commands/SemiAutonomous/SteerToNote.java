@@ -13,7 +13,6 @@ import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.subsystems.CassetteEffector;
-import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.Drivetrain;
 
 public class SteerToNote extends Command {

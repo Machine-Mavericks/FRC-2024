@@ -9,8 +9,6 @@ import org.opencv.core.Point;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.ShuffleboardOI;
-import frc.robot.subsystems.Limelight.LimelightTarget_Fiducial;
 import frc.robot.util.Spline1D;
 
 public class SpeakerTargeting extends SubsystemBase {

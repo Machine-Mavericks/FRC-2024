@@ -4,12 +4,9 @@
 
 package frc.robot.commands;
 
-import javax.xml.crypto.KeySelector.Purpose;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CassetteEffector;
 
