@@ -34,13 +34,11 @@ public class ShootSpeaker extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    CommandScheduler.getInstance().schedule(new CleanupShot());
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(3.0);
+    return timer.hasElapsed(2.0);
   }
 }

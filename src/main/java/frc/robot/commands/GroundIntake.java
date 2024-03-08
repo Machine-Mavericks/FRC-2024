@@ -63,7 +63,6 @@ public class GroundIntake extends Command {
   public void end(boolean interrupted) {
     RobotContainer.cassetteintake.intakeRun(0);
     RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
-    CommandScheduler.getInstance().schedule(MoveToHoldingPositionCommand);
   }
 
   // Returns true when the command should end.

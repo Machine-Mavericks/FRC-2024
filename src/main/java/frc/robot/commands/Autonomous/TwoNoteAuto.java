@@ -8,7 +8,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DelayCommand;
 import frc.robot.commands.DriveToRelativePose;
+import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.SetGyroUsingAprilTag;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
@@ -38,9 +40,11 @@ public class TwoNoteAuto extends SequentialCommandGroup {
 
     new CleanupShot(),
 
-    new PrintCommand("************************************************************************************************************************************************************************************"),
-    new SteerToNote(true, 3.0),
-    new PrintCommand("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"),
+    new SteerToNote(true, 0.6),
+
+    new IntakeMoveToHoldingPosition(),
+
+    new DelayCommand(1),
 
     new AimThenShootSpeaker(),
 
