@@ -38,9 +38,9 @@ public class TwoNoteAuto extends SequentialCommandGroup {
 
     new CleanupShot(),
 
-    new PrintCommand("Made it to before steerToNote"),
+    new PrintCommand("************************************************************************************************************************************************************************************"),
     new SteerToNote(true, 3.0),
-    new PrintCommand("Finished steertonote"),
+    new PrintCommand("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"),
 
     new AimThenShootSpeaker(),
 
