@@ -3,8 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class LEDBlinkin extends SubsystemBase {
@@ -24,12 +26,30 @@ public class LEDBlinkin extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+ 
+    if (RobotContainer.speakertargeting.IsTarget()) {
+     RobotContainer.LEDStrip.setPattern(LED_PATTERN.APRILTAGS);
+    } 
+    else if (RobotContainer.notetargeting.IsTarget()) {
+      RobotContainer.LEDStrip.setPattern(LED_PATTERN.SEESNOTES);
+    }
+    else if (DriverStation.getAlliance().equals(DriverStation.Alliance.Red)) {
+      RobotContainer.LEDStrip.setPattern(LED_PATTERN.REDALLIANCE);
+    } else {
+      RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
+    }
+
   }
 
   public enum LED_PATTERN {
     OFF,
     LOWBATTERY,
-    DISCO
+    DISCO,
+    REDALLIANCE,
+    BLUEALLIANCE,
+    SEESNOTES,
+    APRILTAGS
     // Add
   };
 
@@ -37,6 +57,7 @@ public class LEDBlinkin extends SubsystemBase {
   public void setPattern(LED_PATTERN pattern)
   {
     switch (pattern) {
+      
       case OFF:
         led.setSpeed(0.99);    // black
       break;
@@ -45,7 +66,19 @@ public class LEDBlinkin extends SubsystemBase {
       break;
       case DISCO:
         led.setSpeed(-0.45);   // color wave - rainbow
+      case REDALLIANCE:
+        led.setSpeed(0.360); // red 
       break;
+      case BLUEALLIANCE:
+        led.setSpeed(0.240); // blue 
+      break; 
+      case SEESNOTES:
+        led.setSpeed(-0.120); // pink
+      break;
+      case APRILTAGS:
+        led.setSpeed(0.120); //green
+      break;
+     
 
     }
     
