@@ -26,7 +26,6 @@ public class LEDBlinkin extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
- 
     if (RobotContainer.speakertargeting.IsTarget()) {
      RobotContainer.LEDStrip.setPattern(LED_PATTERN.APRILTAGS);
     } 
@@ -36,11 +35,12 @@ public class LEDBlinkin extends SubsystemBase {
     else if (DriverStation.getAlliance().isPresent()) {
       if (DriverStation.getAlliance().get() == Alliance.Red) {
         RobotContainer.LEDStrip.setPattern(LED_PATTERN.REDALLIANCE);
+      } else {
+      RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
       }
     } else {
       RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
     }
-
   }
 
   public enum LED_PATTERN {
