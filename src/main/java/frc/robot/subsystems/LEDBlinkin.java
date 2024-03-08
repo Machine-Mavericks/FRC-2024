@@ -10,18 +10,15 @@ import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class LEDBlinkin extends SubsystemBase {
-
   //Victor led;
   PWM led;
+
   /** Creates a new LEDBlinkin. */
   public LEDBlinkin() {
-
       // set up pwm channel
       //led = new Victor(RobotMap.PWMPorts.LED_BLINKIN);
       led = new PWM(RobotMap.PWMPorts.LED_BLINKIN);
-      
-      setPattern(LED_PATTERN.OFF);
-    }
+  }
 
   @Override
   public void periodic() {
