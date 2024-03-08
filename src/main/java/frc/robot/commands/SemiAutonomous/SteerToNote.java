@@ -69,6 +69,7 @@ public class SteerToNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Made it to coomand init");
     RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
     RobotContainer.cassetteintake.intakeRun(1);
 
@@ -81,7 +82,7 @@ public class SteerToNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    System.out.println("Alrighty");
     // if automated, assume 50% speed, in manual get speed from joystick
     double xInput = 0;
 
@@ -143,6 +144,7 @@ public class SteerToNote extends Command {
     RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
 
     CommandScheduler.getInstance().schedule(new IntakeMoveToHoldingPosition());
+    System.out.println("Ok.");
   }
 
   // Returns true when the command should end.

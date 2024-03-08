@@ -7,6 +7,7 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DelayCommand;
@@ -39,19 +40,15 @@ public class TwoDonutAuto extends SequentialCommandGroup {
 
     new AimThenShootSpeaker(),
 
-      new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
-      new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
-    
-    //new DelayCommand(0.5),
+    new CleanupShot(),
 
+    new PrintCommand("Made it to before steerToNote"),
     new SteerToNote(true, 3.0),
+    new PrintCommand("Finished steertonote"),
 
     new AimThenShootSpeaker(),
 
     new CleanupShot()
-
-
-
     );
   }
 }

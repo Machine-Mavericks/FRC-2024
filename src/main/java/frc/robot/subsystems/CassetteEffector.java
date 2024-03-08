@@ -195,7 +195,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     // Create page in shuffleboard
     ShuffleboardTab Tab = Shuffleboard.getTab("Cassette Effector");
 
-    ShuffleboardLayout layout = Tab.getLayout("Stae", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 4);
+    ShuffleboardLayout layout = Tab.getLayout("State", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 4);
     EffectorAngle = layout.add("Effector Angle", 0).getEntry();
     MotorVoltage = layout.add("Voltage", 0).getEntry();
     MotorAmps = layout.add("Amps", 0).getEntry();
