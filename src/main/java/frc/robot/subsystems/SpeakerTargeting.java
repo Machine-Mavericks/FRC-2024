@@ -104,7 +104,7 @@ public class SpeakerTargeting extends SubsystemBase {
       // Update shuffleboard
       RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
       //RobotContainer.operatorinterface.tY.setDouble(currentHeightAngle);
-      return Dist;
+      return Dist+(RobotContainer.operatorinterface.DistanceAdjustment.getDouble(0)/10);
     }
     return 0;
   }
