@@ -17,6 +17,7 @@ import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
@@ -93,6 +94,7 @@ public class RobotContainer {
 
     // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(true));
+    OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
     OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
@@ -106,7 +108,8 @@ public class RobotContainer {
 
     // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
-    OI.autoIntakeButton.onFalse(new GroundIntake(true, 1)); 
+    //OI.autoIntakeButton.onFalse(new GroundIntake(false, 0.05)); 
+    OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());

@@ -6,8 +6,10 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.commands.DelayCommand;
 import frc.robot.commands.DriveToRelativePose;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
@@ -15,6 +17,7 @@ import frc.robot.commands.SetGyroUsingAprilTag;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
+import frc.robot.subsystems.CassetteEffector;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,7 +34,7 @@ public class TwoNoteAuto extends SequentialCommandGroup {
     new SetGyroUsingAprilTag(),
 
     // drive away from speaker
-    new DriveToRelativePose(new Pose2d(-1.0, 0.0, new Rotation2d(0)),
+    new DriveToRelativePose(new Pose2d(-0.7, 0.0, new Rotation2d(0)),
                             0.5, // speed
                             0.1, // rotational speed(unit?)
                             5.0),
@@ -40,11 +43,16 @@ public class TwoNoteAuto extends SequentialCommandGroup {
 
     new CleanupShot(),
 
-    new SteerToNote(true, 0.6),
+    new InstantCommand(()->RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE)),
+    new InstantCommand(()->RobotContainer.cassetteintake.intakeRun(1)),
+
+    new DelayCommand(0.25),
+
+    new SteerToNote(true, 2.0, 0.2),
 
     new IntakeMoveToHoldingPosition(),
 
-    new DelayCommand(1),
+    new DelayCommand(1.0),
 
     new AimThenShootSpeaker(),
 

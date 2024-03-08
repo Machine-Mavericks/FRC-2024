@@ -142,7 +142,9 @@ public class SteerToNote extends Command {
     RobotContainer.cassetteintake.intakeRun(0);
     RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
 
-    
+    RobotContainer.drivetrain.drive(new Translation2d(0,0), 0, false);
+      
+
     //System.out.println("Ok............................................................................................................");
   }
 
