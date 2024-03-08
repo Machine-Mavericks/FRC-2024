@@ -111,6 +111,8 @@ public class RobotContainer {
 
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
+
+    // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
     OI.autoIntakeButton.onFalse(new GroundIntake(true, 1)); 
 
