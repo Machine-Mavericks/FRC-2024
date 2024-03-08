@@ -7,23 +7,18 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.networktables.ProtobufPublisher;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
 
 
-public class Hang extends SubsystemBase {
+public class Climber extends SubsystemBase {
   private VelocityDutyCycle m_mVelocityControl = new VelocityDutyCycle(0);
 
-   // Motors and Sensors
-      private TalonFX HANG_MOTOR;
-      private DigitalInput tbdlimitswitch;
-  /** Creates a new Hang. */
-  public Hang() {
-    HANG_MOTOR = new TalonFX(RobotMap.CANID.HANG_MOTOR);
-    //HANG_MOTOR = new input (RobotMap)
+  // Motors and Sensors
+  private TalonFX m_climbMotor;
+  
+  /** Creates a new Climber. */
+  public Climber() {
+    //m_climbMotor = new TalonFX(RobotMap.CANID.CLIMB_MOTOR);
   }
 
   @Override
@@ -32,7 +27,7 @@ public class Hang extends SubsystemBase {
   }
 
   public void HANG_MOTOR_RUN(Double speed){
-   HANG_MOTOR.setControl(m_mVelocityControl.withVelocity(speed));
+   m_climbMotor.setControl(m_mVelocityControl.withVelocity(speed));
   }
 
   public void HANG_OFF(){
