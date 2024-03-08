@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
@@ -31,8 +32,10 @@ public class LEDBlinkin extends SubsystemBase {
     else if (RobotContainer.notetargeting.IsTarget()) {
       RobotContainer.LEDStrip.setPattern(LED_PATTERN.SEESNOTES);
     }
-    else if (DriverStation.getAlliance().equals(DriverStation.Alliance.Red)) {
-      RobotContainer.LEDStrip.setPattern(LED_PATTERN.REDALLIANCE);
+    else if (DriverStation.getAlliance().isPresent()) {
+      if (DriverStation.getAlliance().get() == Alliance.Red) {
+        RobotContainer.LEDStrip.setPattern(LED_PATTERN.REDALLIANCE);
+      }
     } else {
       RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
     }
