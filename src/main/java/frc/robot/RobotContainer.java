@@ -123,19 +123,18 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public static Command getAutonomousCommand() {
-  
- // get autonomous path to run
- int index = (Integer)RobotContainer.operatorinterface.m_autonomousPath.getSelected();
-    
- // return autonomous command to be run
- if (index == 0)
-   return new OneDonutAuto();
- else if (index == 1)
-  return new TwoDonutAuto();
- else
-   return null;// get autonomous path to run
-   
-
+  public static Command getAutonomousCommand() {  
+    // get autonomous path to run
+    int index = (Integer)RobotContainer.operatorinterface.m_autonomousPath.getSelected();
+        
+    // return autonomous command to be run
+    switch (index) {
+      case 0:
+        return new OneDonutAuto();
+      case 1:
+        return new TwoDonutAuto();
+      default:
+        return null;// get autonomous path to run
+    } 
   }
 }
