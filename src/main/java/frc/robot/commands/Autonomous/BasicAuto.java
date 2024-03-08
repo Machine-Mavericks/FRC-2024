@@ -23,7 +23,7 @@ public class BasicAuto extends SequentialCommandGroup {
     //AimThenShootSpeaker 
     //End 
     addCommands(
-      new DriveToRelativePose(new Pose2d(-1,0,new Rotation2d(0))),
+      //new DriveToRelativePose(new Pose2d(-1,0,new Rotation2d(0))),
       new AimThenShootSpeaker()
     );
   }

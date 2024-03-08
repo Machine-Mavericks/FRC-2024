@@ -30,7 +30,7 @@ public class Center1 extends SequentialCommandGroup {
     //End
     addCommands(
       // set our robot starting position in field coordinates
-      new DriveToRelativePose(new Pose2d(1,0,new Rotation2d(3.14))),
+      //new DriveToRelativePose(new Pose2d(1,0,new Rotation2d(3.14))),
       new AimThenShootSpeaker(),
       new SteerToNote(true,2),
       new IntakeMoveToHoldingPosition(),
