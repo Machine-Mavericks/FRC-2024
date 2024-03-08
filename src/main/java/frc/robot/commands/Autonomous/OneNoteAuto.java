@@ -26,14 +26,20 @@ public class OneNoteAuto extends SequentialCommandGroup {
     new SetGyroUsingAprilTag(),
 
     // drive away from speaker
-    new DriveToRelativePose(new Pose2d(-2.0, 0.0, new Rotation2d(0)),
+    new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
                             0.5, // speed
                             0.1, // rotational speed(unit?)
                             5.0),
 
     new AimThenShootSpeaker(),
 
-    new CleanupShot()
+    new CleanupShot(),
+
+        // drive away from speaker
+    new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
+                            0.5, // speed
+                            0.1, // rotational speed(unit?)
+                            5.0)
 
 
 
