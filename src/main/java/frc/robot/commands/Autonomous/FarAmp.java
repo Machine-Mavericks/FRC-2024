@@ -12,8 +12,6 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.DriveToRelativePose;
 import frc.robot.commands.SetGyroUsingAprilTag;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.CleanupShot;
-import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
