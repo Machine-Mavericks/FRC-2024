@@ -13,8 +13,8 @@ import frc.robot.commands.GroundIntake;
 import frc.robot.commands.OperatorSpinup;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
-import frc.robot.commands.Autonomous.OneDonutAuto;
-import frc.robot.commands.Autonomous.TwoDonutAuto;
+import frc.robot.commands.Autonomous.OneNoteAuto;
+import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
@@ -124,9 +124,9 @@ public class RobotContainer {
     // return autonomous command to be run
     switch (index) {
       case 0:
-        return new OneDonutAuto();
+        return new OneNoteAuto();
       case 1:
-        return new TwoDonutAuto();
+        return new TwoNoteAuto();
       default:
         return null;// get autonomous path to run
     } 
