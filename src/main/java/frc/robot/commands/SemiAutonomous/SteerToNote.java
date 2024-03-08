@@ -13,7 +13,6 @@ import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.subsystems.CassetteEffector;
-import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.Drivetrain;
 
 public class SteerToNote extends Command {
@@ -48,7 +47,7 @@ public class SteerToNote extends Command {
     m_automated = automated;
     m_timeoutlimit = timeout;
 
-    m_speedLimitAuto = 0.4;
+    m_speedLimitAuto = 0.3;
     timer = new Timer();
   }
   
@@ -69,6 +68,7 @@ public class SteerToNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //System.out.println("Made it to coomand initAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
     RobotContainer.cassetteintake.intakeRun(1);
 
@@ -81,7 +81,7 @@ public class SteerToNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    //System.out.println("AlrightyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     // if automated, assume 50% speed, in manual get speed from joystick
     double xInput = 0;
 
@@ -142,7 +142,8 @@ public class SteerToNote extends Command {
     RobotContainer.cassetteintake.intakeRun(0);
     RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
 
-    CommandScheduler.getInstance().schedule(new IntakeMoveToHoldingPosition());
+    
+    //System.out.println("Ok............................................................................................................");
   }
 
   // Returns true when the command should end.

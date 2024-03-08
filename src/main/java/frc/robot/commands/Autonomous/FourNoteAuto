@@ -1,0 +1,28 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class FourNoteAuto extends SequentialCommandGroup {
+  /** Creates a new SimpleAuto. */
+  public FourNoteAuto() {
+    // Add your commands in the addCommands() call, e.g.
+    //Start from center position 
+    //Drive forward half a meter
+    //Shoot preload note
+    //Drive inbetween notes 
+    //Drive to note one in from the wall 
+    //Auto intake
+    
+    //Move to farthest shooting position (about two meters forward)
+
+    // addCommands(new FooCommand(), new BarCommand());
+    addCommands();
+  }
+}

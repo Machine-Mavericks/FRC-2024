@@ -5,6 +5,7 @@
 package frc.robot.commands.SemiAutonomous;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
@@ -27,7 +28,8 @@ public class CleanupShot extends SequentialCommandGroup {
       new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
       new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
       //new InstantCommand(() -> RobotContainer.shotlimelight.setPipeline(0)),
-      new IntakeMoveToHoldingPosition()
+      new IntakeMoveToHoldingPosition(),
+      new PrintCommand("intake at holding position")
     );
   }
 }

@@ -6,9 +6,7 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
 import frc.robot.commands.DriveToRelativePose;
 import frc.robot.commands.SetGyroUsingAprilTag;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
@@ -17,9 +15,9 @@ import frc.robot.commands.SemiAutonomous.CleanupShot;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OneDonutAuto extends SequentialCommandGroup {
+public class OneNoteAuto extends SequentialCommandGroup {
   /** Creates a new OneDonutAuto. */
-  public OneDonutAuto() {
+  public OneNoteAuto() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

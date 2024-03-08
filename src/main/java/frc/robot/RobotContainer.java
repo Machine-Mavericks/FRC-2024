@@ -7,23 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.DriveToRelativePose;
 import frc.robot.commands.GroundIntake;
-import frc.robot.commands.IntakeMoveToHoldingPosition;
-import frc.robot.commands.LEDCommand;
-import frc.robot.commands.ShootAmp;
-import frc.robot.commands.OldShootSpeaker;
 import frc.robot.commands.OperatorSpinup;
-import frc.robot.commands.SourceIntake;
+import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
-import frc.robot.commands.Autonomous.OneDonutAuto;
-import frc.robot.commands.Autonomous.SampleAutoCommand;
-import frc.robot.commands.Autonomous.TwoDonutAuto;
+import frc.robot.commands.Autonomous.OneNoteAuto;
+import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
@@ -32,7 +24,6 @@ import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.NVidia;
 import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
@@ -79,7 +70,7 @@ public class RobotContainer {
    */
   public static void init() {
     drivetrain.setDefaultCommand(new DriveCommand(drivetrain));
-    LEDStrip.setDefaultCommand(new LEDCommand());
+    //LEDStrip.setDefaultCommand(new LEDCommand());
 
     // Camera Servers:
     //CameraServer.	startAutomaticCapture(0);
@@ -112,6 +103,8 @@ public class RobotContainer {
 
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
+
+    // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
     OI.autoIntakeButton.onFalse(new GroundIntake(true, 1)); 
 
@@ -124,19 +117,18 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public static Command getAutonomousCommand() {
-  
- // get autonomous path to run
- int index = (Integer)RobotContainer.operatorinterface.m_autonomousPath.getSelected();
-    
- // return autonomous command to be run
- if (index == 0)
-   return new OneDonutAuto();
- else if (index == 1)
-  return new TwoDonutAuto();
- else
-   return null;// get autonomous path to run
-   
-
+  public static Command getAutonomousCommand() {  
+    // get autonomous path to run
+    int index = (Integer)RobotContainer.operatorinterface.m_autonomousPath.getSelected();
+        
+    // return autonomous command to be run
+    switch (index) {
+      case 0:
+        return new OneNoteAuto();
+      case 1:
+        return new TwoNoteAuto();
+      default:
+        return null;// get autonomous path to run
+    } 
   }
 }

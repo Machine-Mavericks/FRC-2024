@@ -7,6 +7,7 @@ package frc.robot.util;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /** Add your docs here. */
 public class AutoFunctions {
@@ -41,20 +42,25 @@ public class AutoFunctions {
      * @return
      */
     public static Pose2d redVsBlue(double x, double y, double angle) {
-        if (DriverStation.getAlliance().equals(DriverStation.Alliance.Red)){
-            x = 16.4846 - x;
-            angle = Math.toRadians(180-angle);
+        if (DriverStation.getAlliance().isPresent()) {
+            if (DriverStation.getAlliance().get() == Alliance.Red){
+                x = 16.4846 - x;
+                angle = Math.toRadians(180-angle);
+            }
         }
+        
         return new Pose2d(x,y,new Rotation2d(angle));
     }
 
 
     public static Pose2d redVsBlue(Pose2d pose) {
-        if (DriverStation.getAlliance().equals(DriverStation.Alliance.Red)){
-            double x = 16.4846 - pose.getX();
-            double y = pose.getY();
-            Rotation2d angle = new Rotation2d(Math.toRadians(180)).rotateBy(pose.getRotation());
-            return new Pose2d(x,y,angle);
+        if (DriverStation.getAlliance().isPresent()) {
+            if (DriverStation.getAlliance().get() == Alliance.Red){
+                double x = 16.4846 - pose.getX();
+                double y = pose.getY();
+                Rotation2d angle = new Rotation2d(Math.toRadians(180)).rotateBy(pose.getRotation());
+                return new Pose2d(x,y,angle);
+            }
         }
         return pose;
     }

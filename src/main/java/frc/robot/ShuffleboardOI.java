@@ -44,6 +44,8 @@ public class ShuffleboardOI extends SubsystemBase {
     public GenericEntry TargetDistance;
     public GenericEntry tY;
 
+    public GenericEntry DistanceAdjustment;
+
     // other controls on main page
     private GenericEntry m_timeLeft;
     public Integer m_selectedPath;
@@ -85,16 +87,10 @@ public class ShuffleboardOI extends SubsystemBase {
         ShuffleboardTab tab = Shuffleboard.getTab("Drive Setup");
         m_autonomousPath = new SendableChooser<Integer>();
 
-        
-
         // add autonomous commands to page -
         m_autonomousPath.addOption("Anywhere One Note",0);
         m_autonomousPath.addOption("Two Note",1);
 
-        //m_autonomousPath.addOption("Anywhere Two-ball",0);
-        //m_autonomousPath.addOption("Anywhere Two-ball",2);
-        //m_autonomousPath.addOption("Five-ball",3);
-        //m_autonomousPath.setDefaultOption("One-ball auto", 3);
         tab.add("Preround Paths", m_autonomousPath).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2,1);
         m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min_value", 0, "max_value", 10)).getEntry();
 
@@ -123,6 +119,13 @@ public class ShuffleboardOI extends SubsystemBase {
         .withPosition(3, 2)
         .withWidget(BuiltInWidgets.kTextView)
         .withProperties(Map.of("show_submit_button ", true))
+        .getEntry();
+
+        DistanceAdjustment = tab.addPersistent("Distance Adjustment", 0.05)
+        .withPosition(3, 3)
+        .withSize(1, 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 20))
         .getEntry();
 
         ShuffleboardLayout ShotInfoLayout = tab.getLayout("Shot Info", BuiltInLayouts.kList)

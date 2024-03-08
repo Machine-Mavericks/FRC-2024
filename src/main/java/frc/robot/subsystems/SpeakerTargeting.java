@@ -9,8 +9,6 @@ import org.opencv.core.Point;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.ShuffleboardOI;
-import frc.robot.subsystems.Limelight.LimelightTarget_Fiducial;
 import frc.robot.util.Spline1D;
 
 public class SpeakerTargeting extends SubsystemBase {
@@ -24,7 +22,7 @@ public class SpeakerTargeting extends SubsystemBase {
   private double currentHeightAngle = 0;
 
   private static final Spline1D ANGLE_CURVE = new Spline1D(new Point[]{
-    new Point(1.8,0.22),
+    new Point(1.8,0.2),
     new Point(2,0.18),
     new Point(2.7,0.138),
     new Point(3.1, 0.11),
@@ -104,7 +102,7 @@ public class SpeakerTargeting extends SubsystemBase {
       // Update shuffleboard
       RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
       //RobotContainer.operatorinterface.tY.setDouble(currentHeightAngle);
-      return Dist;
+      return Dist-(RobotContainer.operatorinterface.DistanceAdjustment.getDouble(0)/10);
     }
     return 0;
   }
