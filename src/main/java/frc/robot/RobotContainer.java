@@ -70,7 +70,7 @@ public class RobotContainer {
    */
   public static void init() {
     drivetrain.setDefaultCommand(new DriveCommand(drivetrain));
-   // LEDStrip.setDefaultCommand(new LEDCommand());
+    //LEDStrip.setDefaultCommand(new LEDCommand());
 
     // Camera Servers:
     //CameraServer.	startAutomaticCapture(0);
@@ -103,6 +103,8 @@ public class RobotContainer {
 
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
+
+    // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
     OI.autoIntakeButton.onFalse(new GroundIntake(true, 1)); 
 

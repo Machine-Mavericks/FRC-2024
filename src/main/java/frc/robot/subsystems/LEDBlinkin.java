@@ -5,23 +5,21 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class LEDBlinkin extends SubsystemBase {
-
   //Victor led;
   PWM led;
+
   /** Creates a new LEDBlinkin. */
   public LEDBlinkin() {
-
       // set up pwm channel
       //led = new Victor(RobotMap.PWMPorts.LED_BLINKIN);
       led = new PWM(RobotMap.PWMPorts.LED_BLINKIN);
-      
-      setPattern(LED_PATTERN.OFF);
-    }
+  }
 
   @Override
   public void periodic() {
@@ -34,8 +32,10 @@ public class LEDBlinkin extends SubsystemBase {
     else if (RobotContainer.notetargeting.IsTarget()) {
       RobotContainer.LEDStrip.setPattern(LED_PATTERN.SEESNOTES);
     }
-    else if (DriverStation.getAlliance().equals(DriverStation.Alliance.Red)) {
-      RobotContainer.LEDStrip.setPattern(LED_PATTERN.REDALLIANCE);
+    else if (DriverStation.getAlliance().isPresent()) {
+      if (DriverStation.getAlliance().get() == Alliance.Red) {
+        RobotContainer.LEDStrip.setPattern(LED_PATTERN.REDALLIANCE);
+      }
     } else {
       RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
     }
