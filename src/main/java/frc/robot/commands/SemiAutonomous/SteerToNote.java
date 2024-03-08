@@ -69,8 +69,8 @@ public class SteerToNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.cassetteintake.intakeRun(1);
     RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
+    RobotContainer.cassetteintake.intakeRun(1);
 
     // reset pid controller
     pidController.reset();

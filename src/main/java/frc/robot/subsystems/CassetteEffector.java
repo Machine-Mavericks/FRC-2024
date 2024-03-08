@@ -53,7 +53,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   //TODO: figure out angle values
   public static final double MAX_TOP_ANGLE = 0.26;
   public static final double MIN_BOTTOM_ANGLE = 0.023;
-  public static final double DROP_PROP_ANGLE = 0.1;
+  public static final double DROP_PROP_ANGLE = 0.14;
   public static final double NEUTRAL_ANGLE = 0.05;
   public static final double GROUND_ANGLE = 0.022;
   public static final double SOURCE_ANGLE = 0.05;
@@ -61,12 +61,12 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   public static final double SPEAKER_ANGLE = 0.05; //from flush against
 
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
-  .withKP(40).withKI(0).withKD(0.1)
+  .withKP(50).withKI(0).withKD(0.1)
   .withKS(0).withKV(0).withKA(0);
 
   private static final Spline1D FEEDFORWARD_CURVE = new Spline1D(new Point[]{
-    new Point(0.023,0.3),
-    new Point(0.08, 0.42),
+    new Point(0.023,0.2),
+    new Point(0.08, 0.35),
     new Point(0.12, 0.42),
     new Point(0.15, 0.7),
     new Point(0.28, 0.45)
@@ -120,9 +120,9 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     effectorConfig.Slot0 = EFFECTOR_GAINS;
 
     // Motion magic cruise values
-    effectorConfig.MotionMagic.MotionMagicAcceleration = 0.8;
-    effectorConfig.MotionMagic.MotionMagicCruiseVelocity = 0.8;
-    effectorConfig.MotionMagic.MotionMagicJerk = 5;
+    effectorConfig.MotionMagic.MotionMagicAcceleration = 1.6;
+    effectorConfig.MotionMagic.MotionMagicCruiseVelocity = 1.6;
+    effectorConfig.MotionMagic.MotionMagicJerk = 16;
 
     m_EffectorMotor.getConfigurator().apply(effectorConfig);
     m_EffectorMotor.setNeutralMode(NeutralModeValue.Brake);

@@ -28,8 +28,11 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
+import frc.robot.util.ShuffleUser;
+import frc.robot.util.SubsystemShuffleboardManager;
 import frc.robot.util.Utils;
 
 // TODO LIST:
@@ -37,12 +40,13 @@ import frc.robot.util.Utils;
 // [X] Investigate CAN signal latency, as well as possible erroneous lack of compensation in the gyro
 // [X] Get a constants folder
 // [X] Un break / tune closed loop driving
-// [-] Get rid of old odometry class
+// [X] Get rid of old odometry class
+// [-] Write test for SubsystemShuffleboardManager
 
 /**
  * Subsystem representing the swerve drivetrain
  */
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends SubsystemBase implements ShuffleUser {
     //Useful reference: https://pro.docs.ctr-electronics.com/en/latest/docs/api-reference/mechanisms/swerve/swerve-builder-api.html
     
     // Helper class to ensure all constants are formatted correctly for Pheonix 6 swerve library
@@ -69,7 +73,7 @@ public class Drivetrain extends SubsystemBase {
         .withKS(0).withKV(1).withKA(0);
         /** The drive motor gains */
         public static final Slot0Configs DriveMotorGains = new Slot0Configs()
-        .withKP(0.04).withKI(0.02).withKD(0) // TODO: Tune this value
+        .withKP(0.04).withKI(0).withKD(0) // TODO: Tune this value
         .withKV(0);
 
 
@@ -196,9 +200,13 @@ public class Drivetrain extends SubsystemBase {
 
     // Shuffleboard classes
     private ShuffleboardTab tab;
+    private GenericEntry XInput;
+    private GenericEntry YInput;
     // value controlled on shuffleboard to stop the jerkiness of the robot by limiting its acceleration
     public GenericEntry maxAccel;
     public GenericEntry speedLimitFactor;
+    public GenericEntry defaultSpeedFactor;
+    public GenericEntry rotationSpeedMultiplier;
 
     
     /**
@@ -220,19 +228,34 @@ public class Drivetrain extends SubsystemBase {
 
         /**Acceleration Limiting Slider*/
         maxAccel = tab.addPersistent("Max Acceleration", 0.05)
-        .withPosition(8, 0)
+        .withPosition(8, 3)
+        .withSize(2, 1)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", 0, "max_value", 0.5))
         .getEntry();
-        speedLimitFactor = tab.addPersistent("SpeedLimitFactor", 0.75)
+        speedLimitFactor = tab.addPersistent("SpeedLimitFactor", 1)
         .withPosition(8, 0)
+        .withSize(2, 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 1))
+        .getEntry();
+        defaultSpeedFactor = tab.addPersistent("DefaultSpeedLimit", 0.5)
+        .withPosition(8, 1)
+        .withSize(2, 1)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", 0, "max_value", 0.75))
+        .getEntry();
+        rotationSpeedMultiplier = tab.addPersistent("RotationPower", 0.5)
+        .withPosition(8, 2)
+        .withSize(2, 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0, "max_value", 1))
         .getEntry();
         tab.add("Reset Drivetrain", new InstantCommand(()->{resetModules(NEUTRAL_MODE);}))
         .withPosition(0,0)
         .withSize(2, 1);
-
+        
+        SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 5);
         // fudgeFactor = tab.addPersistent("FudgeFactor", 0)
         // .withPosition(8, 3)
         // .withWidget(BuiltInWidgets.kNumberSlider)
@@ -313,6 +336,7 @@ public class Drivetrain extends SubsystemBase {
             m_states[i] = new SwerveModuleState(); // Initialize to blank states at the beginning, will be overwritten in first periodic loop
             m_targetStates[i] = new SwerveModuleState();
 
+            // Apply deadband to drive motors
             MotorOutputConfigs configs = new MotorOutputConfigs();
             module.getDriveMotor().getConfigurator().refresh(configs);
 
@@ -324,6 +348,12 @@ public class Drivetrain extends SubsystemBase {
 
         /* Make sure all signals update at the correct update frequency */
         BaseStatusSignal.setUpdateFrequencyForAll(ODOMETRY_HZ, m_allSignals);
+    }
+
+    public void configDrivetrainNeutralMode(NeutralModeValue nm){
+        for (int i = 0; i < m_swerveModules.length; i++){
+            m_swerveModules[i].configNeutralMode(nm);
+        }
     }
 
     private void AddModuleSignals(SwerveModule module, int index){
@@ -379,7 +409,7 @@ public class Drivetrain extends SubsystemBase {
     public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
 
         // correct axes of drive - determined from field testing
-        // 2024 - Elmo
+        // 2024 - Sonic
         // flip sign of rotation speed
         // Allows easy flipping of drive axes if needed
         Translation2d newtranslation = new Translation2d(-translation.getX(),
@@ -510,5 +540,20 @@ public class Drivetrain extends SubsystemBase {
         return m_positions;
     }
 
-    
+    // -------------------- Shuffleboard --------------------
+
+    @Override
+    public void initializeShuffleboard() {
+        XInput = tab.add("X Input", 0)
+        .withPosition(3, 1).getEntry();
+        YInput = tab.add("Y Input", 0)
+        .withPosition(3, 1).getEntry();
+    }
+
+    @Override
+    public void updateShuffleboard(){
+        XInput.setDouble(OI.driverController.getLeftX());
+        YInput.setDouble(OI.driverController.getLeftY());
+    }
+
 } // end class Drivetrain

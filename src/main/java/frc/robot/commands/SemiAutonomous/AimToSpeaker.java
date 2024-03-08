@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 public class AimToSpeaker extends Command {
 // PID gains for rotating robot towards ball target
   double kp = 0.01;
-  double ki = 0.0;
+  double ki = 0.0001;
   double kd = 0.0001;
   PIDController pidController = new PIDController(kp, ki, kd);
   

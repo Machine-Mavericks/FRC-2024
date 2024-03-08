@@ -1,8 +1,13 @@
 package frc.robot;
 
+import javax.script.Bindings;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.util.Utils;
 
 /**
  * This class cointains definitions for the robot's hardware devices.
@@ -16,8 +21,6 @@ public class OI {
     static double prevYInput = 0.0;
 
     public static double getXDriveInput(){
-        
-        double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
         // grab old input from controller
         prevXInput = newXInput;
         // read new input from controller
@@ -29,12 +32,10 @@ public class OI {
         // limit the acceleration
         newXInput = (newXInput - prevXInput) > maxAccel ? prevXInput + maxAccel : newXInput;
         newXInput = (newXInput - prevXInput) < -1 * maxAccel ? prevXInput - maxAccel : newXInput;
-        return ((driverController.getRightTriggerAxis() >= 0.75) ? newXInput * 0.20 : newXInput)*speedLimitFactor;
+        return (newXInput)*getSpeedMultiplier();
     }
 
     public static double getYDriveInput(){
-        
-        double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
         // grab old input from controller
         prevYInput = newYInput;
         // read new input from controller
@@ -46,15 +47,25 @@ public class OI {
         // limit the acceleration
         newYInput = (newYInput - prevYInput) > maxAccel ? prevYInput + maxAccel : newYInput;
         newYInput = (newYInput - prevYInput) < -1 * maxAccel ? prevYInput - maxAccel : newYInput;
-        return ((driverController.getRightTriggerAxis() >= 0.75) ? newYInput * 0.20 : newYInput)*speedLimitFactor;
+        return (newYInput)*getSpeedMultiplier();
     }
 
     public static double getRotDriveInput(){
-        
-        double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
+        double speedLimitFactor = getSpeedMultiplier() * RobotContainer.drivetrain.rotationSpeedMultiplier.getDouble(1);
+
         double rotInput = driverController.getRightX()*speedLimitFactor;
         rotInput = Math.abs(rotInput) > 0.1 ? rotInput*0.5 : 0;
         return rotInput;
+    }
+
+    public static double getSpeedMultiplier(){
+        double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
+        double defaultSpeed = RobotContainer.drivetrain.defaultSpeedFactor.getDouble(0.5);
+        return Utils.Lerp(defaultSpeed, speedLimitFactor, getRightTriggerInput());
+    }
+
+    public static double getRightTriggerInput(){
+        return driverController.getRightTriggerAxis();
     }
     /**
      * Inner class containing controller bindings
@@ -63,20 +74,20 @@ public class OI {
         /** Button to re-zero gyro */
         static final Button ZERO_GYRO = XboxController.Button.kBack;
         /** Button to drive at reduced speed */
-        static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kRightBumper;
-        /** Button to intake note */
-        static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        //static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kRightBumper;
         /** Button to shoot note */
         static final Button SHOOT_BUTTON = XboxController.Button.kRightBumper;
         /** Button for amp shot */
         static final Button AMP_BUTTON = XboxController.Button.kX;
+        /** Button for auto intake */
+        static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
     }
 
     private static class OperatorBindings{
         /** Button to spit out note */
         static final Button UNSTUCK_BUTTON = XboxController.Button.kA;
-        /** Button for auto intake */
-        static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        /** Button to manually intake note */
+        static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
         /** Button for auto intake */
         static final Button SPINUP_SHOOTER_BUTTON = XboxController.Button.kRightBumper;
     }
@@ -96,15 +107,15 @@ public class OI {
     /** Zero gyro button. Mapped to {@link Bindings#ZERO_GYRO} */
     public static final JoystickButton zeroButton = new JoystickButton(driverController, DriverBindings.ZERO_GYRO.value);
     /** Drive reduced speed button. Mapped to {@link Bindings#SLOW_DRIVE_BUTTON} */
-    public static final JoystickButton slowDriveButton = new JoystickButton(driverController, DriverBindings.SLOW_DRIVE_BUTTON.value);
+    //public static final JoystickButton slowDriveButton = new JoystickButton(driverController, DriverBindings.SLOW_DRIVE_BUTTON.value);
 
     /**Button to unstuck note */
     public static final JoystickButton unstuckButton = new JoystickButton(operatorController, OperatorBindings.UNSTUCK_BUTTON.value);
 
     /**Button to trigger intake */
-    public static final JoystickButton intakeButton = new JoystickButton(driverController, DriverBindings.INTAKE_BUTTON.value);
+    public static final JoystickButton intakeButton = new JoystickButton(operatorController, OperatorBindings.INTAKE_BUTTON.value);
     /**Button to run auto intake */
-    public static final JoystickButton autoIntakeButton = new JoystickButton(operatorController, OperatorBindings.AUTO_INTAKE_BUTTON.value);
+    public static final JoystickButton autoIntakeButton = new JoystickButton(driverController, DriverBindings.AUTO_INTAKE_BUTTON.value);
     /**Button to trigger shooter */
     public static final JoystickButton speakerShooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
     /**Button to trigger amp shoot */

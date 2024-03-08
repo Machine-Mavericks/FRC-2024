@@ -30,17 +30,19 @@ public class ShuffleboardOI extends SubsystemBase {
     // true if selected, false if not
     // <add any other controls here that go on main shufflebard page
     private GenericEntry m_delayTime;
-    private SendableChooser<Integer> m_autonomousPath;
+    public SendableChooser<Integer> m_autonomousPath;
 
     // Shot info
     public GenericEntry EffectorTarget;
     public GenericEntry LShooterSpeed;
     public GenericEntry RShooterSpeed;
 
+    public GenericEntry SeesTarget;
     public GenericEntry ShooterAtSpeed;
     public GenericEntry ShooterAtAngle;
     public GenericEntry RobotAtAngle;
     public GenericEntry TargetDistance;
+    public GenericEntry tY;
 
     // other controls on main page
     private GenericEntry m_timeLeft;
@@ -86,12 +88,10 @@ public class ShuffleboardOI extends SubsystemBase {
         
 
         // add autonomous commands to page -
-        m_autonomousPath.addOption("Anywhere Two-ball",0);
-        // m_autonomousPath.addOption("Five-ball",1);
-        // m_autonomousPath.addOption("Emerg 4-ball", 2);
-        // m_autonomousPath.setDefaultOption("Anywhere Two-ball", 0);
-        //m_autonomousPath.addOption("Two-ball auto",0);
-        //m_autonomousPath.addOption("Three-ball auto",1);
+        m_autonomousPath.addOption("Anywhere One Note",0);
+        m_autonomousPath.addOption("Two Note",1);
+
+        //m_autonomousPath.addOption("Anywhere Two-ball",0);
         //m_autonomousPath.addOption("Anywhere Two-ball",2);
         //m_autonomousPath.addOption("Five-ball",3);
         //m_autonomousPath.setDefaultOption("One-ball auto", 3);
@@ -126,8 +126,8 @@ public class ShuffleboardOI extends SubsystemBase {
         .getEntry();
 
         ShuffleboardLayout ShotInfoLayout = tab.getLayout("Shot Info", BuiltInLayouts.kList)
-        .withPosition(5, 0)
-        .withSize(1, 3);
+        .withPosition(4, 0)
+        .withSize(2, 4);
         ShooterAtSpeed = ShotInfoLayout.add("Shooter Speed", false)
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
@@ -139,6 +139,12 @@ public class ShuffleboardOI extends SubsystemBase {
         RobotAtAngle = ShotInfoLayout.add("Robot Angle", false)
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
+
+        SeesTarget = ShotInfoLayout.add("Target Aquired", false)
+        .withWidget(BuiltInWidgets.kBooleanBox)
+        .getEntry();
+
+        tY = ShotInfoLayout.add("tY", 0).getEntry();
 
         TargetDistance = ShotInfoLayout.add("Target Distance", 0).getEntry();
 
