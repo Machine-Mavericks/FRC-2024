@@ -7,7 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
 import frc.robot.commands.OperatorSpinup;
@@ -123,15 +125,22 @@ public class RobotContainer {
   public static Command getAutonomousCommand() {  
     // get autonomous path to run
     int index = (Integer)RobotContainer.operatorinterface.m_autonomousPath.getSelected();
-        
+    Command chosenCommand;
     // return autonomous command to be run
     switch (index) {
       case 0:
-        return new OneNoteAuto();
+        chosenCommand = new OneNoteAuto();
+        break;
       case 1:
-        return new TwoNoteAuto();
+        chosenCommand = new TwoNoteAuto();
+        break;
       default:
-        return null;// get autonomous path to run
+        chosenCommand = null;// get autonomous path to run
+        break;
     } 
+    return new SequentialCommandGroup(
+      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE)),
+      chosenCommand
+    );
   }
 }
