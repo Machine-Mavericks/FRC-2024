@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.CassetteEffector;
 
 public class IntakeMoveToHoldingPosition extends Command {
  private Timer intakeTimer;
@@ -41,9 +40,6 @@ public class IntakeMoveToHoldingPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(intakeTimer.hasElapsed(0.1)==true)
-      return true;
-    else 
-      return false;
+    return intakeTimer.hasElapsed(0.125);
   }
 }

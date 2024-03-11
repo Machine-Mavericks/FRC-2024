@@ -9,19 +9,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
-import frc.robot.commands.IntakeMoveToHoldingPosition;
-import frc.robot.commands.LEDCommand;
-import frc.robot.commands.ShootAmp;
-import frc.robot.commands.OldShootSpeaker;
 import frc.robot.commands.OperatorSpinup;
-import frc.robot.commands.SourceIntake;
+import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
-import frc.robot.commands.Autonomous.SampleAutoCommand;
+import frc.robot.commands.Autonomous.OneNoteAuto;
+import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
@@ -29,7 +27,6 @@ import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.NVidia;
 import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
@@ -76,7 +73,7 @@ public class RobotContainer {
    */
   public static void init() {
     drivetrain.setDefaultCommand(new DriveCommand(drivetrain));
-    LEDStrip.setDefaultCommand(new LEDCommand());
+    //LEDStrip.setDefaultCommand(new LEDCommand());
 
     // Camera Servers:
     //CameraServer.	startAutomaticCapture(0);
@@ -99,6 +96,7 @@ public class RobotContainer {
 
     // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(true));
+    OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
     OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
@@ -109,8 +107,11 @@ public class RobotContainer {
 
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
+
+    // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
-    OI.autoIntakeButton.onFalse(new GroundIntake(true, 1)); 
+    //OI.autoIntakeButton.onFalse(new GroundIntake(false, 0.05)); 
+    OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
@@ -121,7 +122,25 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public static Command getAutonomousCommand() {
-   return new SampleAutoCommand(); //filler, replace with autonomous path
+  public static Command getAutonomousCommand() {  
+    // get autonomous path to run
+    int index = (Integer)RobotContainer.operatorinterface.m_autonomousPath.getSelected();
+    Command chosenCommand;
+    // return autonomous command to be run
+    switch (index) {
+      case 0:
+        chosenCommand = new OneNoteAuto();
+        break;
+      case 1:
+        chosenCommand = new TwoNoteAuto();
+        break;
+      default:
+        chosenCommand = null;// get autonomous path to run
+        break;
+    } 
+    return new SequentialCommandGroup(
+      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE)),
+      chosenCommand
+    );
   }
 }

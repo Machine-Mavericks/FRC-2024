@@ -9,9 +9,12 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
+import frc.robot.util.ShuffleUser;
+import frc.robot.util.SubsystemShuffleboardManager;
 
-public class CassetteShooter extends SubsystemBase {
+public class CassetteShooter extends SubsystemBase implements ShuffleUser {
   // Physical components
   private TalonFX m_LShootMotor;
   private TalonFX m_RShootMotor;
@@ -35,13 +38,15 @@ public class CassetteShooter extends SubsystemBase {
     var slot0Configs = new Slot0Configs();
     
     slot0Configs.kV = 0.11;
-    slot0Configs.kP = 0.05;
-    slot0Configs.kI = 0;
+    slot0Configs.kP = 0.09;   // was 0.05
+    slot0Configs.kI = .001;  // was 0.0 // was 0.005
     slot0Configs.kD = 0;
 
     m_LShootMotor.getConfigurator().apply(slot0Configs);
     m_RShootMotor.getConfigurator().apply(slot0Configs);
     //m_PhotoSensor = new DigitalInput(RobotMap.CANID.PHOTOSENSOR);
+
+    SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 30);
   }
 
   @Override
@@ -93,5 +98,16 @@ public class CassetteShooter extends SubsystemBase {
     return 
       Math.abs(getSpeedL() - m_currentSetpointL) < allowedSpeedError && 
       Math.abs(getSpeedR() - m_currentSetpointR) < allowedSpeedError;   
+  }
+
+  @Override
+  public void initializeShuffleboard() {
+    // do nothing
+  }
+
+  @Override
+  public void updateShuffleboard() {
+    RobotContainer.operatorinterface.RShooterSpeed.setDouble(getSpeedR());
+    RobotContainer.operatorinterface.LShooterSpeed.setDouble(getSpeedL());
   }
 }

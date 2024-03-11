@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import frc.robot.commands.IntakeMoveToHoldingPosition;
 
 public class CassetteIntake extends SubsystemBase {
   // Physical components
