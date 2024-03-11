@@ -147,8 +147,6 @@ public class ShuffleboardOI extends SubsystemBase {
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
 
-        tY = ShotInfoLayout.add("tY", 0).getEntry();
-
         TargetDistance = ShotInfoLayout.add("Target Distance", 0).getEntry();
 
         // add match time remaining in autonomous/teleop part of match (seconds)

@@ -42,10 +42,10 @@ public class OperatorSpinup extends Command {
   @Override
   public void end(boolean interrupted) {
     // Probably fine
-    if (!OI.speakerShooterButton.getAsBoolean()) {
-      RobotContainer.cassetteshooter.stopShooter();
-      RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
-    }
+    // if (!OI.speakerShooterButton.getAsBoolean()) {
+    //   RobotContainer.cassetteshooter.stopShooter();
+    //   RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
+    // }
   }
 
   // This is the default, so this code could be deleted wihout problems, but serves as a good reminder that interruption behaviours exist
