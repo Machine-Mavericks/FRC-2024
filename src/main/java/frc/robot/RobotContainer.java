@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DelayCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
 import frc.robot.commands.OperatorSpinup;
@@ -135,11 +136,12 @@ public class RobotContainer {
         chosenCommand = new TwoNoteAuto();
         break;
       default:
-        chosenCommand = null;// get autonomous path to run
+        chosenCommand = null;
         break;
     } 
     return new SequentialCommandGroup(
-      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE)),
+      new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE)), // Drop rickstand
+      new DelayCommand(operatorinterface.getAutoDelay()), // Wait desired time before running chosen auto
       chosenCommand
     );
   }
