@@ -10,12 +10,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
-import frc.robot.commands.DelayCommand;
-import frc.robot.commands.DriveToRelativePose;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
-import frc.robot.commands.SetGyroUsingAprilTag;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
 
