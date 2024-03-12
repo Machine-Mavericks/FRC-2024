@@ -88,6 +88,10 @@ public class OI {
         static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
         /** Button for auto intake */
         static final Button SPINUP_SHOOTER_BUTTON = XboxController.Button.kRightBumper;
+        /** Button to extend climber */
+        static final Button EXTEND_CLIMB_BUTTON = XboxController.Button.kX;
+        /** Button to retract climber */
+        static final Button RETRACT_CLIMB_BUTTON = XboxController.Button.kY;
     }
 
     /** Port for controller used by driver */
@@ -121,5 +125,10 @@ public class OI {
 
     /**Button to spinup shooter preemptively for shot */
     public static final JoystickButton spinupShooterButton = new JoystickButton(operatorController, OperatorBindings.SPINUP_SHOOTER_BUTTON.value);
+
+    /**Button to extend climb */
+    public static final JoystickButton extendClimbButton = new JoystickButton(operatorController, OperatorBindings.EXTEND_CLIMB_BUTTON.value);
+    /**Button to extend climb */
+    public static final JoystickButton retractClimbButton = new JoystickButton(operatorController, OperatorBindings.RETRACT_CLIMB_BUTTON.value);
 }
  

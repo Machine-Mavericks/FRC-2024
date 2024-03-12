@@ -25,6 +25,7 @@ import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
@@ -67,6 +68,7 @@ public class RobotContainer {
   public static final CassetteEffector cassetteangle = new CassetteEffector();
   public static final SpeakerTargeting speakertargeting = new SpeakerTargeting(shotlimelight);
   public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
+  public static final Climber climber = new Climber();
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and
