@@ -14,6 +14,7 @@ import frc.robot.commands.DelayCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
 import frc.robot.commands.OperatorSpinup;
+import frc.robot.commands.RunClimbCommand;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
 import frc.robot.commands.Autonomous.OneNoteAuto;
@@ -118,6 +119,10 @@ public class RobotContainer {
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
+
+    // Climb control
+    OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
+    OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
   }
 
   /**

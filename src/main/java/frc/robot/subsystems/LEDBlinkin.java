@@ -17,9 +17,9 @@ public class LEDBlinkin extends SubsystemBase {
 
   /** Creates a new LEDBlinkin. */
   public LEDBlinkin() {
-      // set up pwm channel
-      //led = new Victor(RobotMap.PWMPorts.LED_BLINKIN);
-      led = new Spark(RobotMap.PWMPorts.LED_BLINKIN);
+    // set up pwm channel
+    //led = new Victor(RobotMap.PWMPorts.LED_BLINKIN);
+    led = new Spark(RobotMap.PWMPorts.LED_BLINKIN);
   }
 
   @Override
