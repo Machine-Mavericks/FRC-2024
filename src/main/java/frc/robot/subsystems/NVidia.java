@@ -38,40 +38,52 @@ public class NVidia extends SubsystemBase {
   @Override
   public void periodic() {
     if (NetworkTableInstance.getDefault().hasSchema("Nvidia")){
+      System.out.println("has schema");
       // set pointer to limelight network table
       m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
+      System.out.println("has table");
       // array to hold apriltag detection data
       TimestampedDoubleArray AprilTagDetectionData[];
       // subscribe to Nvidia camera topics
       if (m_table.containsSubTable("camera3")) {
+        System.out.println("has camera3");
         m_CameraSub3=m_table.getDoubleArrayTopic("camera3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
       }
       if (m_table.containsSubTable("camera4")){
+        System.out.println("has camera4");
         m_CameraSub4=m_table.getDoubleArrayTopic("camera4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
       }
       if (m_table.containsSubTable("robot_pose_in_field3")){
+        System.out.println("has robot pose 3");
         m_RobotPoseSub3=m_table.getDoubleArrayTopic("robot_pose_in_field3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-        // get AprilTag detections from Netowrk Table for each camera
         AprilTagDetectionData= m_RobotPoseSub3.readQueue();
+        System.out.println("reads queue");
         // for each AprilTag detection in the list
         for (int j=0;j<AprilTagDetectionData.length; j++) {
+          System.out.println("has vision");
           data = AprilTagDetectionData[j].value;
           //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
           RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
+          System.out.println("added vision");
         }
+        updateShuffleboard(data);
       }
       if (m_table.containsSubTable("robot_pose_in_field3")){
+        System.out.println("has robot pose 4");
         m_RobotPoseSub4=m_table.getDoubleArrayTopic("robot_pose_in_field4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
         AprilTagDetectionData= m_RobotPoseSub4.readQueue();
+        System.out.println("reads queue");
         // for each AprilTag detection in the list
         for (int j=0;j<AprilTagDetectionData.length; j++)
         {
+          System.out.println("has vision");
           data = AprilTagDetectionData[j].value;
           //RobotContainer.swervepose.addVision(AprilTagMap.CalculateRobotFieldPose(data, 1),  AprilTagDetectionData[j].timestamp, AprilTagDetectionData[j].value[8]);
           RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
+          System.out.println("added vision");
         }
+        updateShuffleboard(data);
       }
-      updateShuffleboard(data);
     }
     
   }
