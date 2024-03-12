@@ -80,6 +80,8 @@ public class OI {
         static final Button AMP_BUTTON = XboxController.Button.kX;
         /** Button for auto intake */
         static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        /** Button for 180 turn */
+        static final Button SPIN_BUTTON = XboxController.Button.kA;
     }
 
     private static class OperatorBindings{
@@ -123,6 +125,8 @@ public class OI {
     public static final JoystickButton speakerShooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
     /**Button to trigger amp shoot */
     public static final JoystickButton ampButton = new JoystickButton(driverController, DriverBindings.AMP_BUTTON.value);
+    /**Button to spin 180 degrees */
+    public static final JoystickButton spinButton = new JoystickButton(driverController, DriverBindings.SPIN_BUTTON.value);
 
     /**Button to spinup shooter preemptively for shot */
     public static final JoystickButton spinupShooterButton = new JoystickButton(operatorController, OperatorBindings.SPINUP_SHOOTER_BUTTON.value);

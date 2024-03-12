@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,6 +24,7 @@ import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
+import frc.robot.commands.SemiAutonomous.TurnRobot;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -123,6 +125,9 @@ public class RobotContainer {
     // Climb control
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
     OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
+
+    // Spin 180
+    OI.spinButton.onTrue(new TurnRobot(180.0, true, 2));
   }
 
   /**
