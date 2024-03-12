@@ -8,9 +8,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Drivetrain;
 
 public class AimToSpeaker extends Command {
-// PID gains for rotating robot towards ball target
+// PID gains for rotating robot towards target
   double kp = 0.01;
   double ki = 0.0001;
   double kd = 0.0001;
@@ -59,10 +60,7 @@ public class AimToSpeaker extends Command {
 
     // calculate PID controller
     double controlleroutput = 0.0;
-    // if (Math.abs(TargetAngle)>2.0 && Math.abs(TargetAngle)<3.0)
-    //   pidController.setI(0.05);
-    // else
-    //   pidController.setI(0.001);
+
     controlleroutput = pidController.calculate(TargetAngle);
 
     // limit rotation speed of robot
@@ -73,11 +71,11 @@ public class AimToSpeaker extends Command {
 
     // turn robot towards target
     RobotContainer.drivetrain.drive(
-      new Translation2d(0,0), controlleroutput * RobotContainer.drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
+      new Translation2d(0,0), controlleroutput * Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
   
     // add time if we are on target within 1deg. Otherwise, reset timer
     if (RobotContainer.speakertargeting.IsTarget() && Math.abs(TargetAngle)<2.0)
-      OnTargetTime += 0.02;
+      OnTargetTime += RobotContainer.updateDt;
     else
       OnTargetTime = 0.0;
     }
