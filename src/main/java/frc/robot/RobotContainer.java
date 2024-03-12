@@ -14,6 +14,7 @@ import frc.robot.commands.DelayCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
 import frc.robot.commands.OperatorSpinup;
+import frc.robot.commands.RunClimbCommand;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
 import frc.robot.commands.Autonomous.OneNoteAuto;
@@ -25,6 +26,7 @@ import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
@@ -67,6 +69,7 @@ public class RobotContainer {
   public static final CassetteEffector cassetteangle = new CassetteEffector();
   public static final SpeakerTargeting speakertargeting = new SpeakerTargeting(shotlimelight);
   public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
+  public static final Climber climber = new Climber();
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and
@@ -116,6 +119,10 @@ public class RobotContainer {
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
+
+    // Climb control
+    OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
+    OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
   }
 
   /**

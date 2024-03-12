@@ -59,7 +59,8 @@ public class OI {
     public static double getSpeedMultiplier(){
         double speedLimitFactor = RobotContainer.drivetrain.speedLimitFactor.getDouble(1.0);
         double defaultSpeed = RobotContainer.drivetrain.defaultSpeedFactor.getDouble(0.5);
-        return Utils.Lerp(defaultSpeed, speedLimitFactor, getRightTriggerInput());
+        double slowdownMultiplier = slowDriveButton.getAsBoolean() ? 0.2 : 1;
+        return Utils.Lerp(defaultSpeed, speedLimitFactor, getRightTriggerInput()) * slowdownMultiplier;
     }
 
     public static double getRightTriggerInput(){
@@ -72,7 +73,7 @@ public class OI {
         /** Button to re-zero gyro */
         static final Button ZERO_GYRO = XboxController.Button.kBack;
         /** Button to drive at reduced speed */
-        //static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kRightBumper;
+        static final Button SLOW_DRIVE_BUTTON = XboxController.Button.kY;
         /** Button to shoot note */
         static final Button SHOOT_BUTTON = XboxController.Button.kRightBumper;
         /** Button for amp shot */
@@ -88,6 +89,10 @@ public class OI {
         static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
         /** Button for auto intake */
         static final Button SPINUP_SHOOTER_BUTTON = XboxController.Button.kRightBumper;
+        /** Button to extend climber */
+        static final Button EXTEND_CLIMB_BUTTON = XboxController.Button.kX;
+        /** Button to retract climber */
+        static final Button RETRACT_CLIMB_BUTTON = XboxController.Button.kY;
     }
 
     /** Port for controller used by driver */
@@ -105,7 +110,7 @@ public class OI {
     /** Zero gyro button. Mapped to {@link Bindings#ZERO_GYRO} */
     public static final JoystickButton zeroButton = new JoystickButton(driverController, DriverBindings.ZERO_GYRO.value);
     /** Drive reduced speed button. Mapped to {@link Bindings#SLOW_DRIVE_BUTTON} */
-    //public static final JoystickButton slowDriveButton = new JoystickButton(driverController, DriverBindings.SLOW_DRIVE_BUTTON.value);
+    public static final JoystickButton slowDriveButton = new JoystickButton(driverController, DriverBindings.SLOW_DRIVE_BUTTON.value);
 
     /**Button to unstuck note */
     public static final JoystickButton unstuckButton = new JoystickButton(operatorController, OperatorBindings.UNSTUCK_BUTTON.value);
@@ -121,5 +126,10 @@ public class OI {
 
     /**Button to spinup shooter preemptively for shot */
     public static final JoystickButton spinupShooterButton = new JoystickButton(operatorController, OperatorBindings.SPINUP_SHOOTER_BUTTON.value);
+
+    /**Button to extend climb */
+    public static final JoystickButton extendClimbButton = new JoystickButton(operatorController, OperatorBindings.EXTEND_CLIMB_BUTTON.value);
+    /**Button to extend climb */
+    public static final JoystickButton retractClimbButton = new JoystickButton(operatorController, OperatorBindings.RETRACT_CLIMB_BUTTON.value);
 }
  

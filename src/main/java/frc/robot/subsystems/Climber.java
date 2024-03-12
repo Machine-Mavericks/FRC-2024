@@ -4,21 +4,37 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
 
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 
 public class Climber extends SubsystemBase {
-  private VelocityDutyCycle m_mVelocityControl = new VelocityDutyCycle(0);
+  private DutyCycleOut m_DutyCycle = new DutyCycleOut(0);
+  private static final double CLIMBER_RPM = 3000;
 
   // Motors and Sensors
   private TalonFX m_climbMotor;
   
   /** Creates a new Climber. */
   public Climber() {
-    //m_climbMotor = new TalonFX(RobotMap.CANID.CLIMB_MOTOR);
+    m_climbMotor = new TalonFX(RobotMap.CANID.CLIMB_MOTOR, Drivetrain.CAN_BUS_NAME);
+
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    m_climbMotor.getConfigurator().refresh(config);
+    config.HardwareLimitSwitch.ForwardLimitEnable = true;
+    config.HardwareLimitSwitch.ForwardLimitType = ForwardLimitTypeValue.NormallyClosed;
+    config.Slot0.kP = 0.018;
+
+    m_climbMotor.getConfigurator().apply(config);
   }
 
   @Override
@@ -26,8 +42,8 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void HANG_MOTOR_RUN(Double speed){
-   m_climbMotor.setControl(m_mVelocityControl.withVelocity(speed));
+  public void HANG_MOTOR_RUN(double speed){
+   m_climbMotor.setControl(m_DutyCycle.withOutput(Math.min(1, Math.max(speed, -1))));
   }
 
   public void HANG_OFF(){
