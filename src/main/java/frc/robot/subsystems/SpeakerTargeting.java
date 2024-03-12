@@ -102,7 +102,7 @@ public class SpeakerTargeting extends SubsystemBase {
       // Update shuffleboard
       RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
       //RobotContainer.operatorinterface.tY.setDouble(currentHeightAngle);
-      return Dist-(RobotContainer.operatorinterface.DistanceAdjustment.getDouble(0)/10.0);
+      return Dist+(RobotContainer.operatorinterface.DistanceAdjustment.getDouble(0)/10.0);
     }
     return 0;
   }
@@ -114,9 +114,13 @@ public class SpeakerTargeting extends SubsystemBase {
    * @return rotation angle
    */
   public double getSpeakerAngle() {
-    //UpdateShotData();
     //double tx = shotCamera.getHorizontalTargetOffsetAngle();
     double tx = currentAngle;
     return tx;
+  }
+
+  public boolean IsReadyToShoot(){
+    return IsTarget() && 
+    (RobotContainer.cassetteangle.IsEffectorAtTarget(getDesiredAngle()) && RobotContainer.cassetteshooter.IsShooterAtSpeedSetpoint(1, 2));
   }
 }

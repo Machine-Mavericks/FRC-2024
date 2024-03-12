@@ -125,7 +125,7 @@ public class ShuffleboardOI extends SubsystemBase {
         .withPosition(3, 3)
         .withSize(1, 1)
         .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min_value", 0, "max_value", 20))
+        .withProperties(Map.of("min_value", -30, "max_value", 30))
         .getEntry();
 
         ShuffleboardLayout ShotInfoLayout = tab.getLayout("Shot Info", BuiltInLayouts.kList)
