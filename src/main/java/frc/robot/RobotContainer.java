@@ -13,14 +13,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DelayCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
-import frc.robot.commands.OperatorSpinup;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
-import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.AimToSpeaker;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
+import frc.robot.commands.SemiAutonomous.FireShot;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
@@ -31,7 +30,6 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
-//import frc.robot.subsystems.SwerveOdometry;
 import frc.robot.subsystems.SwervePoseEstimator;
 
 /**
@@ -100,8 +98,8 @@ public class RobotContainer {
     OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
-    OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
-    OI.speakerShooterButton.onFalse(new CleanupShot());
+    OI.speakerShooterButton.onTrue(new FireShot());
+    //OI.speakerShooterButton.onFalse(new CleanupShot());
     
     // Amp shot
     OI.ampButton.onTrue(new ShootAmp());
@@ -111,11 +109,10 @@ public class RobotContainer {
 
     // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
-    //OI.autoIntakeButton.onFalse(new GroundIntake(false, 0.05)); 
     OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
-    OI.spinupShooterButton.whileTrue(new OperatorSpinup());
+    OI.spinupShooterButton.whileTrue(new AimToSpeaker());
   }
 
   /**

@@ -119,8 +119,11 @@ public class SpeakerTargeting extends SubsystemBase {
     return tx;
   }
 
+  /**
+   * gets if the target can be seen, the shooter is at speed, and the cassette is at the right angle
+   */
   public boolean IsReadyToShoot(){
     return IsTarget() && 
-    (RobotContainer.cassetteangle.IsEffectorAtTarget(getDesiredAngle()) && RobotContainer.cassetteshooter.IsShooterAtSpeedSetpoint(1, 2));
+    (RobotContainer.cassetteangle.IsEffectorAtTarget(getDesiredAngle()) && RobotContainer.cassetteshooter.IsShooterAtSpeedSetpoint(getDesiredLSpeed(), getDesiredRSpeed()));
   }
 }

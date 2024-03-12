@@ -86,26 +86,24 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
     return m_LShootMotor.getVelocity().getValueAsDouble() * 60;
   }
 
-    public double getSpeedR(){
+  public double getSpeedR(){
     return m_RShootMotor.getVelocity().getValueAsDouble() * 60;
   }
 
   /**
    * Checks if shooter motors are at speeds specified by the last given setpoint
-   * @return
    */
   public boolean IsShooterAtSpeedSetpoint() {
     return IsShooterAtSpeedSetpoint(m_currentSetpointL, m_currentSetpointR);
   }
 
   /**
-   * Checks if shooter motors are at speeds specified
-   * @return
+   * Checks if shooter motors are at speeds specified (rpm)
    */
   public boolean IsShooterAtSpeedSetpoint(double LSpeed, double RSpeed) {
     return 
-      Math.abs(getSpeedL() - m_currentSetpointL) < allowedSpeedError && 
-      Math.abs(getSpeedR() - m_currentSetpointR) < allowedSpeedError;   
+      Math.abs(getSpeedL() - LSpeed) < allowedSpeedError && 
+      Math.abs(getSpeedR() - RSpeed) < allowedSpeedError;   
   }
 
   @Override

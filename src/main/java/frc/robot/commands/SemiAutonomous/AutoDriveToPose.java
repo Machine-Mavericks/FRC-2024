@@ -98,7 +98,7 @@ public class AutoDriveToPose extends Command {
     Pose2d curr = RobotContainer.swervepose.getPose2d();
     
     // increment time
-    m_time += 0.02;
+    m_time += RobotContainer.updateDt;
 
     // execute PIDs
     xSpeed = -m_xController.calculate(curr.getX()- m_target.getX() );

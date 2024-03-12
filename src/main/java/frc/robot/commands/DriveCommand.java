@@ -42,7 +42,7 @@ public class DriveCommand extends Command {
 
     double xInput = OI.getXDriveInput();
     double yInput = OI.getYDriveInput();
-    double rotInput = -OI.getRotDriveInput();
+    double rotInput = OI.getRotDriveInput();
 
     // If no rotational input provided, use PID to hold heading
     // When the zero button is pressed force reset to prevent jumping
