@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,12 +13,13 @@ import frc.robot.RobotMap;
 public class LEDBlinkin extends SubsystemBase {
   //Victor led;
   Spark led;
-
+  
   /** Creates a new LEDBlinkin. */
   public LEDBlinkin() {
     // set up pwm channel
     //led = new Victor(RobotMap.PWMPorts.LED_BLINKIN);
     led = new Spark(RobotMap.PWMPorts.LED_BLINKIN);
+    System.out.println("Setup Blinkin on port" + RobotMap.PWMPorts.LED_BLINKIN);
   }
 
   @Override
@@ -27,19 +27,19 @@ public class LEDBlinkin extends SubsystemBase {
     // This method will be called once per scheduler run
 
     if (RobotContainer.speakertargeting.IsTarget()) {
-     RobotContainer.LEDStrip.setPattern(LED_PATTERN.APRILTAGS);
+     setPattern(LED_PATTERN.OFF); // Once targeting changes are made, change this to SHOTREADY
     } 
     else if (RobotContainer.notetargeting.IsTarget()) {
-      RobotContainer.LEDStrip.setPattern(LED_PATTERN.SEESNOTES);
+      setPattern(LED_PATTERN.SEESNOTES);
     }
     else if (DriverStation.getAlliance().isPresent()) {
       if (DriverStation.getAlliance().get() == Alliance.Red) {
-        RobotContainer.LEDStrip.setPattern(LED_PATTERN.REDALLIANCE);
+        setPattern(LED_PATTERN.REDALLIANCE);
       } else {
-      RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
+      setPattern(LED_PATTERN.BLUEALLIANCE);  
       }
     } else {
-      RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
+      setPattern(LED_PATTERN.BLUEALLIANCE);  
     }
   }
 
@@ -50,7 +50,7 @@ public class LEDBlinkin extends SubsystemBase {
     REDALLIANCE,
     BLUEALLIANCE,
     SEESNOTES,
-    APRILTAGS
+    SHOTREADY
     // Add
   };
 
@@ -66,25 +66,23 @@ public class LEDBlinkin extends SubsystemBase {
         led.set(0.91);    // solid purple
         break;
       case DISCO:
-        led.set(-0.45);   // color wave - rainbow
+        led.set(-0.99);   // color wave - rainbow
         break;
       case REDALLIANCE:
-        led.set(0.360); // red 
+        led.set(0.61); // red 
         break;
       case BLUEALLIANCE:
-        led.set(0.240); // blue 
+        led.set(0.87); // blue 
         break; 
       case SEESNOTES:
-        led.set(-0.120); // pink
+        led.set(-0.05); // gold strobe
         break;
-      case APRILTAGS:
-        led.set(0.120); //green
+      case SHOTREADY:
+        led.set(0.73); // green
         break;
       default:
         led.set(0.99);    // black
         break;
     }
   }
-
-
 }
