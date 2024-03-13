@@ -24,6 +24,7 @@ public class DriveToRelativePose extends Command {
   // command timeout and counter
   private double m_timeout;
   private Timer m_Timer;
+  private boolean m_fieldOriented;
 
   // x, y, rotation PID controllers to get us to the intended destination
   private PIDController m_xController; 
@@ -45,11 +46,19 @@ public class DriveToRelativePose extends Command {
   }
   
   
-  /** Creates a new DrivetoRelativePose. */
+  /**
+   * Creates new drive to relative pose command
+   * @param target in m
+   * @param speed in m/s
+   * @param rotationalspeed
+   * @param timeout in s
+   * @param fieldOriented true if field false if robot
+   */
   public DriveToRelativePose( Pose2d target,
                               double speed,
                               double rotationalspeed,
-                              double timeout) {
+                              double timeout,
+                              boolean fieldOriented) {
     // this command requires use of swervedrive subsystem
     addRequirements(RobotContainer.drivetrain);
     
@@ -68,6 +77,9 @@ public class DriveToRelativePose extends Command {
     // create timer, and record timeout limit
     m_Timer = new Timer();
     m_timeout = timeout;
+
+    // record orientation
+    m_fieldOriented = fieldOriented;
   }
   
   
@@ -129,7 +141,7 @@ public class DriveToRelativePose extends Command {
       rotSpeed = -m_rotspeed;
 
     // drive robot according to x,y,rot PID controller speeds
-    RobotContainer.drivetrain.drive(new Translation2d(xSpeed, ySpeed), rotSpeed, false);  
+    RobotContainer.drivetrain.drive(new Translation2d(xSpeed, ySpeed), rotSpeed, m_fieldOriented);  
   }
 
   // Called once the command ends or is interrupted.
