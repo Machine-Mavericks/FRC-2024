@@ -12,6 +12,8 @@ import frc.robot.util.Utils;
  * These include components such as motor controllers and soleniods used by the subsystems.
  */
 public class OI {
+    private static final double JOYSTICK_DEADZONE_INNER = 0.05; // Below the inner value the input is zero
+    private static final double JOYSTICK_DEADZONE_OUTER = 0.2; // Between the inner and outer value the input is interpolated towards it's actual value
 
     static double newXInput = 0.0;
     static double newYInput = 0.0;
@@ -24,13 +26,17 @@ public class OI {
         // read new input from controller
         newXInput = OI.driverController.getLeftX();
         // implement deadzoning
-        newXInput = Math.abs(newXInput) > 0.1 ? newXInput : 0;
+        newXInput = applyDeadzone(newXInput);
+
+        // apply speed modifier
+        newXInput *= getSpeedMultiplier();
+
         // read max accel from shuffleboard
         double maxAccel = RobotContainer.drivetrain.maxAccel.getDouble(0.02);
         // limit the acceleration
         newXInput = (newXInput - prevXInput) > maxAccel ? prevXInput + maxAccel : newXInput;
         newXInput = (newXInput - prevXInput) < -1 * maxAccel ? prevXInput - maxAccel : newXInput;
-        return (newXInput)*getSpeedMultiplier();
+        return (newXInput);
     }
 
     public static double getYDriveInput(){
@@ -39,13 +45,24 @@ public class OI {
         // read new input from controller
         newYInput = OI.driverController.getLeftY();
         // implement deadzoning
-        newYInput = Math.abs(newYInput) > 0.1 ? newYInput : 0;
+        newYInput = applyDeadzone(newYInput);
+
+        // apply speed modifier
+        newYInput *= getSpeedMultiplier();
+
         // read max accel from shuffleboard
         double maxAccel = RobotContainer.drivetrain.maxAccel.getDouble(0.02);
         // limit the acceleration
         newYInput = (newYInput - prevYInput) > maxAccel ? prevYInput + maxAccel : newYInput;
         newYInput = (newYInput - prevYInput) < -1 * maxAccel ? prevYInput - maxAccel : newYInput;
-        return (newYInput)*getSpeedMultiplier();
+        return (newYInput);
+    }
+
+    // Smooths deadzone over range
+    public static double applyDeadzone(double input){
+        return Math.abs(input) > JOYSTICK_DEADZONE_OUTER ? 
+        input : 
+        (Math.abs(input) < JOYSTICK_DEADZONE_INNER ? 0 : (Utils.Lerp(0, input, Utils.InvLerp(JOYSTICK_DEADZONE_INNER, JOYSTICK_DEADZONE_OUTER, input)) * Math.signum(input)));
     }
 
     public static double getRotDriveInput(){
