@@ -13,12 +13,13 @@ import frc.robot.RobotMap;
 public class LEDBlinkin extends SubsystemBase {
   //Victor led;
   Spark led;
-
+  
   /** Creates a new LEDBlinkin. */
   public LEDBlinkin() {
     // set up pwm channel
     //led = new Victor(RobotMap.PWMPorts.LED_BLINKIN);
     led = new Spark(RobotMap.PWMPorts.LED_BLINKIN);
+    System.out.println("Setup LED on port" + RobotMap.PWMPorts.LED_BLINKIN);
   }
 
   @Override
