@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,19 +26,19 @@ public class LEDBlinkin extends SubsystemBase {
     // This method will be called once per scheduler run
 
     if (RobotContainer.speakertargeting.IsTarget()) {
-     RobotContainer.LEDStrip.setPattern(LED_PATTERN.APRILTAGS);
+     setPattern(LED_PATTERN.APRILTAGS);
     } 
     else if (RobotContainer.notetargeting.IsTarget()) {
-      RobotContainer.LEDStrip.setPattern(LED_PATTERN.SEESNOTES);
+      setPattern(LED_PATTERN.SEESNOTES);
     }
     else if (DriverStation.getAlliance().isPresent()) {
       if (DriverStation.getAlliance().get() == Alliance.Red) {
-        RobotContainer.LEDStrip.setPattern(LED_PATTERN.REDALLIANCE);
+        setPattern(LED_PATTERN.REDALLIANCE);
       } else {
-      RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
+      setPattern(LED_PATTERN.BLUEALLIANCE);  
       }
     } else {
-      RobotContainer.LEDStrip.setPattern(LED_PATTERN.BLUEALLIANCE);  
+      setPattern(LED_PATTERN.BLUEALLIANCE);  
     }
   }
 
@@ -85,6 +84,4 @@ public class LEDBlinkin extends SubsystemBase {
         break;
     }
   }
-
-
 }
