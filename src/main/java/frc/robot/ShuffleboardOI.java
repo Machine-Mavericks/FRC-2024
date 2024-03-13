@@ -32,8 +32,12 @@ public class ShuffleboardOI extends SubsystemBase {
     private GenericEntry m_delayTime;
     public SendableChooser<Integer> m_autonomousPath;
 
-    // Shot info
+    
     public GenericEntry EffectorTarget;
+    public GenericEntry ShotCharacterizationTargetR;
+    public GenericEntry ShotCharacterizationTargetL;
+
+    // Shot info
     public GenericEntry LShooterSpeed;
     public GenericEntry RShooterSpeed;
 
@@ -107,6 +111,16 @@ public class ShuffleboardOI extends SubsystemBase {
         .withPosition(3, 0)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", CassetteEffector.MIN_BOTTOM_ANGLE, "max_value", CassetteEffector.MAX_TOP_ANGLE))
+        .getEntry();
+
+        ShotCharacterizationTargetL = tab.add("L Shooter Target", 1000)
+        .withPosition(1, 0)
+        .withWidget(BuiltInWidgets.kTextView)
+        .getEntry();
+
+        ShotCharacterizationTargetR = tab.add("R Shooter Target", 1000)
+        .withPosition(1, 1)
+        .withWidget(BuiltInWidgets.kTextView)
         .getEntry();
 
         LShooterSpeed = tab.add("LShooterspeed", 0)

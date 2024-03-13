@@ -67,7 +67,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
 
   /** Resets yaw to zero */
   public void resetGyro() {
-    
+    System.out.println("Resetting Gyro");
     // reset our Gyro
     OffsetAdjust = 0.0;
     gyro.reset();

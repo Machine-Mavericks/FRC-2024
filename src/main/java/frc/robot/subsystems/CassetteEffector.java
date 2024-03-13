@@ -74,10 +74,10 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   private static final double CASETTE_EFFECTOR_OFFSET = 0;
 
   /* Mechanism angle in degrees */
-  private double currentAngle;
+  private double currentAngle = 0;
 
   /* Mechanism angle setpoint in degrees */
-  private double currentAngleSetpoint;
+  private double currentAngleSetpoint = 0;
 
   // In rotations
   private static final double MAX_ALLOWED_ERROR = 0.005;
@@ -133,10 +133,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     SubsystemShuffleboardManager.RegisterShuffleUser(this);
 
     // Go to default angle
-    //setAngle(NEUTRAL_ANGLE);
-
-    // Go up to drop prop
-    setAngle(DROP_PROP_ANGLE);
+    setAngle(NEUTRAL_ANGLE);
   }
 
   /**

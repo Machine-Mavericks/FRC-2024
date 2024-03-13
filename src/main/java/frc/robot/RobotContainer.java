@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.CharacterizationCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
 import frc.robot.commands.OperatorSpinup;
@@ -103,11 +104,11 @@ public class RobotContainer {
     OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
-    OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
-    OI.speakerShooterButton.onFalse(new CleanupShot());
+    OI.speakerShooterButton.whileTrue(new CharacterizationCommand());
+    //OI.speakerShooterButton.onFalse(new CleanupShot());
     
     // Amp shot
-    OI.ampButton.onTrue(new ShootAmp());
+    //OI.ampButton.onTrue(new ShootAmp());
 
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
@@ -118,7 +119,7 @@ public class RobotContainer {
     OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
-    OI.spinupShooterButton.whileTrue(new OperatorSpinup());
+    //OI.spinupShooterButton.whileTrue(new OperatorSpinup());
 
     // Climb control
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
