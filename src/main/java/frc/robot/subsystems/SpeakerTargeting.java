@@ -54,7 +54,7 @@ public class SpeakerTargeting extends SubsystemBase {
     currentHeightAngle = 0;
     if (shotCamera.isTargetPresent()) {
       // When using a pipeline that tracks all targets need to filter out which ones to use
-      for (var tag : shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials){
+      for (var tag : shotCamera.getFiducials()){
         
         //System.out.println(shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials.length);
         if (tag.fiducialID == RED_SPEAKER_TAG_ID || tag.fiducialID == BLUE_SPEAKER_TAG_ID) {
