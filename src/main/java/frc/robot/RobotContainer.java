@@ -32,6 +32,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.NVidia;
 import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
@@ -59,7 +60,7 @@ public class RobotContainer {
   public static final Limelight shotlimelight = new Limelight("shoot");
   public static final Limelight intakelimelight = new Limelight("intake");
 
-  //public static final NVidia nvidia = new NVidia();
+  public static final NVidia nvidia = new NVidia();
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
   //public static final SwerveOdometry odometry = new SwerveOdometry();

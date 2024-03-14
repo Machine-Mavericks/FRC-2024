@@ -95,9 +95,9 @@ public class SwervePoseEstimator extends SubsystemBase {
       m_estimator.update(gyroangle, positions);
     }
 
-    if (RobotContainer.shotlimelight.isTargetPresent()){
-      RobotContainer.shotlimelight.addDetection();
-    }
+    // if (RobotContainer.shotlimelight.isTargetPresent()){
+    //   RobotContainer.shotlimelight.addDetection();
+    // }
 
     updateShuffleboard();
   }
@@ -121,13 +121,13 @@ public class SwervePoseEstimator extends SubsystemBase {
    * Adds vision measurement and confidence values based on data provided by the NVidia subsystem and AprilTagMap utilities
    * @param vision robot position on field based on apriltags
    * @param timeStamp timestamp from NVidia
-   * @param area area of apriltag in frame
+   * @param distance area of apriltag in frame
    */
-  public void addVision(Pose2d vision, double area){
+  public void addVision(Pose2d vision, double distance){
     //Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYaw()*DEGtoRAD));
-    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
-    double stdDevs = 0.1*area;
+    double stdDevs = 0.01*distance;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
+    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
   }
 
   
