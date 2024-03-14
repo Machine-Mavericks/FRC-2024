@@ -46,15 +46,16 @@ public class RobotMap {
         public static final int L_OUT_CASSETTE = 25;
         /** CAN ID for cassette shoot motor left */
         public static final int R_OUT_CASSETTE = 26;
-        /** CAN ID for photosensor */
-        public static final int PHOTOSENSOR = 19;
         /** CAN ID for cassette effector motor left */
         public static final int EFFECTOR_MOTOR = 30;
         /** CAN ID for effector CANcoder */
         public static final int EFFECTOR_CAN_CODER = 31;
-
         /** CAN ID for climber motor */
         public static final int CLIMB_MOTOR = 18;
+        /** CAN ID for intakeSensor */
+        //public static final int INTAKESENSOR = 19;
+        /** CAN ID for outerSensor */
+        //public static final int OUTERSENSOR = 19;
     }
 
     public static class VISION_TARGETING {} // is this important?
