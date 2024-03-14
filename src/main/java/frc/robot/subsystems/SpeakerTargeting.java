@@ -16,6 +16,7 @@ public class SpeakerTargeting extends SubsystemBase {
 
   private static final int RED_SPEAKER_TAG_ID = 4;
   private static final int BLUE_SPEAKER_TAG_ID = 7;
+  private static final double SHOT_ANGLE_TOLERANCE = 2;
 
   private double currentAngle = 0;
   private boolean speakerTargetPresent = false;
@@ -107,6 +108,10 @@ public class SpeakerTargeting extends SubsystemBase {
     return 0;
   }
 
+  public boolean IsAligned(){
+    return IsTarget() && Math.abs(getSpeakerAngle()) < SHOT_ANGLE_TOLERANCE;
+  }
+
 
   /**
    * finds angle of rotation to speaker
@@ -122,8 +127,8 @@ public class SpeakerTargeting extends SubsystemBase {
   /**
    * gets if the target can be seen, the shooter is at speed, and the cassette is at the right angle
    */
-  public boolean IsReadyToShoot(){
-    return IsTarget() && 
+  public boolean IsSpunUp(){
+    return IsTarget() &&
     (RobotContainer.cassetteangle.IsEffectorAtTarget(getDesiredAngle()) && RobotContainer.cassetteshooter.IsShooterAtSpeedSetpoint(getDesiredLSpeed(), getDesiredRSpeed()));
   }
 }

@@ -35,7 +35,7 @@ public class FireShot extends Command {
   @Override
   public void initialize() {
     timer.reset();
-    valid = speakerTargeting.IsReadyToShoot();
+    valid = speakerTargeting.IsSpunUp() && speakerTargeting.IsAligned();
     if (valid) {
       intake.intakeRun(1);
       timer.start();
