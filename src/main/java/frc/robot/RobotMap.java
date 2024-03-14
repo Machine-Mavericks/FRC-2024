@@ -52,10 +52,6 @@ public class RobotMap {
         public static final int EFFECTOR_CAN_CODER = 31;
         /** CAN ID for climber motor */
         public static final int CLIMB_MOTOR = 18;
-        /** CAN ID for intakeSensor */
-        //public static final int INTAKESENSOR = 19;
-        /** CAN ID for outerSensor */
-        //public static final int OUTERSENSOR = 19;
     }
 
     public static class VISION_TARGETING {} // is this important?
