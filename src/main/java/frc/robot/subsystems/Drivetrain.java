@@ -548,6 +548,14 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         return m_positions;
     }
 
+    /** 
+     * Returns current targeted speeds
+     * @return a ChassisSpeeds object
+     */
+    public ChassisSpeeds getTargetSpeed(){
+        return m_chassisSpeeds;
+    }
+
     // -------------------- Shuffleboard --------------------
 
     @Override

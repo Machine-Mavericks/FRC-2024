@@ -4,9 +4,11 @@
 
 package frc.robot.commands.SemiAutonomous;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 
@@ -32,9 +34,6 @@ public class AimToSpeaker extends Command {
     // reset the PID controller
     pidController.reset();
 
-    // reset ontarget timer to 0.0s
-    OnTargetTime = 0.0;
-
     TargetAngle=0.0;
   }
 
@@ -45,7 +44,7 @@ public class AimToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if we have target, then get angle. If no target, assume 180deg
+    // if we have target, then get angle. If no target, assume 0deg
     if ((RobotContainer.speakertargeting.IsTarget()))
     {
       TargetAngle = RobotContainer.speakertargeting.getSpeakerAngle();
@@ -59,39 +58,44 @@ public class AimToSpeaker extends Command {
       
 
     // calculate PID controller
-    double controlleroutput = 0.0;
+    double angleControlleroutput = 0.0;
 
-    controlleroutput = pidController.calculate(TargetAngle);
+    angleControlleroutput = pidController.calculate(TargetAngle);
 
     // limit rotation speed of robot
-    if (controlleroutput > 0.5)
-    controlleroutput = 0.5;
-    if (controlleroutput < -0.5)
-    controlleroutput = -0.5;
+    if (angleControlleroutput > 0.5)
+    angleControlleroutput = 0.5;
+    if (angleControlleroutput < -0.5)
+    angleControlleroutput = -0.5;
+
+    // Joystick input
+    double xInput = OI.getXDriveInput();
+    double yInput = OI.getYDriveInput();
 
     // turn robot towards target
     RobotContainer.drivetrain.drive(
-      new Translation2d(0,0), controlleroutput * Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
+      new Translation2d(yInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, xInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND), angleControlleroutput * Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
   
-    // add time if we are on target within 1deg. Otherwise, reset timer
-    if (RobotContainer.speakertargeting.IsTarget() && Math.abs(TargetAngle)<2.0)
-      OnTargetTime += RobotContainer.updateDt;
-    else
-      OnTargetTime = 0.0;
+    if (xInput == 0 && yInput == 0) { // Fine to check if zero because of deadzones
+      if (RobotContainer.speakertargeting.IsAligned() && RobotContainer.speakertargeting.IsSpunUp())
+        OnTargetTime += RobotContainer.updateDt;
+      else
+        OnTargetTime = 0.0;
+      }
     }
+
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     // switch off drive motors
     RobotContainer.drivetrain.drive(new Translation2d(0,0), 0.0, false);
-    RobotContainer.operatorinterface.RobotAtAngle.setBoolean(true);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     // we are finished if locked on target for longer than 250ms
-    return OnTargetTime >=0.1;
+    return OnTargetTime >= 0.1;
   }
 }
