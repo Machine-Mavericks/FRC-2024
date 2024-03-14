@@ -103,6 +103,12 @@ public class Odometry extends SubsystemBase {
     if (RobotContainer.shotlimelight.isTargetPresent()){
        RobotContainer.shotlimelight.addDetection();
     }
+    if (RobotContainer.leftlimelight.isTargetPresent()){
+       RobotContainer.leftlimelight.addDetection();
+    }
+    if (RobotContainer.rightlimelight.isTargetPresent()){
+       RobotContainer.rightlimelight.addDetection();
+    }
 
     updateShuffleboard();
   }

@@ -58,6 +58,8 @@ public class RobotContainer {
   // The robot's subsystems are defined here...
   //public static final Gyro gyro = new Gyro();
   public static final Limelight shotlimelight = new Limelight("shoot");
+  public static final Limelight leftlimelight = new Limelight("left");
+  public static final Limelight rightlimelight = new Limelight("right");
   public static final Limelight intakelimelight = new Limelight("intake");
 
   public static final NVidia nvidia = new NVidia();
