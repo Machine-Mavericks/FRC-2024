@@ -21,7 +21,7 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 
-public class SwervePoseEstimator extends SubsystemBase {
+public class Odometry extends SubsystemBase {
   // constant to convert degrees to radians
   final float DEGtoRAD = (float) (3.1415926 / 180.0);
 
@@ -41,7 +41,7 @@ public class SwervePoseEstimator extends SubsystemBase {
 
 
   /** Creates a new SwervePosEstimator. */
-  public SwervePoseEstimator() {
+  public Odometry() {
 
     // create 2d field object
     m_field = new Field2d();
@@ -61,6 +61,11 @@ public class SwervePoseEstimator extends SubsystemBase {
 
     // create odometry shuffleboard page
     initializeShuffleboard();
+  }
+
+  @Override
+  public void periodic() {
+    updateOdometry();
   }
 
 

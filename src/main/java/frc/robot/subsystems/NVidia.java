@@ -39,13 +39,13 @@ public class NVidia extends SubsystemBase {
     // for each AprilTag detection in the list
     for (int j=0;j<AprilTagDetectionData.length; j++) {
       data = AprilTagDetectionData[j].value;
-      RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
+      RobotContainer.odometry.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
     }
     AprilTagDetectionData= m_RobotPoseSub4.readQueue();
     // for each AprilTag detection in the list
     for (int j=0;j<AprilTagDetectionData.length; j++){
       data = AprilTagDetectionData[j].value;
-      RobotContainer.swervepose.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
+      RobotContainer.odometry.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
     }
   }
 }

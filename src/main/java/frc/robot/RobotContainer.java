@@ -37,7 +37,7 @@ import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
 //import frc.robot.subsystems.SwerveOdometry;
-import frc.robot.subsystems.SwervePoseEstimator;
+import frc.robot.subsystems.Odometry;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -64,7 +64,7 @@ public class RobotContainer {
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
   //public static final SwerveOdometry odometry = new SwerveOdometry();
-  public static final SwervePoseEstimator swervepose = new SwervePoseEstimator();
+  public static final Odometry odometry = new Odometry();
   //public static final PowerPanel panel = new PowerPanel();
   public static final LEDBlinkin LEDStrip = new LEDBlinkin();
   public static final CassetteShooter cassetteshooter = new CassetteShooter();

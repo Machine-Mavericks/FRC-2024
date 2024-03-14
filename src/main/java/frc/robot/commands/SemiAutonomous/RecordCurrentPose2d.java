@@ -13,7 +13,7 @@ public class RecordCurrentPose2d extends Command {
   /** Creates a new RecordCurrentPose2d. */
   public RecordCurrentPose2d() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.swervepose);
+    addRequirements(RobotContainer.odometry);
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +27,7 @@ public class RecordCurrentPose2d extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.swervepose.RecordPose2d(RobotContainer.swervepose.getPose2d(),0);
+    RobotContainer.odometry.RecordPose2d(RobotContainer.odometry.getPose2d(),0);
   }
 
   // Returns true when the command should end.

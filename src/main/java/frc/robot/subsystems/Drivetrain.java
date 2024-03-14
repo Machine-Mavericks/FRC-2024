@@ -503,9 +503,6 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
             m_states[i] = m_swerveModules[i].getCurrentState();
             m_targetStates[i] = m_swerveModules[i].getTargetState();
         }
-
-        // Update pose estimator with odometry data
-        RobotContainer.swervepose.updateOdometry();
     }
 
     // -------------------- Kinematics and Swerve Module Status Public Access Methods --------------------
