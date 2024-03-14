@@ -100,9 +100,9 @@ public class Odometry extends SubsystemBase {
       m_estimator.update(gyroangle, positions);
     }
 
-    // if (RobotContainer.shotlimelight.isTargetPresent()){
-    //   RobotContainer.shotlimelight.addDetection();
-    // }
+    if (RobotContainer.shotlimelight.isTargetPresent()){
+       RobotContainer.shotlimelight.addDetection();
+    }
 
     updateShuffleboard();
   }
@@ -189,7 +189,7 @@ public class Odometry extends SubsystemBase {
   /** Initialize subsystem shuffleboard page and controls */
   private void initializeShuffleboard() {
     // Create odometry page in shuffleboard
-    ShuffleboardTab Tab = Shuffleboard.getTab("Swerve Estimator");
+    ShuffleboardTab Tab = Shuffleboard.getTab("Odometry");
 
     // create controls to display robot position, angle, and gyro angle
     ShuffleboardLayout l1 = Tab.getLayout("Estimates", BuiltInLayouts.kList);

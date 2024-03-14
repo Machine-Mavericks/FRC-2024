@@ -283,8 +283,8 @@ public class Limelight extends SubsystemBase {
       double[] vector = m_table.getEntry("botpose").getDoubleArray(new double[]{});  
     
       // if vector is valid (has 6 numbers in it) go ahead and record data in structure
-      if (vector.length>=6){
-        RobotContainer.odometry.addVision(new Pose2d(vector[0]+8.24,vector[1]+4.05,new Rotation2d(vector[3])), getTargetArea());
+      if (vector.length>=6){ // && getLatestJSONDump().targetingResults.targets_Fiducials.length>=2
+        RobotContainer.odometry.addVision(new Pose2d(vector[0]+8.24,vector[1]+4.05,new Rotation2d(vector[3])), 10/(Math.pow(getTargetArea(),2)));
       }
     }
     
