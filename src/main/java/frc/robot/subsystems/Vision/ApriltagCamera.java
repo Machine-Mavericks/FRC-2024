@@ -14,22 +14,41 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import frc.robot.RobotContainer;
 
-/** TODO: docs */
+/** Wrapper class for apriltag cameras which both manage it's own networktables access, and estimates robot pose */
 public class ApriltagCamera {
-    PhotonCamera cam;
-    PhotonPoseEstimator photonPoseEstimator;
+    private PhotonCamera cam;
+    private PhotonPoseEstimator photonPoseEstimator;
 
-    Pose3d lastEstimatedPose;
+    private String name;
+    private Pose3d lastEstimatedPose;
+
+    private boolean isConnected = true;
     
     public ApriltagCamera(String cameraName, Transform3d cameraPosition, AprilTagFieldLayout fieldLayout){
         cam = new PhotonCamera(cameraName);
+        name = cameraName;
 
         photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cameraPosition);
         photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_LAST_POSE);
     }
 
     public Optional<EstimatedRobotPose> update(){
+        if (!cam.isConnected()) {
+            if (isConnected) {
+                RobotContainer.operatorinterface.CameraValidity.get(name).setBoolean(false);
+                isConnected = false;
+            }
+            
+            return Optional.empty();
+        }
+
+        if (!isConnected) {
+            RobotContainer.operatorinterface.CameraValidity.get(name).setBoolean(true);
+            isConnected = true;
+        }
+
         photonPoseEstimator.setLastPose(lastEstimatedPose);
         var result = photonPoseEstimator.update();
         if (result.isPresent()) {

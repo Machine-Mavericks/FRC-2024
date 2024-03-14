@@ -7,6 +7,8 @@
 package frc.robot;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import edu.wpi.first.networktables.GenericEntry;
@@ -32,6 +34,14 @@ public class ShuffleboardOI extends SubsystemBase {
     private GenericEntry m_delayTime;
     public SendableChooser<Integer> m_autonomousPath;
 
+    // Shuffleboard
+    ShuffleboardTab tab;
+
+    // Vision info
+    ShuffleboardLayout VisionLayout;
+    public GenericEntry VisionPoseAverage;
+    public Map<String, GenericEntry> CameraValidity = new HashMap<>();
+
     // Shot info
     public GenericEntry EffectorTarget;
     public GenericEntry LShooterSpeed;
@@ -42,7 +52,6 @@ public class ShuffleboardOI extends SubsystemBase {
     public GenericEntry ShooterAtAngle;
     public GenericEntry RobotAtAngle;
     public GenericEntry TargetDistance;
-    public GenericEntry tY;
 
     public GenericEntry DistanceAdjustment;
 
@@ -82,9 +91,8 @@ public class ShuffleboardOI extends SubsystemBase {
     /** Create main shuffleboard page
      * Typically contains autonomous commands and other top-level robot controls*/
     private void initializeMainShuffleboardPage() {
-
         // Create Main Tab in Shuffleboard
-        ShuffleboardTab tab = Shuffleboard.getTab("Drive Setup");
+        tab = Shuffleboard.getTab("Drive Setup");
         m_autonomousPath = new SendableChooser<Integer>();
 
         // add autonomous commands to page -
@@ -97,7 +105,7 @@ public class ShuffleboardOI extends SubsystemBase {
         // Uses auto generated constants to put git info on dashboard
         // Only updated once at the beginning
         ShuffleboardLayout BuildInfoLayout = tab.getLayout("Build Info", BuiltInLayouts.kList);
-        BuildInfoLayout.withPosition(6, 0);
+        BuildInfoLayout.withPosition(8, 0);
         BuildInfoLayout.withSize(1, 3);
         BuildInfoLayout.add("Deployed Branch", BuildConstants.GIT_BRANCH);
         BuildInfoLayout.add("Build Timestamp", BuildConstants.BUILD_DATE);
@@ -154,6 +162,26 @@ public class ShuffleboardOI extends SubsystemBase {
         l1.withPosition(0, 2);
         l1.withSize(1, 2);
         m_timeLeft = l1.add("TimeLeft", 0.0).getEntry();
+    }
+
+    private void SetupVisionLayout(){
+        VisionLayout = tab.getLayout("Vision Status", BuiltInLayouts.kList)
+        .withPosition(6, 0)
+        .withSize(2, 4);
+
+        VisionPoseAverage = VisionLayout.add("Average Vision Pose", "").getEntry();
+    }
+
+    public void AddCameraEntry(String name){
+        if (VisionLayout == null) {
+            SetupVisionLayout();
+        }
+
+        CameraValidity.put(name,
+            VisionLayout.add(name, false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .getEntry()
+        );
     }
 
     // returns position of autonomous commands on shuffleboard
