@@ -50,7 +50,7 @@ public class FireShot extends Command {
   }
 
   private void tryStartShot(){
-    valid = speakerTargeting.IsReadyToShoot();
+    valid = speakerTargeting.IsSpunUp() && speakerTargeting.IsAligned();
     if (valid) {
       intake.intakeRun(1);
       timer.start();
