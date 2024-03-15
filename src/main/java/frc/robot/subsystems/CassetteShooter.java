@@ -48,8 +48,6 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
     m_LShootMotor.setNeutralMode(NeutralModeValue.Coast);
     m_RShootMotor.setNeutralMode(NeutralModeValue.Coast);
 
-    //m_PhotoSensor = new DigitalInput(RobotMap.CANID.PHOTOSENSOR);
-
     SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 30);
   }
 

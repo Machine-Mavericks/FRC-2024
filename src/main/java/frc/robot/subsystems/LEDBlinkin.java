@@ -19,7 +19,7 @@ public class LEDBlinkin extends SubsystemBase {
     // set up pwm channel
     //led = new Victor(RobotMap.PWMPorts.LED_BLINKIN);
     led = new Spark(RobotMap.PWMPorts.LED_BLINKIN);
-    System.out.println("Setup Blinkin on port" + RobotMap.PWMPorts.LED_BLINKIN);
+    System.out.println("Setup Blinkin on port " + RobotMap.PWMPorts.LED_BLINKIN);
   }
 
   @Override
