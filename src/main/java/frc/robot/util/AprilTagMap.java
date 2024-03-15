@@ -22,7 +22,7 @@ public class AprilTagMap {
     /**
      * Map of april tags relatie to field, remember, values for ATs 1-16 are 0-15
      */
-    static Pose2d AprilTags[] = {
+    public static Pose2d AprilTags[] = {
         new Pose2d(intom(593.68),intom(9.68),new Rotation2d(Math.toRadians(120.0))), //1
         new Pose2d(intom(637.21),intom(34.79),new Rotation2d(Math.toRadians(120.0))), //2
         new Pose2d(intom(652.73),intom(196.17),new Rotation2d(Math.toRadians(180.0))), //3

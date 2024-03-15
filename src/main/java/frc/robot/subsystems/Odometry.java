@@ -8,8 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -18,12 +21,15 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.VecBuilder;
 import frc.robot.RobotContainer;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.Autonomous.DelayCommand;
+import frc.robot.util.AprilTagMap;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 
 public class Odometry extends SubsystemBase {
   // constant to convert degrees to radians
-  final float DEGtoRAD = (float) (3.1415926 / 180.0);
+  final static float DEGtoRAD = (float) (3.1415926 / 180.0);
 
   // create swerve position estimator object
   private SwerveDrivePoseEstimator m_estimator;
@@ -35,6 +41,7 @@ public class Odometry extends SubsystemBase {
   private GenericEntry m_initialX;
   private GenericEntry m_initialY;
   private GenericEntry m_initialAngle;
+  private GenericEntry m_angleAway;
   
   // field visualization object to display on shuffleboard
   private Field2d m_field;
@@ -141,6 +148,28 @@ public class Odometry extends SubsystemBase {
     m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
   }
 
+  public double distanceFromSpeaker(double currx, double curry){
+    Pose2d speakerPose=new Pose2d();
+    double add = 0.0;
+    if (DriverStation.getAlliance().get() == Alliance.Red){
+      speakerPose=AprilTagMap.AprilTags[3];
+    } else {
+      speakerPose=AprilTagMap.AprilTags[6];
+      add = 1.57;
+    }
+    Pose2d currentPose=this.getPose2d();
+    double xDif = currx-speakerPose.getX();
+    double yDif = curry-speakerPose.getY();
+    System.out.println("current x" + currx);
+    System.out.println("current y" + curry);
+    System.out.println("speaker x" + speakerPose.getX());
+    System.out.println("speaker y" + speakerPose.getY());
+    //double xDif = 1.9-0;
+    //double yDif = 3.65-5.547;
+    m_angleAway.setDouble((Math.atan2(yDif,xDif)+add));
+    return ((Math.atan2(yDif,xDif)+add)/DEGtoRAD);
+  }
+
   
   // -------------------- Robot Current Odometry Access Methods --------------------
 
@@ -204,6 +233,7 @@ public class Odometry extends SubsystemBase {
     m_robotX = l1.add("X (m)", 0.0).getEntry();
     m_robotY = l1.add("Y (m)", 0.0).getEntry();
     m_robotAngle = l1.add("Angle(deg)", 0.0).getEntry();
+    m_angleAway = l1.add("Angle away(deg)", 0.0).getEntry();
 
     // Controls to set initial robot position and angle
     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);

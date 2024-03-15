@@ -21,6 +21,7 @@ import frc.robot.commands.Autonomous.DelayCommand;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AimToSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
@@ -108,8 +109,8 @@ public class RobotContainer {
     OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
-    OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
-    OI.speakerShooterButton.onFalse(new CleanupShot());
+    OI.speakerShooterButton.onTrue(new TurnRobot(odometry.distanceFromSpeaker(odometry.getPose2d().getX(),odometry.getPose2d().getY()), false, 1));
+    //OI.speakerShooterButton.onFalse(new CleanupShot());
     
     // Amp shot
     OI.ampButton.onTrue(new ShootAmp());
