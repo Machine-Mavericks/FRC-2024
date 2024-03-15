@@ -11,9 +11,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.SpeakerTargeting;
 
 public class AimToSpeaker extends Command {
-// PID gains for rotating robot towards target
+  private final SpeakerTargeting speakertargeting;
+
+  // PID gains for rotating robot towards target
   double kp = 0.01;
   double ki = 0.0001;
   double kd = 0.0001;
@@ -24,8 +27,10 @@ public class AimToSpeaker extends Command {
   
   /** Creates a new AimToSpeaker */
   public AimToSpeaker() {
-    // aiming uses drive system
-    addRequirements(RobotContainer.drivetrain);
+    // aiming uses drive system, angle system, and spins up the shooter
+    addRequirements(RobotContainer.drivetrain, RobotContainer.cassetteangle, RobotContainer.cassetteshooter);
+
+    speakertargeting = RobotContainer.speakertargeting;
   }
 
   // Called when the command is initially scheduled.
@@ -45,9 +50,9 @@ public class AimToSpeaker extends Command {
   @Override
   public void execute() {
     // if we have target, then get angle. If no target, assume 0deg
-    if ((RobotContainer.speakertargeting.IsTarget()))
+    if ((speakertargeting.IsTarget()))
     {
-      TargetAngle = RobotContainer.speakertargeting.getSpeakerAngle();
+      TargetAngle = speakertargeting.getSpeakerAngle();
       missedSamples = 0;
     }
     else{
@@ -74,10 +79,17 @@ public class AimToSpeaker extends Command {
 
     // turn robot towards target
     RobotContainer.drivetrain.drive(
-      new Translation2d(yInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, xInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND), angleControlleroutput * Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
+      new Translation2d(yInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, xInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND), angleControlleroutput * Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true);
   
+    // spinup shooter
+    RobotContainer.cassetteshooter.leftShootRun(speakertargeting.getDesiredLSpeed());
+    RobotContainer.cassetteshooter.rightShootRun(speakertargeting.getDesiredRSpeed());
+
+    // set cassette angle
+    RobotContainer.cassetteangle.setAngle(speakertargeting.getDesiredAngle());
+    
     if (xInput == 0 && yInput == 0) { // Fine to check if zero because of deadzones
-      if (RobotContainer.speakertargeting.IsAligned() && RobotContainer.speakertargeting.IsSpunUp())
+      if (speakertargeting.IsAligned() && speakertargeting.IsSpunUp())
         OnTargetTime += RobotContainer.updateDt;
       else
         OnTargetTime = 0.0;
