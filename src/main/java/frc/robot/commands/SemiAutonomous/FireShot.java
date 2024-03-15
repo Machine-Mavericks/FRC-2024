@@ -17,13 +17,16 @@ public class FireShot extends Command {
   private final SpeakerTargeting speakerTargeting;
 
   private boolean valid = false;
+  private boolean tryContinuously = false;
 
   private Timer timer;
 
   /** Creates a new FireShot. */
-  public FireShot() {
+  public FireShot(boolean tryContinuously) {
     intake = RobotContainer.cassetteintake;
     speakerTargeting = RobotContainer.speakertargeting;
+
+    this.tryContinuously = tryContinuously;
 
     timer = new Timer();
 
@@ -35,16 +38,24 @@ public class FireShot extends Command {
   @Override
   public void initialize() {
     timer.reset();
+    tryStartShot();
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if (!valid && tryContinuously) {
+      tryStartShot();
+    }
+  }
+
+  private void tryStartShot(){
     valid = speakerTargeting.IsReadyToShoot();
     if (valid) {
       intake.intakeRun(1);
       timer.start();
     }
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -62,6 +73,6 @@ public class FireShot extends Command {
   @Override
   public boolean isFinished() {
     // TODO: add sensor condition to end early once sensor is installed
-    return (!valid) || timer.hasElapsed(SHOT_TIMEOUT);
+    return (!valid && !tryContinuously) || timer.hasElapsed(SHOT_TIMEOUT); // End early (immediatly) if not in continuous mode and shot invalid
   }
 }
