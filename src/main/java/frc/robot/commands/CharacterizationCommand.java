@@ -25,13 +25,19 @@ public class CharacterizationCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    // Quick and dirty
+    if (RobotContainer.cassetteshooter.isShooterAtSpeedSetpoint() && RobotContainer.cassetteangle.isEffectorAtTarget()) {
+      RobotContainer.cassetteintake.intakeRun(1);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE);
     RobotContainer.cassetteshooter.stopShooter();
+    RobotContainer.cassetteintake.intakeRun(0);
   }
 
   // Returns true when the command should end.

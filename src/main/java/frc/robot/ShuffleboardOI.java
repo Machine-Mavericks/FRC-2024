@@ -114,12 +114,12 @@ public class ShuffleboardOI extends SubsystemBase {
         .getEntry();
 
         ShotCharacterizationTargetL = tab.add("L Shooter Target", 1000)
-        .withPosition(1, 0)
+        .withPosition(2, 1)
         .withWidget(BuiltInWidgets.kTextView)
         .getEntry();
 
         ShotCharacterizationTargetR = tab.add("R Shooter Target", 1000)
-        .withPosition(1, 1)
+        .withPosition(2, 2)
         .withWidget(BuiltInWidgets.kTextView)
         .getEntry();
 
