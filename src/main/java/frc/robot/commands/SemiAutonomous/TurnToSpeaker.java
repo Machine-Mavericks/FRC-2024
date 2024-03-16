@@ -42,7 +42,6 @@ public class TurnToSpeaker extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Init");
     // find speaker position
     Pose2d speakerPose;
     // find current position

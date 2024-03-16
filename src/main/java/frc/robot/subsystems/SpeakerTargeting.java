@@ -70,6 +70,10 @@ public class SpeakerTargeting extends SubsystemBase {
   public double getDesiredAngle(){
     return ANGLE_CURVE.interpolate(getDistance(), true);
   }
+
+  public double getDesiredAngle(double distance){
+    return ANGLE_CURVE.interpolate(distance, true);
+  }
   
   public double getDesiredLSpeed(){
     return 2000;
