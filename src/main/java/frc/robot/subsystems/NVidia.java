@@ -29,9 +29,9 @@ public class NVidia extends SubsystemBase {
     m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
     m_CameraSub3=m_table.getDoubleArrayTopic("camera1").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     m_CameraSub4=m_table.getDoubleArrayTopic("camera2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_RobotPoseSub0=m_table.getDoubleArrayTopic("robot_pose_in_field0").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_RobotPoseSub1=m_table.getDoubleArrayTopic("robot_pose_in_field1").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_RobotPoseSub2=m_table.getDoubleArrayTopic("robot_pose_in_field2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_RobotPoseSub0=m_table.getDoubleArrayTopic("robot_pose_in_field2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_RobotPoseSub1=m_table.getDoubleArrayTopic("robot_pose_in_field3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_RobotPoseSub2=m_table.getDoubleArrayTopic("robot_pose_in_field4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     m_Notes=m_table.getDoubleArrayTopic("camera_notes").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
   }
 
