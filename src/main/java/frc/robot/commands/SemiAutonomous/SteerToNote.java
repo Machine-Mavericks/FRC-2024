@@ -151,6 +151,8 @@ public class SteerToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(m_timeoutlimit) ;
+    if (timer.hasElapsed(m_timeoutlimit)|| RobotContainer.cassetteintake.NoteOrNoNote()==true)
+    return true;
+    else return false;
   }
 }
