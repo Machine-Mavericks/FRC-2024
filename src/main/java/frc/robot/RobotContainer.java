@@ -111,8 +111,8 @@ public class RobotContainer {
     //OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
-    OI.speakerShooterButton.onTrue(new TurnToSpeaker());
-    //OI.speakerShooterButton.onFalse(new CleanupShot());
+    OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
+    OI.speakerShooterButton.onFalse(new CleanupShot());
     
     // Amp shot
     OI.ampButton.onTrue(new ShootAmp());
