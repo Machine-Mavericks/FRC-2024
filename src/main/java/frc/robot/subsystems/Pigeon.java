@@ -13,7 +13,6 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 
 import frc.robot.RobotMap;
 import frc.robot.util.ShuffleUser;
-import frc.robot.util.SubsystemShuffleboardManager;
 
 
 public class Pigeon extends SubsystemBase implements ShuffleUser {
