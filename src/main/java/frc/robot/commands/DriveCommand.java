@@ -51,7 +51,7 @@ public class DriveCommand extends Command {
       else {
         // If the target is unset, set it to current heading
         if(m_PIDTarget == null){
-          m_PIDTarget = RobotContainer.gyro.getYaw();
+          m_PIDTarget = RobotContainer.gyro.getYawDeg();
           m_headingPID.reset(); // Clear existing integral term as may accumulate while not in use
           //m_headingPID.setSetpoint(m_PIDTarget);
         }
@@ -60,7 +60,7 @@ public class DriveCommand extends Command {
         if (xInput==0.0 && yInput==0.0)
           rotInput = 0.0;
         else         // Compute rotational command from PID controller
-          rotInput = m_headingPID.calculate(Utils.AngleDifference(m_PIDTarget, RobotContainer.gyro.getYaw()));
+          rotInput = m_headingPID.calculate(Utils.AngleDifference(m_PIDTarget, RobotContainer.gyro.getYawDeg()));
       }
     } else {
       // If there is input, set target to null so it's properly reset next time

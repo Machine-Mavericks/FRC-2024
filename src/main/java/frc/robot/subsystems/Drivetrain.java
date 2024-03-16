@@ -420,7 +420,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
             m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
                     newrotation,
-                    Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
+                    Rotation2d.fromDegrees(RobotContainer.gyro.getYawDeg()));
         } else {
             m_chassisSpeeds = new ChassisSpeeds(newtranslation.getX(),
                     newtranslation.getY(),

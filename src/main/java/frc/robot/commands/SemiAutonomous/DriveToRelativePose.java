@@ -91,11 +91,11 @@ public class DriveToRelativePose extends Command {
     m_Timer.start();
     
     m_odometry = new SwerveDriveOdometry(RobotContainer.drivetrain.getKinematics(),
-                                      new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD),                                    
+                                      new Rotation2d(RobotContainer.gyro.getYawRad()),                                    
                                         RobotContainer.drivetrain.getSwervePositions() );
 
 
-    m_odometry.resetPosition(new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD),
+    m_odometry.resetPosition(new Rotation2d(RobotContainer.gyro.getYawRad()),
     RobotContainer.drivetrain.getSwervePositions(),
     new Pose2d(0.0,0.0,new Rotation2d(0.0)));
   }
@@ -104,7 +104,7 @@ public class DriveToRelativePose extends Command {
   @Override
   public void execute() {
     // get gyro angle (in degrees) and make rotation vector
-    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
+    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYawRad());
     m_odometry.update(gyroangle, RobotContainer.drivetrain.getSwervePositions());
 
     // only integrate errors in within 10cm or 5deg of target

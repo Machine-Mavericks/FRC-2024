@@ -96,7 +96,7 @@ public class Odometry extends SubsystemBase {
   /* Called by the drivetrain synchronously with swerve module data updates to reduce latency */
   public void updateOdometry(){
     // get gyro angle (in degrees) and make rotation vector
-    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
+    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYawRad());
 
     // get positions of all swerve modules from subsystem
     SwerveModulePosition[] positions = RobotContainer.drivetrain.getSwervePositions();

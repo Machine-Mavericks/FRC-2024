@@ -118,7 +118,7 @@ public class FollowPath extends Command {
 
 
         // beginning angle of robot - set to current angle
-        m_RobotAngle = RobotContainer.gyro.getYaw();
+        m_RobotAngle = RobotContainer.gyro.getYawDeg();
         
         // determine determined robot rotation rate
         double rotatetime = trajectory.getTotalTimeSeconds();

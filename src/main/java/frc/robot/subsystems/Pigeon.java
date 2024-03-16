@@ -31,10 +31,11 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   /** Creates a new Gyro. */
   public Pigeon() {
     // initialize shuffleboard
-    SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 5);
-    
+    //SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 5);
+    initializeShuffleboard();
+
     // make pigeon object
-    gyro = new Pigeon2(RobotMap.CANID.PIGEON, Drivetrain.CAN_BUS_NAME);
+    gyro = new Pigeon2(RobotMap.CANID.PIGEON, "rio");
 
     // offset adjust
     OffsetAdjust = 0.0;
@@ -42,11 +43,12 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
 
   @Override
   public void periodic() {
+    updateShuffleboard();
   }
 
   /** Gets the yaw of the robot
    * @return current yaw value (-180 to 180) */
-  public double getYaw() {
+  public double getYawDeg() {
     
     // scaling factor for CTR Pigeon determine by test - Feb 5 2023
     double value = gyro.getYaw().getValue()*0.99895833 + OffsetAdjust;
@@ -56,6 +58,10 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
       return ((value+180.0) %360.0)-180.0;
     else
       return ((value-180.0) %360.0)+180.0;
+  }
+
+  public double getYawRad() {
+    return getYawDeg()*Odometry.DEGtoRAD;
   }
 
   /** Gets the pitch of the robot
@@ -78,7 +84,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
     
     // reset our Gyro
     OffsetAdjust = 0.0;
-    OffsetAdjust = -getYaw()+deg;
+    OffsetAdjust = -getYawDeg()+deg;
   }
 
 
@@ -126,7 +132,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   public void updateShuffleboard() {
     // write current robot Gyro
     m_gyroPitch.setDouble(getPitch());
-    m_gyroYaw.setDouble(getYaw());
+    m_gyroYaw.setDouble(getYawDeg());
     m_gyroRoll.setDouble(getRoll());
   }
 
