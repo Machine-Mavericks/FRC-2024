@@ -63,7 +63,11 @@ public class RobotMap {
         //public static final int LED_STRIP1 = 0;  // To be updated
         public static final int LED_BLINKIN = 1;
     }  
+    public static class DIOPorts {
 
+        public static final int DIO_IntakeSensor = 1;
+
+    }
     /**
      * Inner class containing odometry constants
      */

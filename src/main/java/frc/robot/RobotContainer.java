@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
+import frc.robot.commands.GroundIntakeWithSensor;
 import frc.robot.commands.OperatorSpinup;
 import frc.robot.commands.RunClimbCommand;
 import frc.robot.commands.ShootAmp;
@@ -101,8 +102,8 @@ public class RobotContainer {
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
 
     // Manual intake
-    OI.intakeButton.whileTrue(new GroundIntake(true));
-    OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
+    OI.intakeButton.whileTrue(new GroundIntakeWithSensor(5));
+    //OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
     OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
@@ -117,7 +118,7 @@ public class RobotContainer {
     // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
     //OI.autoIntakeButton.onFalse(new GroundIntake(false, 0.05)); 
-    OI.autoIntakeButton.onFalse(new FinishIntake());
+    //OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
