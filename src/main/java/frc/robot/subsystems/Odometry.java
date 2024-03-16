@@ -42,6 +42,7 @@ public class Odometry extends SubsystemBase {
   private GenericEntry m_initialY;
   private GenericEntry m_initialAngle;
   public GenericEntry m_angleAway;
+  private GenericEntry m_NvidiaOnly;
   
   // field visualization object to display on shuffleboard
   private Field2d m_field;
@@ -107,14 +108,16 @@ public class Odometry extends SubsystemBase {
       m_estimator.update(gyroangle, positions);
     }
 
-    if (RobotContainer.shotlimelight.isTargetPresent()){
-       RobotContainer.shotlimelight.addDetection();
-    }
-    if (RobotContainer.leftlimelight.isTargetPresent()){
-       RobotContainer.leftlimelight.addDetection();
-    }
-    if (RobotContainer.rightlimelight.isTargetPresent()){
-       RobotContainer.rightlimelight.addDetection();
+    if (!m_NvidiaOnly.getBoolean(true)){
+      if (RobotContainer.shotlimelight.isTargetPresent()){
+        RobotContainer.shotlimelight.addDetection();
+      }
+      if (RobotContainer.leftlimelight.isTargetPresent()){
+         RobotContainer.leftlimelight.addDetection();
+      }
+      if (RobotContainer.rightlimelight.isTargetPresent()){
+        RobotContainer.rightlimelight.addDetection();
+      }
     }
 
     updateShuffleboard();
@@ -212,6 +215,7 @@ public class Odometry extends SubsystemBase {
     m_robotY = l1.add("Y (m)", 0.0).getEntry();
     m_robotAngle = l1.add("Angle(deg)", 0.0).getEntry();
     m_angleAway = l1.add("Angle away(deg)", 0.0).getEntry();
+    m_NvidiaOnly = l1.addPersistent("Nvidia only",true).getEntry();
 
     // Controls to set initial robot position and angle
     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
