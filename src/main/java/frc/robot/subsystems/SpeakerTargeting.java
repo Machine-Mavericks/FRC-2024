@@ -68,12 +68,11 @@ public class SpeakerTargeting extends SubsystemBase {
   }
 
   public double getDesiredAngle(){
-    //return ANGLE_CURVE.interpolate(getDistance(), true);
-    return RobotContainer.operatorinterface.EffectorTarget.getDouble(0.05);
+    return 0.352*Math.pow(getDistance(), -1.143);
   }
 
   public double getDesiredAngle(double distance){
-    return ANGLE_CURVE.interpolate(distance, true);
+    return 0.352*Math.pow(distance, -1.143);
   }
   
   public double getDesiredLSpeed(){
