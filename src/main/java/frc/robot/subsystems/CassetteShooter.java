@@ -45,7 +45,8 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
     m_LShootMotor.getConfigurator().apply(slot0Configs);
     m_RShootMotor.getConfigurator().apply(slot0Configs);
     //m_PhotoSensor = new DigitalInput(RobotMap.CANID.PHOTOSENSOR);
-
+    m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(0.0));
+    m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(0.0));
     SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 30);
   }
 
