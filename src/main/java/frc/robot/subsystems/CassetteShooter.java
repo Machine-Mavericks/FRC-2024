@@ -26,7 +26,7 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
   private double m_currentSetpointR = 0;
 
   /* Rotations per second shooter speed can be off by before being considered either too slow or fast */
-  private static double allowedSpeedError = 5;
+  private static double allowedSpeedError = 2;
 
   private VelocityVoltage m_motorVelocityControl = new VelocityVoltage(0);
 

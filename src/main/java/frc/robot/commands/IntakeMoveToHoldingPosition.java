@@ -4,22 +4,27 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
 public class IntakeMoveToHoldingPosition extends Command {
-  private static final double DISTANCE_SENSOR_SETPOINT = 6.3; // Measured as 4.5 but moved to 5 since noise results in issues
+  private static final double DISTANCE_SENSOR_SETPOINT = 5.3; // Measured as 4.5 but moved to 5 since noise results in issues
 
+  private Timer timer;
   /** Creates a new IntakeMoveToHoldingPosition. */
   public IntakeMoveToHoldingPosition() {
     addRequirements(RobotContainer.cassetteintake); // add effector
     // Use addRequirements() here to declare subsystem dependencies.
+    timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     RobotContainer.cassetteintake.intakeRun(-0.1);
+    timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +40,6 @@ public class IntakeMoveToHoldingPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.distanceSensors.getSensor1() >= DISTANCE_SENSOR_SETPOINT;
+    return RobotContainer.distanceSensors.getSensor1() >= DISTANCE_SENSOR_SETPOINT && timer.hasElapsed(0.2);
   }
 }
