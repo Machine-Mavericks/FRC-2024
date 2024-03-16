@@ -29,7 +29,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 
 public class Odometry extends SubsystemBase {
   // constant to convert degrees to radians
-  final static float DEGtoRAD = (float) (3.1415926 / 180.0);
+  public final static float DEGtoRAD = (float) (3.1415926 / 180.0);
 
   // create swerve position estimator object
   private SwerveDrivePoseEstimator m_estimator;
@@ -41,7 +41,7 @@ public class Odometry extends SubsystemBase {
   private GenericEntry m_initialX;
   private GenericEntry m_initialY;
   private GenericEntry m_initialAngle;
-  private GenericEntry m_angleAway;
+  public GenericEntry m_angleAway;
   
   // field visualization object to display on shuffleboard
   private Field2d m_field;
@@ -146,28 +146,6 @@ public class Odometry extends SubsystemBase {
     double stdDevs = 0.01*distance;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
     m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
-  }
-
-  public double distanceFromSpeaker(double currx, double curry){
-    Pose2d speakerPose=new Pose2d();
-    double add = 0.0;
-    if (DriverStation.getAlliance().get() == Alliance.Red){
-      speakerPose=AprilTagMap.AprilTags[3];
-    } else {
-      speakerPose=AprilTagMap.AprilTags[6];
-      add = 1.57;
-    }
-    Pose2d currentPose=this.getPose2d();
-    double xDif = currx-speakerPose.getX();
-    double yDif = curry-speakerPose.getY();
-    System.out.println("current x" + currx);
-    System.out.println("current y" + curry);
-    System.out.println("speaker x" + speakerPose.getX());
-    System.out.println("speaker y" + speakerPose.getY());
-    //double xDif = 1.9-0;
-    //double yDif = 3.65-5.547;
-    m_angleAway.setDouble((Math.atan2(yDif,xDif)+add));
-    return ((Math.atan2(yDif,xDif)+add)/DEGtoRAD);
   }
 
   

@@ -26,6 +26,7 @@ import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.commands.SemiAutonomous.TurnRobot;
+import frc.robot.commands.SemiAutonomous.TurnToSpeaker;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -109,7 +110,7 @@ public class RobotContainer {
     OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
-    OI.speakerShooterButton.onTrue(new TurnRobot(odometry.distanceFromSpeaker(odometry.getPose2d().getX(),odometry.getPose2d().getY()), false, 1));
+    OI.speakerShooterButton.onTrue(new TurnToSpeaker());
     //OI.speakerShooterButton.onFalse(new CleanupShot());
     
     // Amp shot
