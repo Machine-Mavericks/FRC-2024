@@ -21,6 +21,7 @@ public class NVidia extends SubsystemBase {
   private DoubleArraySubscriber m_RobotPoseSub0;
   private DoubleArraySubscriber m_RobotPoseSub1;
   private DoubleArraySubscriber m_RobotPoseSub2;
+  private DoubleArraySubscriber m_Notes;
   private double[] data;
 
   /** Creates a new NVidia. */
@@ -31,6 +32,7 @@ public class NVidia extends SubsystemBase {
     m_RobotPoseSub0=m_table.getDoubleArrayTopic("robot_pose_in_field0").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     m_RobotPoseSub1=m_table.getDoubleArrayTopic("robot_pose_in_field1").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     m_RobotPoseSub2=m_table.getDoubleArrayTopic("robot_pose_in_field2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_Notes=m_table.getDoubleArrayTopic("camera_notes").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
   }
 
   @Override
@@ -61,5 +63,7 @@ public class NVidia extends SubsystemBase {
       data = AprilTagDetectionData[j].value;
       RobotContainer.odometry.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
     }
+
+    TimestampedDoubleArray[] NotesData= m_Notes.readQueue();
   }
 }
