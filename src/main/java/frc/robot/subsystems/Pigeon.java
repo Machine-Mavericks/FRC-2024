@@ -13,6 +13,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 
 import frc.robot.RobotMap;
 import frc.robot.util.ShuffleUser;
+import frc.robot.util.SubsystemShuffleboardManager;
 
 
 public class Pigeon extends SubsystemBase implements ShuffleUser {
@@ -30,11 +31,10 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   /** Creates a new Gyro. */
   public Pigeon() {
     // initialize shuffleboard
-    //SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 5);
-    initializeShuffleboard();
-
+    SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 5);
+    
     // make pigeon object
-    gyro = new Pigeon2(RobotMap.CANID.PIGEON, "rio");
+    gyro = new Pigeon2(RobotMap.CANID.PIGEON, Drivetrain.CAN_BUS_NAME);
 
     // offset adjust
     OffsetAdjust = 0.0;
@@ -42,7 +42,6 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
 
   @Override
   public void periodic() {
-    updateShuffleboard();
   }
 
   /** Gets the yaw of the robot
@@ -134,5 +133,4 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
     m_gyroYaw.setDouble(getYawDeg());
     m_gyroRoll.setDouble(getRoll());
   }
-
 }
