@@ -46,13 +46,10 @@ public class RobotMap {
         public static final int L_OUT_CASSETTE = 25;
         /** CAN ID for cassette shoot motor left */
         public static final int R_OUT_CASSETTE = 26;
-        /** CAN ID for photosensor */
-        public static final int PHOTOSENSOR = 19;
         /** CAN ID for cassette effector motor left */
         public static final int EFFECTOR_MOTOR = 30;
         /** CAN ID for effector CANcoder */
         public static final int EFFECTOR_CAN_CODER = 31;
-
         /** CAN ID for climber motor */
         public static final int CLIMB_MOTOR = 18;
     }
@@ -65,8 +62,6 @@ public class RobotMap {
         /** PWM Port for led strip */
         //public static final int LED_STRIP1 = 0;  // To be updated
         public static final int LED_BLINKIN = 1;
-        public static final int CAMERA_SERVO_ID = 2;
-        public static final int SHOOTER_SERVO_ID = 4;
     }  
 
     /**
