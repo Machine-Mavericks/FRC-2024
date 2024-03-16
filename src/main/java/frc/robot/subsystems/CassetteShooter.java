@@ -4,9 +4,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -45,6 +48,18 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
     m_LShootMotor.getConfigurator().apply(slot0Configs);
     m_RShootMotor.getConfigurator().apply(slot0Configs);
     //m_PhotoSensor = new DigitalInput(RobotMap.CANID.PHOTOSENSOR);
+
+    m_RShootMotor.setInverted(true);
+
+    m_LShootMotor.setNeutralMode(NeutralModeValue.Coast);
+    m_RShootMotor.setNeutralMode(NeutralModeValue.Coast);
+
+    VoltageConfigs configs = new VoltageConfigs();
+    configs.PeakForwardVoltage = 12.0;
+    configs.PeakReverseVoltage = 0.0;
+    m_LShootMotor.getConfigurator().apply(configs);
+    m_RShootMotor.getConfigurator().apply(configs);
+
     m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(0.0));
     m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(0.0));
     SubsystemShuffleboardManager.RegisterShuffleUser(this, true, 30);
