@@ -32,6 +32,7 @@ import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Pigeon;
@@ -66,7 +67,7 @@ public class RobotContainer {
   //public static final SwerveOdometry odometry = new SwerveOdometry();
   public static final SwervePoseEstimator swervepose = new SwervePoseEstimator();
   //public static final PowerPanel panel = new PowerPanel();
-  public static final LEDBlinkin LEDStrip = new LEDBlinkin();
+  public static final LEDs leds = new LEDs(); 
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
