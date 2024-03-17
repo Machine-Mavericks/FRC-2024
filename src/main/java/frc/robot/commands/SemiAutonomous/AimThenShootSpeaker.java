@@ -21,8 +21,7 @@ public class AimThenShootSpeaker extends SequentialCommandGroup {
     addCommands(
       new WaitToShoot(),
       new ParallelRaceGroup(
-        //new TurnToSpeaker(),
-        new DelayCommand(1),
+        new TurnToSpeaker(),
         new SpinupSpeakerOdom()
         // new AimToSpeaker(),
         // new SpinupSpeaker()

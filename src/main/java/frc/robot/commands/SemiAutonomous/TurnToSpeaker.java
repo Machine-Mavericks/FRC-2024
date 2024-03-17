@@ -14,6 +14,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Odometry;
 import frc.robot.util.AprilTagMap;
+import frc.robot.util.Utils;
 
 public class TurnToSpeaker extends Command {
   double m_angle;
@@ -25,6 +26,7 @@ public class TurnToSpeaker extends Command {
   double m_time;
   double m_timeout = 2;
   double offsetDegrees;
+  double m_AtTargetTime;
   
   boolean m_cameraControlled;
 
@@ -49,27 +51,28 @@ public class TurnToSpeaker extends Command {
     if (DriverStation.getAlliance().get() == Alliance.Red){
       speakerPose=AprilTagMap.AprilTags[3];
       // find differences in position
-      double xDif = currentPose.getX()-speakerPose.getX();
-      double yDif = currentPose.getY()-speakerPose.getY();
-      m_angle = (Math.atan2(-yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
+      double xDif = speakerPose.getX()-currentPose.getY();
+      double yDif = speakerPose.getY()-currentPose.getY();
+      m_angle = (Math.atan2(yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
       offsetDegrees = 0;
     } else {
       speakerPose=AprilTagMap.AprilTags[6];
       // find differences in position
-      double xDif = currentPose.getX()-speakerPose.getX();
-      double yDif = currentPose.getY()-speakerPose.getY();
-      m_angle = (Math.atan2(yDif,xDif))/Odometry.DEGtoRAD;
+      double xDif = speakerPose.getX()-currentPose.getY();
+      double yDif = speakerPose.getX()-currentPose.getY();
+      m_angle = (Math.atan2(-yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
       offsetDegrees = 180;
     }
 
-    double currentAngle = RobotContainer.gyro.getYawDeg();
     // end angle is 180 or 0 degrees - current field relative angle + angle from speaker
-    m_endangle = offsetDegrees-currentAngle+m_angle;
+    m_endangle = offsetDegrees+m_angle;
     if (m_endangle >180){
       m_endangle -= 360;
     } else if (m_endangle <-180){
       m_endangle += 360;
     }
+
+    // set end angle in shuffleboard
     RobotContainer.odometry.m_angleAway.setDouble(m_endangle);
     
     // reset PID controller
@@ -85,7 +88,12 @@ public class TurnToSpeaker extends Command {
     // increment time in command 
     m_time += 0.02;
 
-    m_angleerror = m_endangle - RobotContainer.gyro.getYawDeg();
+    m_angleerror = Utils.AngleDifference(m_endangle, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
+
+    if (Math.abs(m_angleerror) < 0.25)
+      m_AtTargetTime += 0.02;
+    else
+      m_AtTargetTime = 0.0;
 
     // execute PID controller
     m_rotatespeed = pidController.calculate(m_angleerror);
@@ -96,7 +104,7 @@ public class TurnToSpeaker extends Command {
       m_rotatespeed = -0.5;
 
     // rotate robot
-    RobotContainer.drivetrain.drive(new Translation2d(0,0), -m_rotatespeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true);
+    RobotContainer.drivetrain.drive(new Translation2d(0,0), m_rotatespeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -109,7 +117,7 @@ public class TurnToSpeaker extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // we are finished when within 2deg of target, or have timeed out
-    return (Math.abs(m_angleerror) <=2.0);
+    // we are finisged when at target for more than 0.5s
+    return (m_AtTargetTime>=0.5);
   }
 }

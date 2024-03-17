@@ -139,10 +139,10 @@ public class Odometry extends SubsystemBase {
    * @param distance area of apriltag in frame
    */
   public void addVision(Pose2d vision, double distance){
-    //Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYaw()*DEGtoRAD));
+    Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYawRad()));
     double stdDevs = 0.01*distance;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
-    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
+    m_estimator.addVisionMeasurement(vision1, Timer.getFPGATimestamp());
   }
 
   
