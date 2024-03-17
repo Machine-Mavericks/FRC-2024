@@ -31,7 +31,6 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NVidia;
-//import frc.robot.subsystems.SwerveOdometry;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
@@ -105,7 +104,6 @@ public class RobotContainer {
 
     // Speaker shot
     OI.speakerShooterButton.onTrue(new FireShot(false));
-    //OI.speakerShooterButton.onFalse(new CleanupShot());
     
     // Amp shot
     OI.ampButton.onTrue(new ShootAmp());
