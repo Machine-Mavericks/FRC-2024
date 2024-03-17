@@ -22,6 +22,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -411,6 +413,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         // 2024 - Sonic
         // flip sign of rotation speed
         // Allows easy flipping of drive axes if needed
+
         Translation2d newtranslation = new Translation2d(-translation.getX(),
                 -translation.getY());
         Double newrotation = rotation;
@@ -420,7 +423,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
             m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
                     newrotation,
-                    Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
+                    Rotation2d.fromDegrees(RobotContainer.gyro.getYawDeg()));
         } else {
             m_chassisSpeeds = new ChassisSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
@@ -503,9 +506,6 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
             m_states[i] = m_swerveModules[i].getCurrentState();
             m_targetStates[i] = m_swerveModules[i].getTargetState();
         }
-
-        // Update pose estimator with odometry data
-        RobotContainer.odometry.updateOdometry();
     }
 
     // -------------------- Kinematics and Swerve Module Status Public Access Methods --------------------

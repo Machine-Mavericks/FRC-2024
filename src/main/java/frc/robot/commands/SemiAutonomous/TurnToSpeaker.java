@@ -11,25 +11,27 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Odometry;
 import frc.robot.util.AprilTagMap;
 import frc.robot.util.Utils;
 
 public class TurnToSpeaker extends Command {
+  double m_angle;
 
   // speed to rotate robot - determined by PID controller
   double m_rotatespeed;
   double m_angleerror;
   double m_endangle;
   double m_timeout = 2;
-
+  double offsetDegrees;
   double m_AtTargetTime;
   
   boolean m_cameraControlled;
 
   // PID gains for rotating robot towards ball target
-  double kp = 0.09;   // 0.12
-  double ki = 0.20;   //0.28
+  double kp = 0.019;   // 0.12
+  double ki = 0.020;   //0.28
   double kd = 0.00125; //0.00125
   PIDController pidController = new PIDController(kp, ki, kd);
 
@@ -41,31 +43,34 @@ public class TurnToSpeaker extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Init");
-    
-    // find current position
-    Pose2d currentPose=RobotContainer.odometry.getPose2d();
-
     // find speaker position
     Pose2d speakerPose;
-    
-    
+    // find current position
+    Pose2d currentPose=RobotContainer.odometry.getPose2d();
     if (DriverStation.getAlliance().get() == Alliance.Red){
       speakerPose=AprilTagMap.AprilTags[3];
       // find differences in position
-      double xDif = speakerPose.getX()-currentPose.getX();
+      double xDif = speakerPose.getX()-currentPose.getY();
       double yDif = speakerPose.getY()-currentPose.getY();
-      m_endangle = 0.0 + (Math.atan2(yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
-     
+      m_angle = (Math.atan2(yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
+      offsetDegrees = 0;
     } else {
       speakerPose=AprilTagMap.AprilTags[6];
       // find differences in position
-      double xDif = speakerPose.getX()-currentPose.getX();
-      double yDif = speakerPose.getY()-currentPose.getY();
-      m_endangle = 180.0 + (Math.atan2(-yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
+      double xDif = speakerPose.getX()-currentPose.getY();
+      double yDif = speakerPose.getX()-currentPose.getY();
+      m_angle = (Math.atan2(-yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
+      offsetDegrees = 180;
     }
 
- 
+    // end angle is 180 or 0 degrees - current field relative angle + angle from speaker
+    m_endangle = offsetDegrees+m_angle;
+    if (m_endangle >180){
+      m_endangle -= 360;
+    } else if (m_endangle <-180){
+      m_endangle += 360;
+    }
+
     // set end angle in shuffleboard
     RobotContainer.odometry.m_angleAway.setDouble(m_endangle);
     
@@ -73,7 +78,7 @@ public class TurnToSpeaker extends Command {
     pidController.reset();
 
     m_angleerror = 0.0;
-
+    
     m_AtTargetTime = 0.0;
   }
 
@@ -81,10 +86,9 @@ public class TurnToSpeaker extends Command {
   @Override
   public void execute() {
 
-    // determine error to target angle
     m_angleerror = Utils.AngleDifference(m_endangle, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
-    
-    if (Math.abs(m_angleerror) < 0.25)
+
+    if (Math.abs(m_angleerror) < 1)
       m_AtTargetTime += 0.02;
     else
       m_AtTargetTime = 0.0;
@@ -92,26 +96,26 @@ public class TurnToSpeaker extends Command {
     // execute PID controller
     m_rotatespeed = pidController.calculate(m_angleerror);
     
-    if (m_rotatespeed > 3.0)
-      m_rotatespeed = 3.0;
-    if (m_rotatespeed < -3.0)
-      m_rotatespeed = -3.0;
+    if (m_rotatespeed > 0.5)
+      m_rotatespeed = 0.5;
+    if (m_rotatespeed < -0.5)
+      m_rotatespeed = -0.5;
 
     // rotate robot
-    RobotContainer.drivetrain.drive(new Translation2d(0.0, 0.0), m_rotatespeed, true);
+    RobotContainer.drivetrain.drive(new Translation2d(0,0), m_rotatespeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     // stop robot
-    RobotContainer.drivetrain.drive(new Translation2d(0.0,0.0), 0.0, true);
+    RobotContainer.drivetrain.drive(new Translation2d(0,0), 0, false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // we are at target for >0.5s
+    // we are finisged when at target for more than 0.5s
     return (m_AtTargetTime>=0.5);
   }
 }

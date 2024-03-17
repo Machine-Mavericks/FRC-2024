@@ -23,8 +23,6 @@ public class NVidia extends SubsystemBase {
   private DoubleArraySubscriber m_RobotPoseSub2;
   private DoubleArraySubscriber m_Notes;
   private double[] data;
-
-  // holds the current number of april tags detected by the nvidia
   private int CurrentNumberDetections;
 
   /** Creates a new NVidia. */
@@ -38,7 +36,7 @@ public class NVidia extends SubsystemBase {
     m_Notes=m_table.getDoubleArrayTopic("camera_notes").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
   }
 
-  @Override
+@Override
   public void periodic() {
     // array to hold apriltag detection data
     TimestampedDoubleArray AprilTagDetectionData[];

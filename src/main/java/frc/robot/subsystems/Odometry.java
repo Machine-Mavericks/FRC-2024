@@ -36,6 +36,7 @@ public class Odometry extends SubsystemBase {
   private GenericEntry m_initialY;
   private GenericEntry m_initialAngle;
   public GenericEntry m_angleAway;
+  private GenericEntry m_NvidiaOnly;
   
   // field visualization object to display on shuffleboard
   private Field2d m_field;
@@ -90,7 +91,7 @@ public class Odometry extends SubsystemBase {
   /* Called by the drivetrain synchronously with swerve module data updates to reduce latency */
   public void updateOdometry(){
     // get gyro angle (in degrees) and make rotation vector
-    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
+    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYawRad());
 
     // get positions of all swerve modules from subsystem
     SwerveModulePosition[] positions = RobotContainer.drivetrain.getSwervePositions();
@@ -101,15 +102,17 @@ public class Odometry extends SubsystemBase {
       m_estimator.update(gyroangle, positions);
     }
 
-    // if (RobotContainer.shotlimelight.isTargetPresent()){
-    //    RobotContainer.shotlimelight.addDetection();
-    // }
-    // if (RobotContainer.leftlimelight.isTargetPresent()){
-    //    RobotContainer.leftlimelight.addDetection();
-    // }
-    // if (RobotContainer.rightlimelight.isTargetPresent()){
-    //    RobotContainer.rightlimelight.addDetection();
-    // }
+    if (!m_NvidiaOnly.getBoolean(true)){
+      if (RobotContainer.shotlimelight.isTargetPresent()){
+        RobotContainer.shotlimelight.addDetection();
+      }
+      if (RobotContainer.leftlimelight.isTargetPresent()){
+         RobotContainer.leftlimelight.addDetection();
+      }
+      if (RobotContainer.rightlimelight.isTargetPresent()){
+        RobotContainer.rightlimelight.addDetection();
+      }
+    }
 
     updateShuffleboard();
   }
@@ -136,7 +139,7 @@ public class Odometry extends SubsystemBase {
    * @param distance area of apriltag in frame
    */
   public void addVision(Pose2d vision, double distance){
-    Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYaw()*DEGtoRAD));
+    Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYawRad()));
     double stdDevs = 0.01*distance;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
     m_estimator.addVisionMeasurement(vision1, Timer.getFPGATimestamp());
@@ -206,6 +209,7 @@ public class Odometry extends SubsystemBase {
     m_robotY = l1.add("Y (m)", 0.0).getEntry();
     m_robotAngle = l1.add("Angle(deg)", 0.0).getEntry();
     m_angleAway = l1.add("Angle away(deg)", 0.0).getEntry();
+    m_NvidiaOnly = l1.addPersistent("Nvidia only",true).getEntry();
 
     // Controls to set initial robot position and angle
     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
@@ -218,8 +222,6 @@ public class Odometry extends SubsystemBase {
     Tab.add("Field", m_field)
     .withPosition(2, 0)
     .withSize(5, 3);
-
-
   
   }
 

@@ -28,7 +28,8 @@ public class OneNoteAuto extends SequentialCommandGroup {
     new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
                             0.5, // speed
                             0.1, // rotational speed(unit?)
-                            5.0),
+                            5.0,
+                            false),
 
     new AimThenShootSpeaker(),
 
@@ -38,7 +39,8 @@ public class OneNoteAuto extends SequentialCommandGroup {
     new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
                             0.5, // speed
                             0.1, // rotational speed(unit?)
-                            5.0)
+                            5.0,
+                            false)
 
 
 

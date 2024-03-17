@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -46,7 +48,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
 
   /** Gets the yaw of the robot
    * @return current yaw value (-180 to 180) */
-  public double getYaw() {
+  public double getYawDeg() {
     
     // scaling factor for CTR Pigeon determine by test - Feb 5 2023
     double value = gyro.getYaw().getValue()*0.99895833 + OffsetAdjust;
@@ -58,6 +60,10 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
       return ((value-180.0) %360.0)+180.0;
   }
 
+  public double getYawRad() {
+    return getYawDeg()*Odometry.DEGtoRAD;
+  }
+
   /** Gets the pitch of the robot
   * @return current pitch value in deg */
   public double getPitch() {
@@ -67,9 +73,15 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
 
   /** Resets yaw to zero */
   public void resetGyro() {
-    
-    // reset our Gyro
     OffsetAdjust = 0.0;
+    
+    // // reset our Gyro
+    // if (DriverStation.getAlliance().get() == Alliance.Red) {
+    //   OffsetAdjust = 180.0;
+    // } else {
+    //   OffsetAdjust = 0.0;
+    // }
+    //gyro.setYaw(OffsetAdjust);
     gyro.reset();
   }
 
@@ -78,7 +90,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
     
     // reset our Gyro
     OffsetAdjust = 0.0;
-    OffsetAdjust = -getYaw()+deg;
+    OffsetAdjust = -getYawDeg()+deg;
   }
 
 
@@ -126,8 +138,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   public void updateShuffleboard() {
     // write current robot Gyro
     m_gyroPitch.setDouble(getPitch());
-    m_gyroYaw.setDouble(getYaw());
+    m_gyroYaw.setDouble(getYawDeg());
     m_gyroRoll.setDouble(getRoll());
   }
-
 }

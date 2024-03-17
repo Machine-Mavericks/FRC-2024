@@ -45,6 +45,7 @@ public class ShuffleboardOI extends SubsystemBase {
     public GenericEntry tY;
 
     public GenericEntry DistanceAdjustment;
+    public GenericEntry ShooterAngle;
 
     // other controls on main page
     private GenericEntry m_timeLeft;
@@ -126,6 +127,13 @@ public class ShuffleboardOI extends SubsystemBase {
         .withSize(1, 1)
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", 0, "max_value", 20))
+        .getEntry();
+
+        ShooterAngle = tab.addPersistent("Angle Adjustment", 0)
+        .withPosition(3, 3)
+        .withSize(1, 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .withProperties(Map.of("min_value", 0.023, "max_value", 0.26))
         .getEntry();
 
         ShuffleboardLayout ShotInfoLayout = tab.getLayout("Shot Info", BuiltInLayouts.kList)
