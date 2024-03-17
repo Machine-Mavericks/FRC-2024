@@ -12,14 +12,15 @@ import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpeakerTargeting;
+import frc.robot.util.Utils;
 
 public class AimToSpeaker extends Command {
   private final SpeakerTargeting speakertargeting;
 
   // PID gains for rotating robot towards target
-  double kp = 0.01;
-  double ki = 0.0001;
-  double kd = 0.0001;
+  double kp = 0.019;
+  double ki = 0.0;
+  double kd = 0.001;
   PIDController pidController = new PIDController(kp, ki, kd);
   
   // timer counts how long robot is lined up to target for
@@ -52,7 +53,8 @@ public class AimToSpeaker extends Command {
     // if we have target, then get angle. If no target, assume 0deg
     if ((speakertargeting.IsTarget()))
     {
-      TargetAngle = speakertargeting.getSpeakerAngle();
+      TargetAngle = Utils.AngleDifference(speakertargeting.getSpeakerAngle(), RobotContainer.gyro.getYawDeg());
+      System.out.println("Angle is " + TargetAngle);
       missedSamples = 0;
     }
     else{
@@ -68,10 +70,10 @@ public class AimToSpeaker extends Command {
     angleControlleroutput = pidController.calculate(TargetAngle);
 
     // limit rotation speed of robot
-    if (angleControlleroutput > 0.5)
-    angleControlleroutput = 0.5;
-    if (angleControlleroutput < -0.5)
-    angleControlleroutput = -0.5;
+    if (angleControlleroutput > 0.2)
+    angleControlleroutput = 0.2;
+    if (angleControlleroutput < -0.2)
+    angleControlleroutput = -0.2;
 
     // Joystick input
     double xInput = OI.getXDriveInput();
