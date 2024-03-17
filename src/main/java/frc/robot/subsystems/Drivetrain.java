@@ -414,17 +414,9 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         // flip sign of rotation speed
         // Allows easy flipping of drive axes if needed
 
-        Translation2d newtranslation;
-        Double newrotation;
-        if (DriverStation.getAlliance().get() == Alliance.Blue){
-            newtranslation = new Translation2d(-translation.getX(),
+        Translation2d newtranslation = new Translation2d(-translation.getX(),
                 -translation.getY());
-            newrotation = rotation;
-        } else {
-            newtranslation = new Translation2d(translation.getX(),
-                translation.getY());
-            newrotation = rotation;
-        }
+        Double newrotation = rotation;
 
         // determine chassis speeds
         if (fieldOriented) {

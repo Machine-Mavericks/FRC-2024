@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -73,7 +75,11 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   public void resetGyro() {
     
     // reset our Gyro
-    OffsetAdjust = 0.0;
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      OffsetAdjust = 180.0;
+    } else {
+      OffsetAdjust = 0.0;
+    }
     gyro.reset();
   }
 
