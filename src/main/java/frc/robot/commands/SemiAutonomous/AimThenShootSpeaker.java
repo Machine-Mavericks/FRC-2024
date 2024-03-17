@@ -17,7 +17,8 @@ public class AimThenShootSpeaker extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new AimToSpeaker(),
-      new FireShot(true)
+      new FireShot(true),
+      new CleanupShot()
     );
   }
 }

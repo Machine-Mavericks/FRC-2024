@@ -6,9 +6,12 @@ package frc.robot.subsystems;
 
 import org.opencv.core.Point;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.util.AprilTagMap;
 import frc.robot.util.Spline1D;
 
 public class SpeakerTargeting extends SubsystemBase {
@@ -97,19 +100,40 @@ public class SpeakerTargeting extends SubsystemBase {
 
     // // we have valid target if distance is >2.9m
     // return (target == true && distance >= 2.90);
-    return speakerTargetPresent;
+    return true;
   }
 
   public double getDistance(){
-    if (IsTarget()) {
-      //double Dist = Math.pow(shotCamera.getTargetArea(), -0.562) * 1.5454;
-      double Dist = (0.0 + 0.0103 * currentHeightAngle * currentHeightAngle - 0.0601 * currentHeightAngle + 2.0262);
-      // Update shuffleboard
-      RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
-      //RobotContainer.operatorinterface.tY.setDouble(currentHeightAngle);
-      return Dist+(RobotContainer.operatorinterface.DistanceAdjustment.getDouble(0)/10.0);
+    // if (IsTarget()) {
+    //   //double Dist = Math.pow(shotCamera.getTargetArea(), -0.562) * 1.5454;
+    //   double Dist = (0.0 + 0.0103 * currentHeightAngle * currentHeightAngle - 0.0601 * currentHeightAngle + 2.0262);
+    //   // Update shuffleboard
+    //   RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
+    //   //RobotContainer.operatorinterface.tY.setDouble(currentHeightAngle);
+    //   return Dist+(RobotContainer.operatorinterface.DistanceAdjustment.getDouble(0)/10.0);
+    // }
+    // return 0;
+
+    double m_distance;
+    // find speaker position
+    Pose2d speakerPose;
+    // find current position
+    Pose2d currentPose=RobotContainer.odometry.getPose2d();
+    if (DriverStation.getAlliance().get() == Alliance.Red){
+      speakerPose=AprilTagMap.AprilTags[3];
+    } else {
+      speakerPose=AprilTagMap.AprilTags[6];
     }
-    return 0;
+    // find differences in position
+    double xDif = currentPose.getX()-speakerPose.getX();
+    double yDif = currentPose.getY()-speakerPose.getY();
+    // find distance
+    m_distance = Math.sqrt(Math.pow(xDif,2)+Math.pow(yDif,2));
+
+    System.out.println("Distance " + m_distance);
+    System.out.println("Angle needed"+RobotContainer.speakertargeting.getDesiredAngle(m_distance));
+
+    return m_distance;
   }
 
   public boolean IsAligned(){
@@ -123,9 +147,47 @@ public class SpeakerTargeting extends SubsystemBase {
    * @return rotation angle
    */
   public double getSpeakerAngle() {
+    double offsetDegrees;
+    double m_angle;
+    double m_endangle;
+
+
+    // find speaker position
+    Pose2d speakerPose;
+    // find current position
+    Pose2d currentPose=RobotContainer.odometry.getPose2d();
+    if (DriverStation.getAlliance().get() == Alliance.Red){
+      speakerPose=AprilTagMap.AprilTags[3];
+      // find differences in position
+      double xDif = currentPose.getX()-speakerPose.getX();
+      double yDif = currentPose.getY()-speakerPose.getY();
+      m_angle = (Math.atan2(-yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
+      offsetDegrees = 0;
+    } else {
+      speakerPose=AprilTagMap.AprilTags[6];
+      // find differences in position
+      double xDif = currentPose.getX()-speakerPose.getX();
+      double yDif = currentPose.getY()-speakerPose.getY();
+      m_angle = (Math.atan2(yDif,xDif))/Odometry.DEGtoRAD;
+      offsetDegrees = 180;
+    }
+
+    double currentAngle = RobotContainer.gyro.getYawDeg();
+    // end angle is 180 or 0 degrees - current field relative angle + angle from speaker
+    m_endangle = offsetDegrees-currentAngle+m_angle;
+    if (m_endangle >180){
+      m_endangle -= 360;
+    } else if (m_endangle <-180){
+      m_endangle += 360;
+    }
+    RobotContainer.odometry.m_angleAway.setDouble(m_endangle);
+
+    return m_endangle;
+
+
     //double tx = shotCamera.getHorizontalTargetOffsetAngle();
-    double tx = currentAngle;
-    return tx;
+    // double tx = currentAngle;
+    // return tx;
   }
 
   /**

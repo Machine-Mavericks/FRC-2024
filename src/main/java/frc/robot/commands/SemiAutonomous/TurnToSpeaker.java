@@ -29,7 +29,7 @@ public class TurnToSpeaker extends Command {
   boolean m_cameraControlled;
 
   // PID gains for rotating robot towards ball target
-  double kp = 0.0125;
+  double kp = 0.019;
   double ki = 0.0;
   double kd = 0.00125;
   PIDController pidController = new PIDController(kp, ki, kd);
