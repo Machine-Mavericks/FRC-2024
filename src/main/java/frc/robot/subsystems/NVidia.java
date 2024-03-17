@@ -23,6 +23,7 @@ public class NVidia extends SubsystemBase {
   private DoubleArraySubscriber m_RobotPoseSub2;
   private DoubleArraySubscriber m_Notes;
   private double[] data;
+  private int CurrentNumberDetections;
 
   /** Creates a new NVidia. */
   public NVidia() {
@@ -35,13 +36,16 @@ public class NVidia extends SubsystemBase {
     m_Notes=m_table.getDoubleArrayTopic("camera_notes").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
   }
 
-  @Override
+@Override
   public void periodic() {
     // array to hold apriltag detection data
     TimestampedDoubleArray AprilTagDetectionData[];
 
+    int NumDetections = 0;
+
     // read data for camera 0
     AprilTagDetectionData= m_RobotPoseSub0.readQueue();
+    NumDetections += AprilTagDetectionData.length;
     // for each AprilTag detection in the list
     for (int j=0;j<AprilTagDetectionData.length; j++) {
       data = AprilTagDetectionData[j].value;
@@ -50,6 +54,7 @@ public class NVidia extends SubsystemBase {
 
     // read data for camera 1
     AprilTagDetectionData= m_RobotPoseSub1.readQueue();
+    NumDetections += AprilTagDetectionData.length;
     // for each AprilTag detection in the list
     for (int j=0;j<AprilTagDetectionData.length; j++) {
       data = AprilTagDetectionData[j].value;
@@ -58,6 +63,7 @@ public class NVidia extends SubsystemBase {
 
     // read data for camera 2
     AprilTagDetectionData= m_RobotPoseSub2.readQueue();
+    NumDetections += AprilTagDetectionData.length;
     // for each AprilTag detection in the list
     for (int j=0;j<AprilTagDetectionData.length; j++){
       data = AprilTagDetectionData[j].value;
@@ -65,5 +71,15 @@ public class NVidia extends SubsystemBase {
     }
 
     TimestampedDoubleArray[] NotesData= m_Notes.readQueue();
+
+    // save number of apriltags currently detected
+    CurrentNumberDetections = NumDetections;
   }
+
+  // function returns the number of apriltags currently detected by the Nvidia
+  public int GetNumberAprilTagsDetected()
+  {
+    return CurrentNumberDetections;
+  }
+
 }
