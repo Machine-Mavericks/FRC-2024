@@ -22,6 +22,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -411,9 +413,18 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         // 2024 - Sonic
         // flip sign of rotation speed
         // Allows easy flipping of drive axes if needed
-        Translation2d newtranslation = new Translation2d(-translation.getX(),
+
+        Translation2d newtranslation;
+        Double newrotation;
+        if (DriverStation.getAlliance().get() == Alliance.Blue){
+            newtranslation = new Translation2d(-translation.getX(),
                 -translation.getY());
-        Double newrotation = rotation;
+            newrotation = rotation;
+        } else {
+            newtranslation = new Translation2d(translation.getX(),
+                translation.getY());
+            newrotation = rotation;
+        }
 
         // determine chassis speeds
         if (fieldOriented) {
