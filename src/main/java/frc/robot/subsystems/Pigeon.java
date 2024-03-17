@@ -73,13 +73,15 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
 
   /** Resets yaw to zero */
   public void resetGyro() {
+    OffsetAdjust = 0.0;
     
-    // reset our Gyro
-    if (DriverStation.getAlliance().get() == Alliance.Red) {
-      OffsetAdjust = 180.0;
-    } else {
-      OffsetAdjust = 0.0;
-    }
+    // // reset our Gyro
+    // if (DriverStation.getAlliance().get() == Alliance.Red) {
+    //   OffsetAdjust = 180.0;
+    // } else {
+    //   OffsetAdjust = 0.0;
+    // }
+    //gyro.setYaw(OffsetAdjust);
     gyro.reset();
   }
 
