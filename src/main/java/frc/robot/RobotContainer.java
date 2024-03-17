@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntakeWithSensor;
-import frc.robot.commands.OperatorSpinup;
 import frc.robot.commands.RunClimbCommand;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
@@ -119,7 +118,7 @@ public class RobotContainer {
     OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
-    OI.spinupShooterButton.whileTrue(new OperatorSpinup());
+    OI.spinupShooterButton.whileTrue(new AimToSpeaker());
 
     // Climb control
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
