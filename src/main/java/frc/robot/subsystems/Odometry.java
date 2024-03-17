@@ -21,9 +21,9 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 
-public class SwervePoseEstimator extends SubsystemBase {
+public class Odometry extends SubsystemBase {
   // constant to convert degrees to radians
-  final float DEGtoRAD = (float) (3.1415926 / 180.0);
+  public final static float DEGtoRAD = (float) (3.1415926 / 180.0);
 
   // create swerve position estimator object
   private SwerveDrivePoseEstimator m_estimator;
@@ -35,13 +35,15 @@ public class SwervePoseEstimator extends SubsystemBase {
   private GenericEntry m_initialX;
   private GenericEntry m_initialY;
   private GenericEntry m_initialAngle;
+  public GenericEntry m_angleAway;
+  private GenericEntry m_NvidiaOnly;
   
   // field visualization object to display on shuffleboard
   private Field2d m_field;
 
 
   /** Creates a new SwervePosEstimator. */
-  public SwervePoseEstimator() {
+  public Odometry() {
 
     // create 2d field object
     m_field = new Field2d();
@@ -61,6 +63,11 @@ public class SwervePoseEstimator extends SubsystemBase {
 
     // create odometry shuffleboard page
     initializeShuffleboard();
+  }
+
+  @Override
+  public void periodic() {
+    updateOdometry();
   }
 
 
@@ -84,7 +91,7 @@ public class SwervePoseEstimator extends SubsystemBase {
   /* Called by the drivetrain synchronously with swerve module data updates to reduce latency */
   public void updateOdometry(){
     // get gyro angle (in degrees) and make rotation vector
-    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
+    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYawRad());
 
     // get positions of all swerve modules from subsystem
     SwerveModulePosition[] positions = RobotContainer.drivetrain.getSwervePositions();
@@ -95,8 +102,16 @@ public class SwervePoseEstimator extends SubsystemBase {
       m_estimator.update(gyroangle, positions);
     }
 
-    if (RobotContainer.shotlimelight.isTargetPresent()){
-      RobotContainer.shotlimelight.addDetection();
+    if (!m_NvidiaOnly.getBoolean(true)){
+      if (RobotContainer.shotlimelight.isTargetPresent()){
+        RobotContainer.shotlimelight.addDetection();
+      }
+      if (RobotContainer.leftlimelight.isTargetPresent()){
+         RobotContainer.leftlimelight.addDetection();
+      }
+      if (RobotContainer.rightlimelight.isTargetPresent()){
+        RobotContainer.rightlimelight.addDetection();
+      }
     }
 
     updateShuffleboard();
@@ -121,13 +136,13 @@ public class SwervePoseEstimator extends SubsystemBase {
    * Adds vision measurement and confidence values based on data provided by the NVidia subsystem and AprilTagMap utilities
    * @param vision robot position on field based on apriltags
    * @param timeStamp timestamp from NVidia
-   * @param area area of apriltag in frame
+   * @param distance area of apriltag in frame
    */
-  public void addVision(Pose2d vision, double area){
+  public void addVision(Pose2d vision, double distance){
     //Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYaw()*DEGtoRAD));
-    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
-    double stdDevs = 0.1*area;
+    double stdDevs = 0.01*distance;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
+    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
   }
 
   
@@ -184,7 +199,7 @@ public class SwervePoseEstimator extends SubsystemBase {
   /** Initialize subsystem shuffleboard page and controls */
   private void initializeShuffleboard() {
     // Create odometry page in shuffleboard
-    ShuffleboardTab Tab = Shuffleboard.getTab("Swerve Estimator");
+    ShuffleboardTab Tab = Shuffleboard.getTab("Odometry");
 
     // create controls to display robot position, angle, and gyro angle
     ShuffleboardLayout l1 = Tab.getLayout("Estimates", BuiltInLayouts.kList);
@@ -193,6 +208,8 @@ public class SwervePoseEstimator extends SubsystemBase {
     m_robotX = l1.add("X (m)", 0.0).getEntry();
     m_robotY = l1.add("Y (m)", 0.0).getEntry();
     m_robotAngle = l1.add("Angle(deg)", 0.0).getEntry();
+    m_angleAway = l1.add("Angle away(deg)", 0.0).getEntry();
+    m_NvidiaOnly = l1.addPersistent("Nvidia only",true).getEntry();
 
     // Controls to set initial robot position and angle
     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);

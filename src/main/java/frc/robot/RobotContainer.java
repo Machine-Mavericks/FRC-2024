@@ -10,29 +10,34 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DelayCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.GroundIntake;
+import frc.robot.commands.GroundIntakeWithSensor;
+import frc.robot.commands.OperatorSpinup;
+import frc.robot.commands.RunClimbCommand;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
+import frc.robot.commands.Autonomous.DelayCommand;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimToSpeaker;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.FireShot;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
+import frc.robot.commands.SemiAutonomous.TurnRobot;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.NoteTargeting;
+import frc.robot.subsystems.NVidia;
+//import frc.robot.subsystems.SwerveOdometry;
+import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
-import frc.robot.subsystems.SwervePoseEstimator;
 
-/**
+/** 
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in
@@ -51,20 +56,22 @@ public class RobotContainer {
   // The robot's subsystems are defined here...
   //public static final Gyro gyro = new Gyro();
   public static final Limelight shotlimelight = new Limelight("shoot");
+  public static final Limelight leftlimelight = new Limelight("left");
+  public static final Limelight rightlimelight = new Limelight("right");
   public static final Limelight intakelimelight = new Limelight("intake");
 
-  //public static final NVidia nvidia = new NVidia();
+  public static final NVidia nvidia = new NVidia();
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
   //public static final SwerveOdometry odometry = new SwerveOdometry();
-  public static final SwervePoseEstimator swervepose = new SwervePoseEstimator();
+  public static final Odometry odometry = new Odometry();
   //public static final PowerPanel panel = new PowerPanel();
   public static final LEDBlinkin LEDStrip = new LEDBlinkin();
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
   public static final SpeakerTargeting speakertargeting = new SpeakerTargeting(shotlimelight);
-  public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
+  public static final Climber climber = new Climber();
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and
@@ -94,8 +101,8 @@ public class RobotContainer {
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
 
     // Manual intake
-    OI.intakeButton.whileTrue(new GroundIntake(true));
-    OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
+    OI.intakeButton.whileTrue(new GroundIntakeWithSensor(5));
+    //OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
     OI.speakerShooterButton.onTrue(new FireShot(false));
@@ -112,7 +119,14 @@ public class RobotContainer {
     OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
-    OI.spinupShooterButton.whileTrue(new AimToSpeaker());
+    OI.spinupShooterButton.whileTrue(new OperatorSpinup());
+
+    // Climb control
+    OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
+    OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
+
+    // Spin 180
+    OI.spinButton.onTrue(new TurnRobot(180.0, true, 2));
   }
 
   /**

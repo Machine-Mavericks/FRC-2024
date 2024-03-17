@@ -7,10 +7,9 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveToRelativePose;
-import frc.robot.commands.SetGyroUsingAprilTag;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,7 +28,8 @@ public class OneNoteAuto extends SequentialCommandGroup {
     new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
                             0.5, // speed
                             0.1, // rotational speed(unit?)
-                            5.0),
+                            5.0,
+                            false),
 
     new AimThenShootSpeaker(),
 
@@ -39,7 +39,8 @@ public class OneNoteAuto extends SequentialCommandGroup {
     new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
                             0.5, // speed
                             0.1, // rotational speed(unit?)
-                            5.0)
+                            5.0,
+                            false)
 
 
 

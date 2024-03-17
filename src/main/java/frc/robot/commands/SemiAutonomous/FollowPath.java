@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.SwervePoseEstimator;
+import frc.robot.subsystems.Odometry;
 
 
 /** Command to Follow Path */
@@ -32,7 +32,7 @@ public class FollowPath extends Command {
     private Trajectory trajectory;
 
     private Timer timer;
-    private final SwervePoseEstimator m_odometry = RobotContainer.swervepose;
+    private final Odometry m_odometry = RobotContainer.odometry;
 
     // PIDs gains for X and Y position controllers
     private double p = 5;
@@ -118,7 +118,7 @@ public class FollowPath extends Command {
 
 
         // beginning angle of robot - set to current angle
-        m_RobotAngle = RobotContainer.gyro.getYaw();
+        m_RobotAngle = RobotContainer.gyro.getYawDeg();
         
         // determine determined robot rotation rate
         double rotatetime = trajectory.getTotalTimeSeconds();

@@ -46,7 +46,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
 
   /** Gets the yaw of the robot
    * @return current yaw value (-180 to 180) */
-  public double getYaw() {
+  public double getYawDeg() {
     
     // scaling factor for CTR Pigeon determine by test - Feb 5 2023
     double value = gyro.getYaw().getValue()*0.99895833 + OffsetAdjust;
@@ -56,6 +56,10 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
       return ((value+180.0) %360.0)-180.0;
     else
       return ((value-180.0) %360.0)+180.0;
+  }
+
+  public double getYawRad() {
+    return getYawDeg()*Odometry.DEGtoRAD;
   }
 
   /** Gets the pitch of the robot
@@ -78,7 +82,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
     
     // reset our Gyro
     OffsetAdjust = 0.0;
-    OffsetAdjust = -getYaw()+deg;
+    OffsetAdjust = -getYawDeg()+deg;
   }
 
 
@@ -126,8 +130,7 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   public void updateShuffleboard() {
     // write current robot Gyro
     m_gyroPitch.setDouble(getPitch());
-    m_gyroYaw.setDouble(getYaw());
+    m_gyroYaw.setDouble(getYawDeg());
     m_gyroRoll.setDouble(getRoll());
   }
-
 }

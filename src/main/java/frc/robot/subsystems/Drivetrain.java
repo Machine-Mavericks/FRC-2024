@@ -420,7 +420,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
             m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
                     newrotation,
-                    Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
+                    Rotation2d.fromDegrees(RobotContainer.gyro.getYawDeg()));
         } else {
             m_chassisSpeeds = new ChassisSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
@@ -503,9 +503,6 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
             m_states[i] = m_swerveModules[i].getCurrentState();
             m_targetStates[i] = m_swerveModules[i].getTargetState();
         }
-
-        // Update pose estimator with odometry data
-        RobotContainer.swervepose.updateOdometry();
     }
 
     // -------------------- Kinematics and Swerve Module Status Public Access Methods --------------------

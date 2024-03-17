@@ -101,8 +101,8 @@ public class SteerToNote extends Command {
     double rotate = 0.0;
 
     // do we have a valid target?
-    if ((RobotContainer.notetargeting.IsTarget())){
-      TargetAngle = RobotContainer.notetargeting.getNoteAngle();
+    if ((RobotContainer.nvidia.IsNoteTarget())){
+      TargetAngle = RobotContainer.nvidia.getNoteXAngle();
     
       // determine angle correction - uses PI controller
       // limit rotation to +/- 100% of available speed
@@ -120,7 +120,7 @@ public class SteerToNote extends Command {
         // slow down forward speed if large angle to allow robot to turn
         // at 25deg,  speed = 0.5 - 0.004(25)) = 0.5 - 0.1) = 0.4
         // xInput = xInput; //- 0.004*m_speedLimitAuto* Math.min(25.0, Math.abs(TargetAngle));
-        xInput = xInput * Math.abs(Math.cos(Math.toRadians(TargetAngle) * 1.5));
+        xInput = xInput * Math.abs(Math.cos(Math.toRadians(TargetAngle) * 2));
         //xInput = OI.driverController.getLeftY();
         //if (xInput<0.0)
         //  xInput=0.0;
@@ -151,6 +151,6 @@ public class SteerToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(m_timeoutlimit) ;
+    return (timer.hasElapsed(m_timeoutlimit)|| RobotContainer.cassetteintake.NoteOrNoNote());
   }
 }

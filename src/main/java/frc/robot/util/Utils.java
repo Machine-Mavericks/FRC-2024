@@ -42,6 +42,13 @@ public class Utils {
         return num1 + ((num2 - num1) * t);
     }
 
+    /**
+     * Again, for some reason there's no inverse lerp in Java
+     */
+    public static double InvLerp(double num1, double num2, double t){
+        return (t - num1)/(num2 - num1);
+    }
+
 
     /**
      * Generates a twist between two points
