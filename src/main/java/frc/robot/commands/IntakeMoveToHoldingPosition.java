@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
 public class IntakeMoveToHoldingPosition extends Command {
-  private static final double DISTANCE_SENSOR_SETPOINT = 5.3; // Measured as 4.5 but moved to 5 since noise results in issues
-
   private Timer timer;
   /** Creates a new IntakeMoveToHoldingPosition. */
   public IntakeMoveToHoldingPosition() {
@@ -40,6 +38,6 @@ public class IntakeMoveToHoldingPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.distanceSensors.getSensor1() >= DISTANCE_SENSOR_SETPOINT && timer.hasElapsed(0.2);
+    return timer.hasElapsed(0.2);
   }
 }
