@@ -28,6 +28,7 @@ import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.commands.SemiAutonomous.TurnRobot;
 import frc.robot.commands.SemiAutonomous.TurnToSpeaker;
+import frc.robot.subsystems.CameraTilt;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -73,6 +74,7 @@ public class RobotContainer {
   public static final Odometry odometry = new Odometry();
   //public static final PowerPanel panel = new PowerPanel();
   public static final LEDs LEDStrip = new LEDs();
+  public static final CameraTilt cameratilt = new CameraTilt();
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
