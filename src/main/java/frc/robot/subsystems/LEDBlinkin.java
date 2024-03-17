@@ -29,7 +29,7 @@ public class LEDBlinkin extends SubsystemBase {
     if (RobotContainer.speakertargeting.IsTarget()) {
      setPattern(LED_PATTERN.OFF); // Once targeting changes are made, change this to SHOTREADY
     } 
-    else if (RobotContainer.notetargeting.IsTarget()) {
+    else if (RobotContainer.nvidia.IsNoteTarget()) {
       setPattern(LED_PATTERN.SEESNOTES);
     }
     else if (DriverStation.getAlliance().isPresent()) {

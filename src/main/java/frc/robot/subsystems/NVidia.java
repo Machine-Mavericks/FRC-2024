@@ -22,24 +22,28 @@ public class NVidia extends SubsystemBase {
   private DoubleArraySubscriber m_RobotPoseSub1;
   private DoubleArraySubscriber m_RobotPoseSub2;
   private DoubleArraySubscriber m_Notes;
-  private double[] data;
+  
+  private double tx = 0, ty = 0;
+
   private int CurrentNumberDetections;
+  private double[] noteData;
 
   /** Creates a new NVidia. */
   public NVidia() {
     m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
-    m_CameraSub3=m_table.getDoubleArrayTopic("camera1").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_CameraSub4=m_table.getDoubleArrayTopic("camera2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_RobotPoseSub0=m_table.getDoubleArrayTopic("robot_pose_in_field2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_RobotPoseSub1=m_table.getDoubleArrayTopic("robot_pose_in_field3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_RobotPoseSub2=m_table.getDoubleArrayTopic("robot_pose_in_field4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_Notes=m_table.getDoubleArrayTopic("camera_notes").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_CameraSub3 = m_table.getDoubleArrayTopic("camera1").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_CameraSub4 = m_table.getDoubleArrayTopic("camera2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_RobotPoseSub0 = m_table.getDoubleArrayTopic("robot_pose_in_field2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_RobotPoseSub1 = m_table.getDoubleArrayTopic("robot_pose_in_field3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_RobotPoseSub2 = m_table.getDoubleArrayTopic("robot_pose_in_field4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
+    m_Notes = m_table.getDoubleArrayTopic("camera_notes_notes").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
   }
 
 @Override
   public void periodic() {
     // array to hold apriltag detection data
     TimestampedDoubleArray AprilTagDetectionData[];
+    double[] data;
 
     int NumDetections = 0;
 
@@ -70,16 +74,50 @@ public class NVidia extends SubsystemBase {
       RobotContainer.odometry.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), AprilTagDetectionData[j].value[3]);
     }
 
-    TimestampedDoubleArray[] NotesData= m_Notes.readQueue();
+    // Notedata
+    noteData = m_Notes.get(new double[0]);
+
+    tx = 0;
+    ty = 0;
+    if (noteData.length >= 3) {
+      tx = noteData[1];
+      ty = noteData[2];
+
+    }
 
     // save number of apriltags currently detected
     CurrentNumberDetections = NumDetections;
   }
 
   // function returns the number of apriltags currently detected by the Nvidia
-  public int GetNumberAprilTagsDetected()
-  {
+  public int GetNumberAprilTagsDetected() {
     return CurrentNumberDetections;
   }
 
+  /**
+   * Decides if a target is present
+   * 
+   * @return boolean (true if target, false if not)
+   */
+  public boolean IsNoteTarget() {
+    return noteData.length > 0;
+  }
+
+  /**
+   * finds horizontal angle to note
+   * 
+   * @return rotation angle
+   */
+  public double getNoteXAngle() {
+    return tx;
+  }
+
+  /**
+   * finds vertical angle to note
+   * 
+   * @return rotation angle
+   */
+  public double getNoteYAngle() {
+    return ty;
+  }
 }

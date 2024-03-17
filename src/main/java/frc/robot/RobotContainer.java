@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.GroundIntake;
 import frc.robot.commands.GroundIntakeWithSensor;
 import frc.robot.commands.OperatorSpinup;
 import frc.robot.commands.RunClimbCommand;
@@ -22,12 +20,9 @@ import frc.robot.commands.Autonomous.DelayCommand;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.AimToSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
-import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.commands.SemiAutonomous.TurnRobot;
-import frc.robot.commands.SemiAutonomous.TurnToSpeaker;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -36,11 +31,10 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NVidia;
-import frc.robot.subsystems.NoteTargeting;
-import frc.robot.subsystems.Pigeon;
-import frc.robot.subsystems.SpeakerTargeting;
 //import frc.robot.subsystems.SwerveOdometry;
 import frc.robot.subsystems.Odometry;
+import frc.robot.subsystems.Pigeon;
+import frc.robot.subsystems.SpeakerTargeting;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -76,7 +70,6 @@ public class RobotContainer {
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
   public static final SpeakerTargeting speakertargeting = new SpeakerTargeting(shotlimelight);
-  public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
   public static final Climber climber = new Climber();
 
   /**
@@ -123,8 +116,6 @@ public class RobotContainer {
 
     // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
-    //OI.autoIntakeButton.onFalse(new GroundIntake(false, 0.05)); 
-    //OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
