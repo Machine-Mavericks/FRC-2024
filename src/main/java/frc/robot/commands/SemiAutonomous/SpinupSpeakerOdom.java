@@ -21,7 +21,11 @@ public class SpinupSpeakerOdom extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
     // find speaker position
     Pose2d speakerPose;
     // find current position
@@ -39,15 +43,10 @@ public class SpinupSpeakerOdom extends Command {
     // Set angle based on distance
     System.out.println(m_distance);
     System.out.println("Angle needed"+RobotContainer.speakertargeting.getDesiredAngle(m_distance));
-    RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle(m_distance));
-  }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    System.out.println(RobotContainer.speakertargeting.getDesiredAngle(m_distance));
-    // Contiunally adjust
+    // Set angle of cassette
     RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle(m_distance));
+
     // Get to speed
     RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
     RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
