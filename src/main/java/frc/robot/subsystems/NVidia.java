@@ -73,7 +73,12 @@ public class NVidia extends SubsystemBase {
     }
 
     TimestampedDoubleArray[] NotesData= m_Notes.readQueue();
-
+    //if( NotesData.length>0){
+    System.out.println("find note: "+NotesData);
+    data = NotesData[0].value;
+    System.out.println(NotesData);
+     // RobotContainer.odometry.addVision(new Pose2d(data[0],data[1],new Rotation2d(data[2])), NotesData[0].value[3]);
+    //}
     // save number of apriltags currently detected
     CurrentNumberDetections = NumDetections;
   }
