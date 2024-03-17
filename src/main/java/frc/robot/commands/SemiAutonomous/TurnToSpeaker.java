@@ -30,9 +30,9 @@ public class TurnToSpeaker extends Command {
   boolean m_cameraControlled;
 
   // PID gains for rotating robot towards ball target
-  double kp = 0.0125;
-  double ki = 0.0;
-  double kd = 0.00125;
+  double kp = 0.019;   // 0.12
+  double ki = 0.020;   //0.28
+  double kd = 0.00125; //0.00125
   PIDController pidController = new PIDController(kp, ki, kd);
 
   /** Creates a new TurnToSpeaker. */
@@ -88,7 +88,7 @@ public class TurnToSpeaker extends Command {
 
     m_angleerror = Utils.AngleDifference(m_endangle, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
 
-    if (Math.abs(m_angleerror) < 0.5)
+    if (Math.abs(m_angleerror) < 1)
       m_AtTargetTime += 0.02;
     else
       m_AtTargetTime = 0.0;
