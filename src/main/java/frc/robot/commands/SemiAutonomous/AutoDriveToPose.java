@@ -88,14 +88,14 @@ public class AutoDriveToPose extends Command {
     // m_target = new Pose2d(curr.getX(),curr.getY(), curr.getRotation().rotateBy(new Rotation2d(Math.toRadians(180))));
     // recall previously saved point and use it as our destination
     if (m_recallPoint)
-      m_target = RobotContainer.swervepose.RecallPoint(0);
+      m_target = RobotContainer.odometry.RecallPoint(0);
     initializeShuffleboard();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d curr = RobotContainer.swervepose.getPose2d();
+    Pose2d curr = RobotContainer.odometry.getPose2d();
     
     // increment time
     m_time += 0.02;
@@ -140,7 +140,7 @@ public class AutoDriveToPose extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    Pose2d curr = RobotContainer.swervepose.getPose2d();
+    Pose2d curr = RobotContainer.odometry.getPose2d();
 
     // we are finished if we are within erorr of target or command had timeed out
     return (((Math.abs(m_target.getX() - curr.getX()) <  m_positiontolerance) &&

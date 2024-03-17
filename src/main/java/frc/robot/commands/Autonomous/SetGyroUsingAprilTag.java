@@ -17,7 +17,7 @@ public class SetGyroUsingAprilTag extends Command {
   @Override
   public void initialize() {
     RobotContainer.gyro.resetGyro();
-    RobotContainer.gyro.setGyro(RobotContainer.swervepose.getPose2d().getRotation().getDegrees()+180.0);
+    RobotContainer.gyro.setGyro(RobotContainer.odometry.getPose2d().getRotation().getDegrees()+180.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
