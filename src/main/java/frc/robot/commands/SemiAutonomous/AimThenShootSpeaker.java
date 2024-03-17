@@ -4,8 +4,6 @@
 
 package frc.robot.commands.SemiAutonomous;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ShootSpeaker;
 import frc.robot.commands.Autonomous.DelayCommand;
@@ -19,20 +17,8 @@ public class AimThenShootSpeaker extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new WaitToShoot(),
-      new ParallelRaceGroup(
-        //new TurnToSpeaker(),
-        new DelayCommand(1),
-        new SpinupSpeakerOdom()
-        // new AimToSpeaker(),
-        // new SpinupSpeaker()
-      ),
-      new ParallelCommandGroup(
-        //new WaitForEffectorAngle(), 
-        //new WaitForShooterSpinup()
-      ),
-      new DelayCommand(2.0),
-      new ShootSpeaker()
+      new AimToSpeaker(),
+      new FireShot(true)
     );
   }
 }

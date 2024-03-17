@@ -182,11 +182,19 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   }
 
   /**
-   * Check if effector is with a certain amount of error
+   * Check if effector is with a certain amount of error of last given setpoint
    * @return a boolean
    */
-  public boolean isEffectorAtTarget(){
-    return (Math.abs(currentAngle - currentAngleSetpoint) < MAX_ALLOWED_ERROR);
+  public boolean IsEffectorAtTarget(){
+    return IsEffectorAtTarget(currentAngleSetpoint);
+  }
+
+  /**
+   * Check if effector is with a certain amount of error of a specified point
+   * @return a boolean
+   */
+  public boolean IsEffectorAtTarget(double target){
+    return (Math.abs(currentAngle - target) < MAX_ALLOWED_ERROR);
   }
 
   @Override

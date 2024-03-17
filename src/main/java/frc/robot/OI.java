@@ -70,7 +70,7 @@ public class OI {
 
         double rotInput = driverController.getRightX()*speedLimitFactor;
         rotInput = Math.abs(rotInput) > 0.1 ? rotInput*0.5 : 0;
-        return rotInput;
+        return -rotInput;
     }
 
     public static double getSpeedMultiplier(){

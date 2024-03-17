@@ -16,6 +16,7 @@ public class SpeakerTargeting extends SubsystemBase {
 
   private static final int RED_SPEAKER_TAG_ID = 4;
   private static final int BLUE_SPEAKER_TAG_ID = 7;
+  private static final double SHOT_ANGLE_TOLERANCE = 2;
 
   private double currentAngle = 0;
   private boolean speakerTargetPresent = false;
@@ -106,9 +107,13 @@ public class SpeakerTargeting extends SubsystemBase {
       // Update shuffleboard
       RobotContainer.operatorinterface.TargetDistance.setDouble(Dist);
       //RobotContainer.operatorinterface.tY.setDouble(currentHeightAngle);
-      return Dist-(RobotContainer.operatorinterface.DistanceAdjustment.getDouble(0)/10.0);
+      return Dist+(RobotContainer.operatorinterface.DistanceAdjustment.getDouble(0)/10.0);
     }
     return 0;
+  }
+
+  public boolean IsAligned(){
+    return IsTarget() && Math.abs(getSpeakerAngle()) < SHOT_ANGLE_TOLERANCE;
   }
 
 
@@ -118,9 +123,16 @@ public class SpeakerTargeting extends SubsystemBase {
    * @return rotation angle
    */
   public double getSpeakerAngle() {
-    //UpdateShotData();
     //double tx = shotCamera.getHorizontalTargetOffsetAngle();
     double tx = currentAngle;
     return tx;
+  }
+
+  /**
+   * gets if the target can be seen, the shooter is at speed, and the cassette is at the right angle
+   */
+  public boolean IsSpunUp(){
+    return IsTarget() &&
+    (RobotContainer.cassetteangle.IsEffectorAtTarget(getDesiredAngle()) && RobotContainer.cassetteshooter.IsShooterAtSpeedSetpoint(getDesiredLSpeed(), getDesiredRSpeed()));
   }
 }

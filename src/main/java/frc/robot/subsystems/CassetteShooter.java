@@ -22,13 +22,13 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
   private TalonFX m_LShootMotor;
   private TalonFX m_RShootMotor;
 
-  /** The current speed the left motor is trying to reach (rotations per second) */
+  /** The current speed the left motor is trying to reach (rotations per minute) */
   private double m_currentSetpointL = 0;
-  /** The current speed the right motor is trying to reach (rotations per second) */
+  /** The current speed the right motor is trying to reach (rotations per minute) */
   private double m_currentSetpointR = 0;
 
-  /* Rotations per second shooter speed can be off by before being considered either too slow or fast */
-  private static double allowedSpeedError = 5;
+  /* RPM shooter speed can be off by before being considered either too slow or fast */
+  private static double allowedSpeedError = 200;
 
   private VelocityVoltage m_motorVelocityControl = new VelocityVoltage(0);
 
@@ -79,7 +79,7 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
    */
   public void leftShootRun(double speed) {
     m_LShootMotor.setControl(m_motorVelocityControl.withVelocity(speed / 60));
-    m_currentSetpointL = speed / 60;
+    m_currentSetpointL = speed;
   }
   /**
    * Run the right shooter motor at the provided percent of tested speed
@@ -87,7 +87,7 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
    */
   public void rightShootRun(double speed) {
     m_RShootMotor.setControl(m_motorVelocityControl.withVelocity(speed / 60));
-    m_currentSetpointR = speed / 60;
+    m_currentSetpointR = speed;
   }
 
   /**
@@ -99,21 +99,27 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
   }
 
   public double getSpeedL(){
-    return m_LShootMotor.getVelocity().getValueAsDouble();
+    return m_LShootMotor.getVelocity().getValueAsDouble() * 60;
   }
 
-    public double getSpeedR(){
-    return m_RShootMotor.getVelocity().getValueAsDouble();
+  public double getSpeedR(){
+    return m_RShootMotor.getVelocity().getValueAsDouble() * 60;
   }
 
   /**
-   * Checks if shooter motors are at speeds specified by the current setpoint
-   * @return
+   * Checks if shooter motors are at speeds specified by the last given setpoint
    */
-  public boolean isShooterAtSpeedSetpoint() {
+  public boolean IsShooterAtSpeedSetpoint() {
+    return IsShooterAtSpeedSetpoint(m_currentSetpointL, m_currentSetpointR);
+  }
+
+  /**
+   * Checks if shooter motors are at speeds specified (rpm)
+   */
+  public boolean IsShooterAtSpeedSetpoint(double LSpeed, double RSpeed) {
     return 
-      Math.abs(getSpeedL() - m_currentSetpointL) < allowedSpeedError && 
-      Math.abs(getSpeedR() - m_currentSetpointR) < allowedSpeedError;   
+      Math.abs(getSpeedL() - LSpeed) < allowedSpeedError && 
+      Math.abs(getSpeedR() - RSpeed) < allowedSpeedError;   
   }
 
   @Override

@@ -66,7 +66,7 @@ public class TurnRobot extends Command {
   public void execute() 
   {
     // increment time in command 
-    m_time += 0.02;
+    m_time += RobotContainer.updateDt;
     
     // determine speed to rotate robot
     if (m_relative)

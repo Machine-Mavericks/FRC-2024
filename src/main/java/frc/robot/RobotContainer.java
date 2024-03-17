@@ -19,8 +19,9 @@ import frc.robot.commands.UnstuckShot;
 import frc.robot.commands.Autonomous.DelayCommand;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
-import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.AimToSpeaker;
+import frc.robot.commands.SemiAutonomous.FinishIntake;
+import frc.robot.commands.SemiAutonomous.FireShot;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.commands.SemiAutonomous.TurnRobot;
 import frc.robot.subsystems.CassetteEffector;
@@ -36,7 +37,7 @@ import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
 
-/**
+/** 
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in
@@ -104,9 +105,8 @@ public class RobotContainer {
     //OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
-    OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
-    OI.speakerShooterButton.onFalse(new CleanupShot());
-    //OI.speakerShooterButton.onTrue(new TurnToSpeaker());
+    OI.speakerShooterButton.onTrue(new FireShot(false));
+    //OI.speakerShooterButton.onFalse(new CleanupShot());
     
     // Amp shot
     OI.ampButton.onTrue(new ShootAmp());
@@ -116,6 +116,7 @@ public class RobotContainer {
 
     // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
+    OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
