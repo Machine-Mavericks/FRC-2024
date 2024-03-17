@@ -23,7 +23,6 @@ public class TurnToSpeaker extends Command {
   double m_rotatespeed;
   double m_angleerror;
   double m_endangle;
-  double m_time;
   double m_timeout = 2;
   double offsetDegrees;
   double m_AtTargetTime;
@@ -79,18 +78,17 @@ public class TurnToSpeaker extends Command {
     pidController.reset();
 
     m_angleerror = 0.0;
-    m_time = 0.0;
+    
+    m_AtTargetTime = 0.0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // increment time in command 
-    m_time += 0.02;
 
     m_angleerror = Utils.AngleDifference(m_endangle, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
 
-    if (Math.abs(m_angleerror) < 0.25)
+    if (Math.abs(m_angleerror) < 0.5)
       m_AtTargetTime += 0.02;
     else
       m_AtTargetTime = 0.0;

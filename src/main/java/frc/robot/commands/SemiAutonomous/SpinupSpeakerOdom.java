@@ -41,7 +41,7 @@ public class SpinupSpeakerOdom extends Command {
     // find distance
     m_distance = Math.sqrt(Math.pow(xDif,2)+Math.pow(yDif,2));
     // Set angle based on distance
-    System.out.println(m_distance);
+    System.out.println("distance"+m_distance);
     System.out.println("Angle needed"+RobotContainer.speakertargeting.getDesiredAngle(m_distance));
 
     // Set angle of cassette

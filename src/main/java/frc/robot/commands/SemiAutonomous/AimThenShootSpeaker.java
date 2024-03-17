@@ -27,10 +27,10 @@ public class AimThenShootSpeaker extends SequentialCommandGroup {
         // new SpinupSpeaker()
       ),
       new ParallelCommandGroup(
-        //new WaitForEffectorAngle(), 
-        //new WaitForShooterSpinup()
+        new WaitForEffectorAngle(), 
+        new WaitForShooterSpinup()
       ),
-      new DelayCommand(2.0),
+      //new DelayCommand(1.0),
       new ShootSpeaker()
     );
   }
