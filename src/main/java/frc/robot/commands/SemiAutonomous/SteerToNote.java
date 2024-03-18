@@ -8,10 +8,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
-import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.Drivetrain;
 
@@ -23,7 +21,7 @@ public class SteerToNote extends Command {
   double TargetAngle = 0;
 
   // PID gains for rotating robot towards ball target
-  double kp = 0.0125;
+  double kp = 0.0025;  // 0.0125
   double ki = 0.0;
   double kd = 0.0;
   PIDController pidController = new PIDController(kp, ki, kd);
@@ -100,34 +98,34 @@ public class SteerToNote extends Command {
     // assume rotation not needed unless proven otherwise
     double rotate = 0.0;
 
-    // // do we have a valid target?
-    // if ((RobotContainer.notetargeting.IsTarget())){
-    //   TargetAngle = RobotContainer.notetargeting.getNoteAngle();
+    // do we have a valid target?
+    if (RobotContainer.nvidia.IsNoteDetected()){
+        TargetAngle = RobotContainer.nvidia.GetDetectedNoteX()*55.0*0.00416;
     
-    //   // determine angle correction - uses PI controller
-    //   // limit rotation to +/- 100% of available speed
-    //   rotate = pidController.calculate(TargetAngle);
-    //   if (rotate > 1.0)
-    //     rotate = 1.0;
-    //   if (rotate < -1.0)
-    //     rotate = -1.0;
+    // determine angle correction - uses PI controller
+    // limit rotation to +/- 100% of available speed
+    rotate = pidController.calculate(TargetAngle);
+       if (rotate > 1.0)
+         rotate = 1.0;
+       if (rotate < -1.0)
+         rotate = -1.0;
 
     //   // System.out.println("Output: " + rotate);
 
-    //   // if not fully automatic, get joystick inputs
-    //   if (m_automated)
-    //   {
-    //     // slow down forward speed if large angle to allow robot to turn
-    //     // at 25deg,  speed = 0.5 - 0.004(25)) = 0.5 - 0.1) = 0.4
-    //     // xInput = xInput; //- 0.004*m_speedLimitAuto* Math.min(25.0, Math.abs(TargetAngle));
-    //     xInput = xInput * Math.abs(Math.cos(Math.toRadians(TargetAngle) * 1.5));
-    //     //xInput = OI.driverController.getLeftY();
-    //     //if (xInput<0.0)
-    //     //  xInput=0.0;
-    //   }
+      // if not fully automatic, get joystick inputs
+      if (m_automated)
+      {
+        // slow down forward speed if large angle to allow robot to turn
+        // at 25deg,  speed = 0.5 - 0.004(25)) = 0.5 - 0.1) = 0.4
+        // xInput = xInput; //- 0.004*m_speedLimitAuto* Math.min(25.0, Math.abs(TargetAngle));
+        xInput = xInput * Math.abs(Math.cos(Math.toRadians(TargetAngle) * 1.5));
+        //xInput = OI.driverController.getLeftY();
+        //if (xInput<0.0)
+        //  xInput=0.0;
+      }
       
 
-    //}   // end if we have a valid target
+    }   // end if we have a valid target
     
     // command robot to drive - using robot-relative coordinates
     RobotContainer.drivetrain.drive(

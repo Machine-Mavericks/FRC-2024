@@ -26,6 +26,7 @@ import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.commands.SemiAutonomous.TurnRobot;
+import frc.robot.subsystems.CameraTilt;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -68,6 +69,7 @@ public class RobotContainer {
   public static final CassetteEffector cassetteangle = new CassetteEffector();
   public static final SpeakerTargeting speakertargeting = new SpeakerTargeting();
   public static final Climber climber = new Climber();
+  public static final CameraTilt cameratilt = new CameraTilt();
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and

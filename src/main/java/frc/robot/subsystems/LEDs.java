@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -24,6 +25,9 @@ public class LEDs extends SubsystemBase {
 
   // timer to slow down strobe
   private int timer;
+  private double counter;
+
+  PowerDistribution robot_pdp = new PowerDistribution();
 
   /** Creates a new LEDs. */
   public LEDs() {
@@ -52,6 +56,10 @@ public class LEDs extends SubsystemBase {
     if (timer>=4)
       timer=0;
     
+    counter=counter+0.02;
+    if (counter>1) 
+        counter=0;
+
     if (timer==0)
     {
       StrobeIndex++;
@@ -59,7 +67,29 @@ public class LEDs extends SubsystemBase {
 
       for (int i=0;i<NumLEDs; ++i)
           m_ledBuffer.setRGB(i, 0, 0, 0);
+
+      //Note in intake change to orange
+      if (RobotContainer.cassetteintake.NoteOrNoNote()==true){
+        for (int i=0;i<NumLEDs;i=i+2)
+        m_ledBuffer.setRGB(i, (int)(255.0*counter),(int)(50.0*counter), 0);
+      }
+
+      //note detection going pink 
+      // if (RobotContainer.notetargeting.IsTarget()==true){
+      //  for (int i=0;i<NumLEDs;i=i+2)
+      //   m_ledBuffer.setRGB(i, 255*counter,123*counter, 215*counter);
+      // }
+
+      // Update the LEDs to show that voltage is under 11V
+      double robot_voltage = robot_pdp.getVoltage();
+      if (robot_voltage <= 11.0){
+        m_ledBuffer.setRGB(StrobeIndex, 137, 0, 204);
+      }      
     
+      //when robot is in hang position change the LEDs to aqua?
+      //idea for auto hang position? 
+      //aqua RGB values are (r 62,g 254,b 255)
+
       if (DriverStation.getAlliance().get() == Alliance.Blue)
       {
         m_ledBuffer.setRGB(StrobeIndex, 0, 0, 255);
@@ -70,11 +100,14 @@ public class LEDs extends SubsystemBase {
       }
     
       // if we are seeing Apriltags then add green
-      if (StrobeIndex>=2 && RobotContainer.nvidia.GetNumberAprilTagsDetected()>=1)
-        m_ledBuffer.setRGB(StrobeIndex-2, 0, 255, 0);
+      if (StrobeIndex>=2 && RobotContainer.nvidia.IsNoteDetected() )
+        m_ledBuffer.setRGB(StrobeIndex-2, 0,255 , 0);
       
+      // if we are seeing Apriltags then add white
+      if (StrobeIndex>=4 && RobotContainer.nvidia.GetNumberAprilTagsDetected()>=1)
+        m_ledBuffer.setRGB(StrobeIndex-4, 255, 255, 255);
 
-        
+      
 
       m_led.setData(m_ledBuffer);
     }

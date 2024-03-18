@@ -84,7 +84,7 @@ public class TurnToSpeaker extends Command {
     // determine error to target angle
     m_angleerror = Utils.AngleDifference(m_endangle, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
     
-    if (Math.abs(m_angleerror) < 0.25)
+    if (Math.abs(m_angleerror) < 0.5)
       m_AtTargetTime += 0.02;
     else
       m_AtTargetTime = 0.0;

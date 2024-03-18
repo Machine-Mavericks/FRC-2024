@@ -22,6 +22,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -417,10 +419,17 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
 
         // determine chassis speeds
         if (fieldOriented) {
-            m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(newtranslation.getX(),
+            {
+                // if we are on red line, then rotate drive field drive by 180deg
+                double rotateby = 0.0;
+                if (DriverStation.getAlliance().get() == Alliance.Red)
+                    rotateby=180.0;
+
+                m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
                     newrotation,
-                    Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
+                    Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()+rotateby));
+            }
         } else {
             m_chassisSpeeds = new ChassisSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
