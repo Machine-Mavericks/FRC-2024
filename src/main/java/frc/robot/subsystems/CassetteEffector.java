@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.util.ShuffleUser;
 import frc.robot.util.Spline1D;
@@ -164,8 +163,6 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     //Run nonstop to adjust feedforward
     double feedForwardValue = FEEDFORWARD_CURVE.interpolate(currentAngle, true);
     m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint).withFeedForward(feedForwardValue*1.2));
-
-    //setAngle(RobotContainer.operatorinterface.ShooterAngle.getDouble(NEUTRAL_ANGLE));
   }
 
   /**

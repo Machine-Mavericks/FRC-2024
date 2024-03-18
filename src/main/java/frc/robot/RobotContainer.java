@@ -22,27 +22,22 @@ import frc.robot.commands.Autonomous.DelayCommand;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.AimToSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.commands.SemiAutonomous.TurnRobot;
-import frc.robot.commands.SemiAutonomous.TurnToSpeaker;
-import frc.robot.subsystems.CameraTilt;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.LEDBlinkin;
 import frc.robot.subsystems.LEDs;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NVidia;
-import frc.robot.subsystems.NoteTargeting;
+import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
 //import frc.robot.subsystems.SwerveOdometry;
-import frc.robot.subsystems.Odometry;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -61,25 +56,17 @@ public class RobotContainer {
   public static final ShuffleboardOI operatorinterface = new ShuffleboardOI();
 
   // The robot's subsystems are defined here...
-  //public static final Gyro gyro = new Gyro();
-  public static final Limelight shotlimelight = new Limelight("shoot");
-  public static final Limelight leftlimelight = new Limelight("left");
-  public static final Limelight rightlimelight = new Limelight("right");
-  public static final Limelight intakelimelight = new Limelight("intake");
 
   public static final NVidia nvidia = new NVidia();
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
-  //public static final SwerveOdometry odometry = new SwerveOdometry();
   public static final Odometry odometry = new Odometry();
   //public static final PowerPanel panel = new PowerPanel();
-  public static final LEDs LEDStrip = new LEDs();
-  public static final CameraTilt cameratilt = new CameraTilt();
+  public static final LEDs leds = new LEDs();
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
   public static final CassetteIntake cassetteintake = new CassetteIntake();
   public static final CassetteEffector cassetteangle = new CassetteEffector();
-  public static final SpeakerTargeting speakertargeting = new SpeakerTargeting(shotlimelight);
-  public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
+  public static final SpeakerTargeting speakertargeting = new SpeakerTargeting();
   public static final Climber climber = new Climber();
 
   /**
@@ -116,7 +103,6 @@ public class RobotContainer {
     // Speaker shot
     OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
     OI.speakerShooterButton.onFalse(new CleanupShot());
-    //OI.speakerShooterButton.onTrue(new TurnToSpeaker());
     
     // Amp shot
     OI.ampButton.onTrue(new ShootAmp());

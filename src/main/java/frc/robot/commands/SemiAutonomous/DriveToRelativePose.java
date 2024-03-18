@@ -24,7 +24,6 @@ public class DriveToRelativePose extends Command {
   // command timeout and counter
   private double m_timeout;
   private Timer m_Timer;
-  private boolean m_fieldOriented;
 
   // x, y, rotation PID controllers to get us to the intended destination
   private PIDController m_xController; 
@@ -46,19 +45,11 @@ public class DriveToRelativePose extends Command {
   }
   
   
-  /**
-   * Creates new drive to relative pose command
-   * @param target in m
-   * @param speed in m/s
-   * @param rotationalspeed
-   * @param timeout in s
-   * @param fieldOriented true if field false if robot
-   */
+  /** Creates a new DrivetoRelativePose. */
   public DriveToRelativePose( Pose2d target,
                               double speed,
                               double rotationalspeed,
-                              double timeout,
-                              boolean fieldOriented) {
+                              double timeout) {
     // this command requires use of swervedrive subsystem
     addRequirements(RobotContainer.drivetrain);
     
@@ -77,9 +68,6 @@ public class DriveToRelativePose extends Command {
     // create timer, and record timeout limit
     m_Timer = new Timer();
     m_timeout = timeout;
-
-    // record orientation
-    m_fieldOriented = fieldOriented;
   }
   
   
@@ -91,11 +79,11 @@ public class DriveToRelativePose extends Command {
     m_Timer.start();
     
     m_odometry = new SwerveDriveOdometry(RobotContainer.drivetrain.getKinematics(),
-                                      new Rotation2d(RobotContainer.gyro.getYawRad()),                                    
+                                      new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD),                                    
                                         RobotContainer.drivetrain.getSwervePositions() );
 
 
-    m_odometry.resetPosition(new Rotation2d(RobotContainer.gyro.getYawRad()),
+    m_odometry.resetPosition(new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD),
     RobotContainer.drivetrain.getSwervePositions(),
     new Pose2d(0.0,0.0,new Rotation2d(0.0)));
   }
@@ -104,7 +92,7 @@ public class DriveToRelativePose extends Command {
   @Override
   public void execute() {
     // get gyro angle (in degrees) and make rotation vector
-    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYawRad());
+    Rotation2d gyroangle = new Rotation2d(RobotContainer.gyro.getYaw() * DEGtoRAD);
     m_odometry.update(gyroangle, RobotContainer.drivetrain.getSwervePositions());
 
     // only integrate errors in within 10cm or 5deg of target
@@ -141,7 +129,7 @@ public class DriveToRelativePose extends Command {
       rotSpeed = -m_rotspeed;
 
     // drive robot according to x,y,rot PID controller speeds
-    RobotContainer.drivetrain.drive(new Translation2d(xSpeed, ySpeed), rotSpeed, m_fieldOriented);  
+    RobotContainer.drivetrain.drive(new Translation2d(xSpeed, ySpeed), rotSpeed, false);  
   }
 
   // Called once the command ends or is interrupted.

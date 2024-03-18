@@ -95,6 +95,7 @@ public class Robot extends TimedRobot {
     // robot is now initialized
     robotIsInitialized = true;
     autonomousCommand = RobotContainer.getAutonomousCommand();
+    RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE);
     
     // schedule the autonomous command
     if (autonomousCommand != null)

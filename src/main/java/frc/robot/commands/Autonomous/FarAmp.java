@@ -32,8 +32,7 @@ public class FarAmp extends SequentialCommandGroup {
     new DriveToRelativePose(new Pose2d(-1.246886, 0.8382, new Rotation2d(0)), 
                             0.5, // speed
                             0.1, // rotational speed(unit?)
-                            5.0,
-                            false),
+                            5.0),
 
     new AimThenShootSpeaker(), //shoot Speaker 
 
@@ -43,8 +42,7 @@ public class FarAmp extends SequentialCommandGroup {
       new DriveToRelativePose(new Pose2d(0, 0, new Rotation2d(20)), // orienting to zero 
                             0.5, // speed
                             0.1, // rotational speed(unit?)
-                            5.0,
-                            false)
+                            5.0)
           
   //     new DriveToRelativePose(new Pose2d(-3.28016,1.499743, new Rotation2d(0)), // moving to pick up notes 
   //                           0.5, // speed

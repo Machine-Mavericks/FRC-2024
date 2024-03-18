@@ -12,7 +12,6 @@ import frc.robot.RobotContainer;
 import frc.robot.util.Spline1D;
 
 public class SpeakerTargeting extends SubsystemBase {
-  private Limelight shotCamera;
 
   private static final int RED_SPEAKER_TAG_ID = 4;
   private static final int BLUE_SPEAKER_TAG_ID = 7;
@@ -37,35 +36,34 @@ public class SpeakerTargeting extends SubsystemBase {
   // });
 
   /** Creates a new SpeakerTargeting. */
-  public SpeakerTargeting(Limelight shotCamera) {
-    this.shotCamera = shotCamera;
+  public SpeakerTargeting() {
   }
 
   @Override
   public void periodic() {
-    if (DriverStation.isEnabled()) {
-      UpdateShotData();
-    }
+    //if (DriverStation.isEnabled()) {
+      //UpdateShotData();
+    //}
   }
 
-  private void UpdateShotData(){
-    speakerTargetPresent = false;
-    currentAngle = 0;
-    currentHeightAngle = 0;
-    if (shotCamera.isTargetPresent()) {
-      // When using a pipeline that tracks all targets need to filter out which ones to use
-      for (var tag : shotCamera.getFiducials()){
+  // private void UpdateShotData(){
+  //   speakerTargetPresent = false;
+  //   currentAngle = 0;
+  //   currentHeightAngle = 0;
+  //   if (shotCamera.isTargetPresent()) {
+  //     // When using a pipeline that tracks all targets need to filter out which ones to use
+  //     for (var tag : shotCamera.getFiducials()){
         
-        //System.out.println(shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials.length);
-        if (tag.fiducialID == RED_SPEAKER_TAG_ID || tag.fiducialID == BLUE_SPEAKER_TAG_ID) {
-          currentAngle = tag.tx;
-          speakerTargetPresent = true;
-          currentHeightAngle = tag.ty;
-          return;
-        }
-      }
-    }
-  }
+  //       //System.out.println(shotCamera.getLatestJSONDump().targetingResults.targets_Fiducials.length);
+  //       if (tag.fiducialID == RED_SPEAKER_TAG_ID || tag.fiducialID == BLUE_SPEAKER_TAG_ID) {
+  //         currentAngle = tag.tx;
+  //         speakerTargetPresent = true;
+  //         currentHeightAngle = tag.ty;
+  //         return;
+  //       }
+  //     }
+  //   }
+  // }
 
   public double getDesiredAngle(){
     return 0.352*Math.pow(getDistance(), -1.143);

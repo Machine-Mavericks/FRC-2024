@@ -72,7 +72,7 @@ public class TurnRobot extends Command {
     if (m_relative)
       m_angleerror = m_endangle - RobotContainer.gyro.continuousYaw();
     else
-      m_angleerror = m_endangle - RobotContainer.gyro.getYawDeg();
+      m_angleerror = m_endangle - RobotContainer.gyro.getYaw();
     
     // execute PID controller
     m_rotatespeed = pidController.calculate(m_angleerror);
