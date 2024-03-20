@@ -46,7 +46,8 @@ public class Odometry extends SubsystemBase {
 
     // create 2d field object
     m_field = new Field2d();
-    
+   
+
     // create position estimator - set to (0,0,0)(x,y,ang)
     // initialize swerve drive odometry
     m_estimator = new SwerveDrivePoseEstimator(
@@ -136,10 +137,28 @@ public class Odometry extends SubsystemBase {
    * @param distance area of apriltag in frame
    */
   public void addVision(Pose2d vision, double distance){
-    Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYaw()*DEGtoRAD));
+    
+    double CurrentGyro = RobotContainer.gyro.getYaw()*DEGtoRAD;
+    double VisionAngle = vision.getRotation().getRadians();
+    
+    Pose2d NewEstimate = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(0.995*CurrentGyro + 0.005*VisionAngle));
+
     double stdDevs = 0.01*distance;
-    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
-    m_estimator.addVisionMeasurement(vision1, Timer.getFPGATimestamp());
+    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 0.05));
+    m_estimator.addVisionMeasurement(NewEstimate, Timer.getFPGATimestamp());
+
+
+    //double stdDevs = 0.01*distance;
+    //m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 0.4));  // was 0.4
+    //m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
+
+    //m_field.setRobotPose(vision);
+    m_field.getObject("tag").setPose(vision);
+    
+    //Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYaw()*DEGtoRAD));
+    //double stdDevs = 0.01*distance;
+    //m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
+    //m_estimator.addVisionMeasurement(vision1, Timer.getFPGATimestamp());
   }
 
   
@@ -229,6 +248,7 @@ public class Odometry extends SubsystemBase {
     m_robotX.setDouble(vector.getX());
     m_robotY.setDouble(vector.getY());
     m_robotAngle.setDouble(vector.getRotation().getDegrees());
+    //m_field.getObject("tag").setPose(vector);
     m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
   }
   

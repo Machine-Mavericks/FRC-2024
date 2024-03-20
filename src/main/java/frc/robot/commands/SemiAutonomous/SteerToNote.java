@@ -21,7 +21,7 @@ public class SteerToNote extends Command {
   double TargetAngle = 0;
 
   // PID gains for rotating robot towards ball target
-  double kp = 0.0025;  // 0.0125
+  double kp = 0.0125;
   double ki = 0.0;
   double kd = 0.0;
   PIDController pidController = new PIDController(kp, ki, kd);
@@ -100,7 +100,7 @@ public class SteerToNote extends Command {
 
     // do we have a valid target?
     if (RobotContainer.nvidia.IsNoteDetected()){
-        TargetAngle = RobotContainer.nvidia.GetDetectedNoteX()*55.0*0.00416;
+        TargetAngle = RobotContainer.notetargeting.getNoteHorAngle();
     
     // determine angle correction - uses PI controller
     // limit rotation to +/- 100% of available speed

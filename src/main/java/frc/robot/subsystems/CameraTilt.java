@@ -27,9 +27,9 @@ public class CameraTilt extends SubsystemBase {
   double m_currentangle=0.0;
 
   // PID gains for rotating robot towards note target
-  private double kp = 0.011;  //0.010
+  private double kp = 0.001;  //0.010
   private double ki = 0.000;
-  private double kd = 0.001;
+  private double kd = 0.000;
   
   // camera tilt controller
   private PIDController pidController = new PIDController(kp, ki, kd);
@@ -41,7 +41,7 @@ public class CameraTilt extends SubsystemBase {
     initializeShuffleboard();
   
     // set default camera angle 180deg
-    setAngle(180.0);
+    setAngle(160.0);
 
     notargettime.stop();
     notargettime.reset();
@@ -56,32 +56,33 @@ public class CameraTilt extends SubsystemBase {
     // This method will be called once per scheduler run
     updateShuffleboard();
 
-    // adjust camera
+    //if (RobotContainer.notetargeting.getNoteVertAngle()<-20.0)
+    //  setAngle(160.0);
+    //else
+    //  setAngle(170.0);
+    
+    /*// adjust camera
     if (RobotContainer.nvidia.IsNoteDetected())
     {
       notargettime.stop();
       notargettime.reset();
       //pidController.setP(0.006 / (10*getAngle()/100));
       
-      double adjust = pidController.calculate(RobotContainer.nvidia.GetDetectedNoteY());
+      double adjust = -pidController.calculate(RobotContainer.notetargeting.getNoteVertAngle());
       
-      if ((getAngle() + adjust)>177)
-        setAngle(177.0);
-      else
-        setAngle(getAngle() + adjust); 
-
-
-       
-      //setAngle(adjust);
+      //if ((getAngle() + adjust)>177)
+      //  setAngle(177.0);
+      //else
+      setAngle(getAngle() + adjust); 
     }
     else
       {
         notargettime.start();
         pidController.reset();
         if (notargettime.hasElapsed(1.0))
-          setAngle(175.0);
+          setAngle(170.0);
       }
-
+*/
     
   }
 
@@ -90,10 +91,10 @@ public class CameraTilt extends SubsystemBase {
   public void setAngle(double angle)
   {
      double TargetAngle = angle; 
-      if (TargetAngle > 180.0)
-          TargetAngle = 180.0;
-      if (TargetAngle < 140.0)
-          TargetAngle = 140.0;
+      if (TargetAngle > 160.0)
+          TargetAngle = 160.0;
+      if (TargetAngle < 150.0)
+          TargetAngle = 150.0;
     
     // convert 0 to 180deg range to 0 to 1.0 range
       m_currentangle = (TargetAngle/180.0);

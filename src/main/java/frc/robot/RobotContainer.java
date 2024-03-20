@@ -33,7 +33,9 @@ import frc.robot.subsystems.CassetteShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.NVidia;
+import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
@@ -57,7 +59,7 @@ public class RobotContainer {
   public static final ShuffleboardOI operatorinterface = new ShuffleboardOI();
 
   // The robot's subsystems are defined here...
-
+  public static final Limelight intakelimelight = new Limelight("intake");
   public static final NVidia nvidia = new NVidia();
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
@@ -69,6 +71,7 @@ public class RobotContainer {
   public static final CassetteEffector cassetteangle = new CassetteEffector();
   public static final SpeakerTargeting speakertargeting = new SpeakerTargeting();
   public static final Climber climber = new Climber();
+  public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
   public static final CameraTilt cameratilt = new CameraTilt();
 
   /**
