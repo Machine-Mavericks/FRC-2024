@@ -27,7 +27,7 @@ public class LEDs extends SubsystemBase {
   private int timer;
   private double counter;
 
-  PowerDistribution robot_pdp = new PowerDistribution();
+  //PowerDistribution robot_pdp = new PowerDistribution();
 
   /** Creates a new LEDs. */
   public LEDs() {
@@ -80,11 +80,11 @@ public class LEDs extends SubsystemBase {
       //  m_ledBuffer.setRGB(i, 255*counter,123*counter, 215*counter);
       //}
 
-      // Update the LEDs to show that voltage is under 11V
-      double robot_voltage = robot_pdp.getVoltage();
-      if (robot_voltage <= 11.0){
-        m_ledBuffer.setRGB(StrobeIndex, 137, 0, 204);
-      }      
+      // // Update the LEDs to show that voltage is under 11V
+      // double robot_voltage = robot_pdp.getVoltage();
+      // if (robot_voltage <= 11.0){
+      //   m_ledBuffer.setRGB(StrobeIndex, 137, 0, 204);
+      // }      
     
       //when robot is in hang position change the LEDs to aqua?
       //idea for auto hang position? 
