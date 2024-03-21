@@ -75,10 +75,10 @@ public class LEDs extends SubsystemBase {
       }
 
       //note detection going pink 
-      // if (RobotContainer.notetargeting.IsTarget()==true){
-      //  for (int i=0;i<NumLEDs;i=i+2)
-      //   m_ledBuffer.setRGB(i, 255*counter,123*counter, 215*counter);
-      // }
+      //if (RobotContainer.notetargeting.IsTarget()==true){
+      ////for (int i=0;i<NumLEDs;i=i+2)
+      //  m_ledBuffer.setRGB(i, 255*counter,123*counter, 215*counter);
+      //}
 
       // Update the LEDs to show that voltage is under 11V
       double robot_voltage = robot_pdp.getVoltage();
@@ -100,7 +100,7 @@ public class LEDs extends SubsystemBase {
       }
     
       // if we are seeing Apriltags then add green
-      if (StrobeIndex>=2 && RobotContainer.nvidia.IsNoteDetected() )
+      if (StrobeIndex>=2 && RobotContainer.notetargeting.IsTarget() )
         m_ledBuffer.setRGB(StrobeIndex-2, 0,255 , 0);
       
       // if we are seeing Apriltags then add white
