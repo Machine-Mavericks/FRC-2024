@@ -45,16 +45,7 @@ public class TwoNoteAuto extends SequentialCommandGroup {
 
     new CleanupShot(),
 
-    new InstantCommand(()->RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE)),
-    new InstantCommand(()->RobotContainer.cassetteintake.intakeRun(1)),
-
-    new DelayCommand(0.25),
-
     new SteerToNote(true, 2.0, 0.2),
-
-    new IntakeMoveToHoldingPosition(),
-
-    new DelayCommand(1.0),
 
     new AimThenShootSpeaker(),
 
