@@ -24,14 +24,14 @@ public class AutoFunctions {
      * Approximate map of notes relative to field
      */
     public static Pose2d NotesAtStart[] = {
-        new Pose2d(intom(114),intom(159.5),new Rotation2d(Math.toRadians(180))), //1
-        new Pose2d(intom(114),intom(159.5-57),new Rotation2d(Math.toRadians(180))), //2
-        new Pose2d(intom(144),intom(159.5-57-57),new Rotation2d(Math.toRadians(180))), //3
-        new Pose2d(intom(324.5),intom(293.36),new Rotation2d(Math.toRadians(180))), //4
-        new Pose2d(intom(324.5),intom(227.36),new Rotation2d(Math.toRadians(180))), //5
-        new Pose2d(intom(324.5),intom(161.36),new Rotation2d(Math.toRadians(180))), //6
-        new Pose2d(intom(324.5),intom(95.36),new Rotation2d(Math.toRadians(180))), //7
-        new Pose2d(intom(324.5),intom(29.36),new Rotation2d(Math.toRadians(180))), //8
+        new Pose2d(intom(114-10),intom(159.5),new Rotation2d(Math.toRadians(180))), //0
+        new Pose2d(intom(114-10),intom(159.5+57),new Rotation2d(Math.toRadians(180))), //1
+        new Pose2d(intom(144-10),intom(159.5+57+57),new Rotation2d(Math.toRadians(180))), //2
+        new Pose2d(intom(324.5-10),intom(293.36),new Rotation2d(Math.toRadians(180))), //3
+        new Pose2d(intom(324.5-10),intom(227.36),new Rotation2d(Math.toRadians(180))), //4
+        new Pose2d(intom(324.5-10),intom(161.36),new Rotation2d(Math.toRadians(180))), //5
+        new Pose2d(intom(324.5-10),intom(95.36),new Rotation2d(Math.toRadians(180))), //6
+        new Pose2d(intom(324.5-10),intom(29.36),new Rotation2d(Math.toRadians(180))), //7
     };
 
     /**
