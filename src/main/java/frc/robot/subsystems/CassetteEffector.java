@@ -133,10 +133,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     SubsystemShuffleboardManager.RegisterShuffleUser(this);
 
     // Go to default angle
-    //setAngle(NEUTRAL_ANGLE);
-
-    // Go up to drop prop
-    setAngle(DROP_PROP_ANGLE);
+    // setAngle(NEUTRAL_ANGLE);
   }
 
   /**
