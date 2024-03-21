@@ -72,6 +72,8 @@ public class SteerToNote extends Command {
     RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
     RobotContainer.cassetteintake.intakeRun(1);
 
+    TargetAngle = 0;
+
     // reset pid controller
     pidController.reset();
     timer.reset();
@@ -125,13 +127,12 @@ public class SteerToNote extends Command {
         //if (xInput<0.0)
         //  xInput=0.0;
       }
-    
-      // command robot to drive - using robot-relative coordinates
-      RobotContainer.drivetrain.drive(
-        new Translation2d(xInput * Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
-            yInput * Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
-            rotate * Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
     }
+    // command robot to drive - using robot-relative coordinates
+    RobotContainer.drivetrain.drive(
+      new Translation2d(xInput * Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
+          yInput * Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
+          rotate * Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false);
   }
 
   // Called once the command ends or is interrupted.
