@@ -10,10 +10,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
 import frc.robot.subsystems.CassetteEffector;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.AutoFunctions;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,92 +27,43 @@ public class FarAmp extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-
-        // set gyro angle from odometry
+      // set gyro angle from odometry
       new SetGyroUsingAprilTag(),
-    
-    // drive away from speaker
-    new DriveToRelativePose(new Pose2d(-1.246886, 0.8382, new Rotation2d(0)), 
-                            0.5, // speed
-                            0.1, // rotational speed(unit?)
-                            5.0),
 
-    new AimThenShootSpeaker(), //shoot Speaker 
+      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[2]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
-      new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
-      new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
-    
-      new DriveToRelativePose(new Pose2d(0, 0, new Rotation2d(20)), // orienting to zero 
-                            0.5, // speed
-                            0.1, // rotational speed(unit?)
-                            5.0)
-          
-  //     new DriveToRelativePose(new Pose2d(-3.28016,1.499743, new Rotation2d(0)), // moving to pick up notes 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
+      new AimThenShootSpeaker(),
 
-  //   new DriveToRelativePose(new Pose2d(0, 0, new Rotation2d(-30)), // orianting to notes 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
-   
-  //   new SteerToNote(true, 3.0), // pick up note 
+      new CleanupShot(),
 
-  //   new DriveToRelativePose(new Pose2d(0, 0, new Rotation2d(30)),// turning back to straght 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
-   
+      new SteerToNote(true, 2.0, 0.2),
 
-  //   new DriveToRelativePose(new Pose2d(3.28016,-2.337943, new Rotation2d(0)), // going back to shoot 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
+      new AimThenShootSpeaker(),
 
-  //   new AimThenShootSpeaker(), // shoot 
-      
-  //     new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
-  //     new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
-  //     new CleanupShot(),
+      new CleanupShot(),
 
-  //    new DriveToRelativePose(new Pose2d(0, 0, new Rotation2d(20)), // orienting to zero 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
- 
-  //   new DriveToRelativePose(new Pose2d(-3.28016,2.337943, new Rotation2d(0)), // going to get note  
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
-   
-  //   new DriveToRelativePose(new Pose2d(0, 0, new Rotation2d(30)), // turning to note 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
-    
-  //   new SteerToNote(true, 3.0),
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(4,0.75,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
-  //   new DriveToRelativePose(new Pose2d(0, 0, new Rotation2d(-30)), // going back to straght 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
+      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[7]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
-  //   new DriveToRelativePose(new Pose2d(3.28016,-2.337943, new Rotation2d(0)), // going back to shoot 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0),
+      new SteerToNote(true, 2.0, 0.2),
 
-  //   new AimThenShootSpeaker(), // shoot 
-  //     new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
-  //     new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
-  //     new CleanupShot(),
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(4,0.75,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
-  //    new DriveToRelativePose(new Pose2d(0, 0, new Rotation2d(20)), // orienting to zero 
-  //                           0.5, // speed
-  //                           0.1, // rotational speed(unit?)
-  //                           5.0)
-                     
+      new AimThenShootSpeaker(),
+
+      new CleanupShot(),
+
+      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[6]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+
+      new SteerToNote(true, 2.0, 0.2),
+
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(4,0.75,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+
+      new AimThenShootSpeaker(),
+
+      new CleanupShot()
+
     );
   }
 }
