@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Odometry;
 import frc.robot.util.AprilTagMap;
 
 public class SpinupSpeaker extends Command {
+  private double m_distance;
+
   /** Creates a new AimThenShootSpeaker. */
   public SpinupSpeaker() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,43 +21,31 @@ public class SpinupSpeaker extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    // Calculate our distance to target
-    // find current position
-    Pose2d currentPose=RobotContainer.odometry.getPose2d();
-
-    double rangetotarget =0.0;
-
     // find speaker position
     Pose2d speakerPose;
+    // find current position
+    Pose2d currentPose=RobotContainer.odometry.getPose2d();
     if (DriverStation.getAlliance().get() == Alliance.Red){
       speakerPose=AprilTagMap.AprilTags[3];
-      // find differences in position
-      double xDif = speakerPose.getX()-currentPose.getX();
-      double yDif = speakerPose.getY()-currentPose.getY();
-      rangetotarget = Math.sqrt(xDif*xDif + yDif*yDif);
-     
     } else {
       speakerPose=AprilTagMap.AprilTags[6];
-      // find differences in position
-      double xDif = speakerPose.getX()-currentPose.getX();
-      double yDif = speakerPose.getY()-currentPose.getY();
-      rangetotarget = Math.sqrt(xDif*xDif + yDif*yDif);
     }
+    // find differences in position
+    double xDif = currentPose.getX()-speakerPose.getX();
+    double yDif = currentPose.getY()-speakerPose.getY();
+    // find distance
+    m_distance = Math.sqrt(Math.pow(xDif,2)+Math.pow(yDif,2));
 
 
-   
-    // Contiunally adjust
-    //if (RobotContainer.speakertargeting.IsTarget()) {
-      RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle(rangetotarget));
-    //}
+    // Set angle based on distance
+    RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle(m_distance));
+
+    // Get to speed
     RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
     RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
   }
