@@ -8,8 +8,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.AutoFunctions;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,24 +25,25 @@ public class OneNoteAuto extends SequentialCommandGroup {
     addCommands(
 
     // set gyro angle from odometry
-    new SetGyroUsingAprilTag(),
+    //new SetGyroUsingAprilTag(),
 
     // drive away from speaker
-    new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
-                            0.5, // speed
-                            0.1, // rotational speed(unit?)
-                            5.0),
+    // new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
+    //                         0.5, // speed
+    //                         0.1, // rotational speed(unit?)
+    //                         5.0),
+    //new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d()), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
     new AimThenShootSpeaker(),
 
     new CleanupShot(),
 
         // drive away from speaker
-    new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
-                            0.5, // speed
-                            0.1, // rotational speed(unit?)
-                            5.0)
-
+    // new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
+    //                         0.5, // speed
+    //                         0.1, // rotational speed(unit?)
+    //                         5.0)
+    new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.5908,2.07828, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
 
 
 
