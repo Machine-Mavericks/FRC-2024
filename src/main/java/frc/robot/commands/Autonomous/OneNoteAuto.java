@@ -11,6 +11,7 @@ import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
+import frc.robot.commands.SemiAutonomous.TurnRobot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.AutoFunctions;
 
@@ -24,6 +25,7 @@ public class OneNoteAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
+    new TurnRobot(360, true, 3),
     // set gyro angle from odometry
     //new SetGyroUsingAprilTag(),
 

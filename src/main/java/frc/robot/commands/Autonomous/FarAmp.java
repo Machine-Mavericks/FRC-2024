@@ -14,6 +14,7 @@ import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
+import frc.robot.commands.SemiAutonomous.TurnRobot;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.AutoFunctions;
@@ -28,7 +29,8 @@ public class FarAmp extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // set gyro angle from odometry
-      new SetGyroUsingAprilTag(),
+      //new SetGyroUsingAprilTag(),
+      new TurnRobot(360, true, 3),
 
       new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[2]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
