@@ -70,15 +70,10 @@ public class LEDs extends SubsystemBase {
 
       //Note in intake change to orange
       if (RobotContainer.cassetteintake.NoteOrNoNote()==true){
-        for (int i=0;i<NumLEDs;i=i+2)
-        m_ledBuffer.setRGB(i, (int)(255.0*counter),(int)(50.0*counter), 0);
+        for (int i=0;i<NumLEDs;i=i+4)
+        m_ledBuffer.setRGB(i, (int)(0*counter),(int)(255*counter), 0);
       }
-
-      //note detection going pink 
-      //if (RobotContainer.notetargeting.IsTarget()==true){
-      ////for (int i=0;i<NumLEDs;i=i+2)
-      //  m_ledBuffer.setRGB(i, 255*counter,123*counter, 215*counter);
-      //}
+      
 
       // // Update the LEDs to show that voltage is under 11V
       // double robot_voltage = robot_pdp.getVoltage();
@@ -99,11 +94,12 @@ public class LEDs extends SubsystemBase {
         m_ledBuffer.setRGB(StrobeIndex, 255, 0, 0);
       }
     
-      // if we are seeing Apriltags then add green
+      // If we see Notes go aqua
       if (StrobeIndex>=2 && RobotContainer.notetargeting.IsTarget() )
-        m_ledBuffer.setRGB(StrobeIndex-2, 0,255 , 0);
+      for (int i=2;i<NumLEDs;i=i+4)
+       m_ledBuffer.setRGB(i, (int)(240*counter),(int)(255*counter),(int)(0*counter));
       
-      // if we are seeing Apriltags then add white
+      // if we are seeing Apriltags add Green
       if (StrobeIndex>=4 && RobotContainer.nvidia.GetNumberAprilTagsDetected()>=1)
         m_ledBuffer.setRGB(StrobeIndex-4, 255, 255, 255);
 
