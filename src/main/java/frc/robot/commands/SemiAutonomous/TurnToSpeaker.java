@@ -36,6 +36,7 @@ public class TurnToSpeaker extends Command {
   /** Creates a new TurnToSpeaker. */
   public TurnToSpeaker() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.drivetrain);
   }
 
   // Called when the command is initially scheduled.
