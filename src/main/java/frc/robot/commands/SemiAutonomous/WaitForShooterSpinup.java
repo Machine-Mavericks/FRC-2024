@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 
 public class WaitForShooterSpinup extends Command {
   /** Maximum time shooter will try to hit target speed */
-  private static final double SPINUP_TIMEOUT = 2.0;
+  private static final double SPINUP_TIMEOUT = 0.25;
   private Timer timer;
 
   /** True if shot hasn't timed out */

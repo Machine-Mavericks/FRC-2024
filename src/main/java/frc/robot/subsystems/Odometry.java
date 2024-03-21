@@ -36,6 +36,7 @@ public class Odometry extends SubsystemBase {
   private GenericEntry m_initialY;
   private GenericEntry m_initialAngle;
   public GenericEntry m_angleAway;
+  public GenericEntry m_angleDiff;
   
   // field visualization object to display on shuffleboard
   private Field2d m_field;
@@ -220,11 +221,12 @@ public class Odometry extends SubsystemBase {
     // create controls to display robot position, angle, and gyro angle
     ShuffleboardLayout l1 = Tab.getLayout("Estimates", BuiltInLayouts.kList);
     l1.withPosition(0, 0);
-    l1.withSize(1, 3);
+    l1.withSize(1, 4);
     m_robotX = l1.add("X (m)", 0.0).getEntry();
     m_robotY = l1.add("Y (m)", 0.0).getEntry();
     m_robotAngle = l1.add("Angle(deg)", 0.0).getEntry();
     m_angleAway = l1.add("Angle away(deg)", 0.0).getEntry();
+    m_angleDiff = l1.add("Angle err(deg)", 0.0).getEntry();
 
     // Controls to set initial robot position and angle
     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -22,6 +23,7 @@ import frc.robot.commands.Autonomous.DelayCommand;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AutoDriveToFieldPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
@@ -110,7 +112,10 @@ public class RobotContainer {
     OI.speakerShooterButton.onFalse(new CleanupShot());
     
     // Amp shot
-    OI.ampButton.onTrue(new ShootAmp());
+    //.ampButton.onTrue(new ShootAmp());
+    //OI.ampButton.whileTrue(new AutoDriveToFieldPose(
+    //                        new Pose2d(8.25, 4.15, new Rotation2d(0.0)),
+    //                        0.1, 0.1, 10.0));
 
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
