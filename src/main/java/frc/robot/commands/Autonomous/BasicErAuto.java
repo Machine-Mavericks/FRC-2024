@@ -20,7 +20,7 @@ public class BasicErAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new TurnRobot(360, true, 3),
+      // new TurnRobot(360, true, 3),
       new AutoDriveToPose(new Pose2d(0,0,new Rotation2d(180)), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
     );
   }

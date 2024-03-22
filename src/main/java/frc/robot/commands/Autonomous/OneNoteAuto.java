@@ -25,7 +25,7 @@ public class OneNoteAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-    new TurnRobot(360, true, 3),
+    // new TurnRobot(360, true, 3),
     // set gyro angle from odometry
     //new SetGyroUsingAprilTag(),
 
@@ -45,7 +45,7 @@ public class OneNoteAuto extends SequentialCommandGroup {
     //                         0.5, // speed
     //                         0.1, // rotational speed(unit?)
     //                         5.0)
-    new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.5908,2.07828, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
+    new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(3,2.1, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
 
 
 

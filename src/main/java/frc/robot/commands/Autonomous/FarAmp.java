@@ -24,17 +24,14 @@ import frc.robot.util.AutoFunctions;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class FarAmp extends SequentialCommandGroup {
   /** Creates a new FarAmp. */
-<<<<<<< HEAD
-                 
-    
-=======
+
   public FarAmp() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // set gyro angle from odometry
       //new SetGyroUsingAprilTag(),
-      new TurnRobot(360, true, 3),
+      // new TurnRobot(360, true, 3),
 
       new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[2]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
@@ -72,6 +69,6 @@ public class FarAmp extends SequentialCommandGroup {
 
     );
   }
->>>>>>> 7660a559272c42ce3271309f1f4ef7bd8b9344e5
+
 }
 
