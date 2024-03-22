@@ -16,6 +16,7 @@ import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
+import frc.robot.commands.SemiAutonomous.TurnRobot;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.AutoFunctions;
@@ -32,7 +33,9 @@ public class TwoNoteAuto extends SequentialCommandGroup {
 
 
     // set gyro angle from odometry
-    new SetGyroUsingAprilTag(),
+    //new SetGyroUsingAprilTag(),
+
+    new TurnRobot(360, true, 3),
 
     // drive away from speaker
     // new DriveToRelativePose(new Pose2d(-0.7, 0.0, new Rotation2d(0)),

@@ -19,11 +19,14 @@ import frc.robot.commands.OperatorSpinup;
 import frc.robot.commands.RunClimbCommand;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
+import frc.robot.commands.Autonomous.BasicErAuto;
 import frc.robot.commands.Autonomous.DelayCommand;
+import frc.robot.commands.Autonomous.FarAmp;
+import frc.robot.commands.Autonomous.FarSource;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.AutoDriveToFieldPose;
+import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
 import frc.robot.commands.SemiAutonomous.SteerToNote;
@@ -152,6 +155,15 @@ public class RobotContainer {
         break;
       case 1:
         chosenCommand = new TwoNoteAuto();
+        break;
+      case 2:
+        chosenCommand = new FarAmp();
+        break;
+      case 3:
+        chosenCommand = new FarSource();
+        break;
+      case 4:
+        chosenCommand = new BasicErAuto();
         break;
       default:
         chosenCommand = null;
