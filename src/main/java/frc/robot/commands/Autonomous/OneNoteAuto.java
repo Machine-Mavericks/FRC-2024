@@ -38,14 +38,16 @@ public class OneNoteAuto extends SequentialCommandGroup {
 
     new AimThenShootSpeaker(),
 
-    new CleanupShot(),
+    new CleanupShot()
+
+    
 
         // drive away from speaker
     // new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),
     //                         0.5, // speed
     //                         0.1, // rotational speed(unit?)
     //                         5.0)
-    new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(3,2.1, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
+    // new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(3,2.1, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
 
 
 

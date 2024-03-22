@@ -32,36 +32,51 @@ public class FarAmp extends SequentialCommandGroup {
       // set gyro angle from odometry
       //new SetGyroUsingAprilTag(),
       // new TurnRobot(360, true, 3),
-
-      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[2]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
-
-      new AimThenShootSpeaker(),
-
-      new CleanupShot(),
-
-      new SteerToNote(true, 2.0, 0.2),
+      //move to note 2
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
       new AimThenShootSpeaker(),
 
       new CleanupShot(),
+      // square up
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0, new Rotation2d(180))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      // pick up note 2
+      new SteerToNote(true, 2.0, 0.2),
+      
+      // square up
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0, new Rotation2d(180))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      
+      new AimThenShootSpeaker(),
 
-      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(4,0.75,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      new CleanupShot(),
+      // square up 
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0, new Rotation2d(180))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
-      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[3]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(5.2,6.9,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+
+      // move to note 3
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(7.3,7.5, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
       new SteerToNote(true, 2.0, 0.2),
 
-      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(4,0.75,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      // square up
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(7.3,7.5, new Rotation2d(180))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(5.2,6.9,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
       new AimThenShootSpeaker(),
 
       new CleanupShot(),
-
-      new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[4]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
-
+      // move to note 4 
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(7.5,5.8,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      // square up
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0, new Rotation2d(180))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      
       new SteerToNote(true, 2.0, 0.2),
+      // square up 
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0, new Rotation2d(180))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
-      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(4,0.75,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+      new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(7.5,5.8,new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
       new AimThenShootSpeaker(),
 
