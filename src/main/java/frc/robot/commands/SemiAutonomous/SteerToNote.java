@@ -19,10 +19,12 @@ public class SteerToNote extends Command {
   // subsystems we are interfacing with
   private Drivetrain m_drivetrain = RobotContainer.drivetrain;
 
+  private static final double MOVEMENT_ALIGNMENT_MULTIPLIER = 2.4;
+
   // angle to target
   double TargetAngle = 0;
 
-  // PID gains for rotating robot towards ball target
+  // PID gains for rotating robot towards note target
   double kp = 0.005;
   double ki = 0.0;
   double kd = 0.0;
@@ -55,7 +57,7 @@ public class SteerToNote extends Command {
    * Input: true if fully automated, false if only sem-automated,
    *        speed limit (0 to 1.0) if automated */
   public SteerToNote(boolean automated, double timeout, double speedlimit) {
-    // this command requires use of drivetrain and gyro
+    // this command requires use of drivetrain
     addRequirements(m_drivetrain);
 
     m_automated = automated;
@@ -68,7 +70,6 @@ public class SteerToNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //System.out.println("Made it to coomand initAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
     RobotContainer.cassetteintake.intakeRun(1);
 
@@ -83,7 +84,6 @@ public class SteerToNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //System.out.println("AlrightyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     // if automated, assume 50% speed, in manual get speed from joystick
     double xInput = 0;
 
@@ -102,7 +102,7 @@ public class SteerToNote extends Command {
     // assume rotation not needed unless proven otherwise
     double rotate = 0.0;
 
-    // do we have a valid target?
+    // do we have a valid target? 
     if ((RobotContainer.notetargeting.IsTarget())){
       TargetAngle = RobotContainer.notetargeting.getNoteHorAngle();
     
@@ -114,18 +114,12 @@ public class SteerToNote extends Command {
       if (rotate < -1.0)
         rotate = -1.0;
 
-      // System.out.println("Output: " + rotate);
-
       // if not fully automatic, get joystick inputs
       if (m_automated)
       {
-        // slow down forward speed if large angle to allow robot to turn
-        // at 25deg,  speed = 0.5 - 0.004(25)) = 0.5 - 0.1) = 0.4
-        // xInput = xInput; //- 0.004*m_speedLimitAuto* Math.min(25.0, Math.abs(TargetAngle));
-        xInput = xInput * Math.abs(Math.cos(Math.toRadians(TargetAngle) * 2.4));
-        //xInput = OI.driverController.getLeftY();
-        //if (xInput<0.0)
-        //  xInput=0.0;
+        // slow down forward speed if large angle to allow robot to turn without moving off course
+
+        xInput = xInput * Math.abs(Math.cos(Math.toRadians(TargetAngle) * MOVEMENT_ALIGNMENT_MULTIPLIER));
       }
     }
     // command robot to drive - using robot-relative coordinates
@@ -150,8 +144,6 @@ public class SteerToNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (timer.hasElapsed(m_timeoutlimit)|| RobotContainer.cassetteintake.NoteOrNoNote())
-    return true;
-    else return false;
+    return timer.hasElapsed(m_timeoutlimit) || RobotContainer.cassetteintake.NoteOrNoNote();
   }
 }

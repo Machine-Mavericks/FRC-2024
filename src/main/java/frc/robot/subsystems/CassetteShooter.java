@@ -123,7 +123,7 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
 
   @Override
   public void updateShuffleboard() {
-    RobotContainer.operatorinterface.RShooterSpeed.setDouble(getSpeedR());
-    RobotContainer.operatorinterface.LShooterSpeed.setDouble(getSpeedL());
+    RobotContainer.operatorinterface.RShooterSpeed.setDouble(getSpeedR() * 60);
+    RobotContainer.operatorinterface.LShooterSpeed.setDouble(getSpeedL() * 60);
   }
 }

@@ -9,14 +9,21 @@ package frc.robot;
 
 import java.util.Map;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
+
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.data.BuildConstants;
 import frc.robot.subsystems.CassetteEffector;
@@ -43,6 +50,8 @@ public class ShuffleboardOI extends SubsystemBase {
     public GenericEntry RobotAtAngle;
     public GenericEntry TargetDistance;
     public GenericEntry tY;
+
+    public GenericEntry YawDial;
 
     public GenericEntry DistanceAdjustment;
 
@@ -86,6 +95,7 @@ public class ShuffleboardOI extends SubsystemBase {
         // Create Main Tab in Shuffleboard
         ShuffleboardTab tab = Shuffleboard.getTab("Drive Setup");
         m_autonomousPath = new SendableChooser<Integer>();
+        m_autonomousPath.setDefaultOption("Do Nothing", 5);
 
         // add autonomous commands to page -
         m_autonomousPath.addOption("Source One Note",0);
@@ -93,9 +103,10 @@ public class ShuffleboardOI extends SubsystemBase {
         m_autonomousPath.addOption("Amp 5 Note",2);
         m_autonomousPath.addOption("Source 4 Note",3);
         m_autonomousPath.addOption("Source zero note",4);
+        m_autonomousPath.addOption("Do Nothing",5);
 
         tab.add("Preround Paths", m_autonomousPath).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2,1);
-        m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min_value", 0, "max_value", 10)).getEntry();
+        m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min_value", 0, "max_value", 15)).getEntry();
 
         // Uses auto generated constants to put git info on dashboard
         // Only updated once at the beginning
@@ -124,13 +135,6 @@ public class ShuffleboardOI extends SubsystemBase {
         .withProperties(Map.of("show_submit_button ", true))
         .getEntry();
 
-        DistanceAdjustment = tab.addPersistent("Distance Adjustment", 0.05)
-        .withPosition(3, 3)
-        .withSize(1, 1)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min_value", 0, "max_value", 20))
-        .getEntry();
-
         ShuffleboardLayout ShotInfoLayout = tab.getLayout("Shot Info", BuiltInLayouts.kList)
         .withPosition(4, 0)
         .withSize(2, 4);
@@ -151,6 +155,20 @@ public class ShuffleboardOI extends SubsystemBase {
         .getEntry();
 
         TargetDistance = ShotInfoLayout.add("Target Distance", 0).getEntry();
+
+        YawDial = tab.add("Yaw (deg)", 0)
+        .withPosition(7, 1)
+        .withSize(2, 2)
+        .withWidget(BuiltInWidgets.kDial)
+        .withProperties(Map.of("min_value", -180, "max_value", 180, "wrap_value", true))
+        .getEntry();
+
+        // ScheduledCommands = tab.add("Scheduled Commands", CommandScheduler.getInstance())
+        // .withPosition(9, 0)
+        // .withSize(2, 2)
+        // .withWidget();
+
+
 
         // add match time remaining in autonomous/teleop part of match (seconds)
         ShuffleboardLayout l1 = tab.getLayout("Timer", BuiltInLayouts.kList);

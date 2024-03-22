@@ -165,6 +165,9 @@ public class RobotContainer {
       case 4:
         chosenCommand = new BasicErAuto();
         break;
+      case 5:
+        chosenCommand = new DelayCommand(20); // Do nothing auto
+        break;
       default:
         chosenCommand = null;
         break;

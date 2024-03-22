@@ -69,6 +69,8 @@ public class AutoDriveToPose extends Command {
     m_rotspeed = rotationalspeed;
     m_timeout = timeout;
     m_recallPoint = false;
+
+    //initializeShuffleboard();
   }
 
   /** use this during teleop to go to pre-recorded position*/
@@ -77,6 +79,7 @@ public class AutoDriveToPose extends Command {
     m_speed = speed;
     m_rotspeed = rotationalspeed;
     m_recallPoint = true;
+    //initializeShuffleboard();
   }
 
   // Called when the command is initially scheduled.
@@ -89,7 +92,6 @@ public class AutoDriveToPose extends Command {
     // recall previously saved point and use it as our destination
     if (m_recallPoint)
       m_target = RobotContainer.odometry.RecallPoint(0);
-    initializeShuffleboard();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -127,7 +129,7 @@ public class AutoDriveToPose extends Command {
                                     rotSpeed*0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
                                     true);
 
-    updateShuffleboard();
+    //updateShuffleboard();
   }
 
   // Called once the command ends or is interrupted.
