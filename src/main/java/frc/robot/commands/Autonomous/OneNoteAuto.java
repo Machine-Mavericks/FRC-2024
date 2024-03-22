@@ -6,8 +6,11 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AutoDriveOverLine;
 import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
@@ -25,6 +28,11 @@ public class OneNoteAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
+    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+    
+    // delay shot by time recorded in shuffleboard
+    new DelayCommand(RobotContainer.operatorinterface.getAutoDelay()),
+
     // new TurnRobot(360, true, 3),
     // set gyro angle from odometry
     //new SetGyroUsingAprilTag(),
@@ -38,9 +46,10 @@ public class OneNoteAuto extends SequentialCommandGroup {
 
     new AimThenShootSpeaker(),
 
-    new CleanupShot()
+    new CleanupShot(),
 
-    
+    new AutoDriveOverLine(0.5, 0.5, 2.0)
+
 
         // drive away from speaker
     // new DriveToRelativePose(new Pose2d(-1, 0.0, new Rotation2d(0)),

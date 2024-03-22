@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AutoDriveToFieldPose;
 import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.DriveToRelativePose;
@@ -44,30 +45,30 @@ public class TwoNoteAuto extends SequentialCommandGroup {
     //                         0.1, // rotational speed(unit?)
     //                         5.0),
 
-    new InstantCommand (()-> RobotContainer.gyro.resetGyro()),
+    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
 
-    new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d(Math.toRadians(180.0)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
     //new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(AutoFunctions.intom(75),AutoFunctions.intom(159.5+57+57),new Rotation2d(Math.toRadians(180)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
     //new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d())), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
-    new AutoDriveToPose(new Pose2d(14.5,7.0,new Rotation2d(180)), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+    //new AutoDriveToPose(new Pose2d(14.5,7.0,new Rotation2d(180)), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
     new AimThenShootSpeaker(),
 
     //new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(AutoFunctions.intom(75),AutoFunctions.intom(159.5+57+57),new Rotation2d(Math.toRadians(180)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
+    new CleanupShot(),
+
+    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d(Math.toRadians(180.0)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+
+    new SteerToNote(true, 2.0, 0.2),
+
+    new AimThenShootSpeaker(),
+
     new CleanupShot()
 
-    // new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d(Math.toRadians(180.0)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
-
-    // new SteerToNote(true, 2.0, 0.2),
-
-    // new AimThenShootSpeaker(),
-
-    // new CleanupShot(),
-
-    // new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d(Math.toRadians(180.0)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
+    //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d(Math.toRadians(180.0)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
     );
   }
 }

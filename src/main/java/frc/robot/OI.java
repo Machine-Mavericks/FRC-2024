@@ -112,6 +112,8 @@ public class OI {
         static final Button EXTEND_CLIMB_BUTTON = XboxController.Button.kX;
         /** Button to retract climber */
         static final Button RETRACT_CLIMB_BUTTON = XboxController.Button.kY;
+        /** Button to blindly advance intake */
+        static final Button ADVANCE_INTAKE_BUTTON = XboxController.Button.kStart;
     }
 
     /** Port for controller used by driver */
@@ -152,5 +154,9 @@ public class OI {
     public static final JoystickButton extendClimbButton = new JoystickButton(operatorController, OperatorBindings.EXTEND_CLIMB_BUTTON.value);
     /**Button to extend climb */
     public static final JoystickButton retractClimbButton = new JoystickButton(operatorController, OperatorBindings.RETRACT_CLIMB_BUTTON.value);
+
+    /** Button to blindly advance intake */
+    public static final JoystickButton advanceIntakeButton = new JoystickButton(operatorController, OperatorBindings.ADVANCE_INTAKE_BUTTON.value);
+   
 }
  

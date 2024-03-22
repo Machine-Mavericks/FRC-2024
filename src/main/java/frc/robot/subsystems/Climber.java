@@ -11,6 +11,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitTypeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,6 +28,8 @@ public class Climber extends SubsystemBase {
   /** Creates a new Climber. */
   public Climber() {
     m_climbMotor = new TalonFX(RobotMap.CANID.CLIMB_MOTOR, Drivetrain.CAN_BUS_NAME);
+
+    m_climbMotor.setNeutralMode(NeutralModeValue.Brake);
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     m_climbMotor.getConfigurator().refresh(config);

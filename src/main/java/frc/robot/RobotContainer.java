@@ -26,6 +26,7 @@ import frc.robot.commands.Autonomous.FarSource;
 import frc.robot.commands.Autonomous.OneNoteAuto;
 import frc.robot.commands.Autonomous.TwoNoteAuto;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AutoDriveToFieldPose;
 import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.FinishIntake;
@@ -118,7 +119,7 @@ public class RobotContainer {
     //.ampButton.onTrue(new ShootAmp());
     //OI.ampButton.whileTrue(new AutoDriveToFieldPose(
     //                        new Pose2d(8.25, 4.15, new Rotation2d(0.0)),
-    //                        0.1, 0.1, 10.0));
+    //                        1.0, 1.0, 10.0));
 
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
@@ -136,7 +137,11 @@ public class RobotContainer {
     OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
 
     // Spin 180
-    OI.spinButton.onTrue(new TurnRobot(180.0, true, 2));
+    //OI.spinButton.onTrue(new TurnRobot(180.0, true, 2));
+
+    // blindly turn on intake to shoot
+    OI.advanceIntakeButton.whileTrue(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1.0)));
+    OI.advanceIntakeButton.onFalse(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0.0)));
   }
 
   /**
@@ -163,9 +168,6 @@ public class RobotContainer {
         chosenCommand = new FarSource();
         break;
       case 4:
-        chosenCommand = new BasicErAuto();
-        break;
-      case 5:
         chosenCommand = new DelayCommand(20); // Do nothing auto
         break;
       default:

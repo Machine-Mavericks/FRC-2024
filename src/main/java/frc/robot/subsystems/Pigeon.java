@@ -84,6 +84,22 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
     gyro.reset();
   }
 
+/** Resets yaw to zero -
+   * reset angle depends on team alliance as gyro will be pointed in field direction */
+  public void resetGyroReverse() {
+    
+    // reset our Gyro - if on red team, we reset to 180deg
+    if (DriverStation.getAlliance().get() == Alliance.Blue)
+    {
+      OffsetAdjust = 180.0;
+    } 
+    else
+    {
+      OffsetAdjust = 0.0;
+    }
+    gyro.reset();
+  }
+
 
 /** Resets yaw to a value */
   public void setGyro(double deg) {

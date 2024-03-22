@@ -95,15 +95,15 @@ public class ShuffleboardOI extends SubsystemBase {
         // Create Main Tab in Shuffleboard
         ShuffleboardTab tab = Shuffleboard.getTab("Drive Setup");
         m_autonomousPath = new SendableChooser<Integer>();
-        m_autonomousPath.setDefaultOption("Do Nothing", 5);
-
+        
         // add autonomous commands to page -
         m_autonomousPath.addOption("Source One Note",0);
         m_autonomousPath.addOption("Amp Two Note",1);
         m_autonomousPath.addOption("Amp 5 Note",2);
         m_autonomousPath.addOption("Source 4 Note",3);
-        m_autonomousPath.addOption("Source zero note",4);
-        m_autonomousPath.addOption("Do Nothing",5);
+        m_autonomousPath.addOption("Do Nothing",4);
+
+        m_autonomousPath.setDefaultOption("Do Nothing", 4);
 
         tab.add("Preround Paths", m_autonomousPath).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2,1);
         m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min_value", 0, "max_value", 15)).getEntry();

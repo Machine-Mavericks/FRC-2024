@@ -11,6 +11,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -21,7 +23,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.Utils;
 
-public class AutoDriveToFieldPose extends Command {
+public class AutoDriveOverLine extends Command {
   
   private Pose2d m_target;
   private double m_speed;
@@ -56,10 +58,9 @@ public class AutoDriveToFieldPose extends Command {
 
   /** Creates a new AutoDriveToPoseCommand. 
    * Use this to have command to drive back to coordinate provided to it */
-  public AutoDriveToFieldPose(Pose2d target, double speed, double rotationalspeed, double timeout) {
+  public AutoDriveOverLine(double speed, double rotationalspeed, double timeout) {
 
     addRequirements(RobotContainer.drivetrain);
-    m_target = target;
     m_speed = speed;
     m_rotspeed = rotationalspeed;
     m_timeout = timeout;
@@ -70,6 +71,20 @@ public class AutoDriveToFieldPose extends Command {
   @Override
   public void initialize() {
     m_time = 0.0;
+
+    // reset our Gyro - if on red team, we reset to 180deg
+    if (DriverStation.getAlliance().get() == Alliance.Blue)
+    {
+    m_target = new Pose2d(RobotContainer.odometry.getPose2d().getX()+2.0,
+          RobotContainer.odometry.getPose2d().getY(),
+          RobotContainer.odometry.getPose2d().getRotation());
+    }
+    else
+    {
+      m_target = new Pose2d(RobotContainer.odometry.getPose2d().getX()-2.0,
+          RobotContainer.odometry.getPose2d().getY(),
+          RobotContainer.odometry.getPose2d().getRotation());
+    }
 
     m_xController.reset();
     m_yController.reset();
@@ -104,7 +119,7 @@ public class AutoDriveToFieldPose extends Command {
     if(Xerrorabs>0.4)
       XIgain = 0.001;
     else
-      XIgain = 0.032;
+      XIgain = 0.02;
 
     double YPgain = kOfGain*Yerrorabs+0.08;
     if (YPgain>PgainMax)
@@ -114,7 +129,7 @@ public class AutoDriveToFieldPose extends Command {
     if(Yerrorabs>0.4)
       YIgain = 0.001;
     else
-      YIgain = 0.032;
+      YIgain = 0.02;
 
     m_xController.setP(XPgain);
     m_xController.setI(XIgain);

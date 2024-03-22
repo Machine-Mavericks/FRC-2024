@@ -420,15 +420,10 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         // determine chassis speeds
         if (fieldOriented) {
             {
-                // if we are on red line, then rotate drive field drive by 180deg
-                double rotateby = 0.0;
-                if (DriverStation.getAlliance().get() == Alliance.Red)
-                    rotateby=180.0;
-
                 m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
                     newrotation,
-                    Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()+rotateby));
+                    Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
             }
         } else {
             m_chassisSpeeds = new ChassisSpeeds(newtranslation.getX(),
