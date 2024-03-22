@@ -35,16 +35,18 @@ public class TwoNoteAuto extends SequentialCommandGroup {
     // set gyro angle from odometry
     //new SetGyroUsingAprilTag(),
 
-    new TurnRobot(360, true, 3),
+    //new TurnRobot(360, true, 3),
 
     // drive away from speaker
     // new DriveToRelativePose(new Pose2d(-0.7, 0.0, new Rotation2d(0)),
     //                         0.5, // speed
     //                         0.1, // rotational speed(unit?)
     //                         5.0),
-    new AutoDriveToPose(AutoFunctions.redVsBlue(AutoFunctions.NotesAtStart[2]), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+    new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(AutoFunctions.intom(75),AutoFunctions.intom(159.5+57+57),new Rotation2d(Math.toRadians(180)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
     new AimThenShootSpeaker(),
+
+    new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(AutoFunctions.intom(75),AutoFunctions.intom(159.5+57+57),new Rotation2d(Math.toRadians(180)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
 
     new CleanupShot(),
 

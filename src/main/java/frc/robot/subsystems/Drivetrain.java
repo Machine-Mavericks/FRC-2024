@@ -100,12 +100,12 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
      * The left-to-right distance between the drivetrain wheels
      * Should be measured from center to center.
      */
-    public static final double TRACKWIDTH_METERS = 0.6;
+    public static final double TRACKWIDTH_METERS = 0.7;
     /**
      * The front-to-back distance between the drivetrain wheels.
      * Should be measured from center to center.
      */
-    public static final double WHEELBASE_METERS = 0.6;
+    public static final double WHEELBASE_METERS = 0.7;
 
     /**
      * The maximum voltage that will be delivered to the drive motors.
