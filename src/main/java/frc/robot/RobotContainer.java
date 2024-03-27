@@ -16,6 +16,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GroundIntake;
 import frc.robot.commands.GroundIntakeWithSensor;
 import frc.robot.commands.OperatorSpinup;
+import frc.robot.commands.PassingAcrossFeild;
 import frc.robot.commands.RunClimbCommand;
 import frc.robot.commands.ShootAmp;
 import frc.robot.commands.UnstuckShot;
@@ -130,6 +131,9 @@ public class RobotContainer {
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
+    
+    //Passing acress the feild buttion 
+    OI.passingAcrossFieldButton.onTrue(new PassingAcrossFeild());
 
     // Climb control
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));

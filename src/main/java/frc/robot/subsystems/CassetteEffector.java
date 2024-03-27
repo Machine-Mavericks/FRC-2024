@@ -56,6 +56,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   public static final double AMP_ANGLE = 0.1; //from flush against
   public static final double SPEAKER_ANGLE = 0.05; //from flush against
 
+
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
   .withKP(80).withKI(0.28).withKD(3.5) // 50 kp, 0.1kd
   .withKS(0).withKV(0).withKA(0);
