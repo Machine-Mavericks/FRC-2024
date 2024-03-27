@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.commands.SemiAutonomous.SpinupSpeaker;
 import frc.robot.commands.SemiAutonomous.TurnToSpeaker;
@@ -28,8 +29,8 @@ public class PassingAcrossFeild extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands (
       new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE)),
-      new InstantCommand(() -> RobotContainer.cassetteshooter.leftShootRun(3000.0)),
-      new InstantCommand(() -> RobotContainer.cassetteshooter.rightShootRun(5000.0)),
+      new InstantCommand(() -> RobotContainer.cassetteshooter.leftShootRun(3500.0)),
+      new InstantCommand(() -> RobotContainer.cassetteshooter.rightShootRun(5500.0)),
       
     // Get to speed
 
@@ -37,7 +38,10 @@ public class PassingAcrossFeild extends SequentialCommandGroup {
        new WaitForEffectorAngle(), 
        new WaitForShooterSpinup()
      ),
-    new ShootSpeaker()
+    new ShootSpeaker(),
+    new WaitCommand(0.5),
+    new InstantCommand(() -> RobotContainer.cassetteshooter.leftShootRun(0.0)),
+    new InstantCommand(() -> RobotContainer.cassetteshooter.rightShootRun(0.0))
     );
   }
 }
