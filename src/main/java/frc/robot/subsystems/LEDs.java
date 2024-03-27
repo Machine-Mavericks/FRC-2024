@@ -97,7 +97,7 @@ public class LEDs extends SubsystemBase {
       // If we see Notes go aqua
       if (StrobeIndex>=2 && RobotContainer.notetargeting.IsTarget() )
       for (int i=2;i<NumLEDs;i=i+4)
-       m_ledBuffer.setRGB(i, (int)(240*counter),(int)(255*counter),(int)(0*counter));
+       m_ledBuffer.setRGB(i, (int)(133*counter),(int)(0*counter),(int)(191*counter));
       
       // if we are seeing Apriltags add Green
       if (StrobeIndex>=4 && RobotContainer.nvidia.GetNumberAprilTagsDetected()>=1)
