@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.Drive.ManualDriveCommand;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.util.SubsystemShuffleboardManager;
 
@@ -87,11 +87,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
    
-    // initialize robot subsystems    
-    // RobotContainer.gyro.resetGyro(); // Todo: Removed as auto may start at variying angles
-    //RobotContainer.swervepose.InitializefromShuffleboard();
-    //RobotContainer.swervepose.setPosition(3.53,6.18,0,RobotContainer.gyro.getYaw());
-
     // robot is now initialized
     robotIsInitialized = true;
     autonomousCommand = RobotContainer.getAutonomousCommand();
@@ -127,7 +122,7 @@ public class Robot extends TimedRobot {
     }
 
     // set default swerve drive command to manual drive mode
-    RobotContainer.drivetrain.setDefaultCommand(new DriveCommand(RobotContainer.drivetrain));
+    RobotContainer.drivetrain.setDefaultCommand(new ManualDriveCommand(RobotContainer.drivetrain));
 
   }
 

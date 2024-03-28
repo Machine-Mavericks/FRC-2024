@@ -8,27 +8,19 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
-import frc.robot.commands.IntakeMoveToHoldingPosition;
 import frc.robot.subsystems.CassetteEffector;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+
 public class CleanupShot extends SequentialCommandGroup {
+  
   /** Creates a new CleanupShot. */
   public CleanupShot() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    
     addCommands(
       new InstantCommand(() -> RobotContainer.operatorinterface.ShooterAtAngle.setBoolean(false)),
       new InstantCommand(() -> RobotContainer.operatorinterface.ShooterAtSpeed.setBoolean(false)),
-      new InstantCommand(() -> RobotContainer.operatorinterface.RobotAtAngle.setBoolean(false)),
-      new InstantCommand(() -> RobotContainer.operatorinterface.TargetDistance.setDouble(0)),
-      new InstantCommand(() -> RobotContainer.operatorinterface.SeesTarget.setBoolean(false)),
       new InstantCommand(() -> RobotContainer.cassetteshooter.stopShooter()),
       new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
-      //new InstantCommand(() -> RobotContainer.shotlimelight.setPipeline(0)),
-      //new IntakeMoveToHoldingPosition(),
       new InstantCommand(() -> RobotContainer.cassetteintake.intakeRun(0.0)),
       
       new PrintCommand("intake at holding position")

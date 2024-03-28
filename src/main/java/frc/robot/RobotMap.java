@@ -54,14 +54,11 @@ public class RobotMap {
         public static final int CLIMB_MOTOR = 18;
     }
 
-    public static class VISION_TARGETING {} // is this important?
-
     public static class PneumaticsChannel {}
 
     public static class PWMPorts {
-        /** PWM Port for led strip */
-        //public static final int LED_STRIP1 = 0;  // To be updated
-        public static final int LED_BLINKIN = 1;
+        
+          public static final int LED_STRIP = 4;
         public static final int CAMERA_SERVO_ID = 6;
     }
       
@@ -70,25 +67,8 @@ public class RobotMap {
         public static final int DIO_IntakeSensor = 1;
 
     }
-    /**
-     * Inner class containing odometry constants
-     */
-    public static class ODOMETRY {
-        /** feed-forward gain */
-        public static final int ksVolts = 3;
-        /** feed-forward gain */
-        public static final int kvVoltSecondsPerMeter = 3;
-        /** feed-forward gain */
-        public static final int kaVoltSecondsSquaredPerMeter = 3;
-        /** robot max speed */
-        public static final int kMaxSpeedMetersPerSecond = 3;
-        /** robot max acceleration */
-        public static final int kMaxAccelerationMetersPerSecondSquared = 3;
-        /** proportional gain */
-        public static final int kPDriveVel = 3;
-    }
     
-
+    
     /**
      * Function to initialise hardware
      * Should be called in {@link Robot#robotInit()}

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMap;
 
 public class LEDs extends SubsystemBase {
   
@@ -33,7 +34,7 @@ public class LEDs extends SubsystemBase {
   public LEDs() {
 
     // create addressble LED controller
-    m_led = new AddressableLED(4);
+    m_led = new AddressableLED(RobotMap.PWMPorts.LED_STRIP);
     m_led.setLength(NumLEDs);
     
     // create LED buffer - length is # of LEDs in string
@@ -48,8 +49,7 @@ public class LEDs extends SubsystemBase {
   }
 
   // This method will be called once per scheduler run
-  
-  @Override
+    @Override
   public void periodic() {
     
     timer++;

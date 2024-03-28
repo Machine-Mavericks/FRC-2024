@@ -4,35 +4,28 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.GroundIntake;
-import frc.robot.commands.GroundIntakeWithSensor;
-import frc.robot.commands.OperatorSpinup;
-import frc.robot.commands.RunClimbCommand;
-import frc.robot.commands.ShootAmp;
-import frc.robot.commands.UnstuckShot;
-import frc.robot.commands.Autonomous.BasicErAuto;
-import frc.robot.commands.Autonomous.DelayCommand;
-import frc.robot.commands.Autonomous.FarAmp;
-import frc.robot.commands.Autonomous.FarSource;
-import frc.robot.commands.Autonomous.OneNoteAuto;
-import frc.robot.commands.Autonomous.TwoNoteAuto;
+import frc.robot.commands.Autonomous.FiveNoteAmp;
+import frc.robot.commands.Autonomous.FourNoteSource;
+import frc.robot.commands.Autonomous.OneNoteAnywhere;
+import frc.robot.commands.Autonomous.SixNoteAmp;
+import frc.robot.commands.Autonomous.ThreeNoteStage;
+import frc.robot.commands.Autonomous.TwoNoteAmp;
+import frc.robot.commands.Autonomous.TwoNoteCenter;
+import frc.robot.commands.Drive.ManualDriveCommand;
+import frc.robot.commands.Drive.SteerToNote;
+import frc.robot.commands.Mechanism.GroundIntake;
+import frc.robot.commands.Mechanism.OperatorSpinup;
+import frc.robot.commands.Mechanism.RunClimbCommand;
+import frc.robot.commands.Mechanism.UnstuckShot;
+import frc.robot.commands.Other.DelayCommand;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.AutoDriveToFieldPose;
-import frc.robot.commands.SemiAutonomous.AutoDriveToPose;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
-import frc.robot.commands.SemiAutonomous.FinishIntake;
-import frc.robot.commands.SemiAutonomous.SteerToNote;
-import frc.robot.commands.SemiAutonomous.TurnRobot;
-import frc.robot.subsystems.CameraTilt;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -45,7 +38,6 @@ import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
-//import frc.robot.subsystems.SwerveOdometry;
 
 
 /**
@@ -78,18 +70,13 @@ public class RobotContainer {
   public static final SpeakerTargeting speakertargeting = new SpeakerTargeting();
   public static final Climber climber = new Climber();
   public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
-  public static final CameraTilt cameratilt = new CameraTilt();
 
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and
    * commands.
    */
   public static void init() {
-    drivetrain.setDefaultCommand(new DriveCommand(drivetrain));
-    //LEDStrip.setDefaultCommand(new LEDCommand());
-
-    // Camera Servers:
-    //CameraServer.	startAutomaticCapture(0);
+    drivetrain.setDefaultCommand(new ManualDriveCommand(drivetrain));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -108,7 +95,7 @@ public class RobotContainer {
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
 
     // Manual intake
-    OI.intakeButton.whileTrue(new GroundIntakeWithSensor(5));
+    OI.intakeButton.whileTrue(new GroundIntake(5));
     //OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
 
     // Speaker shot
@@ -117,17 +104,12 @@ public class RobotContainer {
     
     // Amp shot
     //.ampButton.onTrue(new ShootAmp());
-    //OI.ampButton.whileTrue(new AutoDriveToFieldPose(
-    //                        new Pose2d(8.25, 4.15, new Rotation2d(0.0)),
-    //                        1.0, 1.0, 10.0));
 
     // Spit out notes
     OI.unstuckButton.whileTrue(new UnstuckShot());
 
     // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
-    //OI.autoIntakeButton.onFalse(new GroundIntake(false, 0.05)); 
-    //OI.autoIntakeButton.onFalse(new FinishIntake());
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
@@ -135,9 +117,6 @@ public class RobotContainer {
     // Climb control
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
     OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
-
-    // Spin 180
-    //OI.spinButton.onTrue(new TurnRobot(180.0, true, 2));
 
     // blindly turn on intake to shoot
     OI.advanceIntakeButton.whileTrue(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1.0)));
@@ -156,19 +135,28 @@ public class RobotContainer {
     // return autonomous command to be run
     switch (index) {
       case 0:
-        chosenCommand = new OneNoteAuto();
+        chosenCommand = new OneNoteAnywhere();
         break;
       case 1:
-        chosenCommand = new TwoNoteAuto();
+        chosenCommand = new TwoNoteAmp();
         break;
       case 2:
-        chosenCommand = new FarAmp();
+        chosenCommand = new FiveNoteAmp();
         break;
       case 3:
-        chosenCommand = new FarSource();
+        chosenCommand = new FourNoteSource();
         break;
       case 4:
         chosenCommand = new DelayCommand(20); // Do nothing auto
+        break;
+      case 5:
+        chosenCommand = new SixNoteAmp();
+        break;
+      case 6:
+        chosenCommand = new TwoNoteCenter();
+        break;
+      case 7:
+        chosenCommand = new ThreeNoteStage();
         break;
       default:
         chosenCommand = null;

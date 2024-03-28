@@ -8,25 +8,16 @@ package frc.robot;
 
 
 import java.util.Map;
-
-import com.ctre.phoenix6.hardware.Pigeon2;
-
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.data.BuildConstants;
-import frc.robot.subsystems.CassetteEffector;
 
 
 /** Contains shuffleboard setup for generic main page not belonging to any subsubsystem
@@ -40,24 +31,16 @@ public class ShuffleboardOI extends SubsystemBase {
     public SendableChooser<Integer> m_autonomousPath;
 
     // Shot info
-    public GenericEntry EffectorTarget;
     public GenericEntry LShooterSpeed;
     public GenericEntry RShooterSpeed;
-
-    public GenericEntry SeesTarget;
     public GenericEntry ShooterAtSpeed;
     public GenericEntry ShooterAtAngle;
-    public GenericEntry RobotAtAngle;
-    public GenericEntry TargetDistance;
-    public GenericEntry tY;
-
-    public GenericEntry YawDial;
 
     public GenericEntry DistanceAdjustment;
 
     // other controls on main page
     private GenericEntry m_timeLeft;
-    public Integer m_selectedPath;
+    private Integer m_selectedPath;
 
     /** Initializes the Shuffleboard
      * Creates the subsystem pages */
@@ -97,11 +80,14 @@ public class ShuffleboardOI extends SubsystemBase {
         m_autonomousPath = new SendableChooser<Integer>();
         
         // add autonomous commands to page -
-        m_autonomousPath.addOption("Source One Note",0);
-        m_autonomousPath.addOption("Amp Two Note",1);
-        m_autonomousPath.addOption("Amp 5 Note",2);
-        m_autonomousPath.addOption("Source 4 Note",3);
+        m_autonomousPath.addOption("One Note Anywhere",0);
+        m_autonomousPath.addOption("Two Note Amp",1);
+        m_autonomousPath.addOption("Five Note Amp",2);
+        m_autonomousPath.addOption("Four Note Source",3);
         m_autonomousPath.addOption("Do Nothing",4);
+        m_autonomousPath.addOption("Six Note Amp",5);
+        m_autonomousPath.addOption("Two Note Center",6);
+        m_autonomousPath.addOption("Three Note Stage",7);
 
         m_autonomousPath.setDefaultOption("Do Nothing", 4);
 
@@ -117,12 +103,6 @@ public class ShuffleboardOI extends SubsystemBase {
         BuildInfoLayout.add("Build Timestamp", BuildConstants.BUILD_DATE);
         BuildInfoLayout.add("Repository", BuildConstants.MAVEN_NAME);    
         
-        EffectorTarget = tab.add("Effector Setpoint", 0.05)
-        .withPosition(3, 0)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min_value", CassetteEffector.MIN_BOTTOM_ANGLE, "max_value", CassetteEffector.MAX_TOP_ANGLE))
-        .getEntry();
-
         LShooterSpeed = tab.add("LShooterspeed", 0)
         .withPosition(3, 1)
         .withWidget(BuiltInWidgets.kTextView)
@@ -146,42 +126,12 @@ public class ShuffleboardOI extends SubsystemBase {
         .withWidget(BuiltInWidgets.kBooleanBox)
         .getEntry();
 
-        RobotAtAngle = ShotInfoLayout.add("Robot Angle", false)
-        .withWidget(BuiltInWidgets.kBooleanBox)
-        .getEntry();
-
-        SeesTarget = ShotInfoLayout.add("Target Aquired", false)
-        .withWidget(BuiltInWidgets.kBooleanBox)
-        .getEntry();
-
-        TargetDistance = ShotInfoLayout.add("Target Distance", 0).getEntry();
-
-        YawDial = tab.add("Yaw (deg)", 0)
-        .withPosition(7, 1)
-        .withSize(2, 2)
-        .withWidget(BuiltInWidgets.kDial)
-        .withProperties(Map.of("min_value", -180, "max_value", 180, "wrap_value", true))
-        .getEntry();
-
-        // ScheduledCommands = tab.add("Scheduled Commands", CommandScheduler.getInstance())
-        // .withPosition(9, 0)
-        // .withSize(2, 2)
-        // .withWidget();
-
-
-
         // add match time remaining in autonomous/teleop part of match (seconds)
         ShuffleboardLayout l1 = tab.getLayout("Timer", BuiltInLayouts.kList);
         l1.withPosition(0, 2);
         l1.withSize(1, 2);
         m_timeLeft = l1.add("TimeLeft", 0.0).getEntry();
     }
-
-    // returns position of autonomous commands on shuffleboard
-    // typically called by Robot AutonomousInit to select auto path to be followed
-    // returns true if selected, false if not
-    // TODO <to be revised for 2022 robot>
-
 
 
 } // end class ShuffleboardOI

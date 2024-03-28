@@ -83,7 +83,7 @@ public class SubsystemShuffleboardManager {
         }else{
             runnable = new ShuffleboardUpdateRunnable();
             m_updateTasks.put(updatesPerSecond, runnable);
-            m_robot.addPeriodic(runnable, 1 / updatesPerSecond, DefaultUpdateOffsetSeconds);
+            m_robot.addPeriodic(runnable, 1.0 / updatesPerSecond, DefaultUpdateOffsetSeconds);
         }
         runnable.addUser(shuffleUser);
     }

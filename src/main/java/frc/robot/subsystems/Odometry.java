@@ -32,9 +32,6 @@ public class Odometry extends SubsystemBase {
   private GenericEntry m_robotX;
   private GenericEntry m_robotY;
   private GenericEntry m_robotAngle;
-  private GenericEntry m_initialX;
-  private GenericEntry m_initialY;
-  private GenericEntry m_initialAngle;
   public GenericEntry m_angleAway;
   public GenericEntry m_angleDiff;
   
@@ -48,7 +45,6 @@ public class Odometry extends SubsystemBase {
     // create 2d field object
     m_field = new Field2d();
    
-
     // create position estimator - set to (0,0,0)(x,y,ang)
     // initialize swerve drive odometry
     m_estimator = new SwerveDrivePoseEstimator(
@@ -72,17 +68,8 @@ public class Odometry extends SubsystemBase {
   }
 
 
-  // -------------------- Initialize and Update Odometry Methods
+  // -------------------- Update Odometry Methods
 
-  /**
-   * Initialize robot odometry use shuffleboard settings and current gyro angle
-   */
-  public void InitializefromShuffleboard() {
-    setPosition(m_initialX.getDouble(0.0),
-        m_initialY.getDouble(0.0),
-        m_initialAngle.getDouble(0.0),
-        0.0);
-  } // get gyro angle from subsystem
 
   /** Initialize robot odometry to zero */
   public void InitializetoZero() {
@@ -102,16 +89,6 @@ public class Odometry extends SubsystemBase {
       // update the robot's odometry
       m_estimator.update(gyroangle, positions);
     }
-
-    // if (RobotContainer.shotlimelight.isTargetPresent()){
-    //    RobotContainer.shotlimelight.addDetection();
-    // }
-    // if (RobotContainer.leftlimelight.isTargetPresent()){
-    //    RobotContainer.leftlimelight.addDetection();
-    // }
-    // if (RobotContainer.rightlimelight.isTargetPresent()){
-    //    RobotContainer.rightlimelight.addDetection();
-    // }
 
     updateShuffleboard();
   }
@@ -148,18 +125,8 @@ public class Odometry extends SubsystemBase {
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 0.05));
     m_estimator.addVisionMeasurement(NewEstimate, Timer.getFPGATimestamp());
 
-
-    //double stdDevs = 0.01*distance;
-    //m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 0.4));  // was 0.4
-    //m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
-
-    //m_field.setRobotPose(vision);
+    // show apriltag estimate as 'dot' on field2d widget
     m_field.getObject("tag").setPose(vision);
-    
-    //Pose2d vision1 = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(RobotContainer.gyro.getYaw()*DEGtoRAD));
-    //double stdDevs = 0.01*distance;
-    //m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
-    //m_estimator.addVisionMeasurement(vision1, Timer.getFPGATimestamp());
   }
 
   
@@ -178,19 +145,19 @@ public class Odometry extends SubsystemBase {
   * num = 0 to 2 (three memories available) */
   public void RecordPose2d(Pose2d point, int num)
   {
-  if (num<m_MemPoints.length)
-  m_MemPoints[num] = point;
+    if (num<m_MemPoints.length)
+      m_MemPoints[num] = point;
   }
 
   /** recalls Pose2D coordinate previously saved 
   * num = 0 to 2 (three memories available) */
   public Pose2d RecallPoint(int num)
   {
-  // return saved point.  If not in range, simply return 0,0,0 point
-  if (num<m_MemPoints.length)
-  return m_MemPoints[num];
-  else
-  return new Pose2d(0,0,new Rotation2d(0.0));
+    // return saved point.  If not in range, simply return 0,0,0 point
+    if (num<m_MemPoints.length)
+      return m_MemPoints[num];
+    else
+      return new Pose2d(0,0,new Rotation2d(0.0));
   }
 
 
@@ -227,21 +194,10 @@ public class Odometry extends SubsystemBase {
     m_robotAngle = l1.add("Angle(deg)", 0.0).getEntry();
     m_angleAway = l1.add("Angle away(deg)", 0.0).getEntry();
     m_angleDiff = l1.add("Angle err(deg)", 0.0).getEntry();
-
-    // Controls to set initial robot position and angle
-    ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
-    l2.withPosition(1, 0);
-    l2.withSize(1, 3);
-    m_initialX = l2.add("X2 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
-    m_initialY = l2.add("Y2 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
-    m_initialAngle = l2.add("Angle2(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
   
     Tab.add("Field", m_field)
     .withPosition(2, 0)
     .withSize(5, 3);
-
-
-  
   }
 
   /** Update subsystem shuffle board page with current odometry values */
@@ -250,7 +206,6 @@ public class Odometry extends SubsystemBase {
     m_robotX.setDouble(vector.getX());
     m_robotY.setDouble(vector.getY());
     m_robotAngle.setDouble(vector.getRotation().getDegrees());
-    //m_field.getObject("tag").setPose(vector);
     m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
   }
   

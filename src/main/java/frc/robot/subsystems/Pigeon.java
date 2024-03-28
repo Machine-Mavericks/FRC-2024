@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import com.ctre.phoenix6.hardware.Pigeon2;
-
-import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.util.ShuffleUser;
 import frc.robot.util.SubsystemShuffleboardManager;

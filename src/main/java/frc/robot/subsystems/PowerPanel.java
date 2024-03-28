@@ -76,9 +76,9 @@ public class PowerPanel extends SubsystemBase {
   }
 
 
-  /** Update subsystem shuffle board page with current Gyro values */
+  /** Update subsystem shuffle board page with current PDP values */
   private void updateShuffleboard() {
-    // write current robot Gyro
+    // write current robot DPD values
     m_Voltage.setDouble(m_Panel.getVoltage());
     m_Current.setDouble(m_Panel.getTotalCurrent());
     m_Power.setDouble(m_Panel.getTotalPower());

@@ -7,40 +7,30 @@ package frc.robot.commands.SemiAutonomous;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.ShootSpeaker;
-import frc.robot.commands.Autonomous.DelayCommand;
+import frc.robot.commands.Drive.TurnToSpeaker;
+import frc.robot.commands.Mechanism.ShootSpeaker;
+import frc.robot.commands.Mechanism.SpinupSpeaker;
+import frc.robot.commands.Mechanism.WaitForEffectorAngle;
+import frc.robot.commands.Mechanism.WaitForShooterSpinup;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+
 public class AimThenShootSpeaker extends SequentialCommandGroup {
+  
   /** Creates a new AimThenShootSpeaker. */
   public AimThenShootSpeaker() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    
     addCommands(
-    new ParallelRaceGroup(
-      new SpinupSpeaker(),  
-      new TurnToSpeaker()
-    ),
+      new ParallelRaceGroup(
+        new SpinupSpeaker(),  
+        new TurnToSpeaker()
+      ),
+      
+      new ParallelCommandGroup(
+          new WaitForEffectorAngle(), 
+          new WaitForShooterSpinup()
+        ),
+      new ShootSpeaker()
     
-    new ParallelCommandGroup(
-       new WaitForEffectorAngle(), 
-       new WaitForShooterSpinup()
-     ),
-    new ShootSpeaker()
-    
-    
-    // new ParallelRaceGroup(
-      //   new AimToSpeaker(),
-      //   )
-      // ),
-      // new ParallelCommandGroup(
-      //   new WaitForEffectorAngle(), 
-      //   new WaitForShooterSpinup()
-      // ),
-      // new DelayCommand(2.0),
-      // new ShootSpeaker()
     );
   }
 }
