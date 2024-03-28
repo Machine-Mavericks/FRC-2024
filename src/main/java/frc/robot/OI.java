@@ -103,6 +103,8 @@ public class OI {
         static final Button UNSTUCK_BUTTON = XboxController.Button.kA;
         /** Button to manually intake note */
         static final Button INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        // Passing notes manually acroos the feild 
+        static final Button PASSING_BUTTON = XboxController.Button.kB;
         /** Button for auto intake */
         static final Button SPINUP_SHOOTER_BUTTON = XboxController.Button.kRightBumper;
         /** Button to extend climber */
@@ -132,6 +134,8 @@ public class OI {
 
     /**Button to unstuck note */
     public static final JoystickButton unstuckButton = new JoystickButton(operatorController, OperatorBindings.UNSTUCK_BUTTON.value);
+    /**Button for passing notes */
+    public static final JoystickButton passingAcrossFieldButton = new JoystickButton(operatorController, OperatorBindings.PASSING_BUTTON.value);
 
     /**Button to trigger intake */
     public static final JoystickButton intakeButton = new JoystickButton(operatorController, OperatorBindings.INTAKE_BUTTON.value);

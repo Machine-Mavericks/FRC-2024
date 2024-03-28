@@ -43,25 +43,6 @@ public class Limelight extends SubsystemBase {
     private GenericEntry m_Long;
     private GenericEntry m_Hor;
     private GenericEntry m_Vert;
-    private GenericEntry m_X;
-    private GenericEntry m_Y;
-    private GenericEntry m_Z;
-    private GenericEntry m_Pitch;
-    private GenericEntry m_Yaw;
-    private GenericEntry m_Roll;
-
-    private GenericEntry m_Xfs;
-    private GenericEntry m_Yfs;
-    private GenericEntry m_Zfs;
-    private GenericEntry m_Pitchfs;
-    private GenericEntry m_Yawfs;
-    private GenericEntry m_Rollfs;
-    private GenericEntry m_Xrs;
-    private GenericEntry m_Yrs;
-    private GenericEntry m_Zrs;
-    private GenericEntry m_Pitchrs;
-    private GenericEntry m_Yawrs;
-    private GenericEntry m_Rollrs;
 
     
     // true if fiducial information is enabled and to be displayed on shuffleboard

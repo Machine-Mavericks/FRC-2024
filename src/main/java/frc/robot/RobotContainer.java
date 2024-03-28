@@ -26,6 +26,7 @@ import frc.robot.commands.Mechanism.UnstuckShot;
 import frc.robot.commands.Other.DelayCommand;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.PassingAcrossField;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.CassetteShooter;
@@ -113,6 +114,9 @@ public class RobotContainer {
 
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
+
+    // Passing acress the feild buttion 
+    OI.passingAcrossFieldButton.onTrue(new PassingAcrossField());
 
     // Climb control
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
