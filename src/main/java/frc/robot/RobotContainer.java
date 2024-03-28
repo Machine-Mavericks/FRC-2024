@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,6 +19,7 @@ import frc.robot.commands.Autonomous.SixNoteAmp;
 import frc.robot.commands.Autonomous.ThreeNoteStage;
 import frc.robot.commands.Autonomous.TwoNoteAmp;
 import frc.robot.commands.Autonomous.TwoNoteCenter;
+import frc.robot.commands.Drive.AutoDriveToFieldPose;
 import frc.robot.commands.Drive.ManualDriveCommand;
 import frc.robot.commands.Drive.SteerToNote;
 import frc.robot.commands.Mechanism.GroundIntake;
@@ -38,6 +41,7 @@ import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
+import frc.robot.util.AutoFunctions;
 
 
 /**
@@ -62,6 +66,9 @@ public class RobotContainer {
   public static final Pigeon gyro = new Pigeon();
   public static final Drivetrain drivetrain = new Drivetrain();
   public static final Odometry odometry = new Odometry();
+
+
+  public static final AutoDriveToFieldPose autodrivetofieldpose = new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d( 4.1,7.5,new Rotation2d(Math.toRadians(180.0)))),0.3, 0.5, 20.0);
   //public static final PowerPanel panel = new PowerPanel();
   public static final LEDs leds = new LEDs();
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
@@ -93,6 +100,8 @@ public class RobotContainer {
   private static void configureButtonBindings() {
     // Zero gyro for driving
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
+
+    OI.autodrivetofieldpose.whileTrue(new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d( 4.1,7.5, new Rotation2d(Math.toRadians(180.0)))),0.3, 0.5, 20.0));
 
     // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(5));
