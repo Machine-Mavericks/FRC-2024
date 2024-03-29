@@ -66,7 +66,8 @@ public class RobotContainer {
   public static final Odometry odometry = new Odometry();
 
   public  static final Pose2d CurrentPos = odometry.getPose2d(); 
-  public static final AutoDriveToFieldPose autodrivetofieldpose = new AutoDriveToFieldPose(CurrentPos,0.3, 0.5, 20.0);
+  public  static final Pose2d TarPos = new Pose2d(CurrentPos.getX()+1.0,CurrentPos.getY()+1.0, CurrentPos.getRotation());
+  public static final AutoDriveToFieldPose autodrivetofieldpose = new AutoDriveToFieldPose(TarPos,0.3, 0.5, 20.0);
   //public static final PowerPanel panel = new PowerPanel();
   public static final LEDs leds = new LEDs();
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
@@ -99,7 +100,7 @@ public class RobotContainer {
     // Zero gyro for driving
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
 
-    // OI.autodrivetofieldpose.whileTrue(new AutoDriveToFieldPose(AutoFunctions.redVsBlue(,0.3, 0.5, 20.0));
+    OI.autodrivetofieldpose.whileTrue(new AutoDriveToFieldPose(TarPos, 0.3,0.5, 20.0));
 
     // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(5));
