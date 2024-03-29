@@ -100,7 +100,8 @@ public class AutoDriveToFieldPose extends Command {
     if (timer.get() < m_Trajectory.getTotalTimeSeconds()) { 
       Trajectory.State state = m_Trajectory.sample(timer.get());
       m_target = state.poseMeters;
-      System.out.println("Trajectory Time: " + timer.get() + " Trajectory Pose: " + m_target);
+      System.out.println(" Time: " + timer.get() + " Trajectory Pose: " + m_target.getX());
+      System.out.println(" Time: " + timer.get() + " Trajectory Pose: " + m_target.getY());
     }
 
     xSpeed = m_xController.calculate(m_target.getX()-CurrentPos.getX());
