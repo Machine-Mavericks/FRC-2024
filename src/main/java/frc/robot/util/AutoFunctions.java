@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /** Add your docs here. */
 public class AutoFunctions {
-      /**
+    public static final double FIELD_X_SIZE = 16.4846;
+
+    /**
      * Convert inches to meters
      * @param in
      * @return meters
@@ -44,7 +46,7 @@ public class AutoFunctions {
     public static Pose2d redVsBlue(double x, double y, double angle) {
         if (DriverStation.getAlliance().isPresent()) {
             if (DriverStation.getAlliance().get() == Alliance.Red){
-                x = 16.4846 - x;
+                x = FIELD_X_SIZE - x;
                 angle = Math.toRadians(180-angle);
             }
         }
@@ -53,10 +55,12 @@ public class AutoFunctions {
     }
 
 
+
+
     public static Pose2d redVsBlue(Pose2d pose) {
         if (DriverStation.getAlliance().isPresent()) {
             if (DriverStation.getAlliance().get() == Alliance.Red){
-                double x = 16.4846 - pose.getX();
+                double x = FIELD_X_SIZE - pose.getX();
                 double y = pose.getY();
                 Rotation2d angle = new Rotation2d(Math.toRadians(180)).rotateBy(pose.getRotation());
                 return new Pose2d(x,y,angle);

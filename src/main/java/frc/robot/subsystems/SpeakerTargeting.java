@@ -23,6 +23,27 @@ public class SpeakerTargeting extends SubsystemBase {
   public void periodic() {
   }
 
+  public double getSpeakerDistance(){
+    // find speaker position
+    Pose2d speakerPose;
+    // find current position
+    Pose2d currentPose=RobotContainer.odometry.getPose2d();
+    if (DriverStation.getAlliance().get() == Alliance.Red){
+      speakerPose=AprilTagMap.AprilTags[3];
+    } else {
+      speakerPose=AprilTagMap.AprilTags[6];
+    }
+    // find differences in position
+    double xDif = currentPose.getX()-speakerPose.getX();
+    double yDif = currentPose.getY()-speakerPose.getY();
+    // find distance
+    return Math.sqrt(Math.pow(xDif,2)+Math.pow(yDif,2));
+  }
+
+  public double getDesiredAngle(){
+    return getDesiredAngle(getSpeakerDistance());
+  }
+
   public double getDesiredAngle(double distance){
     return 0.352*Math.pow(distance, -1.143);
   }
