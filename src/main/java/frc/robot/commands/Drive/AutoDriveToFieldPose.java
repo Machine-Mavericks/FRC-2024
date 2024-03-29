@@ -7,11 +7,11 @@ package frc.robot.commands.Drive;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+// import edu.wpi.first.networktables.GenericEntry;
+// import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
@@ -27,12 +27,12 @@ public class AutoDriveToFieldPose extends Command {
   private double m_time;
 
     // subsystem shuffleboard controls
-  private GenericEntry m_targetX;
-  private GenericEntry m_targetY;
-  private GenericEntry m_targetAngle;
-  private GenericEntry m_xSpeed;
-  private GenericEntry m_ySpeed;
-  private GenericEntry m_rotSpeed;
+  // private GenericEntry m_targetX;
+  // private GenericEntry m_targetY;
+  // private GenericEntry m_targetAngle;
+  // private GenericEntry m_xSpeed;
+  // private GenericEntry m_ySpeed;
+  // private GenericEntry m_rotSpeed;
 
   // final position tolerance (m) / angle tolerance (deg) to consider we have arrived at destination
   private final double m_positiontolerance = 0.20;
@@ -162,40 +162,38 @@ public class AutoDriveToFieldPose extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    Pose2d curr = RobotContainer.odometry.getPose2d();
-
     // we are finished if we are within erorr of target or command had timeed out
     return (TimeAtTarget >=0.5 || (m_time >= m_timeout));
   }
 
-  /** Initialize subsystem shuffleboard page and controls */
-  private void initializeShuffleboard() {
-    // Create odometry page in shuffleboard
-    ShuffleboardTab Tab = Shuffleboard.getTab("Auto drive");
+//   /** Initialize subsystem shuffleboard page and controls */
+//   private void initializeShuffleboard() {
+//     // Create odometry page in shuffleboard
+//     ShuffleboardTab Tab = Shuffleboard.getTab("Auto drive");
 
- // Controls to set initial robot position and angle
-    ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
-    l2.withPosition(1, 0);
-    l2.withSize(1, 3);
-    m_targetX = l2.add("X3 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
-    m_targetY = l2.add("Y3 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
-    m_targetAngle = l2.add("Angle3(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
-    m_xSpeed = l2.add("xspeed",0.0).getEntry();
-    m_ySpeed = l2.add("yspeed",0.0).getEntry();
-    m_rotSpeed = l2.add("rotSpeed",0).getEntry();
+//  // Controls to set initial robot position and angle
+//     ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
+//     l2.withPosition(1, 0);
+//     l2.withSize(1, 3);
+//     m_targetX = l2.add("X3 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
+//     m_targetY = l2.add("Y3 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
+//     m_targetAngle = l2.add("Angle3(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
+//     m_xSpeed = l2.add("xspeed",0.0).getEntry();
+//     m_ySpeed = l2.add("yspeed",0.0).getEntry();
+//     m_rotSpeed = l2.add("rotSpeed",0).getEntry();
   
-  }
+//   }
 
-  /** Update subsystem shuffle board page with current odometry values */
-  private void updateShuffleboard() {
-    Pose2d vector = m_target;
-    m_targetX.setDouble(vector.getX());
-    m_targetY.setDouble(vector.getY());
-    m_targetAngle.setDouble(vector.getRotation().getDegrees());
-    m_xSpeed.setDouble(xSpeed);
-    m_ySpeed.setDouble(ySpeed);
-    m_rotSpeed.setDouble(rotSpeed);
-    //m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
-  }
+//   /** Update subsystem shuffle board page with current odometry values */
+//   private void updateShuffleboard() {
+//     Pose2d vector = m_target;
+//     m_targetX.setDouble(vector.getX());
+//     m_targetY.setDouble(vector.getY());
+//     m_targetAngle.setDouble(vector.getRotation().getDegrees());
+//     m_xSpeed.setDouble(xSpeed);
+//     m_ySpeed.setDouble(ySpeed);
+//     m_rotSpeed.setDouble(rotSpeed);
+//     //m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
+//   }
   
 }
