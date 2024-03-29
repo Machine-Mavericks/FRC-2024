@@ -116,14 +116,11 @@ public class Odometry extends SubsystemBase {
    */
   public void addVision(Pose2d vision, double distance){
     
-    double CurrentGyro = RobotContainer.gyro.getYaw()*DEGtoRAD;
-    double VisionAngle = vision.getRotation().getRadians();
-    
-    Pose2d NewEstimate = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(0.995*CurrentGyro + 0.005*VisionAngle));
-
     double stdDevs = 0.01*distance;
-    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 0.05));
-    m_estimator.addVisionMeasurement(NewEstimate, Timer.getFPGATimestamp());
+    double velocity = Math.sqrt(Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vxMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vyMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().omegaRadiansPerSecond,2));
+    double finalStdDevs = stdDevs*velocity+0.1;
+    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(finalStdDevs, finalStdDevs, finalStdDevs));
+    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
 
     // show apriltag estimate as 'dot' on field2d widget
     m_field.getObject("tag").setPose(vision);

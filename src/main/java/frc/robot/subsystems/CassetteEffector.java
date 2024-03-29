@@ -69,7 +69,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   });
 
   /* Multiplying mechanism rotations by this value produces motor rotations */
-  private static final double CASETTE_EFFECTOR_REDUCTION = 80; // Let's guess 80:1
+  //private static final double CASETTE_EFFECTOR_REDUCTION = 80; // Let's guess 80:1
   /* The CANCoder offset in degrees */
   private static final double CASETTE_EFFECTOR_OFFSET = 0;
 

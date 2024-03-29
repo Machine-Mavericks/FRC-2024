@@ -15,7 +15,7 @@ import frc.robot.RobotMap;
 
 public class Climber extends SubsystemBase {
   private DutyCycleOut m_DutyCycle = new DutyCycleOut(0);
-  private static final double CLIMBER_RPM = 3000;
+  //private static final double CLIMBER_RPM = 3000;
 
   // Motors and Sensors
   private TalonFX m_climbMotor;

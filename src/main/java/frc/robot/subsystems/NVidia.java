@@ -16,8 +16,6 @@ import frc.robot.RobotContainer;
 
 public class NVidia extends SubsystemBase {
   private NetworkTable m_table;
-  private DoubleArraySubscriber m_CameraSub3;
-  private DoubleArraySubscriber m_CameraSub4;
   private DoubleArraySubscriber m_RobotPoseSub0;
   private DoubleArraySubscriber m_RobotPoseSub1;
   private DoubleArraySubscriber m_RobotPoseSub2;
@@ -30,8 +28,6 @@ public class NVidia extends SubsystemBase {
   /** Creates a new NVidia. */
   public NVidia() {
     m_table = NetworkTableInstance.getDefault().getTable("Nvidia");
-    m_CameraSub3=m_table.getDoubleArrayTopic("camera1").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
-    m_CameraSub4=m_table.getDoubleArrayTopic("camera2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     m_RobotPoseSub0=m_table.getDoubleArrayTopic("robot_pose_in_field2").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     m_RobotPoseSub1=m_table.getDoubleArrayTopic("robot_pose_in_field3").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));
     m_RobotPoseSub2=m_table.getDoubleArrayTopic("robot_pose_in_field4").subscribe(null, PubSubOption.pollStorage(5), PubSubOption.periodic(0.02));

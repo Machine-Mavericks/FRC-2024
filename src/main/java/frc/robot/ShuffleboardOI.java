@@ -40,7 +40,7 @@ public class ShuffleboardOI extends SubsystemBase {
 
     // other controls on main page
     private GenericEntry m_timeLeft;
-    private Integer m_selectedPath;
+    //private Integer m_selectedPath;
 
     /** Initializes the Shuffleboard
      * Creates the subsystem pages */
@@ -57,7 +57,7 @@ public class ShuffleboardOI extends SubsystemBase {
 
         // update main page
         // update remaining time in match (rounded to nearest second)
-        m_selectedPath = (Integer)m_autonomousPath.getSelected();
+        //m_selectedPath = (Integer)m_autonomousPath.getSelected();
         m_timeLeft.setDouble(Math.round(Timer.getMatchTime()));
     }
 
