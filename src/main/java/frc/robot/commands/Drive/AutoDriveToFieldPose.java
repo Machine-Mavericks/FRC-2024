@@ -8,6 +8,7 @@ import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -24,10 +25,11 @@ import frc.robot.subsystems.TrajGeneration;
 import frc.robot.util.Utils;
 
 public class AutoDriveToFieldPose extends Command { 
-  
-  private final Timer timer = new Timer();
+
   private TrajGeneration trajgen_instance;
   private Trajectory m_Trajectory;
+  private Pose2d m_TarPos; 
+  private Pose2d m_initPos;
 
   private Pose2d m_target;
   
@@ -58,15 +60,18 @@ public class AutoDriveToFieldPose extends Command {
   private double ySpeed;
   private double rotSpeed;
   private double TimeAtTarget;
+  
 
   /** Creates a new AutoDriveToPoseCommand. 
    * Use this to have command to drive back to coordinate provided to it */
   public AutoDriveToFieldPose(Pose2d target, double speed, double rotationalspeed, double timeout) {
     addRequirements(RobotContainer.drivetrain);
     m_target = target;
-    m_speed = 0.3; //speed;
+    m_speed = 0.5; //speed;
     m_rotspeed = 0.5; //rotationalspeed;
     m_timeout = timeout; 
+
+    // it crush the robot when run initializeShuffleboard();
     //initializeShuffleboard();
   }
 
@@ -77,35 +82,35 @@ public class AutoDriveToFieldPose extends Command {
     m_xController.reset();
     m_yController.reset();
     m_rotController.reset();
-    TimeAtTarget=0.0;
-    timer.reset();
-    timer.start();
+    TimeAtTarget=0.0; 
     //initializeShuffleboard();
-    Pose2d CurrentPos = RobotContainer.odometry.getPose2d(); 
-    double limitVel = 0.3;
-    double limitAcc = 1;
+    Pose2d m_initPos = RobotContainer.odometry.getPose2d(); 
+    double limitVel = 0.5;
+    double limitAcc = 10.0;
     trajgen_instance = new TrajGeneration(limitVel, limitAcc); 
-    Pose2d TarPos = new Pose2d(CurrentPos.getX()+1.0, CurrentPos.getY()+1.0, CurrentPos.getRotation());
-    m_Trajectory = trajgen_instance.genTraj(CurrentPos, TarPos);
-   // RobotContainer.odometry.setFieldTrajectory(m_Trajectory); 
-   System.out.println("start run the code of AutoToPose");
+    m_TarPos = new Pose2d(3.6,6.12, m_initPos.getRotation());
+    m_Trajectory = trajgen_instance.genTraj(m_initPos, m_TarPos); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d CurrentPos = RobotContainer.odometry.getPose2d(); 
     // increment time
     m_time += 0.02;
 
-    if (timer.get() < m_Trajectory.getTotalTimeSeconds()) { 
-      Trajectory.State state = m_Trajectory.sample(timer.get());
-      m_target = state.poseMeters;
-      
-      System.out.println(" Time: " + timer.get() + "  x: " + m_target.getX());
-      System.out.println(" Time: " + timer.get() + " y: " + m_target.getY());
+    if (m_time < m_Trajectory.getTotalTimeSeconds()) { 
+      Trajectory.State state = m_Trajectory.sample(m_time); 
+      if( Math.abs ( m_initPos.getRotation().getRadians()-m_TarPos.getRotation().getRadians() ) < 0.05 ){
+       m_target = new Pose2d( state.poseMeters.getX(),  state.poseMeters.getY(), m_initPos.getRotation());
+      }
+      else{
+       m_target = state.poseMeters;
+      }
+      System.out.println(" Time: " + m_time + "  x: " + m_target.getX());
+      System.out.println(" Time: " + m_time + " y: " + m_target.getY());
     }
 
+    Pose2d CurrentPos = RobotContainer.odometry.getPose2d(); 
     xSpeed = m_xController.calculate(m_target.getX()-CurrentPos.getX());
     ySpeed = m_yController.calculate(m_target.getY()-CurrentPos.getY());
     rotSpeed = m_rotController.calculate(Utils.AngleDifference(m_target.getRotation().getDegrees(),CurrentPos.getRotation().getDegrees()));
@@ -138,6 +143,7 @@ public class AutoDriveToFieldPose extends Command {
     else
       TimeAtTarget=0.0;
 
+    // it crush the robot when run updateShuffleboard();
     // updateShuffleboard();
   }
 
@@ -150,9 +156,7 @@ public class AutoDriveToFieldPose extends Command {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    Pose2d curr = RobotContainer.odometry.getPose2d();
-
+  public boolean isFinished() { 
     // we are finished if we are within erorr of target or command had timeed out
     return (TimeAtTarget >=0.5 || (m_time >= m_timeout));
   }
