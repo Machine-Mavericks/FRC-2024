@@ -19,6 +19,7 @@ import frc.robot.commands.Autonomous.TwoNoteAmp;
 import frc.robot.commands.Autonomous.TwoNoteCenter;
 import frc.robot.commands.Drive.ManualDriveCommand;
 import frc.robot.commands.Drive.SteerToNote;
+import frc.robot.commands.Mechanism.PreemptiveSpinUpShot;
 import frc.robot.commands.Mechanism.GroundIntake;
 import frc.robot.commands.Mechanism.OperatorSpinup;
 import frc.robot.commands.Mechanism.PreemptiveCassetteAngleCommand;
@@ -26,7 +27,6 @@ import frc.robot.commands.Mechanism.RunClimbCommand;
 import frc.robot.commands.Mechanism.UnstuckShot;
 import frc.robot.commands.Other.DelayCommand;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
-import frc.robot.commands.SemiAutonomous.AutoSpinUpShot;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.PassingAcrossField;
 import frc.robot.subsystems.CassetteEffector;
@@ -81,7 +81,7 @@ public class RobotContainer {
   public static void init() {
     drivetrain.setDefaultCommand(new ManualDriveCommand(drivetrain));
     cassetteangle.setDefaultCommand(new PreemptiveCassetteAngleCommand(cassetteangle));
-    cassetteshooter.setDefaultCommand(new AutoSpinUpShot());
+    cassetteshooter.setDefaultCommand(new PreemptiveSpinUpShot());
     // Configure the button bindings
     configureButtonBindings();
   }
