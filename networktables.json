@@ -23,5 +23,21 @@
     "properties": {
       "persistent": true
     }
+  },
+  {
+    "name": "/Shuffleboard/Drivetrain/DefaultSpeedLimit",
+    "type": "double",
+    "value": 0.5,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Shuffleboard/Drivetrain/RotationPower",
+    "type": "double",
+    "value": 0.5,
+    "properties": {
+      "persistent": true
+    }
   }
 ]

@@ -4,6 +4,7 @@
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Drive Setup/Preround Paths": "String Chooser",
       "/Shuffleboard/Drivetrain/Reset Drivetrain": "Command",
+      "/Shuffleboard/Odometry/Field": "Field2d",
       "/Shuffleboard/Swerve Estimator/Field": "Field2d"
     }
   },
