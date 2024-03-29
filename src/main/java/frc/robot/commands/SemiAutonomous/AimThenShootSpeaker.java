@@ -5,11 +5,9 @@
 package frc.robot.commands.SemiAutonomous;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.TurnToSpeaker;
 import frc.robot.commands.Mechanism.ShootSpeaker;
-import frc.robot.commands.Mechanism.SpinupSpeaker;
 import frc.robot.commands.Mechanism.WaitForEffectorAngle;
 import frc.robot.commands.Mechanism.WaitForShooterSpinup;
 
@@ -19,12 +17,8 @@ public class AimThenShootSpeaker extends SequentialCommandGroup {
   /** Creates a new AimThenShootSpeaker. */
   public AimThenShootSpeaker() {
     
-    addCommands(
-      new ParallelRaceGroup(
-        new SpinupSpeaker(),  
-        new TurnToSpeaker()
-      ),
-      
+    addCommands(  
+      new TurnToSpeaker(),
       new ParallelCommandGroup(
           new WaitForEffectorAngle(), 
           new WaitForShooterSpinup()
