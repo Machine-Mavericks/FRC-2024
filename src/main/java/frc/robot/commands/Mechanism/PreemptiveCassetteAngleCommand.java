@@ -35,13 +35,14 @@ public class PreemptiveCassetteAngleCommand extends Command {
 
     Pose2d predictedPose = estimateFuturePose(0.5);
     
-
-    // If closer than seven meters, set effector angle
-    if ((Math.abs(predictedPose.getX() - driverWallPosition)) < 7) {
-      effector.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
-    } else {
-      effector.setAngle(CassetteEffector.NEUTRAL_ANGLE);
-    }
+    if (RobotContainer.cassetteintake.NoteOrNoNote()) {
+      // If closer than seven meters, set effector angle
+      if ((Math.abs(predictedPose.getX() - driverWallPosition)) < 7) {
+        effector.setAngle(RobotContainer.speakertargeting.getDesiredAngle());
+      } else {
+        effector.setAngle(CassetteEffector.NEUTRAL_ANGLE);
+      }
+    } 
   }
 
   private Pose2d estimateFuturePose(double secondsInFuture){
