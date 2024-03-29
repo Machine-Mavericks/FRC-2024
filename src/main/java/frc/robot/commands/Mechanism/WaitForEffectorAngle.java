@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 
 public class WaitForEffectorAngle extends Command {
   /** Maximum time shooter will try to hit target speed */
-  private static final double ANGLE_TIMEOUT = 0.25;
+  private static final double ANGLE_TIMEOUT = 1.0;
   private Timer timer;
 
   /** True if shot hasn't timed out */
