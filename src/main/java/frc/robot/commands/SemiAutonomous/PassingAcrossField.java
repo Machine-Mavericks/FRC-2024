@@ -23,9 +23,9 @@ public class PassingAcrossField extends SequentialCommandGroup {
     addRequirements(RobotContainer.cassetteshooter, RobotContainer.cassetteangle);
     
     addCommands (
-      new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE)),
-      new InstantCommand(() -> RobotContainer.cassetteshooter.leftShootRun(3500.0)),
-      new InstantCommand(() -> RobotContainer.cassetteshooter.rightShootRun(5500.0)),
+      new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.PASSING_ANGLE)),
+      new InstantCommand(() -> RobotContainer.cassetteshooter.leftShootRun(3000.0)),
+      new InstantCommand(() -> RobotContainer.cassetteshooter.rightShootRun(5000.0)),
       
     // Get to speed
 
@@ -33,10 +33,10 @@ public class PassingAcrossField extends SequentialCommandGroup {
        new WaitForEffectorAngle(), 
        new WaitForShooterSpinup()
      ),
-    new ShootSpeaker(),
-    new WaitCommand(0.5),
-    new InstantCommand(() -> RobotContainer.cassetteshooter.leftShootRun(0.0)),
-    new InstantCommand(() -> RobotContainer.cassetteshooter.rightShootRun(0.0))
+
+    new ShootSpeaker(), 
+    new WaitCommand(1),
+    new CleanupShot()
     );
   }
 }

@@ -52,6 +52,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   public static final double NEUTRAL_ANGLE = 0.05;
   public static final double GROUND_ANGLE = 0.022;
   public static final double SOURCE_ANGLE = 0.05;
+  public static final double PASSING_ANGLE = 0.018;
   public static final double AMP_ANGLE = 0.1; //from flush against
   public static final double SPEAKER_ANGLE = 0.05; //from flush against
 

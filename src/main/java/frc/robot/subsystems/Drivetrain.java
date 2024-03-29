@@ -206,6 +206,8 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
     public GenericEntry defaultSpeedFactor;
     public GenericEntry rotationSpeedMultiplier;
 
+    public boolean m_turning;
+
     
     /**
      * Create a new swerve drivetrain
@@ -412,6 +414,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         // Allows easy flipping of drive axes if needed
         Translation2d newtranslation = new Translation2d(-translation.getX(),
                 -translation.getY());
+
         Double newrotation = rotation;
 
         // determine chassis speeds
@@ -428,6 +431,11 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
                     newrotation);
         }
     }
+
+    public void setTurning(boolean turning){
+        m_turning = turning;
+    }
+
 
     @Override
     public void periodic() {

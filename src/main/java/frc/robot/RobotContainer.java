@@ -19,6 +19,7 @@ import frc.robot.commands.Autonomous.TwoNoteAmp;
 import frc.robot.commands.Autonomous.TwoNoteCenter;
 import frc.robot.commands.Drive.ManualDriveCommand;
 import frc.robot.commands.Drive.SteerToNote;
+import frc.robot.commands.Drive.TurnToSpeaker;
 import frc.robot.commands.Mechanism.GroundIntake;
 import frc.robot.commands.Mechanism.OperatorSpinup;
 import frc.robot.commands.Mechanism.PreemptiveCassetteAngleCommand;
@@ -118,8 +119,8 @@ public class RobotContainer {
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
 
     // Passing acress the feild buttion 
-    OI.passingAcrossFieldButton.onTrue(new PassingAcrossField());
-
+    OI.passingAcrossFieldButton.whileTrue(new PassingAcrossField());
+    OI.passingAcrossFieldButton.onFalse(new CleanupShot());
     // Climb control
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
     OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
