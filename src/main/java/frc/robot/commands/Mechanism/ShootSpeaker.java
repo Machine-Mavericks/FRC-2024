@@ -10,12 +10,15 @@ import frc.robot.RobotContainer;
 
 public class ShootSpeaker extends Command {
   private Timer timer;
+  private Timer noteTimer;
+
   /** Creates a new ShootSpeaker. */
   public ShootSpeaker() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.cassetteintake, RobotContainer.cassetteshooter);
     
     timer = new Timer();
+    noteTimer = new Timer();
   }
 
   // Called when the command is initially scheduled.
@@ -24,11 +27,18 @@ public class ShootSpeaker extends Command {
     RobotContainer.cassetteintake.intakeRun(1);
     timer.reset();
     timer.start();
+    noteTimer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (!RobotContainer.cassetteintake.NoteOrNoNote()){
+      noteTimer.start();
+    } else {
+      noteTimer.reset();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -37,6 +47,6 @@ public class ShootSpeaker extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(2.0);
+    return timer.hasElapsed(2.0)||noteTimer.hasElapsed(0.1);
   }
 }
