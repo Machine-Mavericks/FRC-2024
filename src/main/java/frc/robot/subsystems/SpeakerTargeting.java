@@ -53,7 +53,13 @@ public class SpeakerTargeting extends SubsystemBase {
       endangle = 180.0 + (Math.atan2(-yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
     }
 
-    return endangle;
+    double finalangle = endangle;
+    if (endangle > 180) {
+      finalangle = 360 - endangle;
+    } else if (endangle < -180) {
+      finalangle = 360 + endangle;
+    }
+    return finalangle;
   }
   
   public double getDesiredLSpeed(){
