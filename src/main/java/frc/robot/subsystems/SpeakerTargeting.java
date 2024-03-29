@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.util.AprilTagMap;
+import frc.robot.util.Utils;
 
 
 public class SpeakerTargeting extends SubsystemBase {
@@ -30,9 +31,7 @@ public class SpeakerTargeting extends SubsystemBase {
    * get angle away from speaker in degrees
    * @return
    */
-  public double getSpeakerAngle(){
-    // find current position
-    Pose2d currentPose=RobotContainer.odometry.getPose2d();
+  public double getSpeakerAngle(Pose2d currentPose){
 
     // find speaker position
     Pose2d speakerPose;
@@ -53,12 +52,12 @@ public class SpeakerTargeting extends SubsystemBase {
       endangle = 180.0 + (Math.atan2(-yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
     }
 
-    double finalangle = endangle;
-    if (endangle > 180) {
-      finalangle = 360 - endangle;
-    } else if (endangle < -180) {
-      finalangle = 360 + endangle;
-    }
+    // determine error to target angle
+    double finalangle = Utils.AngleDifference(endangle, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
+
+    // set end angle in shuffleboard
+    RobotContainer.odometry.m_angleAway.setDouble(finalangle);
+
     return finalangle;
   }
   

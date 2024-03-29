@@ -47,7 +47,8 @@ public class ManualDriveCommand extends Command {
     double rotInput = -OI.getRotDriveInput();
     
     if (OI.constantTurnButton.getAsBoolean()) {
-      rotInput = RobotContainer.speakertargeting.getSpeakerAngle()/180;
+      rotInput = -RobotContainer.speakertargeting.getSpeakerAngle(RobotContainer.odometry.getPose2d())/180;
+      System.out.println("speakerangle " + RobotContainer.speakertargeting.getSpeakerAngle(RobotContainer.odometry.getPose2d()) + "             rotInput "+ rotInput);
     }
 
     // If no rotational input provided, use PID to hold heading

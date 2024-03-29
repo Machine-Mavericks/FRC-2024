@@ -56,16 +56,8 @@ public class TurnToSpeaker extends Command {
   @Override
   public void execute() {
 
-    // get angle to speaker
-    m_endangle = RobotContainer.speakertargeting.getSpeakerAngle();
- 
-    // set end angle in shuffleboard
-    RobotContainer.odometry.m_angleAway.setDouble(m_endangle);
-
-    // determine error to target angle
-    m_angleerror = Utils.AngleDifference(m_endangle, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
-    
-    RobotContainer.odometry.m_angleDiff.setDouble(m_angleerror);
+    // get error to target angle from speakertargeting
+    m_angleerror = RobotContainer.speakertargeting.getSpeakerAngle(RobotContainer.odometry.getPose2d());
 
     if (Math.abs(m_angleerror) < 1.0)
       m_AtTargetTime += 0.02;
