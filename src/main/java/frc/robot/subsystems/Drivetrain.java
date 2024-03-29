@@ -540,6 +540,22 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         return m_positions;
     }
 
+    /** 
+     * Returns current robot relative drivetrain speeds
+     * @return ChassisSpeeds object
+     */
+    public ChassisSpeeds getSwerveSpeeds(){
+        return m_chassisSpeeds;
+    }
+
+    /** 
+     * Returns current field relative drivetrain speeds
+     * @return ChassisSpeeds object 
+     */
+    public ChassisSpeeds getFieldRelativeChassisSpeeds(){
+        return ChassisSpeeds.fromRobotRelativeSpeeds(RobotContainer.drivetrain.getSwerveSpeeds(), Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
+    }
+
     // -------------------- Shuffleboard --------------------
 
     @Override

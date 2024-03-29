@@ -115,7 +115,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     effectorConfig.Slot0 = EFFECTOR_GAINS;
 
     // Motion magic cruise values
-    effectorConfig.MotionMagic.MotionMagicAcceleration = 1.6;
+    effectorConfig.MotionMagic.MotionMagicAcceleration = 3;
     effectorConfig.MotionMagic.MotionMagicCruiseVelocity = 1.6;
     effectorConfig.MotionMagic.MotionMagicJerk = 16;
 

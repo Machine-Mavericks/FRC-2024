@@ -42,7 +42,7 @@ public class SteerToNote extends Command {
    * Input: true if fully automated, false if only sem-automated */
   public SteerToNote(boolean automated, double timeout) {
     // this command requires use of drivetrain and gyro
-    addRequirements(m_drivetrain);
+    addRequirements(m_drivetrain, RobotContainer.cassetteangle);
     
     m_automated = automated;
     m_timeoutlimit = timeout;
