@@ -65,8 +65,9 @@ public class RobotContainer {
   public static final Drivetrain drivetrain = new Drivetrain();
   public static final Odometry odometry = new Odometry();
 
-  public  static final Pose2d CurrentPos = odometry.getPose2d(); 
-  public  static final Pose2d TarPos = new Pose2d(CurrentPos.getX()+1.0,CurrentPos.getY()+1.0, CurrentPos.getRotation());
+  public  static final Pose2d CurrentPos = odometry.getPose2d();  
+  public  static final Pose2d TarPos = new Pose2d(CurrentPos.getX()+1.0, CurrentPos.getY()+1.0, CurrentPos.getRotation());
+ 
   public static final AutoDriveToFieldPose autodrivetofieldpose = new AutoDriveToFieldPose(TarPos,0.3, 0.5, 20.0);
   //public static final PowerPanel panel = new PowerPanel();
   public static final LEDs leds = new LEDs();
@@ -98,9 +99,8 @@ public class RobotContainer {
    */
   private static void configureButtonBindings() {
     // Zero gyro for driving
-    OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
-
-    OI.autodrivetofieldpose.whileTrue(new AutoDriveToFieldPose(TarPos, 0.3,0.5, 20.0));
+    OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro())); 
+    OI.autodrivetofieldpose.whileTrue(new AutoDriveToFieldPose(TarPos,0.3, 0.5, 20.0)); 
 
     // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(5));
