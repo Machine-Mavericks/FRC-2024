@@ -26,7 +26,7 @@ public class AutoFunctions {
      * Approximate map of notes relative to field
      */
     public static Pose2d NotesAtStart[] = {
-        new Pose2d(intom(114-10),intom(159.5),new Rotation2d(Math.toRadians(180))), //0
+        new Pose2d(intom(114),intom(159.5),new Rotation2d(Math.toRadians(180))), //0
         new Pose2d(intom(114-10),intom(159.5+57),new Rotation2d(Math.toRadians(180))), //1
         new Pose2d(intom(144-10),intom(159.5+57+57),new Rotation2d(Math.toRadians(180))), //2
         new Pose2d(intom(324.5-10),intom(293.36),new Rotation2d(Math.toRadians(180))), //3

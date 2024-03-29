@@ -88,7 +88,7 @@ public class ShuffleboardOI extends SubsystemBase {
         m_autonomousPath.addOption("Six Note Amp",5);
         m_autonomousPath.addOption("Two Note Center",6);
         m_autonomousPath.addOption("Three Note Stage",7);
-
+        m_autonomousPath.addOption("Three Note Source", 8);
         m_autonomousPath.setDefaultOption("Do Nothing", 4);
 
         tab.add("Preround Paths", m_autonomousPath).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2,1);

@@ -14,6 +14,7 @@ import frc.robot.commands.Autonomous.FiveNoteAmp;
 import frc.robot.commands.Autonomous.FourNoteSource;
 import frc.robot.commands.Autonomous.OneNoteAnywhere;
 import frc.robot.commands.Autonomous.SixNoteAmp;
+import frc.robot.commands.Autonomous.ThreeNoteSource;
 import frc.robot.commands.Autonomous.ThreeNoteStage;
 import frc.robot.commands.Autonomous.TwoNoteAmp;
 import frc.robot.commands.Autonomous.TwoNoteCenter;
@@ -164,9 +165,13 @@ public class RobotContainer {
       case 7:
         chosenCommand = new ThreeNoteStage();
         break;
+      case 8:
+        chosenCommand = new ThreeNoteSource();
+        break;
       default:
         chosenCommand = null;
         break;
+     
     } 
     return new SequentialCommandGroup(
       new InstantCommand(()-> RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE)), // Drop rickstand
