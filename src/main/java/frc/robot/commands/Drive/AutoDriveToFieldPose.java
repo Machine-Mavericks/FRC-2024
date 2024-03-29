@@ -123,10 +123,10 @@ public class AutoDriveToFieldPose extends Command {
       rotSpeed = -m_rotspeed;
 
     //drive robot according to x,y,rot PID controller speeds
-     RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
-                                                       ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
-                                     rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                                     true);
+    //  RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
+    //                                                    ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
+    //                                  rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+    //                                  true);
 
     // are we at target - if so, increment time, if not reset
     if (  (Math.abs(m_target.getX() - CurrentPos.getX()) <  m_positiontolerance) &&
