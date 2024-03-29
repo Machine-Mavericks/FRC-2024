@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import com.ctre.phoenix6.hardware.Pigeon2;
+
+import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.util.ShuffleUser;
 import frc.robot.util.SubsystemShuffleboardManager;
@@ -80,6 +82,17 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
       OffsetAdjust = 0.0;
     }
     gyro.reset();
+  }
+
+  /**
+   * sets gyro using odometry and alliance
+   */
+  public void setGyroUsingOdom() {
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      this.setGyro(RobotContainer.odometry.getPose2d().getRotation().getDegrees());
+    } else {
+      this.setGyro(RobotContainer.odometry.getPose2d().getRotation().getDegrees()+180);
+    }
   }
 
 /** Resets yaw to zero -

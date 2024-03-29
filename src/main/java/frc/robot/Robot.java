@@ -91,6 +91,8 @@ public class Robot extends TimedRobot {
     robotIsInitialized = true;
     autonomousCommand = RobotContainer.getAutonomousCommand();
     RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE);
+
+    RobotContainer.gyro.setGyroUsingOdom();
     
     // schedule the autonomous command
     if (autonomousCommand != null)
@@ -120,7 +122,7 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
-
+    RobotContainer.gyro.setGyroUsingOdom();
     // set default swerve drive command to manual drive mode
     RobotContainer.drivetrain.setDefaultCommand(new ManualDriveCommand(RobotContainer.drivetrain));
 
