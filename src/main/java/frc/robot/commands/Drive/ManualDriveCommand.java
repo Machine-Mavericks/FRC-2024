@@ -45,6 +45,11 @@ public class ManualDriveCommand extends Command {
     double xInput = OI.getXDriveInput();
     double yInput = OI.getYDriveInput();
     double rotInput = -OI.getRotDriveInput();
+    
+    if (OI.constantTurnButton.getAsBoolean()) {
+      rotInput = -RobotContainer.speakertargeting.getSpeakerAngle(RobotContainer.odometry.getPose2d())/60;
+      if (rotInput>1) rotInput = 1;
+    }
 
     // If no rotational input provided, use PID to hold heading
     // When the zero button is pressed force reset to prevent jumping
@@ -73,8 +78,7 @@ public class ManualDriveCommand extends Command {
 
     // if we are on red line, then rotate drive field drive by 180deg
     double dir = 1.0;
-    if (DriverStation.getAlliance().get() == Alliance.Red)
-        dir=-1.0;
+    if (DriverStation.getAlliance().get() == Alliance.Red) dir=-1.0;
 
     m_drivetrain.drive(new Translation2d(dir*yInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, dir*xInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND), rotInput*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true); 
   }

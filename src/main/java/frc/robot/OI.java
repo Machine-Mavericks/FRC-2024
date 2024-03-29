@@ -93,9 +93,11 @@ public class OI {
         /** Button to shoot note */
         static final Button SHOOT_BUTTON = XboxController.Button.kRightBumper;
         /** Button for amp shot */
-        static final Button AMP_BUTTON = XboxController.Button.kX;
+        static final Button AMP_BUTTON = XboxController.Button.kA;
         /** Button for auto intake */
         static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
+        /** Button toggling constant turn to speaker */
+        static final Button TOGGLE_TURN = XboxController.Button.kX;
     }
 
     private static class OperatorBindings{
@@ -157,5 +159,7 @@ public class OI {
     /** Button to blindly advance intake */
     public static final JoystickButton advanceIntakeButton = new JoystickButton(operatorController, OperatorBindings.ADVANCE_INTAKE_BUTTON.value);
    
+    /** Button to blindly advance intake */
+    public static final JoystickButton constantTurnButton = new JoystickButton(driverController, DriverBindings.TOGGLE_TURN.value);
 }
  
