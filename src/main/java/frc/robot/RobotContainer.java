@@ -27,6 +27,7 @@ import frc.robot.commands.Mechanism.RunClimbCommand;
 import frc.robot.commands.Mechanism.UnstuckShot;
 import frc.robot.commands.Other.DelayCommand;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AutoSpinUpShot;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.PassingAcrossField;
 import frc.robot.subsystems.CassetteEffector;
@@ -81,7 +82,7 @@ public class RobotContainer {
   public static void init() {
     drivetrain.setDefaultCommand(new ManualDriveCommand(drivetrain));
     cassetteangle.setDefaultCommand(new PreemptiveCassetteAngleCommand(cassetteangle));
-
+    cassetteshooter.setDefaultCommand(new AutoSpinUpShot());
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -101,7 +102,6 @@ public class RobotContainer {
     // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(5));
     //OI.intakeButton.onFalse(new GroundIntake(false, 0.05));
-
     // Speaker shot
     OI.speakerShooterButton.whileTrue(new AimThenShootSpeaker());
     OI.speakerShooterButton.onFalse(new CleanupShot());
