@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.CassetteEffector;
 import frc.robot.util.AutoFunctions;
+import frc.robot.util.Utils;
 
 public class PreemptiveCassetteAngleCommand extends Command {
   private final CassetteEffector effector;
@@ -33,7 +34,8 @@ public class PreemptiveCassetteAngleCommand extends Command {
   public void execute() {
     double driverWallPosition = DriverStation.getAlliance().get() == Alliance.Red ? AutoFunctions.FIELD_X_SIZE : 0;
 
-    Pose2d predictedPose = estimateFuturePose(0.5);
+    Pose2d predictedPose = AutoFunctions.estimateFuturePose(0.5, 1.5);
+    RobotContainer.odometry.m_field.getObject("Predicted Pose").setPose(predictedPose);
     
     if (RobotContainer.cassetteintake.NoteOrNoNote()) {
       // If closer than seven meters, set effector angle
@@ -43,14 +45,6 @@ public class PreemptiveCassetteAngleCommand extends Command {
         effector.setAngle(CassetteEffector.NEUTRAL_ANGLE);
       }
     } 
-  }
-
-  private Pose2d estimateFuturePose(double secondsInFuture){
-    Pose2d currentPose = RobotContainer.odometry.getPose2d();
-    ChassisSpeeds speed = RobotContainer.drivetrain.getFieldRelativeChassisSpeeds();
-    Transform2d futureTransformation = new Transform2d(-speed.vxMetersPerSecond, speed.vyMetersPerSecond, new Rotation2d()).times(secondsInFuture);
-    //System.out.println("Remove Later (X Velocity): " + futureTransformation.getX());
-    return currentPose.plus(futureTransformation);
   }
 
   // Called once the command ends or is interrupted.

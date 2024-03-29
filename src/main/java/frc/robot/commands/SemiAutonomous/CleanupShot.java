@@ -23,7 +23,7 @@ public class CleanupShot extends SequentialCommandGroup {
       new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.NEUTRAL_ANGLE)),
       new InstantCommand(() -> RobotContainer.cassetteintake.intakeRun(0.0)),
       
-      new PrintCommand("intake at holding position")
+      new PrintCommand("Finished cleaning up shot")
     );
   }
 }

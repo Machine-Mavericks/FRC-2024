@@ -21,9 +21,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.ShuffleUser;
+import frc.robot.util.SubsystemShuffleboardManager;
 
-public class Limelight extends SubsystemBase {
+public class Limelight extends SubsystemBase implements ShuffleUser {
   /** Creates a new limelight. */
+    private String name;
 
     // network table to communicate to camera with
     private NetworkTable m_table;
@@ -32,8 +35,6 @@ public class Limelight extends SubsystemBase {
     private GenericEntry m_Pipeline;
     private GenericEntry m_TargetPresent;
     private GenericEntry m_AprilTagID;
-
-    //private DoubleArraySubscriber m_llpythonSub;
 
     private GenericEntry m_AngleX;
     private GenericEntry m_AngleY;
@@ -58,15 +59,19 @@ public class Limelight extends SubsystemBase {
      * Creates a new Limelight.
      * Input: String containing name of limelight (defined in the camera)
      */
+    public Limelight(String name, boolean FiducialEnable, boolean EnableShuffleboardPage) {
+      ConstructLimelight(name, FiducialEnable, EnableShuffleboardPage); }
     public Limelight(String name, boolean FiducialEnable) {
-      ConstructLimelight(name, FiducialEnable); }
+      ConstructLimelight(name, FiducialEnable, true); }
     public Limelight(String name) {
-      ConstructLimelight(name, false); }
+      ConstructLimelight(name, false, true); }
 
     
     // construct limelight subsystem
-    private void ConstructLimelight(String name, boolean FiducialEnable) {
-      
+    private void ConstructLimelight(String name, boolean FiducialEnable, boolean EnableShuffleboardPage) {
+      // record name
+      this.name = name;
+
       // record fiducial enable
       m_FiducialEnable = FiducialEnable;
     
@@ -86,7 +91,7 @@ public class Limelight extends SubsystemBase {
       setPipeline(0);
   
       // create shuffleboard page
-      initializeShuffleboard(name);
+      SubsystemShuffleboardManager.RegisterShuffleUser(this, EnableShuffleboardPage, 4);
     }
 
 
@@ -94,14 +99,6 @@ public class Limelight extends SubsystemBase {
     int m_UpdateTimer = 0;
     @Override
     public void periodic() {
-      // update shuffleboard - update at 5Hz is sufficient for this subsystem
-      m_UpdateTimer++;
-      if (m_UpdateTimer>=15)
-      {
-        updateShuffleboard();
-        m_UpdateTimer=0;
-      }
-
       // Invalidate cached data for next command loop
       cached_data_valid = false;
     }
@@ -278,9 +275,9 @@ public class Limelight extends SubsystemBase {
 
 
   /** Initialize subsystem shuffleboard page and controls */
-  private void initializeShuffleboard(String name) {
+  public void initializeShuffleboard() {
     // Create odometry page in shuffleboard
-    ShuffleboardTab Tab = Shuffleboard.getTab("Limelight: "+name);
+    ShuffleboardTab Tab = Shuffleboard.getTab("Limelight: " + name);
 
     // camera pipeline number
     m_Pipeline = Tab.add("Pipeline", 0)
@@ -353,7 +350,7 @@ public class Limelight extends SubsystemBase {
 
 
   /** Update subsystem shuffle board page with current odometry values */
-  private void updateShuffleboard() {
+  public void updateShuffleboard() {
     
     // update camera pipeline and target detected indicator
     m_Pipeline.setDouble(getPipeline());

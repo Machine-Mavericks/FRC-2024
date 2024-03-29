@@ -122,5 +122,9 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
   public void updateShuffleboard() {
     RobotContainer.operatorinterface.RShooterSpeed.setDouble(getSpeedR() * 60);
     RobotContainer.operatorinterface.LShooterSpeed.setDouble(getSpeedL() * 60);
+    RobotContainer.operatorinterface.RShooterTarget.setDouble( m_currentSetpointR * 60);
+    RobotContainer.operatorinterface.LShooterTarget.setDouble( m_currentSetpointL * 60);
+    RobotContainer.operatorinterface.RShooterError.setDouble(m_RShootMotor.getClosedLoopError().getValueAsDouble());
+    RobotContainer.operatorinterface.LShooterError.setDouble(m_LShootMotor.getClosedLoopError().getValueAsDouble());
   }
 }

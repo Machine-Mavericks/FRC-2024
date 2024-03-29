@@ -6,8 +6,11 @@ package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.RobotContainer;
 
 /** Add your docs here. */
 public class AutoFunctions {
@@ -67,5 +70,22 @@ public class AutoFunctions {
             }
         }
         return pose;
+    }
+
+    /**
+     * Won't predict rotation... oh well
+     * @param secondsInFuture
+     * @param maxVelocity
+     * @return
+     */
+    public static Pose2d estimateFuturePose(double secondsInFuture, double maxVelocity){
+        Pose2d currentPose = RobotContainer.odometry.getPose2d();
+        ChassisSpeeds velocity = ChassisSpeeds.fromFieldRelativeSpeeds(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds(), Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
+        Transform2d futureTransformation = new Transform2d(
+            Utils.Clamp(velocity.vxMetersPerSecond, -maxVelocity, maxVelocity), 
+            Utils.Clamp(velocity.vyMetersPerSecond, -maxVelocity, maxVelocity), 
+            new Rotation2d()).times(secondsInFuture);
+
+        return currentPose.plus(futureTransformation);
     }
 }

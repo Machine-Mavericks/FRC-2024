@@ -24,7 +24,6 @@ public class AimThenShootSpeaker extends SequentialCommandGroup {
           new WaitForShooterSpinup()
         ),
       new ShootSpeaker()
-    
     );
   }
 }
