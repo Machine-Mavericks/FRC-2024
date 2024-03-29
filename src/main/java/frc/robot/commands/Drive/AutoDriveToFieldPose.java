@@ -65,7 +65,7 @@ public class AutoDriveToFieldPose extends Command {
     addRequirements(RobotContainer.drivetrain);
     m_target = target;
     m_speed = 0.3; //speed;
-    m_rotspeed = rotationalspeed;
+    m_rotspeed = 0.5; //rotationalspeed;
     m_timeout = timeout; 
     initializeShuffleboard();
   }

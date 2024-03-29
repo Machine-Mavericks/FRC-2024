@@ -42,8 +42,8 @@ public class TrajGeneration extends SubsystemBase {
 
     // Create constraint to ensure we don't accelerate too fast
     private TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-        3.0, // maxSpeedMetersPerSecond
-        20.0 // maxAccelerationMetersPerSecondSquared
+        0.30, // maxSpeedMetersPerSecond
+        2.0 // maxAccelerationMetersPerSecondSquared
     ).setKinematics(kDriveKinematics);
 
   /** Creates a new TrajGeneration. */
