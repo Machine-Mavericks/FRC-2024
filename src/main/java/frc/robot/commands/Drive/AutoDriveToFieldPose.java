@@ -88,6 +88,7 @@ public class AutoDriveToFieldPose extends Command {
     Pose2d TarPos = new Pose2d(CurrentPos.getX()+1.0, CurrentPos.getY()+1.0, CurrentPos.getRotation());
     m_Trajectory = trajgen_instance.genTraj(CurrentPos, TarPos);
    // RobotContainer.odometry.setFieldTrajectory(m_Trajectory); 
+   System.out.println("start run the code of AutoToPose");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -100,8 +101,9 @@ public class AutoDriveToFieldPose extends Command {
     if (timer.get() < m_Trajectory.getTotalTimeSeconds()) { 
       Trajectory.State state = m_Trajectory.sample(timer.get());
       m_target = state.poseMeters;
-      System.out.println(" Time: " + timer.get() + " Trajectory Pose: " + m_target.getX());
-      System.out.println(" Time: " + timer.get() + " Trajectory Pose: " + m_target.getY());
+      
+      System.out.println(" Time: " + timer.get() + "  x: " + m_target.getX());
+      System.out.println(" Time: " + timer.get() + " y: " + m_target.getY());
     }
 
     xSpeed = m_xController.calculate(m_target.getX()-CurrentPos.getX());
@@ -123,10 +125,10 @@ public class AutoDriveToFieldPose extends Command {
       rotSpeed = -m_rotspeed;
 
     //drive robot according to x,y,rot PID controller speeds
-    //  RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
-    //                                                    ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
-    //                                  rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-    //                                  true);
+    RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
+                                                       ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
+                                     rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                                     true);
 
     // are we at target - if so, increment time, if not reset
     if (  (Math.abs(m_target.getX() - CurrentPos.getX()) <  m_positiontolerance) &&
@@ -136,7 +138,7 @@ public class AutoDriveToFieldPose extends Command {
     else
       TimeAtTarget=0.0;
 
-    updateShuffleboard();
+    // updateShuffleboard();
   }
 
   // Called once the command ends or is interrupted.
