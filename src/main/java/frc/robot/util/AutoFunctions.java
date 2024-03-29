@@ -75,14 +75,17 @@ public class AutoFunctions {
     /**
      * Won't predict rotation... oh well
      * @param secondsInFuture
-     * @param maxDistance
+     * @param maxVelocity
      * @return
      */
-    public static Pose2d estimateFuturePose(double secondsInFuture, double maxDistance){
+    public static Pose2d estimateFuturePose(double secondsInFuture, double maxVelocity){
         Pose2d currentPose = RobotContainer.odometry.getPose2d();
-        ChassisSpeeds speed = ChassisSpeeds.fromFieldRelativeSpeeds(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds(), Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
-        Transform2d futureTransformation = new Transform2d(Math.min(speed.vxMetersPerSecond, maxDistance), Math.min(speed.vyMetersPerSecond, maxDistance), new Rotation2d()).times(secondsInFuture);
-        //System.out.println("Remove Later (X Velocity): " + futureTransformation.getX());
+        ChassisSpeeds velocity = ChassisSpeeds.fromFieldRelativeSpeeds(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds(), Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
+        Transform2d futureTransformation = new Transform2d(
+            Utils.Clamp(velocity.vxMetersPerSecond, -maxVelocity, maxVelocity), 
+            Utils.Clamp(velocity.vyMetersPerSecond, -maxVelocity, maxVelocity), 
+            new Rotation2d()).times(secondsInFuture);
+
         return currentPose.plus(futureTransformation);
     }
 }
