@@ -40,8 +40,7 @@ import frc.robot.subsystems.NVidia;
 import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
-import frc.robot.subsystems.SpeakerTargeting;
-import frc.robot.util.AutoFunctions;
+import frc.robot.subsystems.SpeakerTargeting; 
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -66,8 +65,8 @@ public class RobotContainer {
   public static final Drivetrain drivetrain = new Drivetrain();
   public static final Odometry odometry = new Odometry();
 
-
-  public static final AutoDriveToFieldPose autodrivetofieldpose = new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d( 4.1,7.5,new Rotation2d(Math.toRadians(180.0)))),0.3, 0.5, 20.0);
+  public  static final Pose2d CurrentPos = odometry.getPose2d(); 
+  public static final AutoDriveToFieldPose autodrivetofieldpose = new AutoDriveToFieldPose(CurrentPos,0.3, 0.5, 20.0);
   //public static final PowerPanel panel = new PowerPanel();
   public static final LEDs leds = new LEDs();
   public static final CassetteShooter cassetteshooter = new CassetteShooter();
@@ -100,7 +99,7 @@ public class RobotContainer {
     // Zero gyro for driving
     OI.zeroButton.whileTrue(new RunCommand(() -> gyro.resetGyro()));
 
-    OI.autodrivetofieldpose.whileTrue(new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d( 4.1,7.5, new Rotation2d(Math.toRadians(180.0)))),0.3, 0.5, 20.0));
+    // OI.autodrivetofieldpose.whileTrue(new AutoDriveToFieldPose(AutoFunctions.redVsBlue(,0.3, 0.5, 20.0));
 
     // Manual intake
     OI.intakeButton.whileTrue(new GroundIntake(5));
