@@ -56,8 +56,6 @@ public class TurnToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-
     // find current position
     Pose2d currentPose=RobotContainer.odometry.getPose2d();
 

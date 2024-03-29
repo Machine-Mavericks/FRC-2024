@@ -21,6 +21,7 @@ import frc.robot.commands.Drive.ManualDriveCommand;
 import frc.robot.commands.Drive.SteerToNote;
 import frc.robot.commands.Mechanism.GroundIntake;
 import frc.robot.commands.Mechanism.OperatorSpinup;
+import frc.robot.commands.Mechanism.PreemptiveCassetteAngleCommand;
 import frc.robot.commands.Mechanism.RunClimbCommand;
 import frc.robot.commands.Mechanism.UnstuckShot;
 import frc.robot.commands.Other.DelayCommand;
@@ -78,6 +79,7 @@ public class RobotContainer {
    */
   public static void init() {
     drivetrain.setDefaultCommand(new ManualDriveCommand(drivetrain));
+    cassetteangle.setDefaultCommand(new PreemptiveCassetteAngleCommand(cassetteangle));
 
     // Configure the button bindings
     configureButtonBindings();
