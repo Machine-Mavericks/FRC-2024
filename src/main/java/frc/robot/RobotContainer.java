@@ -38,6 +38,7 @@ import frc.robot.subsystems.NoteTargeting;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SpeakerTargeting;
+import frc.robot.subsystems.TrajGeneration;
 
 
 /**

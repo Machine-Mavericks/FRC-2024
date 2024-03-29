@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Drive;
 
+import java.util.List;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,13 +15,22 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.Timer;
+
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.TrajGeneration;
 import frc.robot.util.Utils;
 
-public class AutoDriveToFieldPose extends Command {
+public class AutoDriveToFieldPose extends Command { 
   
+  private final Timer timer = new Timer();
+  private TrajGeneration trajgen_instance;
+  private Trajectory m_Trajectory;
+
   private Pose2d m_target;
+  
   private double m_speed;
   private double m_rotspeed;
   private double m_timeout;
@@ -46,76 +57,56 @@ public class AutoDriveToFieldPose extends Command {
   private double xSpeed;
   private double ySpeed;
   private double rotSpeed;
-
   private double TimeAtTarget;
-
 
   /** Creates a new AutoDriveToPoseCommand. 
    * Use this to have command to drive back to coordinate provided to it */
-  public AutoDriveToFieldPose(Pose2d target, double speed, double rotationalspeed, double timeout) {
+  //  new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0,4.0, new Rotation2d(Math.toRadians(180.0)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
+ 
+  Pose2d target = new Pose2d(2.0,4.0, new Rotation2d(0.0));
+   double speed=0.3;
+    double rotationalspeed=0.5;
+     double timeout =20;
 
+  public AutoDriveToFieldPose(Pose2d target, double speed, double rotationalspeed, double timeout) {
     addRequirements(RobotContainer.drivetrain);
     m_target = target;
-    m_speed = speed;
+    m_speed = 0.3; //speed;
     m_rotspeed = rotationalspeed;
-    m_timeout = timeout;
-
+    m_timeout = timeout; 
+    initializeShuffleboard();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_time = 0.0;
-
+    m_time = 0.0; 
     m_xController.reset();
     m_yController.reset();
     m_rotController.reset();
     TimeAtTarget=0.0;
-    
+    timer.reset();
+    timer.start();
     //initializeShuffleboard();
+    Pose2d CurrentPos = RobotContainer.odometry.getPose2d(); 
+    double limitVel = 0.3;
+    double limitAcc = 1;
+    trajgen_instance = new TrajGeneration(limitVel, limitAcc);
+    m_Trajectory = trajgen_instance.genTraj(CurrentPos, m_target);
+    RobotContainer.odometry.setFieldTrajectory(m_Trajectory);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d CurrentPos = RobotContainer.odometry.getPose2d();
-    
+    Pose2d CurrentPos = RobotContainer.odometry.getPose2d(); 
     // increment time
     m_time += 0.02;
 
-    double Xerrorabs = Math.abs(m_target.getX()-CurrentPos.getX());
-    double Yerrorabs = Math.abs(m_target.getY()-CurrentPos.getY());
-
-    
-    double PgainMax = 0.45;
-    double PgainMin = 0.15;
-    double kOfGain = 0.05;
-    double XIgain = 0.01, YIgain = 0.01;
-    double XPgain = kOfGain*Xerrorabs+0.08;
-
-    if (XPgain>PgainMax)
-      XPgain=PgainMax;
-    if (XPgain<PgainMin)
-      XPgain=PgainMin;
-    if(Xerrorabs>0.4)
-      XIgain = 0.001;
-    else
-      XIgain = 0.032;
-
-    double YPgain = kOfGain*Yerrorabs+0.08;
-    if (YPgain>PgainMax)
-      YPgain=PgainMax;
-    if (YPgain<PgainMin)
-      YPgain=PgainMin;
-    if(Yerrorabs>0.4)
-      YIgain = 0.001;
-    else
-      YIgain = 0.032;
-
-    m_xController.setP(XPgain);
-    m_xController.setI(XIgain);
-    m_yController.setP(YPgain);
-    m_yController.setI(YIgain);
+    if (timer.get() < m_Trajectory.getTotalTimeSeconds()) { 
+      Trajectory.State state = m_Trajectory.sample(timer.get());
+      m_target = state.poseMeters;
+    }
 
     xSpeed = m_xController.calculate(m_target.getX()-CurrentPos.getX());
     ySpeed = m_yController.calculate(m_target.getY()-CurrentPos.getY());
@@ -136,10 +127,10 @@ public class AutoDriveToFieldPose extends Command {
       rotSpeed = -m_rotspeed;
 
     //drive robot according to x,y,rot PID controller speeds
-    RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
-                                                      ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
-                                    rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                                    true);
+    // RobotContainer.drivetrain.drive(new Translation2d(xSpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND,
+    //                                                   ySpeed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND),
+    //                                 rotSpeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+    //                                 true);
 
     // are we at target - if so, increment time, if not reset
     if (  (Math.abs(m_target.getX() - CurrentPos.getX()) <  m_positiontolerance) &&
@@ -149,7 +140,7 @@ public class AutoDriveToFieldPose extends Command {
     else
       TimeAtTarget=0.0;
 
-    //updateShuffleboard();
+    updateShuffleboard();
   }
 
   // Called once the command ends or is interrupted.
