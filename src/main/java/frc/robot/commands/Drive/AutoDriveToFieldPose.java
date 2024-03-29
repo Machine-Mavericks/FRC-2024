@@ -86,7 +86,7 @@ public class AutoDriveToFieldPose extends Command {
     double limitAcc = 1;
     trajgen_instance = new TrajGeneration(limitVel, limitAcc);
     m_Trajectory = trajgen_instance.genTraj(CurrentPos, m_target);
-    RobotContainer.odometry.setFieldTrajectory(m_Trajectory);
+   // RobotContainer.odometry.setFieldTrajectory(m_Trajectory);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -99,6 +99,7 @@ public class AutoDriveToFieldPose extends Command {
     if (timer.get() < m_Trajectory.getTotalTimeSeconds()) { 
       Trajectory.State state = m_Trajectory.sample(timer.get());
       m_target = state.poseMeters;
+      System.out.println("Trajectory Time: " + timer.get() + " Trajectory Pose: " + m_target);
     }
 
     xSpeed = m_xController.calculate(m_target.getX()-CurrentPos.getX());
