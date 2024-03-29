@@ -116,9 +116,10 @@ public class Odometry extends SubsystemBase {
    */
   public void addVision(Pose2d vision, double distance){
     
-    double stdDevs = 0.01*distance;
+    double stdDevs = 0.03*distance;
     double velocity = Math.sqrt(Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vxMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vyMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().omegaRadiansPerSecond,2));
-    double finalStdDevs = stdDevs*velocity+0.1;
+    double ATnum = 2/(RobotContainer.nvidia.GetNumberAprilTagsDetected()+0.1);
+    double finalStdDevs = stdDevs*velocity*ATnum+0.1;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(finalStdDevs, finalStdDevs, finalStdDevs));
     m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
 
