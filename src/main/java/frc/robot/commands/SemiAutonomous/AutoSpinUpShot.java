@@ -12,6 +12,7 @@ public class AutoSpinUpShot extends Command {
   /** Creates a new AutoSpinUpShot. */
   public AutoSpinUpShot() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.cassetteshooter);  
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +23,7 @@ public class AutoSpinUpShot extends Command {
   @Override
   public void execute() {
 
-    if (RobotContainer.speakertargeting.getSpeakerDistance()<= 6){
+    if (RobotContainer.speakertargeting.getSpeakerDistance()<= 6 && RobotContainer.cassetteintake.NoteOrNoNote()){
     RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
     RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
     } 
