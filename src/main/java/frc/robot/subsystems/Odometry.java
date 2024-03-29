@@ -36,7 +36,7 @@ public class Odometry extends SubsystemBase {
   public GenericEntry m_angleDiff;
   
   // field visualization object to display on shuffleboard
-  private Field2d m_field;
+  public Field2d m_field;
 
 
   /** Creates a new SwervePosEstimator. */
@@ -124,7 +124,7 @@ public class Odometry extends SubsystemBase {
     m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
 
     // show apriltag estimate as 'dot' on field2d widget
-    m_field.getObject("tag").setPose(vision);
+    //m_field.getObject("tag").setPose(vision);
   }
 
   
