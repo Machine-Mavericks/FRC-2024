@@ -42,43 +42,22 @@ public class TurnToSpeaker extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Init");
-    
-    
+
     // reset PID controller
     pidController.reset();
 
     m_angleerror = 0.0;
 
     m_AtTargetTime = 0.0;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-
-    // find current position
-    Pose2d currentPose=RobotContainer.odometry.getPose2d();
-
-    // find speaker position
-    Pose2d speakerPose;
-    
-    if (DriverStation.getAlliance().get() == Alliance.Red){
-      speakerPose=AprilTagMap.AprilTags[3];
-      // find differences in position
-      double xDif = speakerPose.getX()-currentPose.getX();
-      double yDif = speakerPose.getY()-currentPose.getY();
-      m_endangle = 0.0 + (Math.atan2(yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
-     
-    } else {
-      speakerPose=AprilTagMap.AprilTags[6];
-      // find differences in position
-      double xDif = speakerPose.getX()-currentPose.getX();
-      double yDif = speakerPose.getY()-currentPose.getY();
-      m_endangle = 180.0 + (Math.atan2(-yDif,Math.abs(xDif)))/Odometry.DEGtoRAD;
-    }
-
+    // get angle to speaker
+    m_endangle = RobotContainer.speakertargeting.getSpeakerAngle();
  
     // set end angle in shuffleboard
     RobotContainer.odometry.m_angleAway.setDouble(m_endangle);

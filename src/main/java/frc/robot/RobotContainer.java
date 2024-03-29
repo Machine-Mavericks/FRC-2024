@@ -126,9 +126,6 @@ public class RobotContainer {
     // blindly turn on intake to shoot
     OI.advanceIntakeButton.whileTrue(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1.0)));
     OI.advanceIntakeButton.onFalse(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0.0)));
-
-    // 
-    OI.constantTurnButton.whileTrue(new TurnToSpeaker());
   }
 
   /**

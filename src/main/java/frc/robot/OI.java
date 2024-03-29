@@ -160,6 +160,6 @@ public class OI {
     public static final JoystickButton advanceIntakeButton = new JoystickButton(operatorController, OperatorBindings.ADVANCE_INTAKE_BUTTON.value);
    
     /** Button to blindly advance intake */
-    public static final JoystickButton constantTurnButton = new JoystickButton(operatorController, OperatorBindings.ADVANCE_INTAKE_BUTTON.value);
+    public static final JoystickButton constantTurnButton = new JoystickButton(driverController, DriverBindings.TOGGLE_TURN.value);
 }
  
