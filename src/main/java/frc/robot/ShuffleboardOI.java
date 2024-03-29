@@ -33,6 +33,10 @@ public class ShuffleboardOI extends SubsystemBase {
     // Shot info
     public GenericEntry LShooterSpeed;
     public GenericEntry RShooterSpeed;
+    public GenericEntry LShooterTarget;
+    public GenericEntry RShooterTarget;
+    public GenericEntry LShooterError;
+    public GenericEntry RShooterError;
     public GenericEntry ShooterAtSpeed;
     public GenericEntry ShooterAtAngle;
 
@@ -103,14 +107,38 @@ public class ShuffleboardOI extends SubsystemBase {
         BuildInfoLayout.add("Build Timestamp", BuildConstants.BUILD_DATE);
         BuildInfoLayout.add("Repository", BuildConstants.MAVEN_NAME);    
         
-        LShooterSpeed = tab.add("LShooterspeed", 0)
+        LShooterSpeed = tab.add("L Shooter speed", 0)
         .withPosition(3, 1)
         .withWidget(BuiltInWidgets.kTextView)
         .withProperties(Map.of("show_submit_button ", true))
         .getEntry();
 
-        RShooterSpeed = tab.add("RShooterspeed", 0)
+        RShooterSpeed = tab.add("R Shooter speed", 0)
         .withPosition(3, 2)
+        .withWidget(BuiltInWidgets.kTextView)
+        .withProperties(Map.of("show_submit_button ", true))
+        .getEntry();
+
+        RShooterTarget = tab.add("R Shooter target", 0)
+        .withPosition(3, 3)
+        .withWidget(BuiltInWidgets.kTextView)
+        .withProperties(Map.of("show_submit_button ", true))
+        .getEntry();
+
+        LShooterTarget = tab.add("L Shooter target", 0)
+        .withPosition(3, 4)
+        .withWidget(BuiltInWidgets.kTextView)
+        .withProperties(Map.of("show_submit_button ", true))
+        .getEntry();
+
+        RShooterError = tab.add("R Shooter error", 0)
+        .withPosition(3, 5)
+        .withWidget(BuiltInWidgets.kTextView)
+        .withProperties(Map.of("show_submit_button ", true))
+        .getEntry();
+
+        LShooterError = tab.add("L Shooter error", 0)
+        .withPosition(3, 6)
         .withWidget(BuiltInWidgets.kTextView)
         .withProperties(Map.of("show_submit_button ", true))
         .getEntry();
