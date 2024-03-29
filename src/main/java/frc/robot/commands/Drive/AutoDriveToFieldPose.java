@@ -61,13 +61,6 @@ public class AutoDriveToFieldPose extends Command {
 
   /** Creates a new AutoDriveToPoseCommand. 
    * Use this to have command to drive back to coordinate provided to it */
-  //  new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0,4.0, new Rotation2d(Math.toRadians(180.0)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3)
- 
-  Pose2d target = new Pose2d(2.0,4.0, new Rotation2d(0.0));
-   double speed=0.3;
-    double rotationalspeed=0.5;
-     double timeout =20;
-
   public AutoDriveToFieldPose(Pose2d target, double speed, double rotationalspeed, double timeout) {
     addRequirements(RobotContainer.drivetrain);
     m_target = target;
