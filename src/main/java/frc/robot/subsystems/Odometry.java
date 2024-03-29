@@ -121,7 +121,7 @@ public class Odometry extends SubsystemBase {
     
     Pose2d NewEstimate = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(0.995*CurrentGyro + 0.005*VisionAngle));
 
-    double stdDevs = 0.01*distance;
+    double stdDevs = 0.03*distance;
     m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 0.05));
     m_estimator.addVisionMeasurement(NewEstimate, Timer.getFPGATimestamp());
 

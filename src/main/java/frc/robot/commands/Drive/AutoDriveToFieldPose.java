@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Drive;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -52,8 +53,8 @@ public class AutoDriveToFieldPose extends Command {
   private final double m_angletolerance = 2.0;
 
   // x, y, rotation PID controllers
-  private PIDController m_xController = new PIDController(0.1, 0.01, 0.00);
-  private PIDController m_yController = new PIDController(0.1, 0.01, 0.00);
+  private PIDController m_xController = new PIDController(0.70, 0.4, 0.00);
+  private PIDController m_yController = new PIDController(0.70, 0.4, 0.00);
   private PIDController m_rotController = new PIDController(0.01, 0.0001, 0.001);
   
   private double xSpeed;
@@ -67,9 +68,10 @@ public class AutoDriveToFieldPose extends Command {
   public AutoDriveToFieldPose(Pose2d target, double speed, double rotationalspeed, double timeout) {
     addRequirements(RobotContainer.drivetrain);
     m_target = target;
-    m_speed = 0.5; //speed;
-    m_rotspeed = 0.5; //rotationalspeed;
+    m_speed =  speed; //3.5;
+    m_rotspeed = rotationalspeed; // 2.0; 
     m_timeout = timeout; 
+    m_TarPos = target;
 
     // it crush the robot when run initializeShuffleboard();
     //initializeShuffleboard();
@@ -85,11 +87,31 @@ public class AutoDriveToFieldPose extends Command {
     TimeAtTarget=0.0; 
     //initializeShuffleboard();
     Pose2d m_initPos = RobotContainer.odometry.getPose2d(); 
-    double limitVel = 0.5;
-    double limitAcc = 10.0;
+    double limitVel = m_speed; //3.5;
+    double limitAcc = 100.0;
     trajgen_instance = new TrajGeneration(limitVel, limitAcc); 
-    m_TarPos = new Pose2d(3.6,6.12, m_initPos.getRotation());
-    m_Trajectory = trajgen_instance.genTraj(m_initPos, m_TarPos); 
+    
+    // m_TarPos = new Pose2d(7.0,7.0, m_initPos.getRotation());
+
+    m_Trajectory = trajgen_instance.genTraj(m_initPos, m_TarPos);
+
+    // m_TarPos = new Pose2d(13.0,2.0, new Rotation2d(2.356125)); 
+    // var interiorWaypoints = new ArrayList<Translation2d>();
+    // test 2 , under starge
+    // interiorWaypoints.add(new Translation2d(6.14,4.14));
+    // interiorWaypoints.add(new Translation2d(9.25 ,1.85));
+    // interiorWaypoints.add(new Translation2d(12.24 ,1.9 )); 
+
+    // // test 1 from amp
+    // interiorWaypoints.add(new Translation2d(5.6,7.0 ));
+    // interiorWaypoints.add(new Translation2d(8.0 ,5.6 ));
+    // interiorWaypoints.add(new Translation2d(8.0 ,2.6 ));
+    // interiorWaypoints.add(new Translation2d(11.4 ,1.5 ));
+
+    // m_Trajectory = trajgen_instance.genTrajThroughWaypoints(interiorWaypoints, m_initPos, m_TarPos);
+        
+    RobotContainer.odometry.setFieldTrajectory(m_Trajectory);
+    // RobotContainer.leds.AtDestination = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -100,12 +122,12 @@ public class AutoDriveToFieldPose extends Command {
 
     if (m_time < m_Trajectory.getTotalTimeSeconds()) { 
       Trajectory.State state = m_Trajectory.sample(m_time); 
-      if( Math.abs ( m_initPos.getRotation().getRadians()-m_TarPos.getRotation().getRadians() ) < 0.05 ){
-       m_target = new Pose2d( state.poseMeters.getX(),  state.poseMeters.getY(), m_initPos.getRotation());
-      }
-      else{
+      // if( Math.abs ( m_initPos.getRotation().getRadians()-m_TarPos.getRotation().getRadians() ) < 0.05 ){
+      //  m_target = new Pose2d( state.poseMeters.getX(),  state.poseMeters.getY(), m_initPos.getRotation());
+      // }
+      // else{
        m_target = state.poseMeters;
-      }
+      // }
       System.out.println(" Time: " + m_time + "  x: " + m_target.getX());
       System.out.println(" Time: " + m_time + " y: " + m_target.getY());
     }
@@ -113,8 +135,13 @@ public class AutoDriveToFieldPose extends Command {
     Pose2d CurrentPos = RobotContainer.odometry.getPose2d(); 
     xSpeed = m_xController.calculate(m_target.getX()-CurrentPos.getX());
     ySpeed = m_yController.calculate(m_target.getY()-CurrentPos.getY());
-    rotSpeed = m_rotController.calculate(Utils.AngleDifference(m_target.getRotation().getDegrees(),CurrentPos.getRotation().getDegrees()));
+    rotSpeed = m_rotController.calculate(Utils.AngleDifference(m_TarPos.getRotation().getDegrees(),CurrentPos.getRotation().getDegrees()));
     
+    m_xController.setIntegratorRange(-40.0,40.0);
+    m_xController.setIZone(0.4);
+    m_yController.setIntegratorRange(-40.0,40.0);
+    m_yController.setIZone(0.4);
+
     // limit speeds to allowable
     if (xSpeed > m_speed)
       xSpeed = m_speed;
@@ -136,9 +163,9 @@ public class AutoDriveToFieldPose extends Command {
                                      true);
 
     // are we at target - if so, increment time, if not reset
-    if (  (Math.abs(m_target.getX() - CurrentPos.getX()) <  m_positiontolerance) &&
-          (Math.abs(m_target.getY() - CurrentPos.getY()) <  m_positiontolerance) &&
-          (Math.abs(Utils.AngleDifference(m_target.getRotation().getDegrees(),CurrentPos.getRotation().getDegrees())) < m_angletolerance))
+    if (  (Math.abs(m_TarPos.getX() - CurrentPos.getX()) <  m_positiontolerance) &&
+          (Math.abs(m_TarPos.getY() - CurrentPos.getY()) <  m_positiontolerance) &&
+          (Math.abs(Utils.AngleDifference(m_TarPos.getRotation().getDegrees(),CurrentPos.getRotation().getDegrees())) < m_angletolerance))
       TimeAtTarget+=0.02;
     else
       TimeAtTarget=0.0;
@@ -158,7 +185,15 @@ public class AutoDriveToFieldPose extends Command {
   @Override
   public boolean isFinished() { 
     // we are finished if we are within erorr of target or command had timeed out
-    return (TimeAtTarget >=0.5 || (m_time >= m_timeout));
+    if(TimeAtTarget >=0.5 || (m_time >= m_timeout)){
+      System.out.println("Go to Pose finished");
+      // RobotContainer.leds.AtDestination = true;
+      return true;
+    }
+    else{
+      return false;
+    }
+    // return (TimeAtTarget >=0.5 || (m_time >= m_timeout)); 
   }
 
   /** Initialize subsystem shuffleboard page and controls */
