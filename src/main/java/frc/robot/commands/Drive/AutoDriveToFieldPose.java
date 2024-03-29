@@ -85,7 +85,8 @@ public class AutoDriveToFieldPose extends Command {
     double limitVel = 0.3;
     double limitAcc = 1;
     trajgen_instance = new TrajGeneration(limitVel, limitAcc);
-    m_Trajectory = trajgen_instance.genTraj(CurrentPos, m_target);
+    Pose2d TarPos = new Pose2d(CurrentPos.getX()+1.0, CurrentPos.getY()+1.0, CurrentPos.getRotation());
+    m_Trajectory = trajgen_instance.genTraj(CurrentPos, TarPos);
    // RobotContainer.odometry.setFieldTrajectory(m_Trajectory);
   }
 
