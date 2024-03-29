@@ -121,15 +121,10 @@ public class AutoDriveToFieldPose extends Command {
     m_time += 0.02;
 
     if (m_time < m_Trajectory.getTotalTimeSeconds()) { 
-      Trajectory.State state = m_Trajectory.sample(m_time); 
-      // if( Math.abs ( m_initPos.getRotation().getRadians()-m_TarPos.getRotation().getRadians() ) < 0.05 ){
-      //  m_target = new Pose2d( state.poseMeters.getX(),  state.poseMeters.getY(), m_initPos.getRotation());
-      // }
-      // else{
-       m_target = state.poseMeters;
-      // }
-      System.out.println(" Time: " + m_time + "  x: " + m_target.getX());
-      System.out.println(" Time: " + m_time + " y: " + m_target.getY());
+      Trajectory.State state = m_Trajectory.sample(m_time);  
+       m_target = state.poseMeters; 
+      // System.out.println(" Time: " + m_time + "  x: " + m_target.getX());
+      // System.out.println(" Time: " + m_time + " y: " + m_target.getY());
     }
 
     Pose2d CurrentPos = RobotContainer.odometry.getPose2d(); 

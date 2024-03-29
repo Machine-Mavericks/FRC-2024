@@ -37,6 +37,6 @@ public class ShootSpeaker extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(2.0);
+    return timer.hasElapsed(0.75);
   }
 }
