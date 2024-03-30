@@ -15,10 +15,10 @@ import frc.robot.commands.Autonomous.FourNoteSource;
 import frc.robot.commands.Autonomous.OneNoteAnywhere;
 import frc.robot.commands.Autonomous.SixNoteAmp;
 import frc.robot.commands.Autonomous.ThreeNoteSource;
-import frc.robot.commands.Autonomous.ThreeNoteStage;
 import frc.robot.commands.Autonomous.ThreeNoteStageCenter;
 import frc.robot.commands.Autonomous.TwoNoteAmp;
 import frc.robot.commands.Autonomous.TwoNoteCenter;
+import frc.robot.commands.Autonomous.TwoNoteSource;
 import frc.robot.commands.Drive.ManualDriveCommand;
 import frc.robot.commands.Drive.SteerToNote;
 import frc.robot.commands.Mechanism.PreemptiveSpinUpShot;
@@ -166,16 +166,13 @@ public class RobotContainer {
         chosenCommand = new SixNoteAmp();
         break;
       case 7:
-        chosenCommand = new TwoNoteCenter();
+        chosenCommand = new TwoNoteSource();
         break;
-      //case 8:
-        //chosenCommand = new ThreeNoteStage();
-        //break;
-      case 9:
+      case 8:
         chosenCommand = new ThreeNoteSource();
         break;
       
-      case 10:
+      case 9:
         chosenCommand = new ThreeNoteStageCenter();
         break;
       
