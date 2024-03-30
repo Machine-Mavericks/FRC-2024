@@ -116,15 +116,28 @@ public class Odometry extends SubsystemBase {
    */
   public void addVision(Pose2d vision, double distance){
     
-    double stdDevs = 0.03*distance;
-    double velocity = Math.sqrt(Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vxMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vyMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().omegaRadiansPerSecond,2));
-    double ATnum = 2/(RobotContainer.nvidia.GetNumberAprilTagsDetected()+0.1);
-    double finalStdDevs = stdDevs*velocity*ATnum+0.1;
-    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(finalStdDevs, finalStdDevs, finalStdDevs));
-    m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
+    double CurrentGyro = RobotContainer.gyro.getYaw()*DEGtoRAD;
+    double VisionAngle = vision.getRotation().getRadians();
+    
+    Pose2d NewEstimate = new Pose2d(vision.getX(),vision.getY(),new Rotation2d(0.995*CurrentGyro + 0.005*VisionAngle));
+
+    double stdDevs = 0.06*distance;
+    m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
+    m_estimator.addVisionMeasurement(NewEstimate, Timer.getFPGATimestamp());
 
     // show apriltag estimate as 'dot' on field2d widget
-    //m_field.getObject("tag").setPose(vision);
+    m_field.getObject("tag").setPose(vision);
+
+    // temporarily taken out until we figure out how to better optimize this for BOTH auto and teleop modes.
+    // double stdDevs = 0.03*distance;
+    // double velocity = Math.sqrt(Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vxMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vyMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().omegaRadiansPerSecond,2));
+    // double ATnum = 2/(RobotContainer.nvidia.GetNumberAprilTagsDetected()+0.1);
+    // double finalStdDevs = stdDevs*velocity*ATnum+0.1;
+    // m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(finalStdDevs, finalStdDevs, finalStdDevs));
+    // m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
+
+    // // show apriltag estimate as 'dot' on field2d widget
+    // //m_field.getObject("tag").setPose(vision);
   }
 
   
