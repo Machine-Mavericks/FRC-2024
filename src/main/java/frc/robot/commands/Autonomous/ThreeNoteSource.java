@@ -31,9 +31,10 @@ public class ThreeNoteSource extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
     //Shoot preload 
+    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
     new AimThenShootSpeaker(), 
     new CleanupShot(),
-    //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(4.5,1.3, new Rotation2d(Math.toRadians(180.0)))), 0.5*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, 0.5*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, 3),
+    //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(4.5,1.3, new Rotation2d(Math.toRadians(180.0)))), 0.5, 0.5, 3),
     
     new ParallelCommandGroup( 
           new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(8.4,0.8, new Rotation2d(Math.toRadians(-150.0)))), 0.5, 0.5, 3),
