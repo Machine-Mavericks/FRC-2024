@@ -11,6 +11,8 @@ public class TwoNoteCenter extends SequentialCommandGroup {
   /** Creates a new TwoNoteStage. */
   public TwoNoteCenter() {
     
-    addCommands();
+    addCommands(
+      
+    );
   }
 }
