@@ -4,13 +4,8 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import frc.robot.RobotContainer;
@@ -20,10 +15,6 @@ import frc.robot.util.SubsystemShuffleboardManager;
 
 
 public class Pigeon extends SubsystemBase implements ShuffleUser {
-  // subsystem shuffleboard controls
-  private GenericEntry m_gyroPitch;
-  private GenericEntry m_gyroYaw;
-  private GenericEntry m_gyroRoll;
 
   //gyro offset adjust
   private double OffsetAdjust;
@@ -147,26 +138,14 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
   // -------------------- Subsystem Shuffleboard Methods --------------------
 
   /** Initialize subsystem shuffleboard page and controls */
-  public void initializeShuffleboard() {
-    // Create odometry page in shuffleboard
-    ShuffleboardTab Tab = Shuffleboard.getTab("Pigeon");
-
-    // create controls to display robot position, angle, and gyro angle
-    ShuffleboardLayout l1 = Tab.getLayout("Values", BuiltInLayouts.kList);
-    l1.withPosition(0, 0);
-    l1.withSize(1, 3);
-    m_gyroPitch = l1.add("Pitch (deg)", 0.0).getEntry();
-    m_gyroYaw = l1.add("Yaw (deg)", 0.0).getEntry();
-    m_gyroRoll = l1.add("Roll (deg)", 0.0).getEntry();
-    
-  }
+  public void initializeShuffleboard() {}
 
   /** Update subsystem shuffle board page with current Gyro values */
   public void updateShuffleboard() {
     // write current robot Gyro
-    m_gyroPitch.setDouble(getPitch());
-    m_gyroYaw.setDouble(getYaw());
-    m_gyroRoll.setDouble(getRoll());
+    RobotContainer.operatorinterface.m_gyroPitch.setDouble(getPitch());
+    RobotContainer.operatorinterface.m_gyroYaw.setDouble(getYaw());
+    RobotContainer.operatorinterface.m_gyroRoll.setDouble(getRoll());
   }
 
 }

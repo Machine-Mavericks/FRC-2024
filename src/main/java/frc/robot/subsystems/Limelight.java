@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.util.ShuffleUser;
 import frc.robot.util.SubsystemShuffleboardManager;
 
@@ -32,8 +33,6 @@ public class Limelight extends SubsystemBase implements ShuffleUser {
     private NetworkTable m_table;
 
     // subsystem shuffleboard controls
-    private GenericEntry m_Pipeline;
-    private GenericEntry m_TargetPresent;
     private GenericEntry m_AprilTagID;
 
     private GenericEntry m_AngleX;
@@ -64,7 +63,7 @@ public class Limelight extends SubsystemBase implements ShuffleUser {
     public Limelight(String name, boolean FiducialEnable) {
       ConstructLimelight(name, FiducialEnable, true); }
     public Limelight(String name) {
-      ConstructLimelight(name, false, true); }
+      ConstructLimelight(name, false, false); }
 
     
     // construct limelight subsystem
@@ -279,13 +278,6 @@ public class Limelight extends SubsystemBase implements ShuffleUser {
     // Create odometry page in shuffleboard
     ShuffleboardTab Tab = Shuffleboard.getTab("Limelight: " + name);
 
-    // camera pipeline number
-    m_Pipeline = Tab.add("Pipeline", 0)
-                    .withPosition(0,0).getEntry();
-
-    // does camera detect target
-    m_TargetPresent = Tab.add("Target Present", false).withPosition(0,1).getEntry();
-
     // april tag target id
     m_AprilTagID = Tab.add("AprilTag Target ID", 0).withPosition(0,2).getEntry();
 
@@ -353,8 +345,8 @@ public class Limelight extends SubsystemBase implements ShuffleUser {
   public void updateShuffleboard() {
     
     // update camera pipeline and target detected indicator
-    m_Pipeline.setDouble(getPipeline());
-    m_TargetPresent.setBoolean(isTargetPresent());
+    RobotContainer.operatorinterface.m_Pipeline.setDouble(getPipeline());
+    RobotContainer.operatorinterface.m_TargetPresent.setBoolean(isTargetPresent());
     m_AprilTagID.setDouble(getPrimAprilTagID());
 
     // update angles to center of target

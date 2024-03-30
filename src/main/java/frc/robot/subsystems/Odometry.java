@@ -9,16 +9,9 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.math.VecBuilder;
 import frc.robot.RobotContainer;
-import edu.wpi.first.math.trajectory.Trajectory;
 
 
 public class Odometry extends SubsystemBase {
@@ -28,22 +21,9 @@ public class Odometry extends SubsystemBase {
   // create swerve position estimator object
   private SwerveDrivePoseEstimator m_estimator;
 
-  // subsystem shuffleboard controls
-  private GenericEntry m_robotX;
-  private GenericEntry m_robotY;
-  private GenericEntry m_robotAngle;
-  public GenericEntry m_angleAway;
-  public GenericEntry m_angleDiff;
-  
-  // field visualization object to display on shuffleboard
-  public Field2d m_field;
-
 
   /** Creates a new SwervePosEstimator. */
   public Odometry() {
-
-    // create 2d field object
-    m_field = new Field2d();
    
     // create position estimator - set to (0,0,0)(x,y,ang)
     // initialize swerve drive odometry
@@ -126,7 +106,7 @@ public class Odometry extends SubsystemBase {
     m_estimator.addVisionMeasurement(NewEstimate, Timer.getFPGATimestamp());
 
     // show apriltag estimate as 'dot' on field2d widget
-    m_field.getObject("tag").setPose(vision);
+    RobotContainer.operatorinterface.m_field.getObject("tag").setPose(vision);
 
     // temporarily taken out until we figure out how to better optimize this for BOTH auto and teleop modes.
     // double stdDevs = 0.03*distance;
@@ -171,53 +151,18 @@ public class Odometry extends SubsystemBase {
       return new Pose2d(0,0,new Rotation2d(0.0));
   }
 
-
-  // -------------------- Field Visulation Methods --------------------
-
-
-  // draws supplied trajectory on field widget on shuffleboard
-  public void setFieldTrajectory(Trajectory trajectory)
-  {
-    m_field.getObject("Field").setTrajectory(trajectory);
-  }
-
-  // remote currently shown field trajectory
-  public void deleteFieldTrajectory()
-  {
-    // remove by sending empty array pof poses to field object
-    Pose2d poses[] = {};
-    m_field.getObject("Field").setPoses(poses);
-  }
-
   // -------------------- Subsystem Shuffleboard Methods --------------------
 
   /** Initialize subsystem shuffleboard page and controls */
-  private void initializeShuffleboard() {
-    // Create odometry page in shuffleboard
-    ShuffleboardTab Tab = Shuffleboard.getTab("Odometry");
-
-    // create controls to display robot position, angle, and gyro angle
-    ShuffleboardLayout l1 = Tab.getLayout("Estimates", BuiltInLayouts.kList);
-    l1.withPosition(0, 0);
-    l1.withSize(1, 4);
-    m_robotX = l1.add("X (m)", 0.0).getEntry();
-    m_robotY = l1.add("Y (m)", 0.0).getEntry();
-    m_robotAngle = l1.add("Angle(deg)", 0.0).getEntry();
-    m_angleAway = l1.add("Angle away(deg)", 0.0).getEntry();
-    m_angleDiff = l1.add("Angle err(deg)", 0.0).getEntry();
-  
-    Tab.add("Field", m_field)
-    .withPosition(2, 0)
-    .withSize(5, 3);
-  }
+  private void initializeShuffleboard() {}
 
   /** Update subsystem shuffle board page with current odometry values */
   private void updateShuffleboard() {
     Pose2d vector = getPose2d();
-    m_robotX.setDouble(vector.getX());
-    m_robotY.setDouble(vector.getY());
-    m_robotAngle.setDouble(vector.getRotation().getDegrees());
-    m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
+    RobotContainer.operatorinterface.m_robotX.setDouble(vector.getX());
+    RobotContainer.operatorinterface.m_robotY.setDouble(vector.getY());
+    RobotContainer.operatorinterface.m_robotAngle.setDouble(vector.getRotation().getDegrees());
+    RobotContainer.operatorinterface.m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
   }
   
 }
