@@ -35,7 +35,7 @@ public class PreemptiveCassetteAngleCommand extends Command {
     double driverWallPosition = DriverStation.getAlliance().get() == Alliance.Red ? AutoFunctions.FIELD_X_SIZE : 0;
 
     Pose2d predictedPose = AutoFunctions.estimateFuturePose(0.5, 1.5);
-    RobotContainer.odometry.m_field.getObject("Predicted Pose").setPose(predictedPose);
+    RobotContainer.operatorinterface.m_field.getObject("Predicted Pose").setPose(predictedPose);
     
     if (RobotContainer.cassetteintake.NoteOrNoNote()) {
       // If closer than seven meters, set effector angle

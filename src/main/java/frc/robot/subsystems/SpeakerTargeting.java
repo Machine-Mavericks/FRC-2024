@@ -77,7 +77,7 @@ public class SpeakerTargeting extends SubsystemBase {
     double finalangle = Utils.AngleDifference(endangle, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
 
     // set end angle in shuffleboard
-    RobotContainer.odometry.m_angleAway.setDouble(finalangle);
+    RobotContainer.operatorinterface.m_angleAway.setDouble(finalangle);
 
     return finalangle;
   }
