@@ -16,6 +16,7 @@ import frc.robot.commands.Autonomous.OneNoteAnywhere;
 import frc.robot.commands.Autonomous.SixNoteAmp;
 import frc.robot.commands.Autonomous.ThreeNoteSource;
 import frc.robot.commands.Autonomous.ThreeNoteStage;
+import frc.robot.commands.Autonomous.ThreeNoteStageCenter;
 import frc.robot.commands.Autonomous.TwoNoteAmp;
 import frc.robot.commands.Autonomous.TwoNoteCenter;
 import frc.robot.commands.Drive.ManualDriveCommand;
@@ -147,27 +148,37 @@ public class RobotContainer {
       case 1:
         chosenCommand = new TwoNoteAmp();
         break;
+
       case 2:
-        chosenCommand = new FiveNoteAmp();
-        break;
-      case 3:
-        chosenCommand = new FourNoteSource();
-        break;
-      case 4:
-        chosenCommand = new DelayCommand(20); // Do nothing auto
-        break;
-      case 5:
-        chosenCommand = new SixNoteAmp();
-        break;
-      case 6:
         chosenCommand = new TwoNoteCenter();
         break;
-      case 7:
-        chosenCommand = new ThreeNoteStage();
+
+      case 3:
+        chosenCommand = new FiveNoteAmp();
         break;
-      case 8:
+      case 4:
+        chosenCommand = new FourNoteSource();
+        break;
+      case 5:
+        chosenCommand = new DelayCommand(20); // Do nothing auto
+        break;
+      case 6:
+        chosenCommand = new SixNoteAmp();
+        break;
+      case 7:
+        chosenCommand = new TwoNoteCenter();
+        break;
+      //case 8:
+        //chosenCommand = new ThreeNoteStage();
+        //break;
+      case 9:
         chosenCommand = new ThreeNoteSource();
         break;
+      
+      case 10:
+        chosenCommand = new ThreeNoteStageCenter();
+        break;
+      
       default:
         chosenCommand = null;
         break;
