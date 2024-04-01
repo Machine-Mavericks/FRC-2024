@@ -7,6 +7,7 @@ package frc.robot.util;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -57,7 +58,16 @@ public class AutoFunctions {
         return new Pose2d(x,y,new Rotation2d(angle));
     }
 
-
+    public static Translation2d redVsBlue(Translation2d pose) {
+        if (DriverStation.getAlliance().isPresent()) {
+            if (DriverStation.getAlliance().get() == Alliance.Red){
+                double x = FIELD_X_SIZE - pose.getX();
+                double y = pose.getY();
+                return new Translation2d(x,y);
+            }
+        }
+        return pose;
+    }
 
 
     public static Pose2d redVsBlue(Pose2d pose) {
