@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Mechanism;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
@@ -22,7 +23,9 @@ public class PreemptiveSpinUpShot extends Command {
   @Override
   public void execute() {
 
-    if (RobotContainer.speakertargeting.getSpeakerDistance()<= 6 && RobotContainer.cassetteintake.NoteOrNoNote()){
+    Pose2d pose =RobotContainer.odometry.getPose2d();
+
+    if (RobotContainer.speakertargeting.getSpeakerDistance(pose)<= 6 && RobotContainer.cassetteintake.NoteOrNoNote()){
     RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed());
     RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed());
     } 

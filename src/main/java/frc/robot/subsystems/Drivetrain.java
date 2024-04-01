@@ -97,12 +97,12 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
      * The left-to-right distance between the drivetrain wheels
      * Should be measured from center to center.
      */
-    public static final double TRACKWIDTH_METERS = 0.7;
+    public static final double TRACKWIDTH_METERS = 0.6;
     /**
      * The front-to-back distance between the drivetrain wheels.
      * Should be measured from center to center.
      */
-    public static final double WHEELBASE_METERS = 0.7;
+    public static final double WHEELBASE_METERS = 0.6;
 
     /**
      * The maximum voltage that will be delivered to the drive motors.
@@ -120,9 +120,13 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
 
     // All gearing values used to be supplied by the SDS library, which was discontinued
     // Values taken from https://github.com/SwerveDriveSpecialties/Do-not-use-swerve-lib-2022-unmaintained/blob/develop/src/main/java/com/swervedrivespecialties/swervelib/SdsModuleConfigurations.java
+    
+    // Applied 1.28x factor to wheel diameter - unsure why this was required, but auto pathing was indicating robot constantly travel further than it was supposed to
+    // suggesting that odometry was off by factor.   Mar 30/2024 KN
+    
     public static final double MK4_L1_DriveReduction = (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0);
     public static final double MK4_L1_SteerReduction = (15.0 / 32.0) * (10.0 / 60.0);
-    public static final double MK4_L1_WheelDiameter = 0.10033;
+    public static final double MK4_L1_WheelDiameter = 0.10033*1.28;
 
     public static final boolean MK4_L1_DriveInverted = true;
     public static final boolean MK4_L1_SteerInverted = false;

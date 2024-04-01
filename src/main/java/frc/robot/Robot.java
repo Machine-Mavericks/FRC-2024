@@ -46,6 +46,9 @@ public class Robot extends TimedRobot {
 
     // reset the gyro when robot powered up
     RobotContainer.gyro.resetGyro();
+
+    // measure angle based on odometry
+    RobotContainer.odometry.setCamBool(true);
   }
 
   /**
@@ -93,6 +96,9 @@ public class Robot extends TimedRobot {
     RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE);
 
     RobotContainer.gyro.setGyroUsingOdom();
+    
+    // switch odometry modes before auto sequence
+    RobotContainer.odometry.setCamBool(false);
     
     // schedule the autonomous command
     if (autonomousCommand != null)
