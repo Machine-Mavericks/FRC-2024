@@ -10,17 +10,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Autonomous.FiveNoteAmp;
 import frc.robot.commands.Autonomous.FourNoteAmp;
 import frc.robot.commands.Autonomous.FourNoteSource;
 import frc.robot.commands.Autonomous.NewFourNoteSource;
 import frc.robot.commands.Autonomous.OneNoteAnywhere;
 import frc.robot.commands.Autonomous.SixNoteAmp;
-<<<<<<< HEAD
 import frc.robot.commands.Autonomous.ThreeNoteAmp;
-=======
 import frc.robot.commands.Autonomous.TestAuto;
->>>>>>> 6c139759756be81d4094a59d4de3d4967438c5ed
 import frc.robot.commands.Autonomous.ThreeNoteSource;
 import frc.robot.commands.Autonomous.ThreeNoteStageCenter;
 import frc.robot.commands.Autonomous.TwoNoteAmp;
