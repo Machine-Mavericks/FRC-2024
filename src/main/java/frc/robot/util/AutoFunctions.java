@@ -82,6 +82,16 @@ public class AutoFunctions {
         return pose;
     }
 
+    public static double redVsBlue(double angle) {
+        if (DriverStation.getAlliance().isPresent()) {
+            if (DriverStation.getAlliance().get() == Alliance.Red){
+                double anglefinal = 180.0-angle;
+                return anglefinal;
+            }
+        }
+        return angle;
+    }
+
     /**
      * Won't predict rotation... oh well
      * @param secondsInFuture

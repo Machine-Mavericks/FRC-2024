@@ -20,6 +20,7 @@ import frc.robot.commands.Autonomous.TestAuto;
 import frc.robot.commands.Autonomous.ThreeNoteSource;
 import frc.robot.commands.Autonomous.ThreeNoteStageCenter;
 import frc.robot.commands.Autonomous.TwoNoteAmp;
+import frc.robot.commands.Autonomous.TwoNoteAnywhere;
 import frc.robot.commands.Autonomous.TwoNoteCenter;
 import frc.robot.commands.Autonomous.TwoNoteSource;
 import frc.robot.commands.Drive.ManualDriveCommand;
@@ -175,7 +176,10 @@ public class RobotContainer {
       case 9:
         chosenCommand = new FourNoteAmp();
         break;
-      
+      case 10:
+        chosenCommand = new TwoNoteAnywhere();
+        break;
+        
       default:
         chosenCommand = null;
         break;

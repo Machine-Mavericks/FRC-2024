@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Drive.AutoDriveToFieldPose;
+import frc.robot.commands.Drive.AutoDriveToFieldPoseSimple;
 import frc.robot.commands.Drive.SteerToNote;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
@@ -33,9 +34,9 @@ public class TwoNoteAmp extends SequentialCommandGroup {
     //                         0.1, // rotational speed(unit?)
     //                         5.0),
 
-    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+   new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
 
-    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d(Math.toRadians(180.0)))),  0.5, 0.5, 3),
+    new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d(Math.toRadians(180.0)))),  0.5, 0.5, 3),
 
     //new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(AutoFunctions.intom(75),AutoFunctions.intom(159.5+57+57),new Rotation2d(Math.toRadians(180)))),  0.5, 0.5, 3),
     //new AutoDriveToPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d())),  0.5, 0.5, 3),

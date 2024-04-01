@@ -117,6 +117,7 @@ public class ShuffleboardOI extends SubsystemBase {
         m_autonomousPath.addOption("Three Note Stage Center", 7);
         m_autonomousPath.addOption("Three Note Amp", 8);
         m_autonomousPath.addOption("Four Note Amp", 9);
+        m_autonomousPath.addOption("Two Note Anywhere", 10);
         
         m_autonomousPath.setDefaultOption("Do Nothing", 4);
 

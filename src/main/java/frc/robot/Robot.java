@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
     autonomousCommand = RobotContainer.getAutonomousCommand();
     RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE);
 
-    RobotContainer.gyro.setGyroUsingOdom();
+    //RobotContainer.gyro.setGyroUsingOdom();
     
     // switch odometry modes before auto sequence
     RobotContainer.odometry.setCamBool(false);
