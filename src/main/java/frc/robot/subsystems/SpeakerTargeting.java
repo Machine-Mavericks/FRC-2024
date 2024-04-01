@@ -44,7 +44,6 @@ public class SpeakerTargeting extends SubsystemBase {
   }
   
   public double getDesiredAngle(Pose2d Pose){
-    
     double distance = getSpeakerDistance(Pose);
     //return 0.352*Math.pow(distance, -1.143);  (original from git master)
     //return 0.3535*Math.pow(distance, -1.146);
