@@ -16,6 +16,7 @@ import frc.robot.commands.Autonomous.NewFourNoteSource;
 import frc.robot.commands.Autonomous.OneNoteAnywhere;
 import frc.robot.commands.Autonomous.SixNoteAmp;
 import frc.robot.commands.Autonomous.ThreeNoteAmp;
+import frc.robot.commands.Autonomous.ThreeNoteCenter;
 import frc.robot.commands.Autonomous.TestAuto;
 import frc.robot.commands.Autonomous.ThreeNoteSource;
 import frc.robot.commands.Autonomous.ThreeNoteStageCenter;
@@ -147,19 +148,19 @@ public class RobotContainer {
     // return autonomous command to be run
     switch (index) {
       case 0:
-        chosenCommand = new OneNoteAnywhere();
+        chosenCommand = new DelayCommand(20); // Do nothing auto
         break;
       case 1:
-        chosenCommand = new TwoNoteAmp();
+        chosenCommand = new OneNoteAnywhere();
         break;
       case 2:
-        chosenCommand = new TwoNoteCenter();
+        chosenCommand = new TwoNoteAnywhere();
         break;
       case 3:
-        chosenCommand = new NewFourNoteSource();
+        chosenCommand = new TwoNoteAmp();
         break;
       case 4:
-        chosenCommand = new DelayCommand(20); // Do nothing auto
+        chosenCommand = new TwoNoteCenter();
         break;
       case 5:
         chosenCommand = new TwoNoteSource();
@@ -168,18 +169,20 @@ public class RobotContainer {
         chosenCommand = new ThreeNoteSource();
         break;
       case 7:
-        chosenCommand = new ThreeNoteStageCenter();
+        chosenCommand = new ThreeNoteCenter();
         break;
       case 8:
-        chosenCommand = new ThreeNoteAmp();
+        chosenCommand = new ThreeNoteStageCenter();
         break;
       case 9:
-        chosenCommand = new FourNoteAmp();
+        chosenCommand = new ThreeNoteAmp();
         break;
       case 10:
-        chosenCommand = new TwoNoteAnywhere();
+        chosenCommand = new FourNoteAmp();
         break;
-        
+      case 11:
+        chosenCommand = new NewFourNoteSource();
+        break;
       default:
         chosenCommand = null;
         break;
