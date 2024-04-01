@@ -26,7 +26,7 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
   private double m_currentSetpointR = 0;
 
   /* Rotations per second shooter speed can be off by before being considered either too slow or fast */
-  private static double allowedSpeedError = 10;
+  private static double allowedSpeedError = 2;
 
   private VelocityVoltage m_motorVelocityControl = new VelocityVoltage(0);
 
@@ -38,9 +38,9 @@ public class CassetteShooter extends SubsystemBase implements ShuffleUser {
    
     var slot0Configs = new Slot0Configs();
     
-    slot0Configs.kV = 0.11;
-    slot0Configs.kP = 0.09;   // was 0.05
-    slot0Configs.kI = .001;  // was 0.0 // was 0.005
+    slot0Configs.kV = 0.110;// 0.11;
+    slot0Configs.kP = 0.5; ///0.18; //0.38; //0.09  // was 0.05
+    slot0Configs.kI = 0.02;// 0.02; //0.001;  // was 0.0 // was 0.005
     slot0Configs.kD = 0;
 
     m_LShootMotor.getConfigurator().apply(slot0Configs);

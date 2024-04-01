@@ -4,35 +4,60 @@
 
 package frc.robot.commands.Drive;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.Timer;
+
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.TrajGeneration;
 import frc.robot.util.Utils;
 
 public class AutoDriveToFieldPose extends Command { 
 
+  private TrajGeneration trajgen_instance;
+  private Trajectory m_Trajectory;
   private Pose2d m_TarPos; 
+  private Pose2d m_initPos;
+  private Translation2d m_wayPoint;
 
   private Pose2d m_target;
   
-  private double m_XspeedLimit;
-  private double m_YspeedLimit;
+  private double m_speed;
   private double m_rotspeed;
   private double m_timeout;
 
   private double m_time;
 
+    // subsystem shuffleboard controls
+  private GenericEntry m_targetX;
+  private GenericEntry m_targetY;
+  private GenericEntry m_targetAngle;
+  private GenericEntry m_xSpeed;
+  private GenericEntry m_ySpeed;
+  private GenericEntry m_rotSpeed;
 
   // final position tolerance (m) / angle tolerance (deg) to consider we have arrived at destination
-  private final double m_positiontolerance = 0.10;
-  private final double m_angletolerance = 2.0;
+  private final double m_positiontolerance = 0.10; //0.20;
+  private final double m_angletolerance = 3.0;
 
   // x, y, rotation PID controllers
-  private PIDController m_xController = new PIDController(1.25, 0.4, 0.00);
-  private PIDController m_yController = new PIDController(1.25, 0.4, 0.00);
+  private PIDController m_xController = new PIDController(0.70, 0.4, 0.00);
+  private PIDController m_yController = new PIDController(0.70, 0.4, 0.00);
   private PIDController m_rotController = new PIDController(0.01, 0.0001, 0.001);
   
   private double xSpeed;
@@ -40,29 +65,30 @@ public class AutoDriveToFieldPose extends Command {
   private double rotSpeed;
   private double TimeAtTarget;
   
-  private double oldx, oldy, oldrot;
 
   /** Creates a new AutoDriveToPoseCommand. 
    * Use this to have command to drive back to coordinate provided to it */
   public AutoDriveToFieldPose(Pose2d target, double speed, double rotationalspeed, double timeout) {
     addRequirements(RobotContainer.drivetrain);
     m_target = target;
-    m_XspeedLimit =  speed;  m_YspeedLimit = speed;
-    m_rotspeed = rotationalspeed;
+    m_wayPoint = null;
+    m_speed =  speed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND; //3.5;
+    m_rotspeed = rotationalspeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; // 2.0; 
     m_timeout = timeout; 
     m_TarPos = target;
   }
 
-/** Creates a new AutoDriveToPoseCommand. 
-   * Use this to have command to drive back to coordinate provided to it */
-  public AutoDriveToFieldPose(Pose2d target, double Xspeed, double Yspeed, double rotationalspeed, double timeout) {
+  public AutoDriveToFieldPose(Pose2d target, Translation2d wayPoint, double speed, double rotationalspeed, double timeout) {
     addRequirements(RobotContainer.drivetrain);
     m_target = target;
-    m_XspeedLimit =  Xspeed;  m_YspeedLimit = Yspeed;
-    m_rotspeed = rotationalspeed;
+    m_wayPoint = wayPoint;
+    m_speed =  speed*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND; //3.5;
+    m_rotspeed = rotationalspeed*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; // 2.0; 
     m_timeout = timeout; 
     m_TarPos = target;
   }
+
+
 
 
   // Called when the command is initially scheduled.
@@ -73,7 +99,47 @@ public class AutoDriveToFieldPose extends Command {
     m_yController.reset();
     m_rotController.reset();
     TimeAtTarget=0.0; 
-    oldx = 0.0; oldy = 0.0; oldrot=0.0;
+    //initializeShuffleboard();
+    Pose2d m_initPos = RobotContainer.odometry.getPose2d(); 
+    double limitVel = m_speed; //3.5;
+    double limitAcc = 10.0;
+    trajgen_instance = new TrajGeneration(limitVel, limitAcc); 
+
+    //m_Trajectory = trajgen_instance.genTraj(m_initPos, m_target);
+
+
+
+    // angle to target
+    double angle = Math.atan2(m_target.getY()-m_initPos.getY(),m_target.getX()-m_initPos.getX() );
+
+    Pose2d adjustedInitialPose = new Pose2d (m_initPos.getTranslation(), new Rotation2d(angle));
+    Pose2d adjustedTargetPose = new Pose2d (m_TarPos.getTranslation(), new Rotation2d(angle));
+    
+    if (m_wayPoint!=null)
+      m_Trajectory = trajgen_instance.genTraj(adjustedInitialPose, adjustedTargetPose, m_wayPoint);
+    else
+      m_Trajectory = trajgen_instance.genTraj(adjustedInitialPose, adjustedTargetPose);
+    
+    
+
+
+    // m_TarPos = new Pose2d(13.0,2.0, new Rotation2d(2.356125)); 
+    // var interiorWaypoints = new ArrayList<Translation2d>();
+    // test 2 , under starge
+    // interiorWaypoints.add(new Translation2d(6.14,4.14));
+    // interiorWaypoints.add(new Translation2d(9.25 ,1.85));
+    // interiorWaypoints.add(new Translation2d(12.24 ,1.9 )); 
+
+    // // test 1 from amp
+    // interiorWaypoints.add(new Translation2d(5.6,7.0 ));
+    // interiorWaypoints.add(new Translation2d(8.0 ,5.6 ));
+    // interiorWaypoints.add(new Translation2d(8.0 ,2.6 ));
+    // interiorWaypoints.add(new Translation2d(11.4 ,1.5 ));
+
+    // m_Trajectory = trajgen_instance.genTrajThroughWaypoints(interiorWaypoints, m_initPos, m_TarPos);
+        
+    RobotContainer.operatorinterface.setFieldTrajectory(m_Trajectory);
+    // RobotContainer.leds.AtDestination = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -82,42 +148,32 @@ public class AutoDriveToFieldPose extends Command {
     // increment time
     m_time += 0.02;
 
+    if (m_time < m_Trajectory.getTotalTimeSeconds()) { 
+      Trajectory.State state = m_Trajectory.sample(m_time);  
+       m_target = state.poseMeters; 
+      //System.out.println(" Time: " + m_time + "  x: " + m_target.getX());
+      //System.out.println(" Time: " + m_time + " y: " + m_target.getY());
+    }
+
     Pose2d CurrentPos = RobotContainer.odometry.getPose2d(); 
     xSpeed = m_xController.calculate(m_target.getX()-CurrentPos.getX());
     ySpeed = m_yController.calculate(m_target.getY()-CurrentPos.getY());
     rotSpeed = m_rotController.calculate(Utils.AngleDifference(m_TarPos.getRotation().getDegrees(),CurrentPos.getRotation().getDegrees()));
     
-    m_xController.setIntegratorRange(-40.0,40.0);
+    m_xController.setIntegratorRange(-20.0,20.0);
     m_xController.setIZone(0.4);
-    m_yController.setIntegratorRange(-40.0,40.0);
+    m_yController.setIntegratorRange(-20.0,20.0);
     m_yController.setIZone(0.4);
 
-    // limit rate of change
-    if (xSpeed > 0.0 && xSpeed > oldx + 0.01)
-      xSpeed = oldx+0.01;
-    if (xSpeed <0.0 && xSpeed < oldx - 0.01)
-      xSpeed = oldx-0.01;
-    if (ySpeed > 0.0 && ySpeed > oldy + 0.01)
-      ySpeed = oldy+0.01;
-    if (ySpeed <0.0 && ySpeed < oldy - 0.01)
-      ySpeed = oldy-0.01;
-    if (rotSpeed > 0.0 && rotSpeed > oldrot + 0.01)
-      rotSpeed = oldrot+0.01;
-    if (rotSpeed <0.0 && rotSpeed < oldrot - 0.01)
-      rotSpeed = oldrot-0.01;
-    
-      oldx = xSpeed; oldy = ySpeed; oldrot = rotSpeed;
-
-
     // limit speeds to allowable
-    if (xSpeed > m_XspeedLimit)
-      xSpeed = m_XspeedLimit;
-    if (xSpeed < -m_XspeedLimit)
-      xSpeed = -m_XspeedLimit;
-    if (ySpeed > m_YspeedLimit)
-      ySpeed = m_YspeedLimit; 
-    if (ySpeed < -m_YspeedLimit)
-      ySpeed = -m_YspeedLimit;  
+    if (xSpeed > m_speed)
+      xSpeed = m_speed;
+    if (xSpeed < -m_speed)
+      xSpeed = -m_speed;
+    if (ySpeed > m_speed)
+      ySpeed = m_speed; 
+    if (ySpeed < -m_speed)
+      ySpeed = -m_speed;  
     if (rotSpeed >m_rotspeed)
       rotSpeed = m_rotspeed;
     if (rotSpeed < -m_rotspeed)
@@ -136,6 +192,9 @@ public class AutoDriveToFieldPose extends Command {
       TimeAtTarget+=0.02;
     else
       TimeAtTarget=0.0;
+
+    // it crush the robot when run updateShuffleboard();
+    // updateShuffleboard();
   }
 
   // Called once the command ends or is interrupted.
@@ -149,8 +208,9 @@ public class AutoDriveToFieldPose extends Command {
   @Override
   public boolean isFinished() { 
     // we are finished if we are within erorr of target or command had timeed out
-    if(TimeAtTarget >=0.35 || (m_time >= m_timeout)){
+    if(TimeAtTarget >=0.5 || (m_time >= m_timeout)){
       System.out.println("Go to Pose finished");
+      // RobotContainer.leds.AtDestination = true;
       return true;
     }
     else{
@@ -159,5 +219,34 @@ public class AutoDriveToFieldPose extends Command {
     // return (TimeAtTarget >=0.5 || (m_time >= m_timeout)); 
   }
 
+  /** Initialize subsystem shuffleboard page and controls */
+  private void initializeShuffleboard() {
+    // Create odometry page in shuffleboard
+    ShuffleboardTab Tab = Shuffleboard.getTab("Auto drive");
+
+ // Controls to set initial robot position and angle
+    ShuffleboardLayout l2 = Tab.getLayout("Initial Position", BuiltInLayouts.kList);
+    l2.withPosition(1, 0);
+    l2.withSize(1, 3);
+    m_targetX = l2.add("X3 (m)", 0.0).getEntry();           // eventually can use .addPersistent once code finalized
+    m_targetY = l2.add("Y3 (m)", 0.0).getEntry();           // eventually can use .addPersentent once code finalized
+    m_targetAngle = l2.add("Angle3(deg)", 0.0).getEntry();  // eventually can use .addPersentent once code finalized
+    m_xSpeed = l2.add("xspeed",0.0).getEntry();
+    m_ySpeed = l2.add("yspeed",0.0).getEntry();
+    m_rotSpeed = l2.add("rotSpeed",0).getEntry();
+  
+  }
+
+  /** Update subsystem shuffle board page with current odometry values */
+  private void updateShuffleboard() {
+    Pose2d vector = m_target;
+    m_targetX.setDouble(vector.getX());
+    m_targetY.setDouble(vector.getY());
+    m_targetAngle.setDouble(vector.getRotation().getDegrees());
+    m_xSpeed.setDouble(xSpeed);
+    m_ySpeed.setDouble(ySpeed);
+    m_rotSpeed.setDouble(rotSpeed);
+    //m_field.setRobotPose(vector.getX(),vector.getY(),vector.getRotation());
+  }
   
 }
