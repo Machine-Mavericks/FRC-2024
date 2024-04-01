@@ -14,6 +14,7 @@ import frc.robot.commands.Autonomous.FiveNoteAmp;
 import frc.robot.commands.Autonomous.FourNoteSource;
 import frc.robot.commands.Autonomous.OneNoteAnywhere;
 import frc.robot.commands.Autonomous.SixNoteAmp;
+import frc.robot.commands.Autonomous.TestAuto;
 import frc.robot.commands.Autonomous.ThreeNoteSource;
 import frc.robot.commands.Autonomous.ThreeNoteStageCenter;
 import frc.robot.commands.Autonomous.TwoNoteAmp;

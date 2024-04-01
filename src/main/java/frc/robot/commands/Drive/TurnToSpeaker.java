@@ -6,6 +6,11 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
@@ -23,9 +28,11 @@ public class TurnToSpeaker extends Command {
 
   // PID gains for rotating robot towards ball target
   double kp = 0.10;   // 0.12 //0.09
-  double ki = 0.22;   //0.28
-  double kd = 0.002; //0.00125
-  PIDController pidController = new PIDController(kp, ki, kd);
+  double ki = 0.28; //0.001;   //0.28
+  double kd = 0.0; //0.00125
+  PIDController pidcontroller= new PIDController(kp, ki, kd);
+  
+
 
   /** Creates a new TurnToSpeaker. */
   public TurnToSpeaker() {
@@ -38,12 +45,14 @@ public class TurnToSpeaker extends Command {
   public void initialize() {
 
     // reset PID controller
-    pidController.reset();
+    pidcontroller.reset();
 
     m_angleerror = 0.0;
 
     m_AtTargetTime = 0.0;
 
+    // set integration zone (based on degrees of error)
+    pidcontroller.setIZone(6.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,12 +68,12 @@ public class TurnToSpeaker extends Command {
       m_AtTargetTime = 0.0;
 
     // execute PID controller
-    m_rotatespeed = pidController.calculate(m_angleerror);
+    m_rotatespeed = pidcontroller.calculate(m_angleerror);
     
-    if (m_rotatespeed > 5.0)
-      m_rotatespeed = 5.0;
-    if (m_rotatespeed < -5.0)
-      m_rotatespeed = -5.0;
+    if (m_rotatespeed > 20.0)
+      m_rotatespeed = 20.0;
+    if (m_rotatespeed < -20.0)
+      m_rotatespeed = -20.0;
 
     // rotate robot
     RobotContainer.drivetrain.drive(new Translation2d(0.0, 0.0), m_rotatespeed, true);
