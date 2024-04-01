@@ -7,6 +7,7 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.commands.Drive.AutoDriveOverLine;
 import frc.robot.commands.Drive.SteerToNote;
 import frc.robot.commands.Drive.TurnRobot;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
@@ -23,14 +24,18 @@ public class TwoNoteAnywhere extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
     new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
-
+    // Shoot Pre Load 
     new AimThenShootSpeaker(),
     new CleanupShot(),
+    // Turn Back to Straight
     new TurnRobot(AutoFunctions.redVsBlue(180.0), false, 1.0),
+    // Find Another Note 
     new SteerToNote(true, 3.0, 0.2),
+    // Shoot 
     new AimThenShootSpeaker(),
-    new CleanupShot()
-
+    new CleanupShot(),
+    // Drive over the line 
+    new AutoDriveOverLine(0.5, 0.5, 2.0)
     );
   }
 }
