@@ -10,10 +10,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Autonomous.FiveNoteAmp;
+import frc.robot.commands.Autonomous.FourNoteAmp;
 import frc.robot.commands.Autonomous.FourNoteSource;
+import frc.robot.commands.Autonomous.NewFourNoteSource;
 import frc.robot.commands.Autonomous.OneNoteAnywhere;
 import frc.robot.commands.Autonomous.SixNoteAmp;
+import frc.robot.commands.Autonomous.ThreeNoteAmp;
 import frc.robot.commands.Autonomous.TestAuto;
 import frc.robot.commands.Autonomous.ThreeNoteSource;
 import frc.robot.commands.Autonomous.ThreeNoteStageCenter;
@@ -149,32 +151,29 @@ public class RobotContainer {
       case 1:
         chosenCommand = new TwoNoteAmp();
         break;
-
       case 2:
         chosenCommand = new TwoNoteCenter();
         break;
-
       case 3:
-        chosenCommand = new FiveNoteAmp();
+        chosenCommand = new NewFourNoteSource();
         break;
       case 4:
-        chosenCommand = new FourNoteSource();
-        break;
-      case 5:
         chosenCommand = new DelayCommand(20); // Do nothing auto
         break;
-      case 6:
-        chosenCommand = new SixNoteAmp();
-        break;
-      case 7:
+      case 5:
         chosenCommand = new TwoNoteSource();
         break;
-      case 8:
+      case 6:
         chosenCommand = new ThreeNoteSource();
         break;
-      
-      case 9:
+      case 7:
         chosenCommand = new ThreeNoteStageCenter();
+        break;
+      case 8:
+        chosenCommand = new ThreeNoteAmp();
+        break;
+      case 9:
+        chosenCommand = new FourNoteAmp();
         break;
       
       default:
