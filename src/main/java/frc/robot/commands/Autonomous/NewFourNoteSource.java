@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Drive.AutoDriveToFieldPose;
 import frc.robot.commands.Drive.SteerToNote;
+import frc.robot.commands.Drive.TurnRobot;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.util.AutoFunctions;
@@ -36,17 +37,17 @@ public class NewFourNoteSource extends SequentialCommandGroup {
     new AimThenShootSpeaker(),
     new CleanupShot(),
 
-    new Rotation2d(Math.toRadians(45.0)), 0.5, 0.5, 3,   
+    new TurnRobot(90, false, 3),  
     new SteerToNote(true, 2.0, 0.2),
     new AimThenShootSpeaker(),
     new CleanupShot(),
 
-    new Rotation2d(Math.toRadians(45.0)), 0.5, 0.5, 3,   
+    new TurnRobot(90, false, 3),   
     new SteerToNote(true, 2.0, 0.2),
     new AimThenShootSpeaker(),
     new CleanupShot(),
 
-    new Rotation2d(Math.toRadians(45.0)), 0.5, 0.5, 3,    
+    new TurnRobot(90, false, 3),    
     new SteerToNote(true, 2.0, 0.2),
     new AimThenShootSpeaker(),
     new CleanupShot()
