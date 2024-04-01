@@ -110,15 +110,15 @@ public class ShuffleboardOI extends SubsystemBase {
         m_autonomousPath.addOption("One Note Anywhere",0);
         m_autonomousPath.addOption("Two Note Amp",1);
         m_autonomousPath.addOption("Two Note Center", 2);
-        m_autonomousPath.addOption("Five Note Amp",3);
-        m_autonomousPath.addOption("Four Note Source",4);
-        m_autonomousPath.addOption("Do Nothing",5);
-        m_autonomousPath.addOption("Six Note Amp",6);
-        m_autonomousPath.addOption("Two Note Source",7);
-        m_autonomousPath.addOption("Three Note Source", 8);
-        m_autonomousPath.addOption("Three Note Stage Center", 9);
-        m_autonomousPath.addOption("Three Note Amp", null);
-        m_autonomousPath.setDefaultOption("Do Nothing", 5);
+        m_autonomousPath.addOption("New Four Note Source",3);
+        m_autonomousPath.addOption("Do Nothing",4);
+        m_autonomousPath.addOption("Two Note Source",5);
+        m_autonomousPath.addOption("Three Note Source", 6);
+        m_autonomousPath.addOption("Three Note Stage Center", 7);
+        m_autonomousPath.addOption("Three Note Amp", 8);
+        m_autonomousPath.addOption("Four Note Amp", 9);
+        
+        m_autonomousPath.setDefaultOption("Do Nothing", 4);
 
         tab.add("Preround Paths", m_autonomousPath).withWidget(BuiltInWidgets.kComboBoxChooser).withPosition(0, 0).withSize(2,1);
         m_delayTime = tab.add("Auto Delay Time", 0).withWidget(BuiltInWidgets.kNumberSlider).withPosition(0, 1).withSize(1, 1).withProperties(Map.of("min_value", 0, "max_value", 15)).getEntry();
