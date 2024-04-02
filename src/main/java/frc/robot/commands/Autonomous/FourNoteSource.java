@@ -30,21 +30,21 @@ public class FourNoteSource extends SequentialCommandGroup {
     new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
     
     new AimThenShootSpeaker(),
-    new CleanupShot(),
+    //new CleanupShot(),
 
-    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0,4.0, new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
-    new SteerToNote(true, 2.0, 0.2),
+    //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0,4.0, new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
+    new SteerToNote(true, 2.0, 0.4),
     
     new AimThenShootSpeaker(),
-    new CleanupShot(),
+    //new CleanupShot(),
 
     new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0,5.5,new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
-    new SteerToNote(true, 2.0, 0.2),
+    new SteerToNote(true, 2.0, 0.4),
     new AimThenShootSpeaker(),
-    new CleanupShot(),
+    //new CleanupShot(),
 
     new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0,new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),     
-    new SteerToNote(true, 2.0, 0.2),
+    new SteerToNote(true, 2.0, 0.4),
     new AimThenShootSpeaker(),
     new CleanupShot()
     );
