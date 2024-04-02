@@ -23,7 +23,7 @@ public class TwoNoteAnywhere extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+    new InstantCommand (()->RobotContainer.gyro.resetGyroReverse()),
     // Shoot Pre Load 
     new AimThenShootSpeaker(),
     new CleanupShot(),
@@ -33,9 +33,8 @@ public class TwoNoteAnywhere extends SequentialCommandGroup {
     new SteerToNote(true, 3.0, 0.2),
     // Shoot 
     new AimThenShootSpeaker(),
-    new CleanupShot(),
-    // Drive over the line 
-    new AutoDriveOverLine(0.5, 0.5, 2.0)
+    new CleanupShot()
+   
     );
   }
 }
