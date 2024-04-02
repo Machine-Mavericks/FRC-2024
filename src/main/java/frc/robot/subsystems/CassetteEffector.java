@@ -57,7 +57,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   public static final double SPEAKER_ANGLE = 0.05; //from flush against
 
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
-  .withKP(120.0).withKI(25.0).withKD(3.5) // 50 kp, 0.1kd, ki=0.28
+  .withKP(120.0).withKI(22.0).withKD(3.5) // 50 kp, 0.1kd, ki=0.28
   .withKS(0).withKV(0).withKA(0);
 
   private static final Spline1D FEEDFORWARD_CURVE = new Spline1D(new Point[]{

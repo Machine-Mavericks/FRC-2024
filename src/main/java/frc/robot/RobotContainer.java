@@ -154,28 +154,31 @@ public class RobotContainer {
         chosenCommand = new OneNoteAnywhere();
         break;
       case 2:
-        chosenCommand = new TwoNoteAnywhere();
+        chosenCommand = new TwoNoteAmp();
         break;
       case 3:
-        chosenCommand = new ThreeNoteSource();
+        chosenCommand = new TwoNoteCenter();
         break;
       case 4:
-        chosenCommand = new ThreeNoteCenter();
+        chosenCommand = new TwoNoteSource();
         break;
       case 5:
-        chosenCommand = new ThreeNoteStageCenter();
+        chosenCommand = new ThreeNoteSource();
         break;
       case 6:
-        chosenCommand = new ThreeNoteAmp();
+        chosenCommand = new ThreeNoteCenter();
         break;
       case 7:
-        chosenCommand = new FourNoteAmp();
+        chosenCommand = new ThreeNoteStageCenter();
         break;
       case 8:
-        chosenCommand = new FourNoteSource();
+        chosenCommand = new ThreeNoteAmp();
         break;
       case 9:
-        chosenCommand = new TwoNoteAmp();
+        chosenCommand = new FourNoteAmp();
+        break;
+      case 10:
+        chosenCommand = new FourNoteSource();
         break;
   
       default:
