@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
     autonomousCommand = RobotContainer.getAutonomousCommand();
     RobotContainer.cassetteangle.setAngle(CassetteEffector.DROP_PROP_ANGLE);
 
-    //RobotContainer.gyro.setGyroUsingOdom();
+    RobotContainer.gyro.setGyroUsingOdom();
     
     // switch odometry modes before auto sequence
     RobotContainer.odometry.setCamBool(false);
@@ -112,6 +112,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
    
+
     // if robot has not previously been initialized, then go ahead and initialize
     //if (robotIsInitialized == false) {
       // RobotContainer.gyro.resetGyro();
@@ -131,6 +132,9 @@ public class Robot extends TimedRobot {
     RobotContainer.gyro.setGyroUsingOdom();
     // set default swerve drive command to manual drive mode
     RobotContainer.drivetrain.setDefaultCommand(new ManualDriveCommand(RobotContainer.drivetrain));
+
+    // stop angle based on odometry
+    RobotContainer.odometry.setCamBool(false);
 
   }
 

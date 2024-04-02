@@ -106,10 +106,10 @@ public class Odometry extends SubsystemBase {
   public void addVision(Pose2d vision, double distance){
     if (m_useCamAngle){
       double stdDevs = 0.03*distance;
-      double velocity = Math.sqrt(Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vxMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vyMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().omegaRadiansPerSecond,2));
-      double ATnum = 2/(RobotContainer.nvidia.GetNumberAprilTagsDetected()+0.1);
-      double finalStdDevs = stdDevs*velocity*ATnum+0.1;
-      m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(finalStdDevs, finalStdDevs, finalStdDevs));
+      //double velocity = Math.sqrt(Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vxMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vyMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().omegaRadiansPerSecond,2));
+      //double ATnum = 2/(RobotContainer.nvidia.GetNumberAprilTagsDetected()+0.1);
+      //double finalStdDevs = stdDevs*velocity*ATnum+0.1;
+      m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
       m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp());
 
       // show apriltag estimate as 'dot' on field2d widget
