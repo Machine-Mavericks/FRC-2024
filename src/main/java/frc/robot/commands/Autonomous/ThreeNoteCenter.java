@@ -25,7 +25,7 @@ public class ThreeNoteCenter extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+    //new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
     
     new AimThenShootSpeaker(),
     new CleanupShot(),
@@ -39,7 +39,7 @@ public class ThreeNoteCenter extends SequentialCommandGroup {
     //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(5.35,6.75, new Rotation2d(Math.toRadians(180.0)))), 0.5, 0.5, 3),
     //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(7.0,5.65, new Rotation2d(Math.toRadians(180.0)))), 0.5, 0.5, 3),      
     new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(7.0,5.65,new Rotation2d(Math.toRadians(180.0)))),
-                            new Translation2d(5.35,6.75),
+                            AutoFunctions.redVsBlue( new Translation2d(5.35,6.75)),
                             0.75, 0.1, 15),
   
     new SteerToNote(true, 2.0, 0.2),

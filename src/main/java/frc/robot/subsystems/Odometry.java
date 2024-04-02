@@ -110,11 +110,11 @@ public class Odometry extends SubsystemBase {
       //double velocity = Math.sqrt(Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vxMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().vyMetersPerSecond,2)+Math.pow(RobotContainer.drivetrain.getFieldRelativeChassisSpeeds().omegaRadiansPerSecond,2));
       //double ATnum = 2/(RobotContainer.nvidia.GetNumberAprilTagsDetected()+0.1);
       //double finalStdDevs = stdDevs*velocity*ATnum+0.1;
-      m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, stdDevs));
+      m_estimator.setVisionMeasurementStdDevs(VecBuilder.fill(stdDevs, stdDevs, 5.0*stdDevs));
       m_estimator.addVisionMeasurement(vision, Timer.getFPGATimestamp()); 
 
-    //   // show apriltag estimate as 'dot' on field2d widget
-    //   RobotContainer.operatorinterface.m_field.getObject("tag").setPose(vision);
+      // show apriltag estimate as 'dot' on field2d widget
+     RobotContainer.operatorinterface.m_field.getObject("tag").setPose(vision);
      } else {
       double CurrentGyro = RobotContainer.gyro.getYaw()*DEGtoRAD;
       double VisionAngle = vision.getRotation().getRadians();

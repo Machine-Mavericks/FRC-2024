@@ -23,7 +23,7 @@ public class TwoNoteAnywhere extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    new InstantCommand (()->RobotContainer.gyro.resetGyroReverse()),
+    //new InstantCommand (()->RobotContainer.gyro.resetGyroReverse()),
     // Shoot Pre Load 
     new AimThenShootSpeaker(),
     new CleanupShot(),

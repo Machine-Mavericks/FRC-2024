@@ -53,6 +53,11 @@ public class TurnToSpeaker extends Command {
 
     // set integration zone (based on degrees of error)
     pidcontroller.setIZone(6.0);
+
+    m_angleerror = RobotContainer.speakertargeting.getSpeakerAngle(RobotContainer.odometry.getPose2d());
+    System.out.println("Sprk Angle Error" + m_angleerror);
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,7 +67,7 @@ public class TurnToSpeaker extends Command {
     // get error to target angle from speakertargeting
     m_angleerror = RobotContainer.speakertargeting.getSpeakerAngle(RobotContainer.odometry.getPose2d());
 
-    if (Math.abs(m_angleerror) < 1.0)
+    if (Math.abs(m_angleerror) < 1.5)
       m_AtTargetTime += 0.02;
     else
       m_AtTargetTime = 0.0;

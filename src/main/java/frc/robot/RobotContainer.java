@@ -34,6 +34,7 @@ import frc.robot.commands.Mechanism.RunClimbCommand;
 import frc.robot.commands.Mechanism.UnstuckShot;
 import frc.robot.commands.Other.DelayCommand;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
+import frc.robot.commands.SemiAutonomous.AutoHangSideBack;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
 import frc.robot.commands.SemiAutonomous.PassingAcrossField;
 import frc.robot.subsystems.CassetteEffector;
@@ -81,6 +82,8 @@ public class RobotContainer {
   public static final Climber climber = new Climber();
   public static final NoteTargeting notetargeting = new NoteTargeting(intakelimelight);
 
+  public static final AutoHangSideBack autohangsideback = new AutoHangSideBack();
+
   /**
    * Initialise the container for the robot. Contains subsystems, OI devices, and
    * commands.
@@ -120,7 +123,7 @@ public class RobotContainer {
 
     // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
-
+    OI.autoHangSideBackButton.whileTrue(new AutoHangSideBack());
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
 
@@ -130,6 +133,7 @@ public class RobotContainer {
     // Climb control
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
     OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
+    
 
     // blindly turn on intake to shoot
     OI.advanceIntakeButton.whileTrue(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1.0)));

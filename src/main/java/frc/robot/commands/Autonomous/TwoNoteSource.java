@@ -25,7 +25,7 @@ public class TwoNoteSource extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
      
-    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+    //new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
      new AimThenShootSpeaker(),
      new CleanupShot(),
      new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,4.0, new Rotation2d(Math.toRadians(180.0)))),  0.5, 0.5, 3), 

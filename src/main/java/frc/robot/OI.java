@@ -93,11 +93,17 @@ public class OI {
         /** Button to shoot note */
         static final Button SHOOT_BUTTON = XboxController.Button.kRightBumper;
         /** Button for amp shot */
-        static final Button AMP_BUTTON = XboxController.Button.kA;
+        //static final Button AMP_BUTTON = XboxController.Button.kA;
         /** Button for auto intake */
         static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
         /** Button toggling constant turn to speaker */
         static final Button TOGGLE_TURN = XboxController.Button.kX;
+        //Auto hang front 
+        static final Button AUTO_HANG_SIDE_BACK_BUTTON = XboxController.Button.kB;
+        //Auto hang front 
+        //static final Button AUTO_HANG_SIDE_FRONT_BUTTON = XboxController.Button.kA;
+
+
     }
 
     private static class OperatorBindings{
@@ -146,7 +152,7 @@ public class OI {
     /**Button to trigger shooter */
     public static final JoystickButton speakerShooterButton = new JoystickButton(driverController, DriverBindings.SHOOT_BUTTON.value);
     /**Button to trigger amp shoot */
-    public static final JoystickButton ampButton = new JoystickButton(driverController, DriverBindings.AMP_BUTTON.value);
+    //public static final JoystickButton ampButton = new JoystickButton(driverController, DriverBindings.AMP_BUTTON.value);
 
     /**Button to spinup shooter preemptively for shot */
     public static final JoystickButton spinupShooterButton = new JoystickButton(operatorController, OperatorBindings.SPINUP_SHOOTER_BUTTON.value);
@@ -161,5 +167,8 @@ public class OI {
    
     /** Button to blindly advance intake */
     public static final JoystickButton constantTurnButton = new JoystickButton(driverController, DriverBindings.TOGGLE_TURN.value);
+    /**Button to move to side back hang position and hang */
+    public static final JoystickButton autoHangSideBackButton = new JoystickButton(driverController, DriverBindings.AUTO_HANG_SIDE_BACK_BUTTON.value);
+
 }
  

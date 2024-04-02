@@ -34,7 +34,7 @@ public class TwoNoteAmp extends SequentialCommandGroup {
     //                         0.1, // rotational speed(unit?)
     //                         5.0),
 
-   new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+    //new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
 
     new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0 ,7.0, new Rotation2d(Math.toRadians(180.0)))),  0.5, 0.5, 3),
 

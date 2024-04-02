@@ -19,7 +19,8 @@ public class OneNoteAnywhere extends SequentialCommandGroup {
     
     addCommands(
 
-    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+    
+    //new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
     
     // new TurnRobot(360, true, 3),
     // set gyro angle from odometry

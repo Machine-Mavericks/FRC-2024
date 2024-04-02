@@ -19,6 +19,7 @@ import frc.robot.commands.Mechanism.WaitForEffectorAngle;
 import frc.robot.commands.Mechanism.WaitForShooterSpinup;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
+import frc.robot.commands.SemiAutonomous.MoveThenShoot;
 import frc.robot.subsystems.CassetteIntake;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.AutoFunctions;
@@ -35,35 +36,37 @@ public class ThreeNoteSource extends SequentialCommandGroup {
     //reset gyro
     //new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
     //shoot preload
+    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(3.4,3.0, new Rotation2d(Math.toRadians(120.0)))), 0.5,0.5, 5),
     new AimThenShootSpeaker(), 
     new CleanupShot(),
     // move to note 7
     
   
     // move to shoot position 
-    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(6.8,0.7, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 3),
+    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(7.2,0.7, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 5),
     new SteerToNote(true, 2.0, 0.2),
     // shoot
-    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(3.0,2.1, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 3),
-   
+    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(3.4,3.0, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 5),
+    //new MoveThenShoot(new Pose2d(3.0,2.1,new Rotation2d(Math.toRadians(180.0))), null,  0.75, 0.5, 15.0),
+    
     new AimThenShootSpeaker(),
     new CleanupShot(),
     // move to note 6
     //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(4.3,1.3, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 3),
     //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(6.8,2.3, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 3),
     
-    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(6.8,2.3,new Rotation2d(Math.toRadians(180.0)))),
-                            new Translation2d(4.3,1.3),
-                            0.75, 0.1, 15),
+    // new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(7.2,2.3,new Rotation2d(Math.toRadians(180.0)))),
+    //                         AutoFunctions.redVsBlue( new Translation2d(4.3,1.3)),
+    //                         0.75, 0.1, 5),
     
     new SteerToNote(true, 2.0, 0.2),
     //move to shoot position
-   // new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(4.3,1.3, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 3),
-   // new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(3.4,2.9, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 3),
+   new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(4.3,1.3, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 3),
+   new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(3.4,2.9, new Rotation2d(Math.toRadians(180.0)))), 0.5,0.5, 3),
     
-    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(3.4,2.9,new Rotation2d(Math.toRadians(180.0)))),
-                            new Translation2d(4.3,1.3),
-                            0.75, 0.1, 15),
+    // new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(3.4,2.9,new Rotation2d(Math.toRadians(180.0)))),
+    //                         AutoFunctions.redVsBlue( new Translation2d(4.3,1.3)),
+    //                         0.75, 0.1, 5),
     
     //shoot
     new AimThenShootSpeaker(), 
