@@ -46,7 +46,7 @@ public class FourNoteSource extends SequentialCommandGroup {
     new AimThenShootSpeaker(),
     //new CleanupShot(),
 
-    new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0,6.5,new Rotation2d(Math.toRadians(-150.0)))), 0.75, 0.5, 3),     
+    new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.2,6.5,new Rotation2d(Math.toRadians(-150.0)))), 0.75, 0.5, 3),     
     new SteerToNote(true, 2.0, 0.3),
     new AimThenShootSpeaker(),
     new CleanupShot()
