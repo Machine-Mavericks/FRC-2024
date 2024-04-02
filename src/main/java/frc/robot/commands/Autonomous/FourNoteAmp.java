@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Drive.AutoDriveToFieldPose;
+import frc.robot.commands.Drive.AutoDriveToFieldPoseSimple;
 import frc.robot.commands.Drive.SteerToNote;
 import frc.robot.commands.Drive.TurnRobot;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
@@ -31,24 +32,19 @@ public class FourNoteAmp extends SequentialCommandGroup {
     new AimThenShootSpeaker(),
     new CleanupShot(),
 
-    new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0,new Rotation2d(Math.toRadians(180.0)))), 0.5, 0.5, 3),    
-    new SteerToNote(true, 2.0, 0.2),
+    //new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0,7.0,new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
+    new SteerToNote(true, 2.0, 0.4),
     
     new AimThenShootSpeaker(),
     new CleanupShot(),
 
-    new TurnRobot(90, false, 3),  
-    new SteerToNote(true, 2.0, 0.2),
+    new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0,5.5,new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
+    new SteerToNote(true, 2.0, 0.4),
     new AimThenShootSpeaker(),
     new CleanupShot(),
 
-    new TurnRobot(90, false, 3),  
-    new SteerToNote(true, 2.0, 0.2),
-    new AimThenShootSpeaker(),
-    new CleanupShot(),
-
-    new TurnRobot(90, false, 3),   
-    new SteerToNote(true, 2.0, 0.2),
+    new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0,4.5,new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
+    new SteerToNote(true, 2.0, 0.4),
     new AimThenShootSpeaker(),
     new CleanupShot()
     );
