@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.Utils;
 
 public class TurnRobot extends Command {
   
@@ -44,7 +45,7 @@ public class TurnRobot extends Command {
   public void initialize() {
     
     // our current facing angle
-    double ourcurrentangle = RobotContainer.gyro.continuousYaw();
+    double ourcurrentangle = RobotContainer.gyro.getYaw();
 
     // set our ending angle based on whether angle is relative or absolute
     if (m_relative)
@@ -67,11 +68,8 @@ public class TurnRobot extends Command {
     m_time += 0.02;
     
     // determine speed to rotate robot
-    if (m_relative)
-      m_angleerror = m_endangle - RobotContainer.gyro.continuousYaw();
-    else
-      m_angleerror = m_endangle - RobotContainer.gyro.getYaw();
-    
+    m_angleerror = Utils.AngleDifference(m_endangle, RobotContainer.gyro.getYaw());
+        
     // execute PID controller
     m_rotatespeed = pidController.calculate(m_angleerror);
     
