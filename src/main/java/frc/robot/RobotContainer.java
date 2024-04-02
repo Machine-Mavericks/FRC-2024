@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Autonomous.FourNoteAmp;
 import frc.robot.commands.Autonomous.FourNoteSource;
-import frc.robot.commands.Autonomous.NewFourNoteSource;
+import frc.robot.commands.Autonomous.FourNoteSource;
 import frc.robot.commands.Autonomous.OneNoteAnywhere;
 import frc.robot.commands.Autonomous.SixNoteAmp;
 import frc.robot.commands.Autonomous.ThreeNoteAmp;
@@ -157,32 +157,27 @@ public class RobotContainer {
         chosenCommand = new TwoNoteAnywhere();
         break;
       case 3:
-        chosenCommand = new TwoNoteAmp();
-        break;
-      case 4:
-        chosenCommand = new TwoNoteCenter();
-        break;
-      case 5:
-        chosenCommand = new TwoNoteSource();
-        break;
-      case 6:
         chosenCommand = new ThreeNoteSource();
         break;
-      case 7:
+      case 4:
         chosenCommand = new ThreeNoteCenter();
         break;
-      case 8:
+      case 5:
         chosenCommand = new ThreeNoteStageCenter();
         break;
-      case 9:
+      case 6:
         chosenCommand = new ThreeNoteAmp();
         break;
-      case 10:
+      case 7:
         chosenCommand = new FourNoteAmp();
         break;
-      case 11:
-        chosenCommand = new NewFourNoteSource();
+      case 8:
+        chosenCommand = new FourNoteSource();
         break;
+      case 9:
+        chosenCommand = new TwoNoteAmp();
+        break;
+  
       default:
         chosenCommand = null;
         break;

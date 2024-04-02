@@ -109,16 +109,14 @@ public class ShuffleboardOI extends SubsystemBase {
         // add autonomous commands to page -
         m_autonomousPath.addOption("Do Nothing",0);
         m_autonomousPath.addOption("One Note Anywhere",1);
-         m_autonomousPath.addOption("Two Note Anywhere", 2);
-        m_autonomousPath.addOption("Two Note Amp",3);
-        m_autonomousPath.addOption("Two Note Center", 4);
-        m_autonomousPath.addOption("Two Note Source",5);
-        m_autonomousPath.addOption("Three Note Source", 6);
-        m_autonomousPath.addOption("Three Note Center", 7);
-        m_autonomousPath.addOption("Three Note Stage Center", 8);
-        m_autonomousPath.addOption("Three Note Amp", 9);
-        m_autonomousPath.addOption("Four Note Amp", 10);
-        m_autonomousPath.addOption("New Four Note Source",11);
+        m_autonomousPath.addOption("Two Note Anywhere", 2);
+        m_autonomousPath.addOption("Three Note Source", 3);
+        m_autonomousPath.addOption("Three Note Center", 4);
+        m_autonomousPath.addOption("Three Note Stage Center", 5);
+        m_autonomousPath.addOption("Three Note Amp", 6);
+        m_autonomousPath.addOption("Four Note Amp", 7);
+        m_autonomousPath.addOption("Four Note Source", 8);
+        m_autonomousPath.addOption("Two Note Amp", 9);
 
         m_autonomousPath.setDefaultOption("Do Nothing", 0);
 
