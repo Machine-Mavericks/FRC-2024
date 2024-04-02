@@ -36,7 +36,8 @@ public class MoveThenShoot extends SequentialCommandGroup {
         // cassette angle
         new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle(target))),
         // auto drive to pose with angle away from speaker
-        new AutoDriveToFieldPose(new Pose2d(target.getX(),target.getY(),new Rotation2d(RobotContainer.speakertargeting.getSpeakerAngle(target))),
+        new AutoDriveToFieldPose(new Pose2d(target.getX(),target.getY(),
+                                new Rotation2d( Math.toRadians(RobotContainer.speakertargeting.getSpeakerAngle(target)))),
                                 wayPoint,speed,rotationalspeed,timeout)
       )
     );
