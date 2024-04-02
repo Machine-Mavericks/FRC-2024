@@ -32,7 +32,7 @@ public class ThreeNoteSource extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
     //reset gyro
-    new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+    //new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
     //shoot preload
     new AimThenShootSpeaker(), 
     new CleanupShot(),
