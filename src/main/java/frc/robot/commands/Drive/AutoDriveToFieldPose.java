@@ -52,7 +52,7 @@ public class AutoDriveToFieldPose extends Command {
   private GenericEntry m_rotSpeed;
 
   // final position tolerance (m) / angle tolerance (deg) to consider we have arrived at destination
-  private final double m_positiontolerance = 0.10; //0.20;
+  private final double m_positiontolerance = 0.20;
   private final double m_angletolerance = 3.0;
 
   // x, y, rotation PID controllers
