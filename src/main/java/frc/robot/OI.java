@@ -101,7 +101,6 @@ public class OI {
         // Hang drive re-orientation buttons
         static final Button HANG_A_BUTTON = XboxController.Button.kA;
         static final Button HANG_B_BUTTON = XboxController.Button.kB;
-
     }
 
     private static class OperatorBindings{
@@ -119,6 +118,8 @@ public class OI {
         static final Button RETRACT_CLIMB_BUTTON = XboxController.Button.kY;
         /** Button to blindly advance intake */
         static final Button ADVANCE_INTAKE_BUTTON = XboxController.Button.kStart;
+        /** Button to blindly advance intake */
+        static final Button MANUAL_ODOMETRY_RESET= XboxController.Button.kBack;
     }
 
     /** Port for controller used by driver */
@@ -170,5 +171,7 @@ public class OI {
     public static final JoystickButton HangAButton = new JoystickButton(driverController, DriverBindings.HANG_A_BUTTON.value);
     public static final JoystickButton HangBButton = new JoystickButton(driverController, DriverBindings.HANG_B_BUTTON.value);
 
+    // manual odometry reset
+    public static final JoystickButton ManualOdometryReset = new JoystickButton(operatorController, OperatorBindings.MANUAL_ODOMETRY_RESET.value);
 }
  

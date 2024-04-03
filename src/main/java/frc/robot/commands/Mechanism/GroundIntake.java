@@ -30,7 +30,7 @@ public class GroundIntake extends Command {
     timer.start();
     RobotContainer.cassetteangle.setAngle(CassetteEffector.GROUND_ANGLE);
 
-    RobotContainer.cassetteintake.intakeRun(0.78);
+    RobotContainer.cassetteintake.intakeRun(0.70);
 
   }
 

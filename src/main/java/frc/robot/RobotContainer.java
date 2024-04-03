@@ -29,6 +29,7 @@ import frc.robot.commands.Mechanism.PreemptiveCassetteAngleCommand;
 import frc.robot.commands.Mechanism.RunClimbCommand;
 import frc.robot.commands.Mechanism.UnstuckShot;
 import frc.robot.commands.Other.DelayCommand;
+import frc.robot.commands.Other.ManualOdometryReset;
 import frc.robot.commands.SemiAutonomous.AimThenShootSpeaker;
 import frc.robot.commands.SemiAutonomous.AutoHangSideBack;
 import frc.robot.commands.SemiAutonomous.CleanupShot;
@@ -133,6 +134,9 @@ public class RobotContainer {
     // blindly turn on intake to shoot
     OI.advanceIntakeButton.whileTrue(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1.0)));
     OI.advanceIntakeButton.onFalse(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0.0)));
+  
+    // manual reset of odometry - used if NVidia is not working
+    OI.ManualOdometryReset.whileTrue(new ManualOdometryReset());
   }
 
   /**
