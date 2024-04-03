@@ -37,7 +37,7 @@ public class FourNoteSource extends SequentialCommandGroup {
     new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0,4.0, new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
     new SteerToNote(true, 2.0, 0.3),
     
-    new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.1,5.2,new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
+    new AutoDriveToFieldPoseSimple(AutoFunctions.redVsBlue(new Pose2d(2.0,5.5,new Rotation2d(Math.toRadians(180.0)))), 0.75, 0.5, 3),    
     //new WaitCommand(0.20),
     new AimThenShootSpeaker(),
     //new CleanupShot(),
