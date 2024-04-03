@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -79,10 +80,18 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
    * sets gyro using odometry and alliance
    */
   public void setGyroUsingOdom() {
+    
+    // get our location
+    Pose2d mylocation = RobotContainer.odometry.getPose2d();
+    double newGyroAngle = mylocation.getRotation().getDegrees();
+
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      this.setGyro(RobotContainer.odometry.getPose2d().getRotation().getDegrees());
+      this.setGyro(newGyroAngle);
+      RobotContainer.odometry.setPosition(mylocation.getX(), mylocation.getY(), newGyroAngle, newGyroAngle);
+      
     } else {
-      this.setGyro(RobotContainer.odometry.getPose2d().getRotation().getDegrees()+180);
+      this.setGyro(newGyroAngle+180);
+      RobotContainer.odometry.setPosition(mylocation.getX(), mylocation.getY(), newGyroAngle+180.0, newGyroAngle+180.0);
     }
   }
 
