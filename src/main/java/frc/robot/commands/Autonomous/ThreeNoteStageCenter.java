@@ -38,14 +38,14 @@ public class ThreeNoteStageCenter extends SequentialCommandGroup {
     //shoot preload 
     // new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(1.5,5.5, new Rotation2d(Math.toRadians(180.0)))), 0.5, 0.5, 2),
     new AimThenShootSpeaker(),
-    new CleanupShot(),
+    //new CleanupShot(),
     //move to note 1 
     
     //pick up note 1
     new SteerToNote(true, 2.0, 0.2),
     // shoot note 1
     new AimThenShootSpeaker(),
-    new CleanupShot(),
+    //new CleanupShot(),
     //drive under the stage to note 5
     //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(4.15,4.9, new Rotation2d(Math.toRadians(180.0)))), 0.5, 0.18, 0.5, 3),
     new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(7.0,4.3,new Rotation2d(Math.toRadians(180.0)))),
@@ -68,6 +68,7 @@ public class ThreeNoteStageCenter extends SequentialCommandGroup {
           0.75, 0.1, 15),
 
     // shoot 
+    new WaitCommand(0.20),
     //new ParallelRaceGroup(new PreemptiveSpinUpShot(),
     //                      new PreemptiveCassetteAngleCommand(RobotContainer.cassetteangle),
     //                      new WaitCommand(0.5)),
