@@ -75,7 +75,8 @@ public class AutoFunctions {
             if (DriverStation.getAlliance().get() == Alliance.Red){
                 double x = FIELD_X_SIZE - pose.getX();
                 double y = pose.getY();
-                Rotation2d angle = new Rotation2d(Math.toRadians(180)).rotateBy(pose.getRotation());
+                Rotation2d angle = new Rotation2d(Math.toRadians(180.0 - pose.getRotation().getDegrees()));
+                //Rotation2d angle = new Rotation2d(Math.toRadians(180)).rotateBy(pose.getRotation());
                 return new Pose2d(x,y,angle);
             }
         }
