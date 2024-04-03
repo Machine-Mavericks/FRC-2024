@@ -46,7 +46,42 @@ public class ManualDriveCommand extends Command {
     double yInput = OI.getYDriveInput();
     double rotInput = -OI.getRotDriveInput();
     
-    if (OI.constantTurnButton.getAsBoolean()) {
+    // ************* Functionality used for hanging only
+
+    boolean useAlternateFieldReference = false;
+    double AlternateFieldReferenceAngle = 0.0;
+    
+    if (OI.HangAButton.getAsBoolean())
+    {
+        useAlternateFieldReference = true;
+        if (DriverStation.getAlliance().get() == Alliance.Red)
+        {
+          AlternateFieldReferenceAngle = -30.0;   // apears ok
+          rotInput = -0.01*Utils.AngleDifference(-60.0, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
+        }
+        else
+          { AlternateFieldReferenceAngle = -30.0;   // DO NOT TOUCH
+            rotInput = -0.01*Utils.AngleDifference(120.0, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
+          }
+    }
+    else if (OI.HangBButton.getAsBoolean())
+    {
+       useAlternateFieldReference = true;
+       if (DriverStation.getAlliance().get() == Alliance.Red)
+          {
+            AlternateFieldReferenceAngle = 30.0;    // appears ok
+            rotInput = -0.01*Utils.AngleDifference(60.0, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
+          }
+        else
+          {AlternateFieldReferenceAngle = 30.0;  // DO NOT TOUCH
+          rotInput = -0.01*Utils.AngleDifference(-120.0, RobotContainer.odometry.getPose2d().getRotation().getDegrees());
+          }
+    }
+
+    // ************* Functionality used for hanging only
+
+    // if pressing target speaker button, then keep turning to speaker.
+    else if (OI.constantTurnButton.getAsBoolean()) {
       rotInput = -RobotContainer.speakertargeting.getSpeakerAngle(RobotContainer.odometry.getPose2d())/60;
       if (rotInput>1) rotInput = 1;
     }
@@ -76,12 +111,16 @@ public class ManualDriveCommand extends Command {
     }
 
 
-    // if we are on red line, then rotate drive field drive by 180deg
+    // if we are on red team, then rotate drive field drive by 180deg
     double dir = 1.0;
     if (DriverStation.getAlliance().get() == Alliance.Red) dir=-1.0;
 
-    m_drivetrain.drive(new Translation2d(dir*yInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, dir*xInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND), rotInput*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true); 
-  }
+    
+    if (!useAlternateFieldReference)
+        m_drivetrain.drive(new Translation2d(dir*yInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, dir*xInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND), rotInput*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, true); 
+    else
+        m_drivetrain.drive(new Translation2d(dir*yInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND, dir*xInput*Drivetrain.MAX_VELOCITY_METERS_PER_SECOND), rotInput*Drivetrain.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, false, true, AlternateFieldReferenceAngle); 
+      }
 
   // Called once the command ends or is interrupted.
   @Override

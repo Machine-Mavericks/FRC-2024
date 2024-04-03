@@ -12,16 +12,12 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Autonomous.FourNoteAmp;
 import frc.robot.commands.Autonomous.FourNoteSource;
-import frc.robot.commands.Autonomous.FourNoteSource;
 import frc.robot.commands.Autonomous.OneNoteAnywhere;
-import frc.robot.commands.Autonomous.SixNoteAmp;
 import frc.robot.commands.Autonomous.ThreeNoteAmp;
 import frc.robot.commands.Autonomous.ThreeNoteCenter;
-import frc.robot.commands.Autonomous.TestAuto;
 import frc.robot.commands.Autonomous.ThreeNoteSource;
 import frc.robot.commands.Autonomous.ThreeNoteStageCenter;
 import frc.robot.commands.Autonomous.TwoNoteAmp;
-import frc.robot.commands.Autonomous.TwoNoteAnywhere;
 import frc.robot.commands.Autonomous.TwoNoteCenter;
 import frc.robot.commands.Autonomous.TwoNoteSource;
 import frc.robot.commands.Drive.ManualDriveCommand;
@@ -123,7 +119,7 @@ public class RobotContainer {
 
     // Auto intake
     OI.autoIntakeButton.whileTrue(new SteerToNote(true, 3));
-    OI.autoHangSideBackButton.whileTrue(new AutoHangSideBack());
+    
     // Preemtively spin up shooter on command
     OI.spinupShooterButton.whileTrue(new OperatorSpinup());
 
@@ -134,7 +130,6 @@ public class RobotContainer {
     OI.extendClimbButton.whileTrue(new RunClimbCommand(false));
     OI.retractClimbButton.whileTrue(new RunClimbCommand(true));
     
-
     // blindly turn on intake to shoot
     OI.advanceIntakeButton.whileTrue(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(1.0)));
     OI.advanceIntakeButton.onFalse(new InstantCommand(()-> RobotContainer.cassetteintake.intakeRun(0.0)));

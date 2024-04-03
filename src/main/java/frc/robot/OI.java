@@ -98,11 +98,9 @@ public class OI {
         static final Button AUTO_INTAKE_BUTTON = XboxController.Button.kLeftBumper;
         /** Button toggling constant turn to speaker */
         static final Button TOGGLE_TURN = XboxController.Button.kX;
-        //Auto hang front 
-        static final Button AUTO_HANG_SIDE_BACK_BUTTON = XboxController.Button.kB;
-        //Auto hang front 
-        //static final Button AUTO_HANG_SIDE_FRONT_BUTTON = XboxController.Button.kA;
-
+        // Hang drive re-orientation buttons
+        static final Button HANG_A_BUTTON = XboxController.Button.kA;
+        static final Button HANG_B_BUTTON = XboxController.Button.kB;
 
     }
 
@@ -167,8 +165,10 @@ public class OI {
    
     /** Button to blindly advance intake */
     public static final JoystickButton constantTurnButton = new JoystickButton(driverController, DriverBindings.TOGGLE_TURN.value);
-    /**Button to move to side back hang position and hang */
-    public static final JoystickButton autoHangSideBackButton = new JoystickButton(driverController, DriverBindings.AUTO_HANG_SIDE_BACK_BUTTON.value);
+    
+    /** Hang Buttons*/
+    public static final JoystickButton HangAButton = new JoystickButton(driverController, DriverBindings.HANG_A_BUTTON.value);
+    public static final JoystickButton HangBButton = new JoystickButton(driverController, DriverBindings.HANG_B_BUTTON.value);
 
 }
  
