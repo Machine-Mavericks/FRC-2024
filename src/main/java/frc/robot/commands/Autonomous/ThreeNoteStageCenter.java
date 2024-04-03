@@ -57,7 +57,7 @@ public class ThreeNoteStageCenter extends SequentialCommandGroup {
     //new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(7.3,4.1, new Rotation2d(Math.toRadians(180.0)))), 0.5, 0.5, 3),
     // new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(4.4,4.1, new Rotation2d(Math.toRadians(180.0)))), 0.5, 0.5, 3),
     
-    new InstantCommand(()->RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle(new Pose2d(4.0,4.5, new Rotation2d(Math.toRadians(180.0)))))),
+    new InstantCommand(()->RobotContainer.cassetteangle.setAngle(RobotContainer.speakertargeting.getDesiredAngle(AutoFunctions.redVsBlue(new Pose2d(4.0,4.5, new Rotation2d(Math.toRadians(180.0))))))),
     new InstantCommand(()->RobotContainer.cassetteshooter.leftShootRun(RobotContainer.speakertargeting.getDesiredLSpeed())),
     new InstantCommand(()->RobotContainer.cassetteshooter.rightShootRun(RobotContainer.speakertargeting.getDesiredRSpeed())),
 
