@@ -85,14 +85,14 @@ public class Pigeon extends SubsystemBase implements ShuffleUser {
     Pose2d mylocation = RobotContainer.odometry.getPose2d();
     double newGyroAngle = mylocation.getRotation().getDegrees();
 
-    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+    //if (DriverStation.getAlliance().get() == Alliance.Blue) {
       this.setGyro(newGyroAngle);
       RobotContainer.odometry.setPosition(mylocation.getX(), mylocation.getY(), newGyroAngle, newGyroAngle);
       
-    } else {
-      this.setGyro(newGyroAngle+180);
-      RobotContainer.odometry.setPosition(mylocation.getX(), mylocation.getY(), newGyroAngle+180.0, newGyroAngle+180.0);
-    }
+    //} else {
+    //  this.setGyro(newGyroAngle+180);
+    //  RobotContainer.odometry.setPosition(mylocation.getX(), mylocation.getY(), newGyroAngle+180.0, newGyroAngle+180.0);
+    //}
   }
 
 /** Resets yaw to zero -
