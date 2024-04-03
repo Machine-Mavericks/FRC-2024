@@ -410,7 +410,13 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
      * @param fieldOriented Boolean indicating if directions are field- or
      *                      robot-oriented
      */
-    public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
+    public void drive(Translation2d translation, double rotation, boolean fieldOriented)
+    {
+       drive(translation, rotation, fieldOriented, false, 0.0); 
+    }
+    
+    
+     public void drive(Translation2d translation, double rotation, boolean fieldOriented, boolean OrienttoAngle, double angledeg) {
 
         // correct axes of drive - determined from field testing
         // 2024 - Sonic
@@ -422,14 +428,21 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         Double newrotation = rotation;
 
         // determine chassis speeds
-        if (fieldOriented) {
-            {
+        if (OrienttoAngle)
+        {
+                m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(newtranslation.getX(),
+                    newtranslation.getY(),
+                    newrotation,
+                    Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()+angledeg));  
+        }
+        else if (fieldOriented) {
                 m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
                     newrotation,
                     Rotation2d.fromDegrees(RobotContainer.gyro.getYaw()));
-            }
-        } else {
+        } 
+        else
+        {
             m_chassisSpeeds = new ChassisSpeeds(newtranslation.getX(),
                     newtranslation.getY(),
                     newrotation);
