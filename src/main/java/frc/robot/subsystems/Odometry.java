@@ -86,6 +86,12 @@ public class Odometry extends SubsystemBase {
    * Used to set or reset odometry to fixed position
    * x, y displacement in m, robot angle in deg, gyro in deg
    */
+  public void SetPosition (Pose2d position, double gyroangle)
+  {
+    setPosition(position.getX(),position.getY(),position.getRotation().getDegrees(), gyroangle);
+  }
+
+
   public void setPosition(double x, double y, double robotangle, double gyroangle) {
 
     // make robot position vector

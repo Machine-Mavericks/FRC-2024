@@ -26,8 +26,9 @@ public class ManualOdometryReset extends Command {
   @Override
   public void execute() {
 
-    if (OI.driverController.getRightTriggerAxis() > 0.3)
+    if (OI.operatorController.getLeftTriggerAxis() > 0.3)
     {
+      
       if (DriverStation.getAlliance().get()==Alliance.Blue)
       {
         RobotContainer.gyro.setGyro(180.0); 
@@ -36,7 +37,7 @@ public class ManualOdometryReset extends Command {
       else
       {
         RobotContainer.gyro.setGyro(0.0); 
-        RobotContainer.odometry.setPosition(1.3, 16.579-5.55, 0.0, 0.0);
+        RobotContainer.odometry.setPosition(16.579-1.3, 5.55, 0.0, 0.0);
       }
       
     }
@@ -50,6 +51,6 @@ public class ManualOdometryReset extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

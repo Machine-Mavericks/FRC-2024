@@ -21,11 +21,13 @@ public class TwoNoteCenter extends SequentialCommandGroup {
   public TwoNoteCenter() {
     
     addCommands(
-     //new InstantCommand (()-> RobotContainer.gyro.resetGyroReverse()),
+    new InstantCommand (()->RobotContainer.gyro.setGyro(AutoFunctions.redVsBlue(180.0))), 
+    new InstantCommand (()-> RobotContainer.odometry.SetPosition(AutoFunctions.redVsBlue(new Pose2d(1.5 ,5.5, new Rotation2d(Math.toRadians(180.0)))), AutoFunctions.redVsBlue(180.0))),
+
      new AimThenShootSpeaker(),
      new CleanupShot(),
-     new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(2.0 ,5.5, new Rotation2d(Math.toRadians(180.0)))),  0.5, 0.5, 3), 
-     new SteerToNote(true, 2.0, 0.2),
+    // new AutoDriveToFieldPose(AutoFunctions.redVsBlue(new Pose2d(1.5 ,5.5, new Rotation2d(Math.toRadians(180.0)))),  0.5, 0.5, 3), 
+     new SteerToNote(true, 3.0, 0.2),
      new AimThenShootSpeaker(),
      new CleanupShot()
     );
