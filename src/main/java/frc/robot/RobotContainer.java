@@ -87,8 +87,8 @@ public class RobotContainer {
    */
   public static void init() {
     drivetrain.setDefaultCommand(new ManualDriveCommand(drivetrain));
-    cassetteangle.setDefaultCommand(new PreemptiveCassetteAngleCommand(cassetteangle));
-    cassetteshooter.setDefaultCommand(new PreemptiveSpinUpShot());
+    //cassetteangle.setDefaultCommand(new PreemptiveCassetteAngleCommand(cassetteangle));
+    //cassetteshooter.setDefaultCommand(new PreemptiveSpinUpShot());
     // Configure the button bindings
     configureButtonBindings();
   }

@@ -57,7 +57,9 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         /** Gear ratio between steer motor and CANcoder An example ratio for the SDS Mk4: 12.8 */
         public static final double SteerMotorGearRatio = 1 / MK4_L1_SteerReduction;
         /** Wheel radius of the driving wheel in inches */
-        public static final double WheelDiameter = Units.metersToInches(MK4_L1_WheelDiameter);
+        public static final double WheelDiameter = Units.metersToInches(MK4_L1_WheelDiameter * 1.08);
+        /** Wheel radius of the driving wheel in inches */
+        public static final double WheelDiameterFudged = Units.metersToInches(MK4_L1_WheelDiameter * 1.28); // Was 1.28
         /** The maximum amount of current the drive motors can apply without slippage */
         public static final double SlipCurrent = 400;
         /** Every 1 rotation of the azimuth results in CouplingRatio drive motor turns */
@@ -126,7 +128,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
     
     public static final double MK4_L1_DriveReduction = (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0);
     public static final double MK4_L1_SteerReduction = (15.0 / 32.0) * (10.0 / 60.0);
-    public static final double MK4_L1_WheelDiameter = 0.10033*1.28;
+    public static final double MK4_L1_WheelDiameter = 0.10033;
 
     public static final boolean MK4_L1_DriveInverted = true;
     public static final boolean MK4_L1_SteerInverted = false;
@@ -228,7 +230,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
 
         tab = Shuffleboard.getTab("Drivetrain");
 
-        resetModules(NEUTRAL_MODE);
+        resetModules(NEUTRAL_MODE, true);
 
         /**Acceleration Limiting Slider*/
         maxAccel = tab.addPersistent("Max Acceleration", 0.05)
@@ -255,7 +257,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         .withWidget(BuiltInWidgets.kNumberSlider)
         .withProperties(Map.of("min_value", 0, "max_value", 1))
         .getEntry();
-        tab.add("Reset Drivetrain", new InstantCommand(()->{resetModules(NEUTRAL_MODE);}))
+        tab.add("Reset Drivetrain", new InstantCommand(()->{resetModules(NEUTRAL_MODE, false);}))
         .withPosition(0,0)
         .withSize(2, 1);
         
@@ -268,7 +270,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
     }
 
     // Note: WPI's coordinate system is X forward, Y to the left so make sure all locations are with
-    private void resetModules(NeutralModeValue nm) {
+    public void resetModules(NeutralModeValue nm, boolean useFudgeFactor) {
         System.out.println("Resetting swerve modules");
 
         // Init all arrays
@@ -287,7 +289,8 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
                 -132.24 / 360,  // -Math.toRadians(155 + 180)
                 FRONT_LEFT_OFFSET.getX(),
                 FRONT_LEFT_OFFSET.getY(),
-                false
+                false,
+                useFudgeFactor
         );
         m_swerveModules[0] = new SwerveModule(frontLeftConstants, CAN_BUS_NAME);
 
@@ -299,7 +302,8 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
                 -64.13 / 360, // Degrees converted to rotations
                 FRONT_RIGHT_OFFSET.getX(),
                 FRONT_RIGHT_OFFSET.getY(),
-                false
+                false,
+                useFudgeFactor
         );
         m_swerveModules[1] = new SwerveModule(frontRightConstants, CAN_BUS_NAME);
 
@@ -312,7 +316,8 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
                 -21.57 / 360, 
                 BACK_LEFT_OFFSET.getX(),
                 BACK_LEFT_OFFSET.getY(),
-                false
+                false,
+                useFudgeFactor
         );
         m_swerveModules[2] = new SwerveModule(backLeftConstants, CAN_BUS_NAME);
 
@@ -325,7 +330,8 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
                 68.79 / 360, 
                 BACK_RIGHT_OFFSET.getX(),
                 BACK_RIGHT_OFFSET.getY(),
-                false
+                false,
+                useFudgeFactor
         );
         m_swerveModules[3] = new SwerveModule(backRightConstants, CAN_BUS_NAME);
         
@@ -377,7 +383,8 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         double cancoderOffset,
         double locationX,
         double locationY,
-        boolean steerInverted
+        boolean steerInverted,
+        boolean useFudgeFactor
 
     ){
         SwerveModuleConstants constants = new SwerveModuleConstants()
@@ -389,7 +396,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
         .withLocationY(locationY)
         .withDriveMotorGearRatio(FormattedSwerveModuleSettings.DriveMotorGearRatio)
         .withSteerMotorGearRatio(FormattedSwerveModuleSettings.SteerMotorGearRatio)
-        .withWheelRadius(FormattedSwerveModuleSettings.WheelDiameter / 2)
+        .withWheelRadius((useFudgeFactor ? FormattedSwerveModuleSettings.WheelDiameterFudged : FormattedSwerveModuleSettings.WheelDiameter) / 2)
         .withSlipCurrent(FormattedSwerveModuleSettings.SlipCurrent)
         .withSteerMotorGains(FormattedSwerveModuleSettings.SteerMotorGains)
         .withDriveMotorGains(FormattedSwerveModuleSettings.DriveMotorGains)

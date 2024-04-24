@@ -38,7 +38,7 @@ import frc.robot.util.SubsystemShuffleboardManager;
 public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   // Shuffleboard
   private GenericEntry EffectorAngle;
-  //private GenericEntry EffectorTarget;
+  private GenericEntry EffectorTarget;
   private GenericEntry MotorVoltage;
   private GenericEntry MotorAmps;
   private GenericEntry ClosedLoopError;
@@ -121,7 +121,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     effectorConfig.MotionMagic.MotionMagicJerk = 16;
 
     m_EffectorMotor.getConfigurator().apply(effectorConfig);
-    m_EffectorMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_EffectorMotor.setNeutralMode(NeutralModeValue.Coast);
 
     // -------------------- CANCoder Configuration --------------------
     CANcoderConfiguration config = new CANcoderConfiguration();
@@ -140,14 +140,14 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
    * Resets the internal encoder in the cassette motor to the value of the absolute encoder
    */
   private void resetInternalEncoder(){
-    currentAngle = m_CANcoder.getAbsolutePosition().getValueAsDouble() + (CASETTE_EFFECTOR_OFFSET / 360);
+    currentAngle = m_CANcoder.getAbsolutePosition().getValueAsDouble() + (CASETTE_EFFECTOR_OFFSET);
     currentAngleSetpoint = currentAngle;
   }
 
   @Override
   public void periodic() {
     // Update effector state
-    currentAngle = m_EffectorMotor.getPosition().getValueAsDouble();
+    currentAngle = m_EffectorMotor.getPosition().getValueAsDouble() + CASETTE_EFFECTOR_OFFSET;
     
     // if (ENABLE_DEBUG) {
     //   // Update based on shuffleboard
@@ -159,7 +159,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
 
     //Run nonstop to adjust feedforward
     double feedForwardValue = FEEDFORWARD_CURVE.interpolate(currentAngle, true);
-    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint).withFeedForward(feedForwardValue*1.2));
+    EffectorTarget.setDouble(m_EffectorMotor.getPosition().getValueAsDouble());
+    //m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint - CASETTE_EFFECTOR_OFFSET).withFeedForward(feedForwardValue*1.2));
   }
 
   /**
@@ -190,6 +191,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
 
     ShuffleboardLayout layout = Tab.getLayout("State", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 4);
     EffectorAngle = layout.add("Effector Angle", 0).getEntry();
+    EffectorTarget = layout.add("Effector Raw Angle", 0).getEntry();
     MotorVoltage = layout.add("Voltage", 0).getEntry();
     MotorAmps = layout.add("Amps", 0).getEntry();
     ClosedLoopError = layout.add("ClosedLoopError", 0).getEntry();
@@ -201,5 +203,6 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     MotorVoltage.setDouble(m_EffectorMotor.getMotorVoltage().getValueAsDouble());
     MotorAmps.setDouble(m_EffectorMotor.getDutyCycle().getValueAsDouble());
     ClosedLoopError.setDouble(m_EffectorMotor.getClosedLoopError().getValueAsDouble());
+    
   }
 }
