@@ -38,7 +38,7 @@ import frc.robot.util.SubsystemShuffleboardManager;
 public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   // Shuffleboard
   private GenericEntry EffectorAngle;
-  //private GenericEntry EffectorTarget;
+  private GenericEntry EffectorTarget;
   private GenericEntry MotorVoltage;
   private GenericEntry MotorAmps;
   private GenericEntry ClosedLoopError;
@@ -56,8 +56,15 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   public static final double AMP_ANGLE = 0.1; //from flush against
   public static final double SPEAKER_ANGLE = 0.05; //from flush against
 
+  /**
+   * Fudge factor to compensate for CANCoder magnet shifting when the shaft was replaced
+   * This is added to the target position when it's provided so the original calibration still works
+   */
+  private static final double FUDGE_FACTOR = 0.5112;
+
   private static final Slot0Configs EFFECTOR_GAINS = new Slot0Configs()
-  .withKP(120.0).withKI(25.0).withKD(5.5) // 50 kp, 0.1kd, ki=0.28
+  //.withKP(20.0).withKI(0.0).withKD(5.5) // 50 kp, 0.1kd, ki=0.28
+  .withKP(80.0).withKI(25.0).withKD(5.5) // 50 kp, 0.1kd, ki=0.28
   .withKS(0).withKV(0).withKA(0);
 
   private static final Spline1D FEEDFORWARD_CURVE = new Spline1D(new Point[]{
@@ -147,7 +154,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
   @Override
   public void periodic() {
     // Update effector state
-    currentAngle = m_EffectorMotor.getPosition().getValueAsDouble();
+    currentAngle = m_EffectorMotor.getPosition().getValueAsDouble() + FUDGE_FACTOR;
     
     // if (ENABLE_DEBUG) {
     //   // Update based on shuffleboard
@@ -159,7 +166,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
 
     //Run nonstop to adjust feedforward
     double feedForwardValue = FEEDFORWARD_CURVE.interpolate(currentAngle, true);
-    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint).withFeedForward(feedForwardValue*1.2));
+    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint - FUDGE_FACTOR).withFeedForward(feedForwardValue*1.2));
+    //m_EffectorMotor.set(0);
   }
 
   /**
@@ -167,7 +175,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
    * @param targetAngle degrees
    */
   public void setAngle(double targetAngle){
-    if (currentAngleSetpoint == targetAngle) {
+    if (currentAngleSetpoint == targetAngle){
       return;
     }
 
@@ -193,6 +201,7 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     MotorVoltage = layout.add("Voltage", 0).getEntry();
     MotorAmps = layout.add("Amps", 0).getEntry();
     ClosedLoopError = layout.add("ClosedLoopError", 0).getEntry();
+    EffectorTarget = layout.add("Target", 0).getEntry();
   }
 
   @Override
@@ -201,5 +210,6 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
     MotorVoltage.setDouble(m_EffectorMotor.getMotorVoltage().getValueAsDouble());
     MotorAmps.setDouble(m_EffectorMotor.getDutyCycle().getValueAsDouble());
     ClosedLoopError.setDouble(m_EffectorMotor.getClosedLoopError().getValueAsDouble());
+    EffectorTarget.setDouble(currentAngleSetpoint);
   }
 }
