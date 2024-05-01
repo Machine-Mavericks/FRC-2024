@@ -24,8 +24,8 @@ public class PassingAcrossField extends SequentialCommandGroup {
     
     addCommands (
       new InstantCommand(() -> RobotContainer.cassetteangle.setAngle(CassetteEffector.PASSING_ANGLE)),
-      new InstantCommand(() -> RobotContainer.cassetteshooter.leftShootRun(3000.0)),
-      new InstantCommand(() -> RobotContainer.cassetteshooter.rightShootRun(5000.0)),
+      new InstantCommand(() -> RobotContainer.cassetteshooter.leftShootRun(2000.0)),
+      new InstantCommand(() -> RobotContainer.cassetteshooter.rightShootRun(4000.0)),
       
     // Get to speed
 

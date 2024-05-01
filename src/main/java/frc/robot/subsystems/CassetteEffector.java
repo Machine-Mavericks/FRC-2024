@@ -166,8 +166,8 @@ public class CassetteEffector extends SubsystemBase implements ShuffleUser {
 
     //Run nonstop to adjust feedforward
     double feedForwardValue = FEEDFORWARD_CURVE.interpolate(currentAngle, true);
-    m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint - FUDGE_FACTOR).withFeedForward(feedForwardValue*1.2));
-    //m_EffectorMotor.set(0);
+    // m_EffectorMotor.setControl(m_motorPositionController.withPosition(currentAngleSetpoint - FUDGE_FACTOR).withFeedForward(feedForwardValue*1.2));
+    m_EffectorMotor.set(0);
   }
 
   /**

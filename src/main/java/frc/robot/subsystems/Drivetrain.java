@@ -126,7 +126,7 @@ public class Drivetrain extends SubsystemBase implements ShuffleUser {
     
     public static final double MK4_L1_DriveReduction = (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0);
     public static final double MK4_L1_SteerReduction = (15.0 / 32.0) * (10.0 / 60.0);
-    public static final double MK4_L1_WheelDiameter = 0.10033*1.28;
+    public static final double MK4_L1_WheelDiameter = 0.10033*1.08;
 
     public static final boolean MK4_L1_DriveInverted = true;
     public static final boolean MK4_L1_SteerInverted = false;
